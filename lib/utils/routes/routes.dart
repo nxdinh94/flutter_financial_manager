@@ -1,0 +1,221 @@
+import 'package:fe_financial_manager/utils/routes/my_bottom_navigation_bar.dart';
+import 'package:fe_financial_manager/view/auth/signup.dart';
+import 'package:fe_financial_manager/view/tab_screen/account.dart';
+import 'package:fe_financial_manager/view/tab_screen/adding_workspace.dart';
+import 'package:fe_financial_manager/view/tab_screen/budgets.dart';
+import 'package:fe_financial_manager/view/tab_screen/home.dart';
+import 'package:fe_financial_manager/view/auth/signin.dart';
+import 'package:fe_financial_manager/view/tab_screen/transactions.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+class CustomNavigationHelper {
+
+
+  static late final GoRouter router;
+
+  static final GlobalKey<NavigatorState> parentNavigatorKey = GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> homeTabNavigatorKey = GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> transactionsTabNavigatorKey = GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> addingWorkspaceTabNavigatorKey = GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> budgetsTabNavigatorKey = GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> accountTabNavigatorKey = GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> authTabNavigatorKey = GlobalKey<NavigatorState>();
+
+  BuildContext get context => router.routerDelegate.navigatorKey.currentContext!;
+
+  GoRouterDelegate get routerDelegate => router.routerDelegate;
+
+  GoRouteInformationParser get routeInformationParser => router.routeInformationParser;
+
+  static const String rootDetailPath = '/rootDetail';
+
+  // Tab paths
+  static const String homePath = '/home';
+  static const String transactionsPath = '/transactions';
+  static const String addingWorkSpacePath = '/addingWorkSpace';
+  static const String budgetsPath= '/budgets';
+  static const String accountPath = '/account';
+
+  // Page paths
+  static const String signUpPath = '/signUp';
+  static const String signInPath = '/signIn';
+  static const String viewAllSlideProductPage = 'viewAllSlideProductPagePath';
+
+  //profile child path
+  static const String updateProfilePath = 'updateProfile';
+
+  //Product detail path
+  static const String homeProductDetailPath = '/homeProductDetail';
+
+
+  CustomNavigationHelper._internal();
+  static final CustomNavigationHelper _instance = CustomNavigationHelper._internal();//instance of CustomNavigatorHelper
+  static CustomNavigationHelper get instance => _instance;
+  factory CustomNavigationHelper(String initialRoute) {
+    return _instance._initialize(initialRoute);
+  }
+
+
+  CustomNavigationHelper _initialize(String initialRoute) {
+    final routes = [
+      StatefulShellRoute.indexedStack(
+        parentNavigatorKey: parentNavigatorKey,
+        branches: [
+          StatefulShellBranch(
+            navigatorKey: homeTabNavigatorKey,
+            routes: [
+              GoRoute(
+                  path: homePath,
+                  pageBuilder: (context, GoRouterState state) {
+                    return getPage(
+                      child: const Home(),
+                      state: state,
+                    );
+                  },
+                  routes: <RouteBase>[
+
+                  ]
+              ),
+              //Product detail
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: transactionsTabNavigatorKey,
+            routes: [
+              GoRoute(
+                path: transactionsPath,
+                pageBuilder: (context, GoRouterState state){
+                  return getPage(
+                    child: Transactions(),
+                    state: state
+                  );
+                },
+                routes: []
+              )
+            ]
+          ),
+          StatefulShellBranch(
+              navigatorKey: addingWorkspaceTabNavigatorKey,
+              routes: [
+                GoRoute(
+                    path: addingWorkSpacePath,
+                    pageBuilder: (context, GoRouterState state){
+                      return getPage(
+                          child: AddingWorkspace(),
+                          state: state
+                      );
+                    },
+                    routes: []
+                )
+              ]
+          ),
+          StatefulShellBranch(
+              navigatorKey: budgetsTabNavigatorKey,
+              routes: [
+                GoRoute(
+                    path: budgetsPath,
+                    pageBuilder: (context, GoRouterState state){
+                      return getPage(
+                          child: Budgets(),
+                          state: state
+                      );
+                    },
+                    routes: []
+                )
+              ]
+          ),
+          StatefulShellBranch(
+              navigatorKey: accountTabNavigatorKey,
+              routes: [
+                GoRoute(
+                    path: accountPath,
+                    pageBuilder: (context, GoRouterState state){
+                      return getPage(
+                          child: Account(),
+                          state: state
+                      );
+                    },
+                    routes: []
+                )
+              ]
+          )
+        ],
+        pageBuilder: (
+            BuildContext context,
+            GoRouterState state,
+            StatefulNavigationShell navigationShell
+            ) {
+          return getPage(
+            child:  MyBottomNavigationBar(child: navigationShell), // Show it elsewhere
+            state: state,
+          );
+        },
+      ),
+      StatefulShellRoute.indexedStack(
+        parentNavigatorKey: parentNavigatorKey,
+        branches: [
+          StatefulShellBranch(
+            navigatorKey: authTabNavigatorKey,
+            routes: [
+              GoRoute(
+                path: CustomNavigationHelper.signInPath,
+                pageBuilder: (context, state) {
+                  return getPage(
+                    child: Signin(),
+                    state: state,
+                  );
+                },
+              ),
+              GoRoute(
+                  path: CustomNavigationHelper.signUpPath,
+                  pageBuilder: (context, state){
+                    String email = state.extra as String;
+                    return getPage(
+                        child: const Signup(),
+                        state: state
+                    );
+                  }
+              ),
+            ],
+          )
+        ],
+        pageBuilder: (
+            BuildContext context,
+            GoRouterState state,
+            StatefulNavigationShell navigationShell
+            ) {
+          return getPage(
+            child:  navigationShell, // Show it elsewhere
+            state: state,
+          );
+        },
+      )
+    ];
+
+    router = GoRouter(
+      navigatorKey: parentNavigatorKey,
+      initialLocation: initialRoute,
+      routes: routes,
+    );
+    return this;
+  }
+
+  static Page getPage({
+    required Widget child,
+    required GoRouterState state,
+  }) {
+    return CustomTransitionPage(
+      child: child,
+      key: state.pageKey,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+          SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(-1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          ),
+    );
+  }
+}
