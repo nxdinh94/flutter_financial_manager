@@ -22,9 +22,9 @@ Future<void> main() async {
     locator<SharedPreferences>().setInt('mode', 0);
   }
   if (AuthManager.isLogin()) {
-    CustomNavigationHelper(CustomNavigationHelper.homePath);
+    CustomNavigationHelper(RoutesName.homePath);
   } else {
-    CustomNavigationHelper(CustomNavigationHelper.signInPath);
+    CustomNavigationHelper(RoutesName.homeAuthPath);
   }
   runApp(
     ChangeNotifierProvider(
@@ -36,7 +36,6 @@ Future<void> main() async {
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
-
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -70,7 +69,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_)=>AuthViewModel()),
         ChangeNotifierProvider(create: (_)=>UserViewModel())
       ],
-      child:  MaterialApp.router(
+      child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         themeMode: _themeMode,
         darkTheme: darkTheme,

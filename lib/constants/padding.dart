@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const EdgeInsets horizontalPadding = EdgeInsets.symmetric(horizontal: 12);
+const EdgeInsets horizontalPadding = EdgeInsets.symmetric(horizontal: 24);
 const EdgeInsets verticalPadding = EdgeInsets.symmetric(vertical: 12);
 const EdgeInsets horizontalHalfPadding = EdgeInsets.symmetric(horizontal: 6);
 const EdgeInsets verticalHalfPadding = EdgeInsets.symmetric(vertical: 6);

@@ -19,7 +19,7 @@ class _SplashViewState extends State<SplashView> {
     // TODO: implement initState
     super.initState();
 
-    splashServices.checkAuthentication(context);
+    // splashServices.checkAuthentication(context);
   }
 
   @override

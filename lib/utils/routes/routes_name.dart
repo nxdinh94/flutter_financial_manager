@@ -1,9 +1,16 @@
 class RoutesName {
-  static const String splash = 'splash_view';
-  //accounts routes name
-  static const String login = 'login_screen';
-  static const String signUp = 'signup_screen';
 
-  //home screen routes name
-  static const String home = 'home_sceen';
+
+  // Tab paths
+  static const String homePath = '/home';
+  static const String transactionsPath = '/transactions';
+  static const String addingWorkSpacePath = '/addingWorkSpace';
+  static const String budgetsPath= '/budgets';
+  static const String accountPath = '/account';
+
+  // Page paths
+  static const String homeAuthPath   = '/homeAuth';
+  static const String signUpPath = 'signUp';
+  static const String signInPath = 'signIn';
+
 }

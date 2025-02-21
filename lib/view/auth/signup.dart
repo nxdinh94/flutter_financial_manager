@@ -2,6 +2,7 @@
 
 import 'package:fe_financial_manager/res/widgets/round_button.dart';
 import 'package:fe_financial_manager/utils/routes/routes.dart';
+import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/utils/utils.dart';
 import 'package:fe_financial_manager/view_model/auth_view_model.dart';
 import 'package:flutter/material.dart';
@@ -119,7 +120,7 @@ class _SignupState extends State<Signup> {
               ),
               InkWell(
                   onTap: () {
-                    context.push(CustomNavigationHelper.signInPath);
+                    context.push(RoutesName.signInPath);
                   },
                   child: Text("Already  hace an accont? Login"))
             ],

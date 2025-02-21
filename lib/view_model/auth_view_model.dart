@@ -30,6 +30,7 @@ class AuthViewModel with ChangeNotifier {
     setLoading(true);
 
     _myRepo.loginApi(data).then((value) {
+      print(value);
       String accessToken = value['accessToken'];
       String refreshToken = value['refreshToken'];
       //Persist user's tokens;
@@ -37,7 +38,7 @@ class AuthViewModel with ChangeNotifier {
 
       setLoading(false);
       Utils.flushBarErrorMessage('Login Successfully', context);
-      context.pushReplacement(CustomNavigationHelper.homePath);
+      context.pushReplacement(RoutesName.homePath);
       if (kDebugMode) {
         // print(value.toString());
       }
@@ -56,7 +57,7 @@ class AuthViewModel with ChangeNotifier {
     _myRepo.signUpApi(data).then((value) {
       setSignUpLoading(false);
       Utils.flushBarErrorMessage('SignUp Successfully', context);
-      Navigator.pushNamed(context, RoutesName.home);
+      Navigator.pushNamed(context, RoutesName.homePath);
       if (kDebugMode) {
         print(value.toString());
       }

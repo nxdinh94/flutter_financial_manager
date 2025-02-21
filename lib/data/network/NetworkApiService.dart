@@ -1,5 +1,3 @@
-// ignore_for_file: file_names, prefer_const_constructors, prefer_adjacent_string_concatenation
-
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart';
@@ -20,7 +18,6 @@ class NetworkApiService extends BaseApiServices {
     }
     return responseJson;
   }
-
   @override
   Future getPostApiResponse(String url, dynamic data) async {
     dynamic responseJson;

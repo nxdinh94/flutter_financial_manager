@@ -1,6 +1,8 @@
 // ignore_for_file: library_private_types_in_public_api, prefer_const_constructors
 
+import 'package:fe_financial_manager/utils/routes/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/response/status.dart';
@@ -28,16 +30,14 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    final userPrefernece = Provider.of<UserViewModel>(context);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         actions: [
           InkWell(
               onTap: () {
-                userPrefernece.remove().then((value) {
-                  Navigator.pushNamed(context, RoutesName.login);
-                });
+                UserViewModel.logout();
+                context.pushReplacement(RoutesName.signInPath);
               },
               child: Center(child: Text('Logout'))),
           SizedBox(

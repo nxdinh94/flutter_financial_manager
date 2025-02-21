@@ -23,7 +23,6 @@ class HomeViewViewModel with ChangeNotifier {
     setMoviesList(ApiResponse.loading());
 
     _myRepo.fetchMoviesList().then((value){
-
       setMoviesList(ApiResponse.completed(value));
 
     }).onError((error, stackTrace){

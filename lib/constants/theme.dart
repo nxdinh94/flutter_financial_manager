@@ -80,7 +80,7 @@ ThemeData darkTheme = ThemeData(
     ),
     labelLarge: TextStyle(
       fontSize: normal,
-      color: colorTextLabelDark,
+      color: colorTextLabel,
       height: 1.2,
       fontFamily: 'Roboto',
       letterSpacing: 0,
@@ -88,14 +88,15 @@ ThemeData darkTheme = ThemeData(
     ),
     labelMedium: TextStyle(
       fontSize: small,
-      color: colorTextLabelDark,height: 1.2,
+      color: colorTextLabel,height: 1.2,
       fontFamily: 'Roboto',
       letterSpacing: 0,
       fontWeight: FontWeight.normal,
     ),
     labelSmall: TextStyle(
-      fontSize: tiny,
-      color: colorTextLabelDark,height: 1.2,
+      fontSize: 12,
+      color: colorTextLabel,
+      height: 1.2,
       fontFamily: 'Roboto',
       letterSpacing: 0,
       fontWeight: FontWeight.normal,
@@ -145,15 +146,15 @@ ThemeData darkTheme = ThemeData(
 ThemeData lightTheme = ThemeData(
   useMaterial3: true,
   colorScheme: ColorScheme.light(
-    primary: const Color(0xff6200ee),
+    primary: const Color(0xff32B849),
     onPrimary: Colors.white,
-    secondary: const Color(0xff03dac6),
+    secondary: const Color(0xffF7F7F7),
+    onSecondary: const Color(0xff32B849),
     tertiary: Colors.grey[400],
-    onSecondary: Colors.black,
     error: const Color(0xffb00020),
     onError: Colors.white,
-    surface: Colors.white,
-    onSurface: Colors.black,
+    surface: const Color(0xffFFFFFF), //backround
+    onSurface: const Color(0xff1C1C1C), //font color on background
 
   ),
   textTheme: const TextTheme(
@@ -202,7 +203,7 @@ ThemeData lightTheme = ThemeData(
       height: 1.2,
       fontFamily: 'Roboto',
       letterSpacing: 0,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w600,
     ),
     bodyLarge: TextStyle(
       fontSize: normal,
@@ -230,7 +231,7 @@ ThemeData lightTheme = ThemeData(
     ),
     labelLarge: TextStyle(
       fontSize: normal,
-      color: colorTextLabelLight,
+      color: colorTextLabel,
       height: 1.2,
       fontFamily: 'Roboto',
       letterSpacing: 0,
@@ -238,14 +239,15 @@ ThemeData lightTheme = ThemeData(
     ),
     labelMedium: TextStyle(
       fontSize: small,
-      color: colorTextLabelLight,height: 1.2,
+      color: colorTextLabel,height: 1.2,
       fontFamily: 'Roboto',
       letterSpacing: 0,
       fontWeight: FontWeight.normal,
     ),
     labelSmall: TextStyle(
       fontSize: tiny,
-      color: colorTextLabelLight,height: 1.2,
+      color: colorTextLabel,
+      height: 1.2,
       fontFamily: 'Roboto',
       letterSpacing: 0,
       fontWeight: FontWeight.normal,
@@ -272,14 +274,14 @@ ThemeData lightTheme = ThemeData(
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      backgroundColor: Colors.black87,
+      backgroundColor: const Color(0xff32B849),
+      foregroundColor: colorTextWhite,
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      shadowColor: Colors.transparent,
       textStyle: TextStyle(
         fontSize: normal,
         fontFamily: 'Roboto',
       ),
-      foregroundColor: colorTextWhite,
-      padding: const EdgeInsets.symmetric(vertical: 16)
-
     )
   ),
 
@@ -290,14 +292,14 @@ ThemeData lightTheme = ThemeData(
     style: ButtonStyle(
       textStyle: WidgetStatePropertyAll(
         const TextStyle(
-          color: colorTextLabelLight,
+          color: colorTextLabel,
           fontSize: normal
         )
       ),
     overlayColor: WidgetStatePropertyAll(Colors.transparent),
     backgroundColor: WidgetStatePropertyAll(Colors.transparent),
     surfaceTintColor: WidgetStatePropertyAll(Colors.transparent),
-    foregroundColor: WidgetStateProperty.all(colorTextLabelLight),
+    foregroundColor: WidgetStateProperty.all(colorTextLabel),
 
     )
   ),
@@ -313,8 +315,8 @@ ThemeData lightTheme = ThemeData(
       color: Colors.black87
     ),
     selectedItemColor: Colors.black87,
-    unselectedItemColor: colorTextLabelLight,
-    unselectedLabelStyle: TextStyle(color: colorTextLabelLight, fontSize: tiny),
+    unselectedItemColor: colorTextLabel,
+    unselectedLabelStyle: TextStyle(color: colorTextLabel, fontSize: tiny),
     selectedLabelStyle: TextStyle(color: colorTextBlack, fontSize: tiny),
     backgroundColor: Colors.white,
     type: BottomNavigationBarType.fixed,

@@ -132,7 +132,7 @@ class _SigninState extends State<Signin> {
               ),
               InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, RoutesName.signUp);
+                    Navigator.pushNamed(context, RoutesName.signUpPath);
                   },
                   child: Text("Don't have an accont? Sign Up"))
             ],

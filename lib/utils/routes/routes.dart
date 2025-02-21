@@ -1,4 +1,5 @@
 import 'package:fe_financial_manager/utils/routes/my_bottom_navigation_bar.dart';
+import 'package:fe_financial_manager/view/auth/homeAuth.dart';
 import 'package:fe_financial_manager/view/auth/signup.dart';
 import 'package:fe_financial_manager/view/tab_screen/account.dart';
 import 'package:fe_financial_manager/view/tab_screen/adding_workspace.dart';
@@ -8,6 +9,8 @@ import 'package:fe_financial_manager/view/auth/signin.dart';
 import 'package:fe_financial_manager/view/tab_screen/transactions.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+import 'routes_name.dart';
 
 class CustomNavigationHelper {
 
@@ -28,26 +31,6 @@ class CustomNavigationHelper {
 
   GoRouteInformationParser get routeInformationParser => router.routeInformationParser;
 
-  static const String rootDetailPath = '/rootDetail';
-
-  // Tab paths
-  static const String homePath = '/home';
-  static const String transactionsPath = '/transactions';
-  static const String addingWorkSpacePath = '/addingWorkSpace';
-  static const String budgetsPath= '/budgets';
-  static const String accountPath = '/account';
-
-  // Page paths
-  static const String signUpPath = '/signUp';
-  static const String signInPath = '/signIn';
-  static const String viewAllSlideProductPage = 'viewAllSlideProductPagePath';
-
-  //profile child path
-  static const String updateProfilePath = 'updateProfile';
-
-  //Product detail path
-  static const String homeProductDetailPath = '/homeProductDetail';
-
 
   CustomNavigationHelper._internal();
   static final CustomNavigationHelper _instance = CustomNavigationHelper._internal();//instance of CustomNavigatorHelper
@@ -66,7 +49,7 @@ class CustomNavigationHelper {
             navigatorKey: homeTabNavigatorKey,
             routes: [
               GoRoute(
-                  path: homePath,
+                  path: RoutesName.homePath,
                   pageBuilder: (context, GoRouterState state) {
                     return getPage(
                       child: const Home(),
@@ -84,7 +67,7 @@ class CustomNavigationHelper {
             navigatorKey: transactionsTabNavigatorKey,
             routes: [
               GoRoute(
-                path: transactionsPath,
+                path: RoutesName.transactionsPath,
                 pageBuilder: (context, GoRouterState state){
                   return getPage(
                     child: Transactions(),
@@ -99,7 +82,7 @@ class CustomNavigationHelper {
               navigatorKey: addingWorkspaceTabNavigatorKey,
               routes: [
                 GoRoute(
-                    path: addingWorkSpacePath,
+                    path: RoutesName.addingWorkSpacePath,
                     pageBuilder: (context, GoRouterState state){
                       return getPage(
                           child: AddingWorkspace(),
@@ -114,7 +97,7 @@ class CustomNavigationHelper {
               navigatorKey: budgetsTabNavigatorKey,
               routes: [
                 GoRoute(
-                    path: budgetsPath,
+                    path: RoutesName.budgetsPath,
                     pageBuilder: (context, GoRouterState state){
                       return getPage(
                           child: Budgets(),
@@ -129,7 +112,7 @@ class CustomNavigationHelper {
               navigatorKey: accountTabNavigatorKey,
               routes: [
                 GoRoute(
-                    path: accountPath,
+                    path: RoutesName.accountPath,
                     pageBuilder: (context, GoRouterState state){
                       return getPage(
                           child: Account(),
@@ -159,24 +142,35 @@ class CustomNavigationHelper {
             navigatorKey: authTabNavigatorKey,
             routes: [
               GoRoute(
-                path: CustomNavigationHelper.signInPath,
+                path: RoutesName.homeAuthPath,
                 pageBuilder: (context, state) {
                   return getPage(
-                    child: Signin(),
+                    child: HomeAuth(),
                     state: state,
                   );
                 },
+                routes: [
+                  GoRoute(
+                      path: RoutesName.signUpPath,
+                      pageBuilder: (context, state){
+                        return getPage(
+                            child: const Signup(),
+                            state: state
+                        );
+                      }
+                  ),
+                  GoRoute(
+                      path: RoutesName.signInPath,
+                      pageBuilder: (context, state){
+                        return getPage(
+                            child: Signin(),
+                            state: state
+                        );
+                      }
+                  ),
+                ]
               ),
-              GoRoute(
-                  path: CustomNavigationHelper.signUpPath,
-                  pageBuilder: (context, state){
-                    String email = state.extra as String;
-                    return getPage(
-                        child: const Signup(),
-                        state: state
-                    );
-                  }
-              ),
+
             ],
           )
         ],
