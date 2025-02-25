@@ -146,38 +146,37 @@ ThemeData darkTheme = ThemeData(
 ThemeData lightTheme = ThemeData(
   useMaterial3: true,
   colorScheme: ColorScheme.light(
-    primary: const Color(0xff32B849),
-    onPrimary: Colors.white,
-    secondary: const Color(0xffF7F7F7),
-    onSecondary: const Color(0xff32B849),
-    tertiary: Colors.grey[400],
+    primary: const Color(0xffffffff),
+    onPrimary: const Color(0xff1C1C1C),
+    secondary: const Color(0xff32B849),
+    onSecondary: const Color(0xffffffff),
+    tertiary: Color(0xffEEEEEE),
     error: const Color(0xffb00020),
     onError: Colors.white,
-    surface: const Color(0xffFFFFFF), //backround
+    surface: const Color(0xffF2F1F7), //backround
     onSurface: const Color(0xff1C1C1C), //font color on background
-
   ),
   textTheme: const TextTheme(
     headlineLarge: TextStyle(
       color: colorTextBlack,
-      fontSize: extraBigger,
-      fontWeight: FontWeight.w500,
+      fontSize: big,
+      fontWeight: FontWeight.w600,
       height: 1.2,
       fontFamily: 'Roboto',
       letterSpacing: 0,
     ),
     headlineMedium: TextStyle(
       color: colorTextBlack,
-      fontSize: bigger,
+      fontSize: normal,
       height: 1.2,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w600,
       fontFamily: 'Roboto',
       letterSpacing: 0,
     ),
     headlineSmall: TextStyle(
-      fontSize: big,
+      fontSize: small,
       color: colorTextBlack,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w600,
       height: 1.2,
       fontFamily: 'Roboto',
       letterSpacing: 0,
@@ -305,7 +304,7 @@ ThemeData lightTheme = ThemeData(
   ),
   iconTheme: const IconThemeData(
     size: 28,
-    color: Colors.black87,
+    color: Color(0xffB2B1B8),
   ),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     unselectedIconTheme: IconThemeData(
@@ -333,10 +332,10 @@ ThemeData lightTheme = ThemeData(
     ),
   ),
   dividerTheme: DividerThemeData(
-    color: Colors.grey.shade200,
+    color: Color(0xffD4D4D4),
     thickness: 0.9,
+  ),
 
-  )
 
 
 );

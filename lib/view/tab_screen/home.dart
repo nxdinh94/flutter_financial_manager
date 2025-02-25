@@ -1,5 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api, prefer_const_constructors
 
+import 'package:fe_financial_manager/utils/auth_manager.dart';
 import 'package:fe_financial_manager/utils/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -9,7 +10,6 @@ import '../../data/response/status.dart';
 import '../../utils/routes/routes_name.dart';
 import '../../utils/utils.dart';
 import '../../view_model/home_view_model.dart';
-import '../../view_model/user_view_model.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -36,8 +36,8 @@ class _HomeState extends State<Home> {
         actions: [
           InkWell(
               onTap: () {
-                UserViewModel.logout();
-                context.pushReplacement(RoutesName.signInPath);
+                AuthManager.logout();
+                context.pushReplacement(RoutesName.homeAuthPath);
               },
               child: Center(child: Text('Logout'))),
           SizedBox(
@@ -59,19 +59,6 @@ class _HomeState extends State<Home> {
                   itemBuilder: (context, index) {
                     return Card(
                       child: ListTile(
-                        leading: Image.network(
-                          value.moviesList.data!.movies![index].posterurl
-                              .toString(),
-                          errorBuilder: (context, error, stack) {
-                            return Icon(
-                              Icons.error,
-                              color: Colors.red,
-                            );
-                          },
-                          height: 40,
-                          width: 40,
-                          fit: BoxFit.cover,
-                        ),
                         title: Text(value.moviesList.data!.movies![index].title
                             .toString()),
                         subtitle: Text(value

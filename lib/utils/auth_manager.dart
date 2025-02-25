@@ -1,24 +1,30 @@
 
 
+import 'dart:convert';
+
 import 'package:fe_financial_manager/injection_container.dart';
+import 'package:fe_financial_manager/model/user_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthManager{
   static final SharedPreferences sp = locator();
-  static Future<Map<String, dynamic>> persistTokens(String accessToken, String refreshToken)async{
+  static Future<Map<String, dynamic>> persistTokens(String accessToken, String refreshToken, UserModel user)async{
     Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
-    saveId(decodedToken['id']);
+    saveUser(user);
     await saveRefreshAndAccessToken(accessToken, refreshToken);
     return decodedToken;
   }
 
-  static void saveId(String id) async {
-    await sp.setString('userId', id);
+  static void saveUser(UserModel user) async {
+    String encodedUser = jsonEncode(user);
+    await sp.setString('user', encodedUser);
   }
 
-  static String getId() {
-    return sp.getString('userId') ?? '';
+  static UserModel getUser() {
+    Map<String, dynamic> user = jsonDecode(sp.getString('user')!);
+    return UserModel.fromJson(user);
   }
 
   static Future<void> saveRefreshAndAccessToken(String accessToken, String refreshToken)async{
@@ -34,7 +40,7 @@ class AuthManager{
   }
   static void logout(){
     sp.remove('accessToken');
-    sp.remove('userId');
+    sp.remove('user');
   }
 
   static bool isLogin (){

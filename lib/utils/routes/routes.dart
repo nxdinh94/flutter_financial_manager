@@ -1,5 +1,6 @@
 import 'package:fe_financial_manager/utils/routes/my_bottom_navigation_bar.dart';
-import 'package:fe_financial_manager/view/auth/homeAuth.dart';
+import 'package:fe_financial_manager/view/auth/forgot_password.dart';
+import 'package:fe_financial_manager/view/auth/home_auth.dart';
 import 'package:fe_financial_manager/view/auth/signup.dart';
 import 'package:fe_financial_manager/view/tab_screen/account.dart';
 import 'package:fe_financial_manager/view/tab_screen/adding_workspace.dart';
@@ -164,6 +165,15 @@ class CustomNavigationHelper {
                       pageBuilder: (context, state){
                         return getPage(
                             child: Signin(),
+                            state: state
+                        );
+                      }
+                  ),
+                  GoRoute(
+                      path: RoutesName.forgotPasswordPath,
+                      pageBuilder: (context, state){
+                        return getPage(
+                            child: ForgotPassword(),
                             state: state
                         );
                       }

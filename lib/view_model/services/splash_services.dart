@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 
 import '../../model/token.dart';
 import '../../utils/routes/routes_name.dart';
-import '../user_view_model.dart';
 
 class SplashServices {
   // Future<Token> getUserDate() => UserViewModel().readAuth();

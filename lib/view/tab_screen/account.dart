@@ -12,7 +12,15 @@ class _AccountState extends State<Account> {
   Widget build(BuildContext context) {
     return Center(
       // child: SvgPicture.asset('assets/svg/abc.svg', ),
-      child: Text('adfdf'),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('More', style: Theme.of(context).textTheme.headlineLarge,),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          actions: [
+
+          ],
+        ),
+      ),
     );
 
   }

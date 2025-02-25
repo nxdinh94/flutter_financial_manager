@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class Utils {
+
   static double averageRating(List<int> rating) {
     var avgRating = 0;
     for (int i = 0; i < rating.length; i++) {
@@ -13,7 +14,10 @@ class Utils {
     }
     return double.parse((avgRating / rating.length).toStringAsFixed(1));
   }
-
+  static bool checkValidEmail(String email){
+    return RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(email);
+  }
   static void fieldFocusChange(
       BuildContext context, FocusNode current, FocusNode nextFocus) {
     current.unfocus();

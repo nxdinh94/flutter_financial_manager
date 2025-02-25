@@ -1,3 +1,5 @@
+import 'package:fe_financial_manager/data/response/api_response.dart';
+import 'package:fe_financial_manager/model/user_model.dart';
 import 'package:fe_financial_manager/utils/auth_manager.dart';
 import 'package:fe_financial_manager/utils/routes/routes.dart';
 import 'package:flutter/cupertino.dart';
@@ -30,14 +32,13 @@ class AuthViewModel with ChangeNotifier {
     setLoading(true);
 
     _myRepo.loginApi(data).then((value) {
-      print(value);
-      String accessToken = value['accessToken'];
-      String refreshToken = value['refreshToken'];
+      String accessToken = value['data']['accessToken'];
+      String refreshToken = value['data']['refreshToken'];
+      final UserModel user = UserModel.fromJson(value['data']['user']);
       //Persist user's tokens;
-      AuthManager.persistTokens(accessToken, refreshToken);
-
+      AuthManager.persistTokens(accessToken, refreshToken, user);
       setLoading(false);
-      Utils.flushBarErrorMessage('Login Successfully', context);
+      // Utils.flushBarErrorMessage(value['message'], context);
       context.pushReplacement(RoutesName.homePath);
       if (kDebugMode) {
         // print(value.toString());
@@ -57,13 +58,10 @@ class AuthViewModel with ChangeNotifier {
     _myRepo.signUpApi(data).then((value) {
       setSignUpLoading(false);
       Utils.flushBarErrorMessage('SignUp Successfully', context);
-      Navigator.pushNamed(context, RoutesName.homePath);
-      if (kDebugMode) {
-        print(value.toString());
-      }
+      context.push('${RoutesName.homeAuthPath}/${RoutesName.signInPath}');
     }).onError((error, stackTrace) {
-      setSignUpLoading(false);
-      Utils.flushBarErrorMessage(error.toString(), context);
+      print(error);
+      // Utils.flushBarErrorMessage(error.toString(), context);
       if (kDebugMode) {
         print(error.toString());
       }

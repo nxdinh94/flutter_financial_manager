@@ -23,15 +23,15 @@ class _HomeAuthState extends State<HomeAuth> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
-        toolbarHeight: 80,
+        // toolbarHeight: 80,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         leading: SizedBox(
           width: 180,
           height: 180,
-          child: FittedBox(
-            child: SvgPicture.asset(
-              'assets/svg/money-lover-logo.svg',
-            ),
+          child: SvgPicture.asset(
+            'assets/svg/money-lover-logo.svg',
           ),
         ),
         actions: [
@@ -42,14 +42,14 @@ class _HomeAuthState extends State<HomeAuth> {
               child: ElevatedButton(
                 onPressed: (){},
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.secondary
+                  backgroundColor: Theme.of(context).colorScheme.tertiary
                 ),
                 child: Text(
                   'English',
                   style: TextStyle(
                     fontSize: Theme.of(context).textTheme.titleSmall?.fontSize,
                     fontWeight: Theme.of(context).textTheme.titleSmall?.fontWeight,
-                    color: Theme.of(context).colorScheme.onSecondary,
+                    color: Theme.of(context).colorScheme.secondary,
                   )
                 ),
               ),
@@ -119,7 +119,9 @@ class _HomeAuthState extends State<HomeAuth> {
                       width: MediaQuery.of(context).size.width,
                       height: 42,
                       child: ElevatedButton(
-                        onPressed: (){},
+                        onPressed: (){
+                          context.push('${RoutesName.homeAuthPath}/${RoutesName.signUpPath}');
+                        },
                         child: const Text(
                           'Sign up for free', style: TextStyle(
                             fontWeight: FontWeight.w600

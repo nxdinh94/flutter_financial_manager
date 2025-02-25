@@ -5,7 +5,6 @@ import 'package:fe_financial_manager/utils/routes/routes.dart';
 import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/utils/theme_manager.dart';
 import 'package:fe_financial_manager/view_model/auth_view_model.dart';
-import 'package:fe_financial_manager/view_model/user_view_model.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -27,10 +26,13 @@ Future<void> main() async {
     CustomNavigationHelper(RoutesName.homeAuthPath);
   }
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => ThemeManager(),
-      child: const MyApp(),
-    ),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_)=>AuthViewModel()),
+        ChangeNotifierProvider(create: (_) => ThemeManager()),
+      ],
+    child: const MyApp(),
+    )
   );
 }
 
@@ -64,26 +66,20 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_)=>AuthViewModel()),
-        ChangeNotifierProvider(create: (_)=>UserViewModel())
-      ],
-      child: MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        themeMode: _themeMode,
-        darkTheme: darkTheme,
-        theme: lightTheme,
-        routerConfig: CustomNavigationHelper.router,
-        builder: (context, router) {
-          return SafeArea(
-            child: Scaffold(
-              resizeToAvoidBottomInset: false,
-              body: router!,
-            ),
-          );
-        },
-      ),
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      themeMode: _themeMode,
+      darkTheme: darkTheme,
+      theme: lightTheme,
+      routerConfig: CustomNavigationHelper.router,
+      builder: (context, router) {
+        return SafeArea(
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            body: router!,
+          ),
+        );
+      },
     );
   }
 }

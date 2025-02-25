@@ -1,19 +1,18 @@
-// ignore_for_file: library_private_types_in_public_api, prefer_final_fields, prefer_const_constructors, avoid_print
-
-import 'package:fe_financial_manager/res/widgets/round_button.dart';
-import 'package:fe_financial_manager/utils/routes/routes.dart';
-import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/utils/utils.dart';
+import 'package:fe_financial_manager/view/auth/widgets/password_text_form_field.dart';
 import 'package:fe_financial_manager/view_model/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../utils/routes/routes_name.dart';
+import 'widgets/email_text_form_field.dart';
+
 class Signup extends StatefulWidget {
   const Signup({super.key});
 
   @override
-  _SignupState createState() => _SignupState();
+  State<Signup> createState() => _SignupState();
 }
 
 class _SignupState extends State<Signup> {
@@ -21,109 +20,144 @@ class _SignupState extends State<Signup> {
 
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  TextEditingController _confirmPasswordController = TextEditingController();
 
-  FocusNode emailFocusNode = FocusNode();
-  FocusNode passwordFocusNode = FocusNode();
+  final _formKey = GlobalKey<FormState>();
+
 
   @override
   void dispose() {
+    // TODO: implement dispose
     super.dispose();
 
     _emailController.dispose();
     _passwordController.dispose();
-
-    emailFocusNode.dispose();
-    passwordFocusNode.dispose();
-
+    _confirmPasswordController.dispose();
     _obsecurePassword.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     final authViewMode = Provider.of<AuthViewModel>(context);
-
-    final height = MediaQuery.of(context).size.height * 1;
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
-        title: Text('SingUp'),
-        centerTitle: true,
+        backgroundColor: Theme.of(context).colorScheme.primary,
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              TextFormField(
-                controller: _emailController,
-                keyboardType: TextInputType.emailAddress,
-                focusNode: emailFocusNode,
-                decoration: const InputDecoration(
-                    hintText: 'Email',
-                    labelText: 'Email',
-                    prefixIcon: Icon(Icons.alternate_email)),
-                onFieldSubmitted: (valu) {
-                  Utils.fieldFocusChange(
-                      context, emailFocusNode, passwordFocusNode);
-                },
-              ),
-              ValueListenableBuilder(
-                  valueListenable: _obsecurePassword,
-                  builder: (context, value, child) {
-                    return TextFormField(
-                      controller: _passwordController,
-                      obscureText: _obsecurePassword.value,
-                      focusNode: passwordFocusNode,
-                      obscuringCharacter: "*",
-                      decoration: InputDecoration(
-                        hintText: 'Password',
-                        labelText: 'Password',
-                        prefixIcon: Icon(Icons.lock_open_rounded),
-                        suffixIcon: InkWell(
-                            onTap: () {
-                              _obsecurePassword.value = !_obsecurePassword.value;
-                            },
-                            child: Icon(_obsecurePassword.value
-                                ? Icons.visibility_off_outlined
-                                : Icons.visibility)),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 40.0),
+        child: Container(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.tertiary,
+                      borderRadius: BorderRadius.circular(12)
+                  ),
+                  child: Column(
+                    children: [
+                      EmailTextFormField(emailController: _emailController),
+                      Divider(
+                        height: 0,
                       ),
-                    );
-                  }),
-              SizedBox(
-                height: height * .085,
-              ),
-              RoundButton(
-                title: 'Sign Up',
-                loading: authViewMode.signUpLoading,
-                onPress: () {
-                  if (_emailController.text.isEmpty) {
-                    Utils.flushBarErrorMessage('Please enter email', context);
-                  } else if (_passwordController.text.isEmpty) {
-                    Utils.flushBarErrorMessage('Please enter password', context);
-                  } else if (_passwordController.text.length < 6) {
-                    Utils.flushBarErrorMessage(
-                        'Please enter 6 digit password', context);
-                  } else {
-                    Map data = {
-                      'email': _emailController.text.toString(),
-                      'password': _passwordController.text.toString(),
-                    };
-
-                    authViewMode.signUpApi(data, context);
-                    print('api hit');
-                  }
-                },
-              ),
-              SizedBox(
-                height: height * .02,
-              ),
-              InkWell(
-                  onTap: () {
-                    context.push(RoutesName.signInPath);
-                  },
-                  child: Text("Already  hace an accont? Login"))
-            ],
+                      ValueListenableBuilder(
+                        valueListenable: _obsecurePassword,
+                        builder: (context, value, child) {
+                          return PasswordTextFormField(
+                            isSecurePass: _obsecurePassword.value,
+                            passwordController: _passwordController,
+                            hintText: 'Password',
+                            callback: () {
+                              _obsecurePassword.value =
+                              !_obsecurePassword.value;
+                            },
+                          );
+                        }
+                      ),
+                      Divider(
+                        height: 0,
+                      ),
+                      ValueListenableBuilder(
+                        valueListenable: _obsecurePassword,
+                        builder: (context, value, child) {
+                          return PasswordTextFormField(
+                            isSecurePass: _obsecurePassword.value,
+                            passwordController: _confirmPasswordController,
+                            hintText: 'Confirm password',
+                            callback: () {
+                              _obsecurePassword.value =
+                              !_obsecurePassword.value;
+                            },
+                            hiddenIcon: true,
+                          );
+                        }
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: height * 0.02,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6.0),
+                          )
+                      ),
+                      onPressed: () {
+                        String email = _emailController.text;
+                        String password = _passwordController.text;
+                        String confirmPassword = _confirmPasswordController.text;
+                        // if(email.isEmpty || password.isEmpty || confirmPassword.isEmpty){
+                        //   Utils.flushBarErrorMessage("These fields cannot be null", context);
+                        //   return;
+                        // }
+                        // if(Utils.checkValidEmail(email)){
+                        //   Utils.flushBarErrorMessage("Email is not valid", context);
+                        //   return;
+                        // }
+                        // if(_confirmPasswordController.text != _passwordController.text){
+                        //   Utils.flushBarErrorMessage("Password & Confirm Password doesn't match", context);
+                        //   return;
+                        // }
+                        Map data = {
+                          'email':'nguyenxuandinh4@gmail.com',
+                          'password': 'Dinh@123',
+                          'confirmPassword': 'Dinh@123',
+                        };
+                        authViewMode.signUpApi(data, context);
+                      },
+                      child: Text('Sign up', style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    )
+                  ),
+                ),
+                SizedBox(
+                  height: height * .02,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        context.push('${RoutesName.homeAuthPath}/${RoutesName.signInPath}');
+                      },
+                      child: Text("Sign in", style: TextStyle(
+                          fontSize: Theme.of(context).textTheme.bodySmall?.fontSize,
+                          color: Theme.of(context).colorScheme.secondary
+                      )
+                      ),),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
