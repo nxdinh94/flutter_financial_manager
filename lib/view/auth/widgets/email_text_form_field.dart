@@ -3,17 +3,20 @@ import 'package:flutter/material.dart';
 
 import '../../../constants/colors.dart';
 class EmailTextFormField extends StatelessWidget {
-  const EmailTextFormField({super.key, required this.emailController});
+  EmailTextFormField({super.key, required this.emailController, this.readOnly = false});
   final TextEditingController emailController;
-
+  bool readOnly;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: emailController,
       keyboardType: TextInputType.emailAddress,
+      cursorColor: colorTextBlack,
       style: TextStyle(
-          fontSize: normal
+        fontSize: normal,
+        color: readOnly? colorTextLabel: colorTextBlack
       ),
+      readOnly: readOnly,
       decoration: const InputDecoration(
         hintText: 'Email',
         hintStyle: TextStyle(
@@ -25,9 +28,9 @@ class EmailTextFormField extends StatelessWidget {
           ),
         ),
         focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: Colors.transparent
-            )
+          borderSide: BorderSide(
+            color: Colors.transparent
+          )
         ),
       ),
     );

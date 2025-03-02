@@ -1,14 +1,17 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
 
 class AppUrl {
-  static var baseUrl = 'http://192.168.2.8:3222/api';
+  static const baseUrl = 'http://192.168.2.11:3222/api';
 
-  static var moviesBaseUrl =
+  static const moviesBaseUrl =
       'https://dea91516-1da3-444b-ad94-c6d0c4dfab81.mock.pstmn.io/';
 
-  static var loginEndPint = baseUrl + '/auth/login';
+  static const loginEndPint = baseUrl + '/auth/login';
 
-  static var registerApiEndPoint = baseUrl + '/auth/register';
+  static const registerApiEndPoint = baseUrl + '/auth/register';
+  static const logoutApiEndPoint = baseUrl + '/auth/logout';
 
-  static var moviesListEndPoint = moviesBaseUrl + 'movies_list';
+  static const changePasswordEndPoint = baseUrl + '/users/change-password';
+
+  static const moviesListEndPoint = moviesBaseUrl + 'movies_list';
 }

@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:fe_financial_manager/utils/utils.dart';
 import 'package:http/http.dart';
 
 import '../data/network/BaseApiServices.dart';
@@ -31,4 +32,24 @@ class AuthRepository {
       throw e;
     }
   }
+  Future<dynamic> logOutApi(dynamic refreshToken) async {
+    try {
+      dynamic response = await _apiServices.getPostApiResponse(
+          AppUrl.logoutApiEndPoint, refreshToken, true );
+      return response;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<dynamic> changePasswordApi(Map<String, String> data) async {
+    try {
+      dynamic response = await _apiServices.getPatchApiResponse(
+          AppUrl.changePasswordEndPoint, data, true );
+      return response;
+    } catch (e) {
+      throw e;
+    }
+  }
+
 }

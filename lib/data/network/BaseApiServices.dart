@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 abstract class BaseApiServices {
-  Future<dynamic> getGetApiResponse(String url);
-  Future<dynamic> getPostApiResponse(String url, dynamic data);
+  Future<dynamic> getGetApiResponse(String url, [bool isBearToken = false]);
+  Future<dynamic> getPostApiResponse(String url, dynamic data, [bool isBearToken = false]);
+  Future<dynamic> getPatchApiResponse(String url, dynamic data, [bool isBearToken = false]);
 }

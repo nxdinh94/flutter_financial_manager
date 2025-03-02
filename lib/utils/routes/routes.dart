@@ -1,4 +1,6 @@
 import 'package:fe_financial_manager/utils/routes/my_bottom_navigation_bar.dart';
+import 'package:fe_financial_manager/view/account_tab/account_setting.dart';
+import 'package:fe_financial_manager/view/auth/change_password.dart';
 import 'package:fe_financial_manager/view/auth/forgot_password.dart';
 import 'package:fe_financial_manager/view/auth/home_auth.dart';
 import 'package:fe_financial_manager/view/auth/signup.dart';
@@ -120,7 +122,18 @@ class CustomNavigationHelper {
                           state: state
                       );
                     },
-                    routes: []
+                    routes: [
+                      GoRoute(
+                        path: RoutesName.accountSettingsPath,
+                        pageBuilder: (context, GoRouterState state){
+                          return getPage(
+                            child: AccountSetting(),
+                            state: state
+                          );
+
+                        }
+                      )
+                    ]
                 )
               ]
           )
@@ -180,7 +193,15 @@ class CustomNavigationHelper {
                   ),
                 ]
               ),
-
+              GoRoute(
+                path: RoutesName.changePasswordPath,
+                pageBuilder: (context, state){
+                  return getPage(
+                    child: ChangePassword(),
+                    state: state
+                  );
+                }
+              )
             ],
           )
         ],

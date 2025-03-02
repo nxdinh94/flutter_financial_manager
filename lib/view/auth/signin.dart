@@ -100,18 +100,12 @@ class _SigninState extends State<Signin> {
                      //   Utils.flushBarErrorMessage(
                      //       'Please enter 6 digit password', context);
                      // } else {
-                     // Map data = {
-                     //   'email': _emailController.text.toString(),
-                     //   'password': _passwordController.text.toString(),
-                     // };
+
                      Map data = {
                        'email':'nguyenxuandinh336@gmail.com',
                        'password': 'Dinh@123',
                      };
-                     // Validate returns true if the form is valid, or false otherwise.
-                     // if (_formKey.currentState!.validate()) {
-                     //   context.push('${RoutesName.homeAuthPath}/${RoutesName.signUpPath}');
-                     // }
+
                      authViewMode.loginApi(data, context);
                      print('api hit');
                      // }

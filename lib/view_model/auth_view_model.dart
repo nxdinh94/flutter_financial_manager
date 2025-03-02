@@ -40,13 +40,11 @@ class AuthViewModel with ChangeNotifier {
       setLoading(false);
       // Utils.flushBarErrorMessage(value['message'], context);
       context.pushReplacement(RoutesName.homePath);
-      if (kDebugMode) {
-        // print(value.toString());
-      }
+
     }).onError((error, stackTrace) {
       setLoading(false);
-      Utils.flushBarErrorMessage(error.toString(), context);
       if (kDebugMode) {
+        Utils.flushBarErrorMessage('Email or password is not correct', context);
         print(error.toString());
       }
     });
@@ -65,6 +63,30 @@ class AuthViewModel with ChangeNotifier {
       if (kDebugMode) {
         print(error.toString());
       }
+    });
+  }
+  Future<void> logoutApi (dynamic refreshToken, BuildContext context)async{
+    setLoading(false);
+    _myRepo.logOutApi(refreshToken).then((value){
+      print(AuthManager.readAuth());
+      AuthManager.logout();
+      setLoading(true);
+      context.pushReplacement('${RoutesName.homeAuthPath}');
+
+      Utils.toastMessage('Logout Successfully');
+    }).onError((error, stackTrace){
+      Utils.flushBarErrorMessage(error.toString(), context);
+      print(error);
+    });
+  }
+  Future<void> changePasswordApi (Map<String, String> data, BuildContext context)async{
+    setLoading(false);
+    _myRepo.changePasswordApi(data).then((value){
+      setLoading(true);
+      Utils.toastMessage(value.toString());
+    }).onError((error, stackTrace){
+      Utils.flushBarErrorMessage('Old password is not correct', context);
+      print(error);
     });
   }
 }

@@ -148,10 +148,10 @@ ThemeData lightTheme = ThemeData(
   colorScheme: ColorScheme.light(
     primary: const Color(0xffffffff),
     onPrimary: const Color(0xff1C1C1C),
-    secondary: const Color(0xff32B849),
+    secondary: secondaryColor,
     onSecondary: const Color(0xffffffff),
     tertiary: Color(0xffEEEEEE),
-    error: const Color(0xffb00020),
+    error: emergencyColor,
     onError: Colors.white,
     surface: const Color(0xffF2F1F7), //backround
     onSurface: const Color(0xff1C1C1C), //font color on background
@@ -304,7 +304,7 @@ ThemeData lightTheme = ThemeData(
   ),
   iconTheme: const IconThemeData(
     size: 28,
-    color: Color(0xffB2B1B8),
+    color: Color(0xff949398),
   ),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     unselectedIconTheme: IconThemeData(
@@ -325,8 +325,9 @@ ThemeData lightTheme = ThemeData(
   appBarTheme: AppBarTheme(
     surfaceTintColor: Colors.white,
     centerTitle: true,
+    backgroundColor: Colors.white,
     titleTextStyle: TextStyle(
-      fontSize: normal,
+      fontSize: big,
       fontWeight: FontWeight.w500,
       color: colorTextBlack
     ),
@@ -334,8 +335,18 @@ ThemeData lightTheme = ThemeData(
   dividerTheme: DividerThemeData(
     color: Color(0xffD4D4D4),
     thickness: 0.9,
+    space: 0
   ),
-
-
-
+  listTileTheme: const ListTileThemeData(
+    titleTextStyle: TextStyle(
+      fontSize: normal,
+      color: colorTextBlack,
+    ),
+    subtitleTextStyle:TextStyle(
+      fontSize: tiny,
+      color: colorTextLabel,
+    ),
+    iconColor: iconColor,
+    dense: true,
+  )
 );

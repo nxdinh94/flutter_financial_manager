@@ -1,12 +1,10 @@
-
-
 import 'dart:convert';
 
 import 'package:fe_financial_manager/injection_container.dart';
 import 'package:fe_financial_manager/model/user_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../constants/enum.dart';
 
 class AuthManager{
   static final SharedPreferences sp = locator();
@@ -23,8 +21,18 @@ class AuthManager{
   }
 
   static UserModel getUser() {
-    Map<String, dynamic> user = jsonDecode(sp.getString('user')!);
-    return UserModel.fromJson(user);
+    if(isLogin()){
+      Map<String, dynamic> user = jsonDecode(sp.getString('user')!);
+      return UserModel.fromJson(user);
+    }
+    return UserModel.fromJson({
+      'id': '0',
+      'name': 'unknow@gmail.com',
+      'email': 'unknow@gmail.com' ,
+      'verify': '${IsVerify.unVerified}',
+      'role':  '${UserRole.user}',
+      'avatar': '',
+    });
   }
 
   static Future<void> saveRefreshAndAccessToken(String accessToken, String refreshToken)async{
@@ -35,14 +43,13 @@ class AuthManager{
   static String readAuth (){
     return sp.getString('accessToken') ?? '';
   }
-  static String readRefreshToken (){
+  static String getRefreshToken (){
     return sp.getString('refreshToken') ?? '';
   }
   static void logout(){
     sp.remove('accessToken');
     sp.remove('user');
   }
-
   static bool isLogin (){
     String result = readAuth();
     return result.isNotEmpty;

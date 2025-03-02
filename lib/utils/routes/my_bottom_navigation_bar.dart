@@ -1,3 +1,4 @@
+import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -39,6 +40,12 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
           }
         },
         currentIndex: widget.child.currentIndex,
+        unselectedLabelStyle: TextStyle(
+          fontSize: 10,
+        ),
+        selectedLabelStyle: TextStyle(
+          fontSize: 10
+        ),
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: const Icon(Icons.home),
@@ -48,12 +55,21 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
             icon: Icon(Icons.account_balance_wallet_rounded, size: 24),
             label: 'Transactions',
           ),
-          const BottomNavigationBarItem(
-            icon: Icon(
-              Icons.wallet_outlined,
-              size: 26,
+          BottomNavigationBarItem(
+            icon: ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: Container(
+                width: 45,
+                height: 45,
+                color: Theme.of(context).colorScheme.secondary,
+                child: Icon(
+                  Icons.add,
+                  size: 26,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
             ),
-            label: 'Favorites',
+            label: '',
           ),
           BottomNavigationBarItem(
             icon: Stack(

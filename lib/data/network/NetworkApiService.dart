@@ -10,14 +10,19 @@ class NetworkApiService extends BaseApiServices {
   @override
   Future getGetApiResponse(String url, [bool isBearToken = false]) async {
     String token = AuthManager.readAuth();
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+    if(token.isNotEmpty && isBearToken){
+      headers['Authorization'] = 'Bearer $token';
+    }
     dynamic responseJson;
     try {
       final response =
         await http.get(
           Uri.parse(url),
-          headers: {
-            'Authorization': 'Bearer ${isBearToken ? 'token': token}',
-          }
+          headers: headers
         ).timeout(const Duration(seconds: 10));
       responseJson = returnResponse(response);
     } on SocketException {
@@ -28,15 +33,41 @@ class NetworkApiService extends BaseApiServices {
   @override
   Future getPostApiResponse(String url, dynamic data,  [bool isBearToken = false]) async {
     String token = AuthManager.readAuth();
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+    if(token.isNotEmpty && isBearToken){
+      headers['Authorization'] = 'Bearer $token';
+    }
     dynamic responseJson;
     try {
       Response response = await http.post(
         Uri.parse(url),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ${isBearToken ? token: ''}',
-        },  // Thêm header
+        headers: headers,  // Thêm header
+        body: jsonEncode(data),  // Chuyển thành JSON
+      ).timeout(Duration(seconds: 10));
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet Connection');
+    }
+    return responseJson;
+  }
+  @override
+  Future getPatchApiResponse(String url, dynamic data,  [bool isBearToken = false]) async {
+    String token = AuthManager.readAuth();
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+    if(token.isNotEmpty && isBearToken){
+      headers['Authorization'] = 'Bearer $token';
+    }
+    dynamic responseJson;
+    try {
+      Response response = await http.patch(
+        Uri.parse(url),
+        headers: headers,  // Thêm header
         body: jsonEncode(data),  // Chuyển thành JSON
       ).timeout(Duration(seconds: 10));
       responseJson = returnResponse(response);
@@ -57,10 +88,7 @@ class NetworkApiService extends BaseApiServices {
       case 404:
           throw UnauthorisedException(response.body.toString());
       default:
-        throw FetchDataException(
-            'Error accured while communicating with server' +
-                'with status code' +
-                response.body.toString());
+        throw FetchDataException(response.body);
     }
   }
 }

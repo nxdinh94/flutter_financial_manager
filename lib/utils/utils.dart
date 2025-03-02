@@ -2,6 +2,8 @@
 
 import 'package:another_flushbar/flushbar.dart';
 import 'package:another_flushbar/flushbar_route.dart';
+import 'package:fe_financial_manager/constants/colors.dart';
+import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -28,9 +30,9 @@ class Utils {
   static toastMessage(String message) {
     Fluttertoast.showToast(
       msg: message,
-      backgroundColor: Colors.black,
+      backgroundColor: secondaryColor,
       textColor: Colors.white,
-      fontSize: 15,
+      fontSize: big,
       toastLength: Toast.LENGTH_LONG,
     );
   }
@@ -46,7 +48,7 @@ class Utils {
         message: message,
         duration: Duration(seconds: 3),
         borderRadius: BorderRadius.circular(8),
-        flushbarPosition: FlushbarPosition.TOP,
+        flushbarPosition: FlushbarPosition.BOTTOM,
         backgroundColor: Colors.red,
         reverseAnimationCurve: Curves.bounceIn,
         positionOffset: 20,

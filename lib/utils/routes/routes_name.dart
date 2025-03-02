@@ -13,5 +13,9 @@ class RoutesName {
   static const String signUpPath = 'signUp';
   static const String signInPath = 'signIn';
   static const String forgotPasswordPath = 'forgotPassword';
+  static const String changePasswordPath = '/changePassword';
 
+
+  // Settings paths
+  static const String accountSettingsPath = 'accountSettings';
 }
