@@ -8,7 +8,7 @@ class RoutesName {
   static const String budgetsPath= '/budgets';
   static const String accountPath = '/account';
 
-  // Page paths
+  // Auth paths
   static const String homeAuthPath   = '/homeAuth';
   static const String signUpPath = 'signUp';
   static const String signInPath = 'signIn';
@@ -18,4 +18,9 @@ class RoutesName {
 
   // Settings paths
   static const String accountSettingsPath = 'accountSettings';
+
+  //Transaction paths
+  static const String selectWalletPath = 'selectWallet';
+  static const String addNotePath = 'addNote';
+  static const String pickCategoryPath = 'pickCategory';
 }

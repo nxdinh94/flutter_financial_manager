@@ -25,9 +25,10 @@ dependencies:
   json_annotation: ^4.9.0
   jwt_decoder: ^2.0.1
   provider: ^6.1.2
-  intl: ^0.19.0
   carousel_slider: ^5.0.0
   dots_indicator: ^4.0.1
+  intl: ^0.20.2
+  modal_bottom_sheet: ^3.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -6,4 +6,7 @@ const Color colorTextLabel = Color(0xFF999999);
 
 const Color emergencyColor = Color(0xFFC50808);
 const Color secondaryColor = Color(0xff32B849);
+const Color primaryColor = Color(0xffffffff);
 const Color iconColor = Color(0xff949398);
+const Color dividerColor = Color(0xffD4D4D4);
+const Color iosTextBlue = Color(0xff0091FE);

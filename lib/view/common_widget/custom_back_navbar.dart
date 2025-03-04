@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class CustomBackNavbar extends StatelessWidget {
-  const CustomBackNavbar({super.key});
+  CustomBackNavbar({super.key, this.value});
+  dynamic value;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        context.pop();
+        context.pop(value ?? '');
       },
       child: Row(
         children: [

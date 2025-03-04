@@ -55,7 +55,7 @@ class _PasswordTextFormFieldState extends State<PasswordTextFormField> {
             // if clearAll is true, show clear icon, else show visibility icon
             child: widget.clearAll ?  InkWell(
               child: isHaveText?
-                const SvgContainer(iconWidth: 18, iconPath: 'assets/svg/delete.svg',) :
+                SvgContainer(iconWidth: 18, iconPath: 'assets/svg/delete.svg',) :
                 const SizedBox.shrink(),
               onTap: (){
                 widget.passwordController.clear();

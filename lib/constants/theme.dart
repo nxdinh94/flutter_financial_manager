@@ -103,10 +103,10 @@ ThemeData darkTheme = ThemeData(
     ),
   ),
   inputDecorationTheme: InputDecorationTheme(
-    outlineBorder: BorderSide(color: Colors.grey.shade800),
+    outlineBorder: const BorderSide(color: Colors.transparent),
     border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10),
-      borderSide: BorderSide(color: Colors.grey.shade800),
+      borderRadius: BorderRadius.circular(0),
+      borderSide: BorderSide.none
     ),
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
@@ -137,7 +137,7 @@ ThemeData darkTheme = ThemeData(
     showSelectedLabels: true,
     showUnselectedLabels: true,
   ),
-    appBarTheme: AppBarTheme(
+    appBarTheme: const AppBarTheme(
         surfaceTintColor: Colors.black87
     )
 
@@ -145,16 +145,16 @@ ThemeData darkTheme = ThemeData(
 
 ThemeData lightTheme = ThemeData(
   useMaterial3: true,
-  colorScheme: ColorScheme.light(
-    primary: const Color(0xffffffff),
-    onPrimary: const Color(0xff1C1C1C),
+  colorScheme: const ColorScheme.light(
+    primary: Color(0xffffffff),
+    onPrimary: Color(0xff1C1C1C),
     secondary: secondaryColor,
-    onSecondary: const Color(0xffffffff),
+    onSecondary: Color(0xffffffff),
     tertiary: Color(0xffEEEEEE),
     error: emergencyColor,
     onError: Colors.white,
-    surface: const Color(0xffF2F1F7), //backround
-    onSurface: const Color(0xff1C1C1C), //font color on background
+    surface: Color(0xffF2F1F7), //background
+    onSurface: Color(0xff1C1C1C), //font color on background
   ),
   textTheme: const TextTheme(
     headlineLarge: TextStyle(
@@ -190,7 +190,8 @@ ThemeData lightTheme = ThemeData(
       fontWeight: FontWeight.w500,
     ),
     titleMedium: TextStyle(
-      fontSize: normal,  color: colorTextBlack,
+      fontSize: normal,
+      color: colorTextBlack,
       height: 1.2,
       fontFamily: 'Roboto',
       letterSpacing: 0,
@@ -253,11 +254,12 @@ ThemeData lightTheme = ThemeData(
     ),
   ),
   inputDecorationTheme: InputDecorationTheme(
-    outlineBorder: BorderSide(color: Colors.grey.shade800),
+    outlineBorder: BorderSide.none,
     border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: BorderSide(color: Colors.grey.shade800),
+        borderRadius: BorderRadius.circular(0),
+        borderSide: BorderSide.none,
     ),
+
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
@@ -265,7 +267,7 @@ ThemeData lightTheme = ThemeData(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       overlayColor: Colors.grey,
       foregroundColor: colorTextBlack,
-      textStyle: TextStyle(
+      textStyle: const TextStyle(
         fontSize: normal,
         fontFamily: 'Roboto',
       ),
@@ -277,27 +279,31 @@ ThemeData lightTheme = ThemeData(
       foregroundColor: colorTextWhite,
       padding: const EdgeInsets.symmetric(vertical: 6),
       shadowColor: Colors.transparent,
-      textStyle: TextStyle(
+      textStyle: const TextStyle(
         fontSize: normal,
         fontFamily: 'Roboto',
       ),
     )
   ),
 
-  // iconButtonTheme: IconButtonThemeData(
-  //
-  // ),
+  iconButtonTheme: IconButtonThemeData(
+    style: IconButton.styleFrom(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(0),
+      ),
+    )
+  ),
   textButtonTheme: TextButtonThemeData(
     style: ButtonStyle(
-      textStyle: WidgetStatePropertyAll(
-        const TextStyle(
+      textStyle: const WidgetStatePropertyAll(
+        TextStyle(
           color: colorTextLabel,
           fontSize: normal
         )
       ),
-    overlayColor: WidgetStatePropertyAll(Colors.transparent),
-    backgroundColor: WidgetStatePropertyAll(Colors.transparent),
-    surfaceTintColor: WidgetStatePropertyAll(Colors.transparent),
+    overlayColor: const WidgetStatePropertyAll(Colors.transparent),
+    backgroundColor: const WidgetStatePropertyAll(Colors.transparent),
+    surfaceTintColor: const WidgetStatePropertyAll(Colors.transparent),
     foregroundColor: WidgetStateProperty.all(colorTextLabel),
 
     )
@@ -322,7 +328,7 @@ ThemeData lightTheme = ThemeData(
     showSelectedLabels: true,
     showUnselectedLabels: true,
   ),
-  appBarTheme: AppBarTheme(
+  appBarTheme: const AppBarTheme(
     surfaceTintColor: Colors.white,
     centerTitle: true,
     backgroundColor: Colors.white,
@@ -331,15 +337,19 @@ ThemeData lightTheme = ThemeData(
       fontWeight: FontWeight.w500,
       color: colorTextBlack
     ),
+    shape: Border(bottom: BorderSide(
+        color: dividerColor,
+        width: 1
+    )),
   ),
-  dividerTheme: DividerThemeData(
-    color: Color(0xffD4D4D4),
+  dividerTheme: const DividerThemeData(
+    color: dividerColor,
     thickness: 0.9,
     space: 0
   ),
   listTileTheme: const ListTileThemeData(
     titleTextStyle: TextStyle(
-      fontSize: normal,
+      // fontSize: normal,
       color: colorTextBlack,
     ),
     subtitleTextStyle:TextStyle(
@@ -348,5 +358,12 @@ ThemeData lightTheme = ThemeData(
     ),
     iconColor: iconColor,
     dense: true,
-  )
+  ),
+  switchTheme: SwitchThemeData(
+    thumbColor: WidgetStateProperty.all(primaryColor),
+    trackColor: WidgetStateProperty.resolveWith((states) =>
+                states.contains(WidgetState.selected) ? secondaryColor : null),
+    trackOutlineColor: WidgetStateProperty.all(Colors.transparent),
+  ),
+    
 );

@@ -1,5 +1,8 @@
 import 'package:fe_financial_manager/utils/routes/my_bottom_navigation_bar.dart';
 import 'package:fe_financial_manager/view/account_tab/account_setting.dart';
+import 'package:fe_financial_manager/view/adding_workspace/add_note.dart';
+import 'package:fe_financial_manager/view/adding_workspace/select_category.dart';
+import 'package:fe_financial_manager/view/adding_workspace/select_wallets.dart';
 import 'package:fe_financial_manager/view/auth/change_password.dart';
 import 'package:fe_financial_manager/view/auth/forgot_password.dart';
 import 'package:fe_financial_manager/view/auth/home_auth.dart';
@@ -77,7 +80,9 @@ class CustomNavigationHelper {
                     state: state
                   );
                 },
-                routes: []
+                routes: [
+
+                ]
               )
             ]
           ),
@@ -92,7 +97,36 @@ class CustomNavigationHelper {
                           state: state
                       );
                     },
-                    routes: []
+                    routes: [
+                      GoRoute(
+                        path: RoutesName.selectWalletPath,
+                        pageBuilder: (context, GoRouterState state){
+                          return getPage(
+                              child: SelectWallets(),
+                              state: state
+                          );
+                        },
+                      ),
+                      GoRoute(
+                        path: RoutesName.addNotePath,
+                        pageBuilder: (context, GoRouterState state){
+                          dynamic  data = state.extra as String;
+                          return getPage(
+                              child: AddNote(note: data,),
+                              state: state
+                          );
+                        },
+                      ),
+                      GoRoute(
+                        path: RoutesName.pickCategoryPath,
+                        pageBuilder: (context, GoRouterState state){
+                          return getPage(
+                              child: SelectCategory(),
+                              state: state
+                          );
+                        },
+                      ),
+                    ]
                 )
               ]
           ),
