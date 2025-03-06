@@ -1,11 +1,9 @@
-import 'package:fe_financial_manager/data/response/api_response.dart';
 import 'package:fe_financial_manager/model/user_model.dart';
 import 'package:fe_financial_manager/utils/auth_manager.dart';
-import 'package:fe_financial_manager/utils/routes/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
-import '../respository/auth_repository.dart';
+import '../repository/auth_repository.dart';
 import '../utils/routes/routes_name.dart';
 import '../utils/utils.dart';
 
@@ -30,7 +28,6 @@ class AuthViewModel with ChangeNotifier {
 
   Future<void> loginApi(dynamic data, BuildContext context) async {
     setLoading(true);
-
     _myRepo.loginApi(data).then((value) {
       String accessToken = value['data']['accessToken'];
       String refreshToken = value['data']['refreshToken'];
@@ -43,6 +40,7 @@ class AuthViewModel with ChangeNotifier {
 
     }).onError((error, stackTrace) {
       setLoading(false);
+      print(error.toString());
       if (kDebugMode) {
         Utils.flushBarErrorMessage('Email or password is not correct', context);
         print(error.toString());
@@ -67,9 +65,8 @@ class AuthViewModel with ChangeNotifier {
   }
   Future<void> logoutApi (dynamic refreshToken, BuildContext context)async{
     setLoading(false);
+    AuthManager.logout();
     _myRepo.logOutApi(refreshToken).then((value){
-      print(AuthManager.readAuth());
-      AuthManager.logout();
       setLoading(true);
       context.pushReplacement('${RoutesName.homeAuthPath}');
 

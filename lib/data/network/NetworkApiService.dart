@@ -87,7 +87,7 @@ class NetworkApiService extends BaseApiServices {
       case 500:
       case 404:
           throw UnauthorisedException(response.body.toString());
-      default:
+      default :
         throw FetchDataException(response.body);
     }
   }

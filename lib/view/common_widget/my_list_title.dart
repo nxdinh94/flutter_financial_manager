@@ -1,5 +1,6 @@
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
+import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:flutter/material.dart';
 
 class MyListTitle extends StatefulWidget {
@@ -14,7 +15,10 @@ class MyListTitle extends StatefulWidget {
       fontSize: normal,
       fontWeight: FontWeight.w500
     ),
-    this.verticalContentPadding = 0
+    this.verticalContentPadding = 0,
+    this.leftContentPadding = 20,
+    this.horizontalTitleGap = 12,
+    this.hideTrailing = true
   });
   final String title;
   String subTitle;
@@ -22,6 +26,9 @@ class MyListTitle extends StatefulWidget {
   final VoidCallback callback;
   TextStyle titleTextStyle;
   double verticalContentPadding;
+  double leftContentPadding;
+  double horizontalTitleGap;
+  bool hideTrailing;
   @override
   State<MyListTitle> createState() => _MyListTitleState();
 }
@@ -36,19 +43,24 @@ class _MyListTitleState extends State<MyListTitle> {
         subtitle:  widget.subTitle.isEmpty ? null : Text(widget.subTitle),
         leading: ConstrainedBox(
           constraints: BoxConstraints(
-            minHeight: 40.0,
-            minWidth: 40.0
+            minHeight: 35.0,
+            minWidth: 35.0
           ),
           child: widget.leading
         ),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 15,),
+        trailing: Visibility(
+          maintainInteractivity: false,
+          maintainState: false,
+          visible: widget.hideTrailing,
+          child: const Icon(Icons.arrow_forward_ios, size: 15,)
+        ),
         visualDensity: VisualDensity(
           horizontal: 0,
           vertical : widget.verticalContentPadding
         ),
-        contentPadding: const EdgeInsets.only(left: 20, right: 10),
+        contentPadding: EdgeInsets.only(left: widget.leftContentPadding , right: 10),
         onTap: widget.callback,
-        horizontalTitleGap: 12,
+        horizontalTitleGap: widget.horizontalTitleGap,
       ),
     );
   }

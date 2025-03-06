@@ -1,6 +1,6 @@
 import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
-import 'package:fe_financial_manager/respository/auth_repository.dart';
+import 'package:fe_financial_manager/repository/auth_repository.dart';
 import 'package:fe_financial_manager/view/auth/widgets/email_text_form_field.dart';
 import 'package:fe_financial_manager/view/auth/widgets/password_text_form_field.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';

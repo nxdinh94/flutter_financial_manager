@@ -10,12 +10,14 @@ class TextContainer extends StatelessWidget {
     required this.callback,
     required this.title,
     this.boxDecoration = const BoxDecoration(),
-    this.isFontWeightBold = false
+    this.isFontWeightBold = false,
+    this.textColor = iosTextBlue,
   });
   final VoidCallback callback;
   final String title;
   BoxDecoration boxDecoration;
   bool isFontWeightBold;
+  Color textColor;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -26,7 +28,7 @@ class TextContainer extends StatelessWidget {
         decoration: boxDecoration,
         child: Text(title, style: TextStyle(
             fontSize: big,
-            color: iosTextBlue,
+            color: textColor,
             fontWeight: isFontWeightBold ? FontWeight.w700 : FontWeight.w400
         )),
       ),

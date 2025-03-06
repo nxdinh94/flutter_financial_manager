@@ -1,7 +1,9 @@
 // ignore_for_file: library_private_types_in_public_api, prefer_const_constructors
 
+import 'package:fe_financial_manager/model/categories_icon_model.dart';
 import 'package:fe_financial_manager/utils/auth_manager.dart';
 import 'package:fe_financial_manager/utils/routes/routes.dart';
+import 'package:fe_financial_manager/view_model/app_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +26,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     // TODO: implement initState
-    homeViewViewModel.fetchMoviesListApi();
+    // homeViewViewModel.fetchMoviesListApi();
     super.initState();
   }
 
@@ -43,6 +45,21 @@ class _HomeState extends State<Home> {
             width: 20,
           )
         ],
+      ),
+      body: Consumer<AppViewModel>(
+        builder: (context, value, _){
+          switch (value.iconCategoriesData.status){
+            case Status.LOADING:
+              return Center(child: CircularProgressIndicator());
+            case Status.COMPLETED:
+              return Text(
+                  (value.iconCategoriesData.data.categoriesIconListMap['expense'].length).toString()
+              );
+            default:
+              return Container();
+          }
+
+        }
       ),
       // body: Consumer<HomeViewViewModel>(builder: (context, value, _) {
       //   switch (value.moviesList.status) {

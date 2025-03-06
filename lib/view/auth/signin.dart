@@ -2,11 +2,10 @@
 
 import 'package:fe_financial_manager/view/auth/widgets/email_text_form_field.dart';
 import 'package:fe_financial_manager/view/auth/widgets/password_text_form_field.dart';
+import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-
-import '../../res/widgets/round_button.dart';
 import '../../utils/routes/routes_name.dart';
 import '../../view_model/auth_view_model.dart';
 
@@ -42,6 +41,7 @@ class _SigninState extends State<Signin> {
       backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
+        leading: CustomBackNavbar(),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 40.0),
@@ -123,13 +123,13 @@ class _SigninState extends State<Signin> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     InkWell(
-                        onTap: () {
-                          context.push('${RoutesName.homeAuthPath}/${RoutesName.signUpPath}');
-                        },
-                        child: Text("Sign Up", style: TextStyle(
-                          fontSize: Theme.of(context).textTheme.bodySmall?.fontSize,
-                            color: Theme.of(context).colorScheme.secondary
-                        )
+                      onTap: () {
+                        context.push('${RoutesName.homeAuthPath}/${RoutesName.signUpPath}');
+                      },
+                      child: Text("Sign Up", style: TextStyle(
+                        fontSize: Theme.of(context).textTheme.bodySmall?.fontSize,
+                          color: Theme.of(context).colorScheme.secondary
+                      )
                     ),),
 
                     InkWell(

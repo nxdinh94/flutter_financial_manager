@@ -120,8 +120,9 @@ class CustomNavigationHelper {
                       GoRoute(
                         path: RoutesName.pickCategoryPath,
                         pageBuilder: (context, GoRouterState state){
+                          String data = state.extra as String;
                           return getPage(
-                              child: SelectCategory(),
+                              child: SelectCategory(pickedCategoryId: data,),
                               state: state
                           );
                         },

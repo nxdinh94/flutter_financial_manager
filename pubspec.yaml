@@ -53,7 +53,17 @@ flutter:
     - assets/account_type/
     - assets/another_icon/
     - assets/cash_flow_icon/
-    - assets/icon_category/
+    - assets/icon_category/spending_money_icon/conCai/
+    - assets/icon_category/spending_money_icon/nganHang/
+    - assets/icon_category/spending_money_icon/diLai/
+    - assets/icon_category/spending_money_icon/anUong/
+    - assets/icon_category/spending_money_icon/sucKhoe/
+    - assets/icon_category/spending_money_icon/nhaCua/
+    - assets/icon_category/spending_money_icon/dichVuSinhHoat/
+    - assets/icon_category/spending_money_icon/hieuHi/
+    - assets/icon_category/spending_money_icon/huongThu/
+    - assets/icon_category/revenue_money_icon/
+    - assets/icon_category/loan_icon/
     - assets/lotties/
     - assets/sampleImage/
     - assets/svg/
