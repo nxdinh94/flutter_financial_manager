@@ -1,5 +1,6 @@
 import 'package:fe_financial_manager/utils/routes/my_bottom_navigation_bar.dart';
 import 'package:fe_financial_manager/view/account_tab/account_setting.dart';
+import 'package:fe_financial_manager/view/add_new_category/add_new_category.dart';
 import 'package:fe_financial_manager/view/adding_workspace/add_note.dart';
 import 'package:fe_financial_manager/view/adding_workspace/select_category.dart';
 import 'package:fe_financial_manager/view/adding_workspace/select_wallets.dart';
@@ -128,7 +129,16 @@ class CustomNavigationHelper {
                         },
                       ),
                     ]
-                )
+                ),
+                GoRoute(
+                  path: RoutesName.addNewCategoryPath,
+                  pageBuilder: (context, GoRouterState state){
+                    return getPage(
+                        child: AddNewCategory(),
+                        state: state
+                    );
+                  },
+                ),
               ]
           ),
           StatefulShellBranch(

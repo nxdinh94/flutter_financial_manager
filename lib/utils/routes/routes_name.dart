@@ -23,4 +23,7 @@ class RoutesName {
   static const String selectWalletPath = 'selectWallet';
   static const String addNotePath = 'addNote';
   static const String pickCategoryPath = 'pickCategory';
+
+  //Add new category
+  static const String addNewCategoryPath = '/addNewCategory';
 }

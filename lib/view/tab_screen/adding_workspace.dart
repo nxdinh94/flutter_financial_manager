@@ -147,7 +147,6 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
                 final dynamic result =
                   await context.push<String>(
                     '${RoutesName.addingWorkSpacePath}/${RoutesName.addNotePath}', extra: note);
-
                 setState(() {
                   note = result;
                 });
@@ -175,7 +174,7 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
             MyDivider(),
             const SizedBox(height: 20,),
             ExpandedArea(),
-            SizedBox(height: 80,)
+            const SizedBox(height: 80,)
           ],
         ),
       ),

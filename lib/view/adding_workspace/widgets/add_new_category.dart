@@ -1,6 +1,8 @@
+import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/view/adding_workspace/widgets/text_container.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../constants/padding.dart';
 
@@ -28,7 +30,9 @@ class AddNewCategory extends StatelessWidget {
             ),
           ),
           TextContainer(
-            callback: () {},
+            callback: () {
+              context.push(RoutesName.addNewCategoryPath);
+            },
             title: 'New category',
             textColor: Theme.of(context).colorScheme.secondary,
           ),
