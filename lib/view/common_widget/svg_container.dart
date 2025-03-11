@@ -8,16 +8,18 @@ class SvgContainer extends StatelessWidget {
     required this.iconWidth,
     required this.iconPath,
     this.myIconColor = iconColor,
+    this.containerSize = 20,
   });
   final double iconWidth;
   final String iconPath;
   Color myIconColor;
+  double containerSize;
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center, // <---- The magic
-      width: 20,
-      height: 20,
+      width: containerSize,
+      height: containerSize,
       child: SvgPicture.asset(
         iconPath,
         width: iconWidth,

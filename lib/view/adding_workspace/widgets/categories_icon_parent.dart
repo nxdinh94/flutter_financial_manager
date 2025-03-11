@@ -4,7 +4,7 @@ import 'package:fe_financial_manager/view/adding_workspace/widgets/categories_ic
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../model/categories_icon_model.dart';
+import '../../../model/transaction_categories_icon_model.dart';
 
 class CategoriesIconParent extends StatefulWidget {
   const CategoriesIconParent({super.key, required this.parentIcon});
@@ -39,7 +39,7 @@ class _CategoriesIconParentState extends State<CategoriesIconParent> {
           onTap: (){
             PickedIconModel pickedCategory = PickedIconModel(
               id : widget.parentIcon.id,
-              iconPath: widget.parentIcon.icon,
+              icon: widget.parentIcon.icon,
               name: widget.parentIcon.name
             );
             context.pop(pickedCategory);
@@ -48,7 +48,6 @@ class _CategoriesIconParentState extends State<CategoriesIconParent> {
         ),
         leading: Image.asset(widget.parentIcon.icon, width: 42,),
         controlAffinity: ListTileControlAffinity.trailing,
-
         trailing: childrenIcon.isEmpty ?
         const SizedBox.shrink() : (isExpanded ?
         const Icon(Icons.keyboard_arrow_up_rounded, color: iconColor,)

@@ -1,0 +1,80 @@
+import 'package:fe_financial_manager/constants/colors.dart';
+import 'package:fe_financial_manager/constants/font_size.dart';
+import 'package:flutter/material.dart';
+
+import 'svg_container.dart';
+
+class CustomTextfield extends StatefulWidget {
+  CustomTextfield({
+    super.key,
+    required TextEditingController amountController,
+    required this.hintText,
+    this.hideLegend = true,
+    this.legend,
+    this.textInputType  = TextInputType.text,
+    this.prefixIcon,
+    this.fontSize = normal,
+    this.verticalPadding = 0,
+    this.prefixIconPadding = EdgeInsets.zero,
+  }) : _amountController = amountController;
+
+  final TextEditingController _amountController;
+  final String hintText;
+  bool hideLegend;
+  Widget ? legend;
+  TextInputType textInputType;
+  Widget  ? prefixIcon;
+  double fontSize;
+  double verticalPadding ;
+  EdgeInsets  prefixIconPadding;
+
+  @override
+  State<CustomTextfield> createState() => _CustomTextfieldState();
+}
+
+class _CustomTextfieldState extends State<CustomTextfield> {
+  @override
+  Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.of(context).size.height;
+
+    return Container(
+        color: Theme.of(context).colorScheme.primary,
+        padding: EdgeInsets.symmetric(vertical: widget.verticalPadding),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+
+          children: [
+            widget.hideLegend ? const SizedBox.shrink() :  Padding(
+              padding: const EdgeInsets.only(left: 12.0, top: 12),
+              child: widget.legend ?? const Text('Legend'),
+            ),
+            TextField(
+              controller: widget._amountController,
+              cursorColor: Theme.of(context).colorScheme.secondary,
+              keyboardType: widget.textInputType,
+              style: TextStyle(
+                  fontSize: widget.fontSize,
+                  height: 0.9
+              ),
+              decoration: InputDecoration(
+                prefixIcon: Padding(
+                  padding: widget.prefixIconPadding,
+                  child: widget.prefixIcon ?? SizedBox.shrink()
+                ),
+                hintText: widget.hintText,
+                hintStyle: TextStyle(
+                  fontSize: widget.fontSize,
+                  color: colorTextLabel,
+                ),
+                isDense: true,
+                prefixIconConstraints: const BoxConstraints(
+                  minWidth: 0, minHeight: 0
+                ),
+
+              ),
+            ),
+          ],
+        )
+    );
+  }
+}

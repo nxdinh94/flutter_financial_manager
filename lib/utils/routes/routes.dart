@@ -8,12 +8,15 @@ import 'package:fe_financial_manager/view/auth/change_password.dart';
 import 'package:fe_financial_manager/view/auth/forgot_password.dart';
 import 'package:fe_financial_manager/view/auth/home_auth.dart';
 import 'package:fe_financial_manager/view/auth/signup.dart';
+import 'package:fe_financial_manager/view/wallets/add_wallets.dart';
+import 'package:fe_financial_manager/view/wallets/all_wallets.dart';
 import 'package:fe_financial_manager/view/tab_screen/account.dart';
 import 'package:fe_financial_manager/view/tab_screen/adding_workspace.dart';
 import 'package:fe_financial_manager/view/tab_screen/budgets.dart';
 import 'package:fe_financial_manager/view/tab_screen/home.dart';
 import 'package:fe_financial_manager/view/auth/signin.dart';
 import 'package:fe_financial_manager/view/tab_screen/transactions.dart';
+import 'package:fe_financial_manager/view/wallets/pick_wallet_types.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -64,10 +67,38 @@ class CustomNavigationHelper {
                     );
                   },
                   routes: <RouteBase>[
-
+                    GoRoute(
+                      path: RoutesName.allWalletsPath,
+                      pageBuilder: (context, GoRouterState state) {
+                        return getPage(
+                          child: const AllWallets(),
+                          state: state,
+                        );
+                      },
+                    ),
                   ]
               ),
-              //Product detail
+              GoRoute(
+                path: RoutesName.addWalletsPath,
+                pageBuilder: (context, GoRouterState state) {
+                  return getPage(
+                    child: const AddWallets(),
+                    state: state,
+                  );
+                },
+                routes: [
+                  GoRoute(
+                      path: RoutesName.pickWalletTypePath,
+                      pageBuilder: (context, GoRouterState state) {
+                        String data = state.extra as String;
+                        return getPage(
+                          child: PickWalletTypes(pickedWalletTypeId: data,),
+                          state: state,
+                        );
+                      },
+                  ),
+                ]
+              ),
             ],
           ),
           StatefulShellBranch(
@@ -77,7 +108,7 @@ class CustomNavigationHelper {
                 path: RoutesName.transactionsPath,
                 pageBuilder: (context, GoRouterState state){
                   return getPage(
-                    child: Transactions(),
+                    child: const Transactions(),
                     state: state
                   );
                 },

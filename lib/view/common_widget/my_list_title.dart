@@ -7,7 +7,7 @@ class MyListTitle extends StatefulWidget {
   MyListTitle({
     super.key,
     required this.title,
-    this.subTitle = '',
+    this.subTitle,
     this.leading,
     required this.callback,
     this.titleTextStyle = const TextStyle(
@@ -18,10 +18,12 @@ class MyListTitle extends StatefulWidget {
     this.verticalContentPadding = 0,
     this.leftContentPadding = 20,
     this.horizontalTitleGap = 12,
-    this.hideTrailing = true
+    this.hideTrailing = true,
+    this.hideBottomBorder = true,
+    this.hideTopBorder = true,
   });
   final String title;
-  String subTitle;
+  Widget ? subTitle;
   Widget ? leading;
   final VoidCallback callback;
   TextStyle titleTextStyle;
@@ -29,6 +31,8 @@ class MyListTitle extends StatefulWidget {
   double leftContentPadding;
   double horizontalTitleGap;
   bool hideTrailing;
+  bool hideTopBorder;
+  bool hideBottomBorder;
   @override
   State<MyListTitle> createState() => _MyListTitleState();
 }
@@ -37,12 +41,20 @@ class _MyListTitleState extends State<MyListTitle> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Theme.of(context).colorScheme.primary,
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primary,
+        border: Border(
+          top: widget.hideTopBorder ? const BorderSide(color: Colors.transparent):
+            const BorderSide(color: dividerColor, width: 1),
+          bottom: widget.hideBottomBorder ? const BorderSide(color: Colors.transparent):
+            const BorderSide(color: dividerColor, width: 1),
+        )
+      ),
       child: ListTile(
         title: Text(widget.title, style: widget.titleTextStyle),
-        subtitle:  widget.subTitle.isEmpty ? null : Text(widget.subTitle),
+        subtitle:  widget.subTitle,
         leading: ConstrainedBox(
-          constraints: BoxConstraints(
+          constraints: const BoxConstraints(
             minHeight: 35.0,
             minWidth: 35.0
           ),

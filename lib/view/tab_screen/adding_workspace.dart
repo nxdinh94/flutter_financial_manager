@@ -6,9 +6,11 @@ import 'package:fe_financial_manager/utils/date_time.dart';
 import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/view/adding_workspace/widgets/date_option_bottom_sheets.dart';
 import 'package:fe_financial_manager/view/adding_workspace/widgets/expanded_area.dart';
+import 'package:fe_financial_manager/view/common_widget/custom_textfield.dart';
 import 'package:fe_financial_manager/view/common_widget/divider.dart';
 import 'package:fe_financial_manager/view/common_widget/my_float_action_button.dart';
 import 'package:fe_financial_manager/view/common_widget/my_list_title.dart';
+import 'package:fe_financial_manager/view/common_widget/prefix_icon_amount_textfield.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -26,7 +28,7 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
   // Note
   String note = '';
   // Pick category
-  PickedIconModel pickedCategory = PickedIconModel(iconPath: '', name: '', id: '') ;
+  PickedIconModel pickedCategory = PickedIconModel(icon: '', name: '', id: '') ;
 
   String getCurrentDate(){
     // return 'Monday, 2022-02-02';
@@ -68,47 +70,17 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
               callback: () {
                 context.push('${RoutesName.addingWorkSpacePath}/${RoutesName.selectWalletPath}');
               },
-              leading: Image.asset('assets/account_type/bank.png', width: 40),
+              leading: Image.asset('assets/account_type/bank.png', width: defaultLeadingPngListTileSize),
             ),
             MyDivider(indent: dividerIndent),
             //Pick amount
-            Container(
-              color: Theme.of(context).colorScheme.primary,
-              child: TextField(
-                controller: _amountController,
-                cursorColor: Theme.of(context).colorScheme.secondary,
-                keyboardType: TextInputType.number,
-                style: const TextStyle(
-                  fontSize: 40,
-                  height: 0.9
-                ),
-                decoration: InputDecoration(
-                  prefixIcon: Padding(
-                    padding: EdgeInsets.only(
-                      right: screenHeight * 0.01,
-                      left: screenHeight * 0.016,
-                    ),
-                    child: Container(
-                      height: 30, width: 49,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: iconColor, width: 0.5),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      alignment: Alignment.center,
-                      child: SvgContainer(
-                        iconWidth: 30,
-                        iconPath: 'assets/svg/dong-svg-repo.svg',
-                        // myIconColor: Colors.red,
-                      )
-                    ),
-                  ),
-                  hintText: '0',
-                  isDense: true,
-                  prefixIconConstraints: const BoxConstraints(
-                    minWidth: 0, minHeight: 0
-                  ),
-                ),
-              )
+            CustomTextfield(
+              amountController: _amountController,
+              textInputType: TextInputType.number,
+              prefixIcon: PrefixIconAmountTextfield(),
+              fontSize: 40,
+              hintText: '0',
+              prefixIconPadding: const EdgeInsets.only(right: 11, left: 10),
             ),
             MyDivider(indent: dividerIndent),
             //Pick category
@@ -134,8 +106,8 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
               verticalContentPadding: 4,
               leading: FittedBox(
                 child: Image.asset(
-                  pickedCategory.iconPath.isNotEmpty ?
-                  pickedCategory.iconPath: 'assets/another_icon/wallet-2.png',
+                  pickedCategory.icon.isNotEmpty ?
+                  pickedCategory.icon: 'assets/another_icon/wallet-2.png',
                   width: 39,
                 ),
               ),
@@ -181,3 +153,4 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
     );
   }
 }
+

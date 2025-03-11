@@ -8,6 +8,7 @@ class MyDivider extends StatelessWidget {
     return Divider(
       indent: indent,
       endIndent: endIndent,
+      thickness: 0.5,
     );
   }
 }

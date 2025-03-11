@@ -27,6 +27,7 @@ Future<void> main() async {
   } else {
     CustomNavigationHelper(RoutesName.homeAuthPath);
   }
+
   runApp(
     MultiProvider(
       providers: [

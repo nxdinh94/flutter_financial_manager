@@ -31,7 +31,6 @@ class _ChangePasswordState extends State<ChangePassword> {
         title: Text('Change Password'),
         leading: CustomBackNavbar(),
       ),
-
       body: SingleChildScrollView(
         child: Column(
           children: [

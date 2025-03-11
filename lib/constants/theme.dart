@@ -159,7 +159,7 @@ ThemeData lightTheme = ThemeData(
   textTheme: const TextTheme(
     headlineLarge: TextStyle(
       color: colorTextBlack,
-      fontSize: big,
+      fontSize: extraBigger,
       fontWeight: FontWeight.w600,
       height: 1.2,
       fontFamily: 'Roboto',
@@ -195,7 +195,7 @@ ThemeData lightTheme = ThemeData(
       height: 1.2,
       fontFamily: 'Roboto',
       letterSpacing: 0,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w600,
     ),
     titleSmall: TextStyle(
       fontSize: tiny,
@@ -349,7 +349,7 @@ ThemeData lightTheme = ThemeData(
   ),
   listTileTheme: const ListTileThemeData(
     titleTextStyle: TextStyle(
-      // fontSize: normal,
+      fontSize: normal,
       color: colorTextBlack,
     ),
     subtitleTextStyle:TextStyle(
@@ -369,7 +369,5 @@ ThemeData lightTheme = ThemeData(
     collapsedShape: const Border(),
     shape: const Border(),
     childrenPadding: const EdgeInsets.only(left: 18),
-
-  )
-    
+  ),
 );

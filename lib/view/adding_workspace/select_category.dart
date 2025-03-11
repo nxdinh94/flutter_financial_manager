@@ -1,5 +1,5 @@
 import 'package:fe_financial_manager/data/response/status.dart';
-import 'package:fe_financial_manager/model/categories_icon_model.dart';
+import 'package:fe_financial_manager/model/transaction_categories_icon_model.dart';
 import 'package:fe_financial_manager/view/adding_workspace/widgets/add_new_category.dart';
 import 'package:fe_financial_manager/view/adding_workspace/widgets/categories_icon_parent.dart';
 import 'package:fe_financial_manager/view/adding_workspace/widgets/tab_bar_elements.dart';

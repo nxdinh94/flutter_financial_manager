@@ -2,7 +2,7 @@
 
 class AppUrl {
   // static const baseUrl = 'http://10.60.191.229:3222/api';
-  static const baseUrl = 'http://192.168.2.8:3222/api';
+  static const baseUrl = 'http://192.168.2.11:3222/api';
 
   static const moviesBaseUrl =
       'https://dea91516-1da3-444b-ad94-c6d0c4dfab81.mock.pstmn.io/';
@@ -15,6 +15,6 @@ class AppUrl {
   static const changePasswordEndPoint = baseUrl + '/users/change-password';
 
   static const getIconCategories = baseUrl + '/apps/transaction-type-categories';
+  static const getIconWalletType = baseUrl + '/admins/money-account-types';
 
-  static const moviesListEndPoint = moviesBaseUrl + 'movies_list';
 }

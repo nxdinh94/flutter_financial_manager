@@ -1,11 +1,11 @@
 class PickedIconModel{
-  final String iconPath;
+  final String icon;
   final String name;
   final String id;
-  PickedIconModel({required this.iconPath, required this.name, required this.id});
+  PickedIconModel({required this.icon, required this.name, required this.id});
 
   bool isNull(){
-    return iconPath.isEmpty && name.isEmpty && id.isEmpty;
+    return icon.isEmpty && name.isEmpty && id.isEmpty;
   }
 
 }

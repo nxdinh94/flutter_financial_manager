@@ -1,103 +1,81 @@
 // ignore_for_file: library_private_types_in_public_api, prefer_const_constructors
 
-import 'package:fe_financial_manager/model/categories_icon_model.dart';
-import 'package:fe_financial_manager/utils/auth_manager.dart';
-import 'package:fe_financial_manager/utils/routes/routes.dart';
+import 'package:fe_financial_manager/constants/colors.dart';
+import 'package:fe_financial_manager/constants/font_size.dart';
+import 'package:fe_financial_manager/constants/padding.dart';
+import 'package:fe_financial_manager/utils/to_vnd.dart';
+import 'package:fe_financial_manager/view/common_widget/divider.dart';
+import 'package:fe_financial_manager/view/common_widget/my_list_title.dart';
+import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
+import 'package:fe_financial_manager/view/common_widget/money_vnd.dart';
+import 'package:fe_financial_manager/view/home_tab/widgets/wallets_banner.dart';
 import 'package:fe_financial_manager/view_model/app_view_model.dart';
+import 'package:fe_financial_manager/view_model/home_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-
-import '../../data/response/status.dart';
-import '../../utils/routes/routes_name.dart';
-import '../../utils/utils.dart';
-import '../../view_model/home_view_model.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
-
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  HomeViewViewModel homeViewViewModel = HomeViewViewModel();
-
   @override
   void initState() {
-    // TODO: implement initState
-    // homeViewViewModel.fetchMoviesListApi();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<AppViewModel>(context, listen: false).getIconsWalletType();
+    });
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        actions: [
-          InkWell(
-              onTap: () {
-
-              },
-              child: Center(child: Text('Something'))),
-          SizedBox(
-            width: 20,
-          )
-        ],
-      ),
-      body: Consumer<AppViewModel>(
-        builder: (context, value, _){
-          switch (value.iconCategoriesData.status){
-            case Status.LOADING:
-              return Center(child: CircularProgressIndicator());
-            case Status.COMPLETED:
-              return Text(
-                  (value.iconCategoriesData.data.categoriesIconListMap['expense'].length).toString()
-              );
-            default:
-              return Container();
-          }
-
-        }
-      ),
-      // body: Consumer<HomeViewViewModel>(builder: (context, value, _) {
-      //   switch (value.moviesList.status) {
-      //     case Status.LOADING:
-      //       return Center(child: CircularProgressIndicator());
-      //     case Status.ERROR:
-      //       return Center(child: Text(value.moviesList.message.toString()));
-      //     case Status.COMPLETED:
-      //       return ListView.builder(
-      //           itemCount: value.moviesList.data!.movies!.length,
-      //           itemBuilder: (context, index) {
-      //             return Card(
-      //               child: ListTile(
-      //                 title: Text(value.moviesList.data!.movies![index].title
-      //                     .toString()),
-      //                 subtitle: Text(value
-      //                     .moviesList.data!.movies![index].year
-      //                     .toString()),
-      //                 trailing: Row(
-      //                   mainAxisSize: MainAxisSize.min,
-      //                   children: [
-      //                     Text(Utils.averageRating(value
-      //                             .moviesList.data!.movies![index].ratings!)
-      //                         .toStringAsFixed(1)),
-      //                     Icon(
-      //                       Icons.star,
-      //                       color: Colors.yellow,
-      //                     )
-      //                   ],
-      //                 ),
-      //               ),
-      //             );
-      //           });
-      //     case null:
-      //       // TODO: Handle this case.
-      //   }
-      //   return Container();
-      // }),
+      body: Padding(
+        padding: defaultHalfPadding,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      MoneyVnd(fontSize: 24, amount: 999999999, iconColor: black,),
+                      const SizedBox(width: 12),
+                      SvgContainer(iconWidth: 22, iconPath: 'assets/svg/eye.svg', myIconColor: black,),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      SvgContainer(
+                        iconWidth: 22, myIconColor: black,
+                        iconPath: 'assets/svg/magnifying-glass.svg',
+                      ),
+                      const SizedBox(width: 24),
+                      SvgContainer(
+                        iconWidth: 22, myIconColor: Colors.black,
+                        iconPath: 'assets/svg/bell.svg'
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              Row(
+                children: [
+                  Text('Total balance', style: Theme.of(context).textTheme.labelLarge,),
+                  SvgContainer(iconWidth: 14, iconPath: 'assets/svg/question-mark-circle.svg')
+                ],
+              ),
+              const SizedBox(height: 12,),
+              WalletBanner()
+            ],
+          ),
+        ),
+      )
     );
   }
 }
+
