@@ -8,7 +8,8 @@ class MoneyVnd extends StatelessWidget {
     this.iconColor = colorTextBlack,
     this.iconWidth= 18,
     required this.fontSize,
-    this.fontWeight = FontWeight.w600, required this.amount
+    this.fontWeight = FontWeight.w600,
+    required this.amount
   });
   double iconWidth;
   Color iconColor;
@@ -20,7 +21,7 @@ class MoneyVnd extends StatelessWidget {
     return Row(
       children: [
         Text(
-          toVnd(123456789).toString(),
+          toVnd(amount).toString(),
           style: TextStyle(
               fontWeight: fontWeight,
               fontSize: fontSize

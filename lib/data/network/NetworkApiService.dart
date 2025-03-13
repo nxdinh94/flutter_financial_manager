@@ -78,17 +78,23 @@ class NetworkApiService extends BaseApiServices {
   }
 
   dynamic returnResponse(http.Response response) {
+    dynamic decodedResponse = jsonDecode(response.body);
+    String error = '';
+    if(response.statusCode != 200){
+      error = decodedResponse['errorInfo'][0]['message'];
+    }
     switch (response.statusCode) {
       case 200:
         dynamic responseJson = jsonDecode(response.body);
         return responseJson;
       case 422:
-        throw BadRequestException(response.body.toString());
+        throw BadRequestException(error);
       case 500:
+
       case 404:
-          throw UnauthorisedException(response.body.toString());
+        throw UnauthorisedException(error);
       default :
-        throw FetchDataException(response.body);
+        throw FetchDataException(error);
     }
   }
 }

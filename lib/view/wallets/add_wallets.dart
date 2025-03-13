@@ -11,7 +11,7 @@ import 'package:fe_financial_manager/view/common_widget/my_list_title.dart';
 import 'package:fe_financial_manager/view/common_widget/prefix_icon_amount_textfield.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:fe_financial_manager/view/common_widget/switch_row.dart';
-import 'package:fe_financial_manager/view_model/app_view_model.dart';
+import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -26,21 +26,27 @@ class _AddWalletsState extends State<AddWallets> {
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
-  bool isExcludeFromReport = false;
-
+  final WalletViewModel _walletViewModel = WalletViewModel();
+  bool isIncludeFromReport = true;
   late PickedIconModel pickedWalletType;
-
 
   @override
   void initState() {
-    WalletTypeIconModel defaultWalletType =  context.read<AppViewModel>().iconWalletTypeData.data[0];
-    pickedWalletType = PickedIconModel(
-      icon: defaultWalletType.icon,
-      name: defaultWalletType.name,
-      id: defaultWalletType.id
-    );
-    super.initState();
+    super.initState(); // Call super first
+
+    final walletViewModel = Provider.of<WalletViewModel>(context, listen: false);
+    if (walletViewModel.iconWalletTypeData.data.isNotEmpty) {
+      WalletTypeIconModel defaultWalletType = walletViewModel.iconWalletTypeData.data[0];
+      pickedWalletType = PickedIconModel(
+        icon: defaultWalletType.icon,
+        name: defaultWalletType.name,
+        id: defaultWalletType.id,
+      );
+    }else {
+      pickedWalletType = PickedIconModel(icon: '', name: '', id: '');
+    }
   }
+
   @override
   void dispose() {
     _amountController.dispose();
@@ -58,16 +64,18 @@ class _AddWalletsState extends State<AddWallets> {
         title: const Text('Add Wallets'),
         leading: CustomBackNavbar(),
       ),
-      floatingActionButton: MyFloatActionButton(callback: (){
-        print(
-          {
-            'amount' : _amountController.text,
-            'name' : _nameController.text,
-            'note' : _noteController.text,
-            'isExcludeFromReport' : isExcludeFromReport,
-            'walletType' : pickedWalletType.id
-          }
-        );
+      floatingActionButton: MyFloatActionButton(callback: ()async{
+
+        dynamic data = {
+          'amount' : _amountController.text,
+          'name' : _nameController.text,
+          'note' : _noteController.text,
+          'isExcludeFromReport' : isIncludeFromReport,
+          'walletType' : pickedWalletType.id
+        };
+
+        await _walletViewModel.createWallet(data, context);
+
       }),
       body: SingleChildScrollView(
         child: Column(
@@ -134,13 +142,13 @@ class _AddWalletsState extends State<AddWallets> {
               color: Theme.of(context).colorScheme.primary,
               padding: horizontalHalfPadding,
               child: SwitchRow(
-                text: 'Exclude from report',
+                text: 'Include from report',
                 callback: (value){
                   setState(() {
-                    isExcludeFromReport = value;
+                    isIncludeFromReport = value;
                   });
                 },
-                flag: isExcludeFromReport,
+                flag: isIncludeFromReport,
               ),
             ),
           ],

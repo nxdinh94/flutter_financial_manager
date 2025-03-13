@@ -13,8 +13,6 @@ class AppViewModel extends ChangeNotifier{
   ApiResponse _iconCategoriesData = ApiResponse.loading();
   ApiResponse get iconCategoriesData => _iconCategoriesData;
 
-  ApiResponse _iconWalletTypeData = ApiResponse.loading();
-  ApiResponse get iconWalletTypeData => _iconWalletTypeData;
 
   bool _loading = false;
   bool get loading => _loading;
@@ -23,14 +21,16 @@ class AppViewModel extends ChangeNotifier{
     _loading = value;
     notifyListeners();
   }
+
   void setIconsCategoriesData(ApiResponse value) {
     _iconCategoriesData = value;
     notifyListeners();
   }
+
   Future<void> getIconCategoriesApi() async {
-      setLoading(true);
-      await _appRepository.getIconCategoriesApi().then((value) {
-        setIconsCategoriesData(ApiResponse.completed(value));
+    setLoading(true);
+    await _appRepository.getIconCategoriesApi().then((value) {
+      setIconsCategoriesData(ApiResponse.completed(value));
       setLoading(false);
     }).onError((error, stackTrace) {
       setLoading(false);
@@ -39,26 +39,8 @@ class AppViewModel extends ChangeNotifier{
       }
     });
   }
-  void setIconsWalletTypeData(ApiResponse<List<WalletTypeIconModel>> value) {
-    _iconWalletTypeData = value;
-    notifyListeners();
-  }
-  Future<void> getIconsWalletType() async {
-      setLoading(true);
-      await _appRepository.getIconsWalletTypeDataApi().then((value) {
-        List<WalletTypeIconModel> list = [];
-        value.forEach((element) {
-          list.add(WalletTypeIconModel.fromJson(element));
-        });
-        setIconsWalletTypeData(ApiResponse.completed(list));
-        setLoading(false);
-    }).onError((error, stackTrace) {
-      setLoading(false);
-      if (kDebugMode) {
-        print(error.toString());
-      }
-    });
-  }
+
+
 
 
 }

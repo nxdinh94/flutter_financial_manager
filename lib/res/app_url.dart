@@ -1,11 +1,8 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
 
 class AppUrl {
-  // static const baseUrl = 'http://10.60.191.229:3222/api';
-  static const baseUrl = 'http://192.168.2.11:3222/api';
-
-  static const moviesBaseUrl =
-      'https://dea91516-1da3-444b-ad94-c6d0c4dfab81.mock.pstmn.io/';
+  static const baseUrl = 'http://10.60.222.22:3222/api';
+  // static const baseUrl = 'http://192.168.2.11:3222/api';
 
   static const loginEndPint = baseUrl + '/auth/login';
 
@@ -16,5 +13,7 @@ class AppUrl {
 
   static const getIconCategories = baseUrl + '/apps/transaction-type-categories';
   static const getIconWalletType = baseUrl + '/admins/money-account-types';
+
+  static const wallet = baseUrl + '/apps/money-account';
 
 }

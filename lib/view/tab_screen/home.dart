@@ -1,18 +1,12 @@
 // ignore_for_file: library_private_types_in_public_api, prefer_const_constructors
 
 import 'package:fe_financial_manager/constants/colors.dart';
-import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
-import 'package:fe_financial_manager/utils/to_vnd.dart';
-import 'package:fe_financial_manager/view/common_widget/divider.dart';
-import 'package:fe_financial_manager/view/common_widget/my_list_title.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:fe_financial_manager/view/common_widget/money_vnd.dart';
 import 'package:fe_financial_manager/view/home_tab/widgets/wallets_banner.dart';
-import 'package:fe_financial_manager/view_model/app_view_model.dart';
-import 'package:fe_financial_manager/view_model/home_view_model.dart';
+import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
@@ -25,13 +19,13 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<AppViewModel>(context, listen: false).getIconsWalletType();
+      Provider.of<WalletViewModel>(context, listen: false).getIconsWalletType();
+      Provider.of<WalletViewModel>(context, listen: false).getAllWallet();
     });
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Padding(
         padding: defaultHalfPadding,

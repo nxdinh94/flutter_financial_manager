@@ -4,7 +4,7 @@ import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/model/wallet_type_icon_model.dart';
 import 'package:fe_financial_manager/view/common_widget/check_picked_list_title.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
-import 'package:fe_financial_manager/view_model/app_view_model.dart';
+import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -29,7 +29,7 @@ class _PickWalletTypesState extends State<PickWalletTypes> {
         leading: CustomBackNavbar(),
       ),
       body: SingleChildScrollView(
-        child: Consumer<AppViewModel>(
+        child: Consumer<WalletViewModel>(
           builder: (context, value, child) {
             switch(value.iconWalletTypeData.status){
               case Status.LOADING:
@@ -59,7 +59,6 @@ class _PickWalletTypesState extends State<PickWalletTypes> {
               default :
                 return const SizedBox.shrink();
             }
-
           },
         ),
       )

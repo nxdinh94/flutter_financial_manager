@@ -5,7 +5,7 @@ import 'package:fe_financial_manager/model/wallet_type_icon_model.dart';
 import 'package:fe_financial_manager/res/app_url.dart';
 
 class AppRepository{
-  BaseApiServices _apiServices  = NetworkApiService();
+  final BaseApiServices _apiServices  = NetworkApiService();
 
   Future<dynamic> getIconCategoriesApi() async {
     try {
@@ -15,12 +15,5 @@ class AppRepository{
       throw e;
     }
   }
-  Future<dynamic> getIconsWalletTypeDataApi() async {
-    try {
-      dynamic response = await _apiServices.getGetApiResponse(AppUrl.getIconWalletType);
-      return response['data'];
-    } catch (e) {
-      throw e;
-    }
-  }
+
 }
