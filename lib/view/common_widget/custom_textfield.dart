@@ -16,6 +16,7 @@ class CustomTextfield extends StatefulWidget {
     this.fontSize = normal,
     this.verticalPadding = 0,
     this.prefixIconPadding = EdgeInsets.zero,
+    this.onChange
   }) : _amountController = amountController;
 
   final TextEditingController _amountController;
@@ -27,6 +28,7 @@ class CustomTextfield extends StatefulWidget {
   double fontSize;
   double verticalPadding ;
   EdgeInsets  prefixIconPadding;
+  ValueChanged<String> ? onChange;
 
   @override
   State<CustomTextfield> createState() => _CustomTextfieldState();
@@ -50,6 +52,7 @@ class _CustomTextfieldState extends State<CustomTextfield> {
             ),
             TextField(
               controller: widget._amountController,
+              onChanged: widget.onChange,
               cursorColor: Theme.of(context).colorScheme.secondary,
               keyboardType: widget.textInputType,
               style: TextStyle(

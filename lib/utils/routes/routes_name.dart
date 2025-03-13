@@ -31,5 +31,6 @@ class RoutesName {
   static const String allWalletsPath = 'allWallets';
   static const String addWalletsPath = '/addWallets';
   static const String pickWalletTypePath = 'pickWalletType';
+  static const String pickExternalBankPath = 'pickExternalBank';
 
 }

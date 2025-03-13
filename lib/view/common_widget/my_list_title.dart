@@ -56,7 +56,9 @@ class _MyListTitleState extends State<MyListTitle> {
         leading: ConstrainedBox(
           constraints: const BoxConstraints(
             minHeight: 35.0,
-            minWidth: 35.0
+            minWidth: 35.0,
+            maxWidth: 80,
+            maxHeight: 80
           ),
           child: widget.leading
         ),

@@ -16,6 +16,7 @@ import 'package:fe_financial_manager/view/tab_screen/budgets.dart';
 import 'package:fe_financial_manager/view/tab_screen/home.dart';
 import 'package:fe_financial_manager/view/auth/signin.dart';
 import 'package:fe_financial_manager/view/tab_screen/transactions.dart';
+import 'package:fe_financial_manager/view/wallets/external_bank.dart';
 import 'package:fe_financial_manager/view/wallets/pick_wallet_types.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -93,6 +94,15 @@ class CustomNavigationHelper {
                         String data = state.extra as String;
                         return getPage(
                           child: PickWalletTypes(pickedWalletTypeId: data,),
+                          state: state,
+                        );
+                      },
+                  ),
+                  GoRoute(
+                      path: RoutesName.pickExternalBankPath,
+                      pageBuilder: (context, GoRouterState state) {
+                        return getPage(
+                          child: ExternalBank(),
                           state: state,
                         );
                       },

@@ -44,9 +44,9 @@ class NetworkApiService extends BaseApiServices {
     try {
       Response response = await http.post(
         Uri.parse(url),
-        headers: headers,  // Thêm header
-        body: jsonEncode(data),  // Chuyển thành JSON
-      ).timeout(Duration(seconds: 10));
+        headers: headers,
+        body: jsonEncode(data),
+      ).timeout(const Duration(seconds: 10));
       responseJson = returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet Connection');
@@ -67,9 +67,9 @@ class NetworkApiService extends BaseApiServices {
     try {
       Response response = await http.patch(
         Uri.parse(url),
-        headers: headers,  // Thêm header
-        body: jsonEncode(data),  // Chuyển thành JSON
-      ).timeout(Duration(seconds: 10));
+        headers: headers,
+        body: jsonEncode(data),
+      ).timeout(const Duration(seconds: 10));
       responseJson = returnResponse(response);
     } on SocketException {
       throw Exception('No internet connection');
@@ -79,10 +79,17 @@ class NetworkApiService extends BaseApiServices {
 
   dynamic returnResponse(http.Response response) {
     dynamic decodedResponse = jsonDecode(response.body);
+    print(decodedResponse);
     String error = '';
     if(response.statusCode != 200){
-      error = decodedResponse['errorInfo'][0]['message'];
+      //cause be response is {"message": "Jwt expired"}
+      if(response.statusCode == 401){
+        error = decodedResponse['message'];
+      }else {
+        error = decodedResponse['errorInfo'][0]['message'];
+      }
     }
+
     switch (response.statusCode) {
       case 200:
         dynamic responseJson = jsonDecode(response.body);

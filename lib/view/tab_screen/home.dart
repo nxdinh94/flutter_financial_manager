@@ -21,6 +21,7 @@ class _HomeState extends State<Home> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<WalletViewModel>(context, listen: false).getIconsWalletType();
       Provider.of<WalletViewModel>(context, listen: false).getAllWallet();
+      Provider.of<WalletViewModel>(context, listen: false).getExternalBank();
     });
     super.initState();
   }

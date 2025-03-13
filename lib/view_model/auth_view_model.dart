@@ -68,7 +68,7 @@ class AuthViewModel with ChangeNotifier {
     AuthManager.logout();
     _myRepo.logOutApi(refreshToken).then((value){
       setLoading(true);
-      context.pushReplacement('${RoutesName.homeAuthPath}');
+      context.pushReplacement(RoutesName.homeAuthPath);
 
       Utils.toastMessage('Logout Successfully');
     }).onError((error, stackTrace){

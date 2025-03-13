@@ -1,5 +1,6 @@
 
 import 'package:fe_financial_manager/data/response/api_response.dart';
+import 'package:fe_financial_manager/model/external_bank_model.dart';
 import 'package:fe_financial_manager/model/wallet_model.dart';
 import 'package:fe_financial_manager/model/wallet_type_icon_model.dart';
 import 'package:fe_financial_manager/repository/wallet_repository.dart';
@@ -18,6 +19,10 @@ class WalletViewModel extends ChangeNotifier{
   ApiResponse _allWalletData = ApiResponse.loading();
   ApiResponse get allWalletData => _allWalletData ;
 
+  //External Bank
+  ApiResponse _externalBankData = ApiResponse.loading();
+  ApiResponse get externalBankData => _externalBankData ;
+
   bool _loading = false;
   bool get loading => _loading;
 
@@ -31,6 +36,10 @@ class WalletViewModel extends ChangeNotifier{
   }
   void setWalletData(ApiResponse<List<WalletModel>> value) {
     _allWalletData = value;
+    notifyListeners();
+  }
+  void setExternalBankData(ApiResponse<List<ExternalBankModel>> value) {
+    _externalBankData = value;
     notifyListeners();
   }
   Future<void> getIconsWalletType() async {
@@ -69,6 +78,20 @@ class WalletViewModel extends ChangeNotifier{
       List<dynamic> walletDataJson = value;
       List<WalletModel> transformedData = walletDataJson.map((e)=> WalletModel.fromJson(e)).toList();
       setWalletData(ApiResponse.completed(transformedData));
+      setLoading(true);
+    }).onError((error, stackTrace) {
+      setLoading(false);
+      if (kDebugMode) {
+        print(error.toString());
+      }
+    });
+  }
+  Future<void> getExternalBank()async{
+    setLoading(false);
+    await _walletRepository.getExternalBankApi().then((value){
+      List<dynamic> externalBank = value;
+      List<ExternalBankModel> transformedData = externalBank.map((e)=> ExternalBankModel.fromJson(e)).toList();
+      setExternalBankData(ApiResponse.completed(transformedData));
       setLoading(true);
     }).onError((error, stackTrace) {
       setLoading(false);
