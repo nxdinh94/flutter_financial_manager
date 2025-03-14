@@ -4,6 +4,7 @@ import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/model/wallet_type_icon_model.dart';
 import 'package:fe_financial_manager/utils/routes/routes_name.dart';
+import 'package:fe_financial_manager/utils/utils.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_textfield.dart';
 import 'package:fe_financial_manager/view/common_widget/divider.dart';
@@ -29,18 +30,46 @@ class _AddWalletsState extends State<AddWallets> {
   final TextEditingController _creditLimitationController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
-  final WalletViewModel _walletViewModel = WalletViewModel();
   bool isIncludeFromReport = true;
   late PickedIconModel pickedWalletType;
 
   PickedIconModel pickedBank = PickedIconModel(icon: '', name: '', id: '');
-  late Map<String, dynamic> initialSubmitData;
-  Map<String, dynamic> submitData = {};
+  Map<String, dynamic> dataToSubmit = {};
+
+
+  void updateRequiredAttributeForDataToSubmit(){
+    dataToSubmit['account_balance'] = _amountController.text;
+    dataToSubmit['name'] = _nameController.text;
+    dataToSubmit['description'] = _noteController.text;
+    dataToSubmit['money_account_type_id']  = pickedWalletType.id;
+    dataToSubmit['save_to_report'] = isIncludeFromReport;
+    if(removeDiacritics(pickedWalletType.name) == 'Vi tin dung'){
+      dataToSubmit['credit_limit'] = _creditLimitationController.text;
+    }
+  }
+  void validateDataToSubmit (){
+    if(_amountController.text.isEmpty && _nameController.text.isEmpty){
+      Utils.flushBarErrorMessage('Initial money or name of wallet cannot be empty', context);
+      return;
+    }
+    if(removeDiacritics(pickedWalletType.name) == 'Vi tin dung'  || removeDiacritics(pickedWalletType.name) == 'Tai khoan ngan hang'){
+      if(dataToSubmit['bank_type'].toString().isEmpty){
+        Utils.flushBarErrorMessage('Bank is required', context);
+        return;
+      }
+    }
+    if(removeDiacritics(pickedWalletType.name) == 'Vi tin dung'){
+      if(_creditLimitationController.text.isEmpty){
+        Utils.flushBarErrorMessage('Credit limitation is required', context);
+        return;
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState(); // Call super first
     final walletViewModel = Provider.of<WalletViewModel>(context, listen: false);
-
     if (walletViewModel.iconWalletTypeData.data != null) {
       WalletTypeIconModel defaultWalletType = walletViewModel.iconWalletTypeData.data[0];
       pickedWalletType = PickedIconModel(
@@ -51,14 +80,6 @@ class _AddWalletsState extends State<AddWallets> {
     }else {
       pickedWalletType = PickedIconModel(icon: '', name: '', id: '');
     }
-    initialSubmitData = {
-      'account_balance' : '',
-      'name' : '',
-      'description' : '',
-      'money_account_type_id' : '',
-      'save_to_report' : true,
-    };
-    submitData = initialSubmitData;
   }
 
   @override
@@ -80,18 +101,11 @@ class _AddWalletsState extends State<AddWallets> {
         leading: CustomBackNavbar(),
       ),
       floatingActionButton: MyFloatActionButton(callback: ()async{
+        updateRequiredAttributeForDataToSubmit();
+        validateDataToSubmit();
+        print(dataToSubmit);
 
-        submitData['account_balance'] = _amountController.text;
-        submitData['name'] = _nameController.text;
-        submitData['description'] = _noteController.text;
-        submitData['money_account_type_id']  = pickedWalletType.id;
-        submitData['save_to_report'] = isIncludeFromReport;
-        if(removeDiacritics(pickedWalletType.name) == 'Vi tin dung'){
-          submitData['credit_limit'] = _creditLimitationController.text;
-        }
-        print(submitData);
-
-        // await _walletViewModel.createWallet(initialSubmitData, context);
+        // await _walletViewModel.createWallet(dataToSubmit, context);
 
       }),
       body: SingleChildScrollView(
@@ -126,7 +140,7 @@ class _AddWalletsState extends State<AddWallets> {
                 prefixIconPadding: const EdgeInsets.only(right: 12, left: 10),
                 onChange: (e){
                   setState(() {
-                    submitData['credit_limit'] = e;
+                    dataToSubmit['credit_limit'] = e;
                   });
                 },
               ),
@@ -160,24 +174,17 @@ class _AddWalletsState extends State<AddWallets> {
                 if(result != null){
                   setState(() {
                     pickedWalletType = result as PickedIconModel;
+                    //reset submitData
+                    dataToSubmit.clear();
                     if(removeDiacritics(pickedWalletType.name) == 'Tai khoan ngan hang'){
-                      //reset submitData
-                      submitData.clear();
-                      submitData = initialSubmitData;
                       final Map<String, dynamic> bankType = {'bank_type' : pickedBank.id.isNotEmpty ? double.parse(pickedBank.id) : ''};
-                      submitData.addAll(bankType);
+                      dataToSubmit.addAll(bankType);
                     }else if(removeDiacritics(pickedWalletType.name) == 'Vi tin dung'){
-                      submitData.clear();
-                      submitData = initialSubmitData;
                       final Map<String, dynamic> bankTypeAndCreditLimit = {
                         'bank_type' : pickedBank.id.isNotEmpty ? double.parse(pickedBank.id) : '',
                         'credit_limit' : ''
                       };
-                      submitData.addAll(bankTypeAndCreditLimit);
-                    }else {
-                      // Invest wallet & another wallet
-                      submitData.clear();
-                      submitData = initialSubmitData;
+                      dataToSubmit.addAll(bankTypeAndCreditLimit);
                     }
                   });
                 }
@@ -203,7 +210,7 @@ class _AddWalletsState extends State<AddWallets> {
                   if(result != null){
                     setState(() {
                       pickedBank = result as PickedIconModel;
-                      submitData['bank_type'] = double.parse(pickedBank.id);
+                      dataToSubmit['bank_type'] = double.parse(pickedBank.id);
                     });
                   }
                 },
