@@ -3,6 +3,7 @@ import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/utils/date_time.dart';
+import 'package:fe_financial_manager/utils/get_initial_wallet.dart';
 import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/view/adding_workspace/widgets/date_option_bottom_sheets.dart';
 import 'package:fe_financial_manager/view/adding_workspace/widgets/expanded_area.dart';
@@ -12,8 +13,11 @@ import 'package:fe_financial_manager/view/common_widget/my_float_action_button.d
 import 'package:fe_financial_manager/view/common_widget/my_list_title.dart';
 import 'package:fe_financial_manager/view/common_widget/prefix_icon_amount_textfield.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
+import 'package:fe_financial_manager/view_model/app_view_model.dart';
+import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class AddingWorkspace extends StatefulWidget {
   const AddingWorkspace({super.key});
@@ -29,6 +33,7 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
   String note = '';
   // Pick category
   PickedIconModel pickedCategory = PickedIconModel(icon: '', name: '', id: '') ;
+  PickedIconModel pickedWallet = PickedIconModel(icon: '', name: '', id: '') ;
 
   String getCurrentDate(){
     // return 'Monday, 2022-02-02';
@@ -38,12 +43,39 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
   Future <void> saveTransaction() async {
     print(
         {
-          'note' : note,
-          'amount' : _amountController.text,
-          'category' : pickedCategory.id,
-          'date' : getCurrentDayMonthYear()
+          'amount_of_money' : _amountController.text,
+          'transaction_type_category_id' : pickedCategory.id,
+          'occur_date' : getCurrentDayMonthYear(),
+          'money_account_id' : pickedWallet.id,
+          'description' : note,
         }
     );
+  }
+
+  @override
+  void initState() {
+    final WalletViewModel walletViewModel = Provider.of<WalletViewModel>(context, listen: false);
+    final List<dynamic> listWalletData = walletViewModel.allWalletData.data ?? [];
+
+    final AppViewModel appViewModel = Provider.of<AppViewModel>(context, listen: false);
+    final List<dynamic> listCategoriesData = appViewModel.iconCategoriesData.data ?? [];
+
+
+    //
+    // // Get initial wallet
+    // getInitialData((data){
+    //   setState(() {
+    //     pickedWallet = data;
+    //   });
+    // }, listWalletData, context);
+    //
+    // // Get initial transaction categories
+    // getInitialData((data){
+    //   setState(() {
+    //     pickedCategory = data;
+    //   });
+    // }, listCategoriesData, context);
+    super.initState();
   }
 
   @override

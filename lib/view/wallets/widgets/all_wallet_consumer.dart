@@ -20,7 +20,7 @@ class AllWalletConsumer extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           case Status.COMPLETED:
             List<WalletModel> listData = value.allWalletData.data;
-            return Column(
+            return listData.isEmpty ? Text('Empty'): Column(
               children: listData.asMap().entries.map((e){
                 int index = e.key;
                 WalletModel val = e.value;

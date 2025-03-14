@@ -3,6 +3,7 @@ import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/model/wallet_type_icon_model.dart';
+import 'package:fe_financial_manager/utils/get_initial_wallet.dart';
 import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/utils/utils.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
@@ -30,12 +31,12 @@ class _AddWalletsState extends State<AddWallets> {
   final TextEditingController _creditLimitationController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
+  final WalletViewModel _walletViewModel = WalletViewModel();
   bool isIncludeFromReport = true;
   late PickedIconModel pickedWalletType;
 
   PickedIconModel pickedBank = PickedIconModel(icon: '', name: '', id: '');
   Map<String, dynamic> dataToSubmit = {};
-
 
   void updateRequiredAttributeForDataToSubmit(){
     dataToSubmit['account_balance'] = _amountController.text;
@@ -69,17 +70,14 @@ class _AddWalletsState extends State<AddWallets> {
   @override
   void initState() {
     super.initState(); // Call super first
-    final walletViewModel = Provider.of<WalletViewModel>(context, listen: false);
-    if (walletViewModel.iconWalletTypeData.data != null) {
-      WalletTypeIconModel defaultWalletType = walletViewModel.iconWalletTypeData.data[0];
-      pickedWalletType = PickedIconModel(
-        icon: defaultWalletType.icon,
-        name: defaultWalletType.name,
-        id: defaultWalletType.id,
-      );
-    }else {
-      pickedWalletType = PickedIconModel(icon: '', name: '', id: '');
-    }
+    final WalletViewModel walletViewModel = Provider.of<WalletViewModel>(context, listen: false);
+    List<dynamic> listData = walletViewModel.iconWalletTypeData.data ?? [];
+    getInitialData((data){
+      setState(() {
+        pickedWalletType = data;
+      });
+    },listData, context);
+
   }
 
   @override
@@ -87,6 +85,7 @@ class _AddWalletsState extends State<AddWallets> {
     _amountController.dispose();
     _nameController.dispose();
     _creditLimitationController.dispose();
+    _noteController.dispose();
     super.dispose();
   }
 
@@ -105,7 +104,7 @@ class _AddWalletsState extends State<AddWallets> {
         validateDataToSubmit();
         print(dataToSubmit);
 
-        // await _walletViewModel.createWallet(dataToSubmit, context);
+        await _walletViewModel.createWallet(dataToSubmit, context);
 
       }),
       body: SingleChildScrollView(

@@ -15,7 +15,7 @@ class ExpandedArea extends StatefulWidget {
 class _ExpandedAreaState extends State<ExpandedArea> {
 
   bool isExpanded = false;
-  bool isExcludedReport = false;
+  bool isIncludeInReport = true;
 
   @override
   Widget build(BuildContext context) {
@@ -62,18 +62,18 @@ class _ExpandedAreaState extends State<ExpandedArea> {
                   color: Theme.of(context).colorScheme.primary,
                 ),
                 child: SwitchRow(
-                  flag: isExcludedReport,
+                  flag: isIncludeInReport,
                   callback: (value) {
                     setState(() {
-                      isExcludedReport = value;
+                      isIncludeInReport = value;
                     });
                   },
-                  text: 'Exclude from report',
+                  text: 'Include from report',
                 )
               ),
               const SizedBox(height: 5),
               Text(
-                "Don't include this transaction in reports such as Overview",
+                "Include this transaction in reports such as Overview",
                 style: Theme.of(context).textTheme.labelSmall,
               )
             ],

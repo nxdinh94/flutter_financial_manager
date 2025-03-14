@@ -1,6 +1,6 @@
 import 'package:fe_financial_manager/data/network/BaseApiServices.dart';
 import 'package:fe_financial_manager/data/network/NetworkApiService.dart';
-import 'package:fe_financial_manager/res/app_url.dart';
+import 'package:fe_financial_manager/constants/app_url.dart';
 
 class WalletRepository{
   final BaseApiServices _apiServices  = NetworkApiService();

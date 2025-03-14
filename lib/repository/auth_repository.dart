@@ -8,7 +8,7 @@ import 'package:http/http.dart';
 import '../data/network/BaseApiServices.dart';
 import '../data/network/NetworkApiService.dart';
 import '../model/token.dart';
-import '../res/app_url.dart';
+import '../constants/app_url.dart';
 
 class AuthRepository {
   BaseApiServices _apiServices = NetworkApiService();

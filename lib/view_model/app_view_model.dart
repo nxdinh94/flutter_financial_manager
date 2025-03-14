@@ -13,7 +13,6 @@ class AppViewModel extends ChangeNotifier{
   ApiResponse _iconCategoriesData = ApiResponse.loading();
   ApiResponse get iconCategoriesData => _iconCategoriesData;
 
-
   bool _loading = false;
   bool get loading => _loading;
 
@@ -39,8 +38,4 @@ class AppViewModel extends ChangeNotifier{
       }
     });
   }
-
-
-
-
 }
