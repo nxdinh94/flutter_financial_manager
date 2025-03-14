@@ -1,3 +1,5 @@
+import 'package:fe_financial_manager/model/icon_model.dart';
+
 class AccountTypeIconListModel {
   List<AccountTypeIconModel>? accountTypeIconList;
 
@@ -15,18 +17,14 @@ class AccountTypeIconListModel {
 
 
 
-class AccountTypeIconModel {
-  final String id;
-  final String name;
-  final String icon;
-
-  AccountTypeIconModel({required this.name, required this.icon, required this.id});
+class AccountTypeIconModel  extends IconModel{
+  AccountTypeIconModel({required super.name, required super.icon, required super.id});
 
   factory AccountTypeIconModel.fromJson(Map<String, dynamic> json) {
     return AccountTypeIconModel(
-      id: json['id'],
-      name: json['name'],
-      icon: json['icon'],
+      id: json['id'] ?? "",
+      name: json['name'] ?? "",
+      icon: json['icon'] ?? "",
     );
   }
   Map<String, dynamic> toJson() {

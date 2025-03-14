@@ -1,4 +1,6 @@
 
+import 'package:fe_financial_manager/model/icon_model.dart';
+
 class CategoriesIconListModel {
   List<CategoriesIconModel>? categoriesIconExpenseList;
   List<CategoriesIconModel>? categoriesIconIncomeList;
@@ -39,30 +41,27 @@ class CategoriesIconListModel {
   }
 }
 
-class CategoriesIconModel {
-  final String id;
-  final String name;
+class CategoriesIconModel extends IconModel {
   final String transactionTypeId;
-  final String icon;
   final String ? parentId;
   final List<CategoriesIconModel> children;
 
   CategoriesIconModel({
-    required this.id,
-    required this.name,
+    required super.id,
+    required super.name,
+    required super.icon,
     required this.transactionTypeId,
-    required this.icon,
     this.parentId,
     required this.children,
   });
 
   factory CategoriesIconModel.fromJson(Map<String, dynamic> json) {
     return CategoriesIconModel(
-      id: json['id'] as String? ?? "",
-      name: json['name'] as String? ?? "",
-      transactionTypeId: json['transaction_type_id'] as String? ?? "",
-      icon: json['icon'] as String? ?? "",
-      parentId: json['parent_id'] as String?,
+      id: json['id'] ?? "",
+      name: json['name']  ?? "",
+      icon: json['icon']  ?? "",
+      transactionTypeId: json['transaction_type_id'] ??  "",
+      parentId: json['parent_id'] ?? "",
       children: (json['children'] as List<dynamic>?)
           ?.map((e) => CategoriesIconModel.fromJson(e as Map<String, dynamic>))
           .toList() ?? [],
@@ -70,6 +69,7 @@ class CategoriesIconModel {
   }
 
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'id': id,

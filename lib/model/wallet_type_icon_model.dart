@@ -1,9 +1,8 @@
-class WalletTypeIconModel {
-  final String id;
-  final String icon;
-  final String name;
+import 'package:fe_financial_manager/model/icon_model.dart';
 
-  WalletTypeIconModel({required this.id, required this.icon, required this.name});
+class WalletTypeIconModel extends IconModel {
+
+  WalletTypeIconModel({required super.id, required super.icon, required super.name});
 
   factory WalletTypeIconModel.fromJson(Map<String, dynamic> json) {
     return WalletTypeIconModel(
@@ -13,6 +12,7 @@ class WalletTypeIconModel {
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'id': id,
