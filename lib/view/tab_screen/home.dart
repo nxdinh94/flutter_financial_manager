@@ -4,6 +4,8 @@ import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:fe_financial_manager/view/common_widget/money_vnd.dart';
+import 'package:fe_financial_manager/view/home_tab/widgets/my_column_chart.dart';
+import 'package:fe_financial_manager/view/home_tab/widgets/my_pie_chart.dart';
 import 'package:fe_financial_manager/view/home_tab/widgets/wallets_banner.dart';
 import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
@@ -65,7 +67,65 @@ class _HomeState extends State<Home> {
                 ],
               ),
               const SizedBox(height: 12,),
-              WalletBanner()
+              WalletBanner(),
+
+              //Row chart
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: (){
+
+                },
+                child: Container(
+                  color: primaryColor,
+                  child: Column(
+                    children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                flex: 4,
+                                child:  MyColumnChart(
+                                  data:  [
+                                    CollumChartModel(2010, 35, secondaryColor),
+                                    CollumChartModel(2011, 38, Colors.red),
+                                  ]
+                                ),
+                              ),
+                              Expanded(
+                                flex: 5,
+                                child: Text('data')
+                              ),
+                            ],
+                          ),
+
+                      Visibility(
+                        visible: true,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 22),
+                          child: MyPieChart(dataMap : <String, double>{
+                            "Flutter": 5,
+                            "React": 3,
+                            "Xamarin": 2,
+                            "Ionic": 2,
+                          }),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap:(){
+
+                    },
+                    child: Text('Note history')
+                  )
+                ],
+              ),
             ],
           ),
         ),
