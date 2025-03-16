@@ -4,7 +4,7 @@ import 'package:fe_financial_manager/model/icon_model.dart';
 class CategoriesIconListModel {
   List<CategoriesIconModel>? categoriesIconExpenseList;
   List<CategoriesIconModel>? categoriesIconIncomeList;
-  Map<String, dynamic>? categoriesIconListMap;
+    Map<String, dynamic>? categoriesIconListMap;
 
   CategoriesIconListModel({
     this.categoriesIconExpenseList,

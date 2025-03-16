@@ -1,6 +1,9 @@
+import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
+import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/data/response/status.dart';
 import 'package:fe_financial_manager/model/wallet_model.dart';
+import 'package:fe_financial_manager/view/common_widget/check_picked_list_title.dart';
 import 'package:fe_financial_manager/view/common_widget/money_vnd.dart';
 import 'package:fe_financial_manager/view/common_widget/my_list_title.dart';
 import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
@@ -25,26 +28,9 @@ class AllWalletConsumer extends StatelessWidget {
                 int index = e.key;
                 WalletModel val = e.value;
                 double balance = double.parse(val.accountBalance);
-                if(index == listData.length -1 ){
-                  return MyListTitle(
-                    callback: (){},
-                    title: val.name,
-                    titleTextStyle: Theme.of(context).textTheme.titleLarge!,
-                    leading: Image.asset(val.icon, width: 33,),
-                    subTitle: MoneyVnd(fontSize: normal, amount: balance, iconWidth: 12),
-                    hideTrailing: false,
-                    hideTopBorder: false,
-                    hideBottomBorder: false,
-                  );
-                }
-                return MyListTitle(
-                  callback: (){},
-                  title: val.name,
-                  titleTextStyle: Theme.of(context).textTheme.titleLarge!,
-                  leading: Image.asset(val.icon, width: 33,),
-                  subTitle: MoneyVnd(fontSize: normal, amount: balance, iconWidth: 12),
-                  hideTrailing: false,
-                  hideTopBorder: false,
+                return CheckPickedListTile(
+                  subtitle: MoneyVnd(fontSize: normal, amount: balance, iconWidth: 12, iconColor: iconColor),
+                  iconData: e.value,
                 );
               }).toList()
             );

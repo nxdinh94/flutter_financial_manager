@@ -1,11 +1,9 @@
+import 'package:fe_financial_manager/constants/colors.dart';
+import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:flutter/material.dart';
 
-import '../../../constants/colors.dart';
-import '../../../constants/font_size.dart';
-
-
 class TextContainer extends StatelessWidget {
-  TextContainer({
+  const TextContainer({
     super.key,
     required this.callback,
     required this.title,
@@ -13,24 +11,33 @@ class TextContainer extends StatelessWidget {
     this.isFontWeightBold = false,
     this.textColor = iosTextBlue,
   });
-  final VoidCallback callback;
+
+  final Future<void> Function()? callback; // Sửa lại kiểu dữ liệu callback
   final String title;
-  BoxDecoration boxDecoration;
-  bool isFontWeightBold;
-  Color textColor;
+  final BoxDecoration boxDecoration;
+  final bool isFontWeightBold;
+  final Color textColor;
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: callback,
+      onTap: () async {
+        if (callback != null) {
+          await callback!(); // Gọi callback thay vì chỉ await
+        }
+      },
       child: Container(
         height: 50,
         alignment: Alignment.center,
         decoration: boxDecoration,
-        child: Text(title, style: TextStyle(
+        child: Text(
+          title,
+          style: TextStyle(
             fontSize: big,
             color: textColor,
-            fontWeight: isFontWeightBold ? FontWeight.w700 : FontWeight.w400
-        )),
+            fontWeight: isFontWeightBold ? FontWeight.w700 : FontWeight.w400,
+          ),
+        ),
       ),
     );
   }

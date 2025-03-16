@@ -7,6 +7,7 @@ import 'package:fe_financial_manager/view/common_widget/money_vnd.dart';
 import 'package:fe_financial_manager/view/home_tab/widgets/my_column_chart.dart';
 import 'package:fe_financial_manager/view/home_tab/widgets/my_pie_chart.dart';
 import 'package:fe_financial_manager/view/home_tab/widgets/wallets_banner.dart';
+import 'package:fe_financial_manager/view_model/app_view_model.dart';
 import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +25,7 @@ class _HomeState extends State<Home> {
       Provider.of<WalletViewModel>(context, listen: false).getIconsWalletType();
       Provider.of<WalletViewModel>(context, listen: false).getAllWallet();
       Provider.of<WalletViewModel>(context, listen: false).getExternalBank();
+      Provider.of<AppViewModel>(context, listen: false).getIconCategoriesApi();
     });
     super.initState();
   }

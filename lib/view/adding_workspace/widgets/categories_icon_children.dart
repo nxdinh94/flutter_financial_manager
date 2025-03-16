@@ -22,7 +22,13 @@ class CategoriesIconChildren extends StatelessWidget {
       child: Row(
         children: [
           SizedBox(width: 12, child: MyDivider()),
-          Expanded(child: CheckPickedListTile<CategoriesIconModel>(iconData: categoryChildren)),
+          Expanded(
+            child: CheckPickedListTile<CategoriesIconModel>(
+              iconData: categoryChildren,
+              contentLeftPadding: 0,
+              isShowBorderBottom: false,
+            )
+          ),
         ],
       ),
     );

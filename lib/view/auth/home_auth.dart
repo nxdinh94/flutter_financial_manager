@@ -1,6 +1,3 @@
-
-import 'dart:ffi';
-
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/utils/routes/routes_name.dart';

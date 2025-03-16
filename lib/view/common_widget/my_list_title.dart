@@ -12,7 +12,7 @@ class MyListTitle extends StatefulWidget {
     required this.callback,
     this.titleTextStyle = const TextStyle(
       color: colorTextBlack,
-      fontSize: normal,
+      fontSize: big,
       fontWeight: FontWeight.w500
     ),
     this.verticalContentPadding = 0,

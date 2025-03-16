@@ -28,3 +28,9 @@ String getCurrentDayMonthYear(){
   String formattedDate = formatter.format(now);
   return formattedDate;
 }
+String getYesterdayOfCurrentDayMonthYear(){
+  var now = DateTime.now().subtract(const Duration(days: 1));
+  var formatter = DateFormat('yyyy-MM-dd');
+  String formattedDate = formatter.format(now);
+  return formattedDate;
+}

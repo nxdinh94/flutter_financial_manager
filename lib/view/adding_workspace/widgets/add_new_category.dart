@@ -22,7 +22,7 @@ class AddNewCategory extends StatelessWidget {
             child: AddingCircle(),
           ),
           TextContainer(
-            callback: () {
+            callback: () async{
               context.push(RoutesName.addNewCategoryPath);
             },
             title: 'New category',

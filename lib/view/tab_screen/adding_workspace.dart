@@ -19,25 +19,28 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../model/transaction_categories_icon_model.dart';
+
 class AddingWorkspace extends StatefulWidget {
   const AddingWorkspace({super.key});
 
   @override
   State<AddingWorkspace> createState() => _AddingWorkspaceState();
 }
-
 class _AddingWorkspaceState extends State<AddingWorkspace> {
   final TextEditingController _amountController = TextEditingController();
-
+  String chosenDateOccurTransaction = '';
+  String nameOfTheDay = '';
   // Note
   String note = '';
   // Pick category
   PickedIconModel pickedCategory = PickedIconModel(icon: '', name: '', id: '') ;
   PickedIconModel pickedWallet = PickedIconModel(icon: '', name: '', id: '') ;
 
-  String getCurrentDate(){
+  void getDate(){
     // return 'Monday, 2022-02-02';
-    return '${getNameOfDay(getCurrentDayMonthYear())}, ${getCurrentDayMonthYear()}';
+    chosenDateOccurTransaction = getCurrentDayMonthYear();
+    nameOfTheDay= getNameOfDay(getCurrentDayMonthYear());
   }
   // Save transaction
   Future <void> saveTransaction() async {
@@ -45,7 +48,7 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
         {
           'amount_of_money' : _amountController.text,
           'transaction_type_category_id' : pickedCategory.id,
-          'occur_date' : getCurrentDayMonthYear(),
+          'occur_date' : chosenDateOccurTransaction,
           'money_account_id' : pickedWallet.id,
           'description' : note,
         }
@@ -54,27 +57,28 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
 
   @override
   void initState() {
+
     final WalletViewModel walletViewModel = Provider.of<WalletViewModel>(context, listen: false);
     final List<dynamic> listWalletData = walletViewModel.allWalletData.data ?? [];
 
     final AppViewModel appViewModel = Provider.of<AppViewModel>(context, listen: false);
-    final List<dynamic> listCategoriesData = appViewModel.iconCategoriesData.data ?? [];
+    final List<dynamic> listCategoriesData = appViewModel.iconCategoriesData.data?.categoriesIconListMap['expense'] ?? [];
 
+    // Get initial wallet
+    getInitialData((data){
+      setState(() {
+        pickedWallet = data;
+      });
+    }, listWalletData, context);
 
-    //
-    // // Get initial wallet
-    // getInitialData((data){
-    //   setState(() {
-    //     pickedWallet = data;
-    //   });
-    // }, listWalletData, context);
-    //
-    // // Get initial transaction categories
-    // getInitialData((data){
-    //   setState(() {
-    //     pickedCategory = data;
-    //   });
-    // }, listCategoriesData, context);
+    // Get initial transaction categories
+    getInitialData((data){
+      setState(() {
+        pickedCategory = data;
+      });
+    }, listCategoriesData, context);
+
+    getDate();
     super.initState();
   }
 
@@ -98,11 +102,16 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
             const SizedBox(height: 20,),
             //Pick wallets
             MyListTitle(
-              title: 'Tiền mặt',
-              callback: () {
-                context.push('${RoutesName.addingWorkSpacePath}/${RoutesName.selectWalletPath}');
+              callback: () async{
+                dynamic result = await context.push('${RoutesName.addingWorkSpacePath}/${RoutesName.selectWalletPath}');
+                if(result != null){
+                  pickedWallet = result;
+                }
               },
-              leading: Image.asset('assets/account_type/bank.png', width: defaultLeadingPngListTileSize),
+              title: pickedWallet.name.isEmpty ? 'Tiền mặt' : pickedWallet.name,
+              leading: pickedWallet.icon.isEmpty ?
+                Image.asset('assets/another_icon/wallet-2.png', width: defaultLeadingPngListTileSize) :
+                Image.asset(pickedWallet.icon, width: defaultLeadingPngListTileSize),
             ),
             MyDivider(indent: dividerIndent),
             //Pick amount
@@ -117,8 +126,7 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
             MyDivider(indent: dividerIndent),
             //Pick category
             MyListTitle(
-              title: pickedCategory.name.isNotEmpty ?
-                pickedCategory.name:  'Select category' ,
+              title: pickedCategory.name.isNotEmpty ? pickedCategory.name:  'Select category' ,
               titleTextStyle: const TextStyle(
                 fontSize: extraBigger,
                 color: colorTextLabel,
@@ -166,9 +174,14 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
             //Pick date
             MyListTitle(
               callback: () {
-                showDateOptionBottomSheet(context);
+                showDateOptionBottomSheet(context, (value){
+                  setState(() {
+                    chosenDateOccurTransaction = value;
+                    nameOfTheDay= getNameOfDay(chosenDateOccurTransaction);
+                  });
+                });
               },
-              title: getCurrentDate(),
+              title: '$nameOfTheDay, $chosenDateOccurTransaction',
               leading: SvgContainer(
                 iconWidth: 28,
                 iconPath: 'assets/svg/calendar.svg'

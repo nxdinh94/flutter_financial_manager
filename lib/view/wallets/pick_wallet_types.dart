@@ -1,4 +1,3 @@
-import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/data/response/status.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/model/wallet_type_icon_model.dart';
@@ -41,16 +40,9 @@ class _PickWalletTypesState extends State<PickWalletTypes> {
                     final PickedIconModel pickedIconModel = PickedIconModel(
                       id: e.id,icon: e.icon, name: e.name
                     );
-                    return Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                        decoration: BoxDecoration(
-                        border: const Border(bottom: BorderSide(color: dividerColor, width: 0.5)),
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      child: CheckPickedListTile<PickedIconModel>(
-                        iconData: pickedIconModel,
-                        pickedIconId: widget.pickedWalletTypeId,
-                      ),
+                    return CheckPickedListTile<PickedIconModel>(
+                      iconData: pickedIconModel,
+                      pickedIconId: widget.pickedWalletTypeId,
                     );
                   }).toList()
                 );

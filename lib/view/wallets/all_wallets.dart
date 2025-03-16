@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/data/response/api_response.dart';
 import 'package:fe_financial_manager/data/response/status.dart';

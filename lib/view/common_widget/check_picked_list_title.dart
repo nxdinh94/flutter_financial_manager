@@ -1,4 +1,5 @@
 import 'package:fe_financial_manager/constants/colors.dart';
+import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/model/transaction_categories_icon_model.dart';
@@ -10,11 +11,17 @@ class CheckPickedListTile<T> extends StatefulWidget {
   CheckPickedListTile({
     super.key,
     required this.iconData,
-    this.pickedIconId = ''
+    this.pickedIconId = '',
+    this.subtitle,
+    this.contentLeftPadding = 12,
+    this.isShowBorderBottom = true,
   });
 
   final T iconData;
   String pickedIconId;
+  Widget ? subtitle;
+  double contentLeftPadding;
+  bool isShowBorderBottom;
 
   @override
   State<CheckPickedListTile> createState() => _CheckPickedListTileState();
@@ -24,25 +31,34 @@ class _CheckPickedListTileState extends State<CheckPickedListTile> {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(widget.iconData.name),
-      leading: Image.asset(widget.iconData.icon, width: 36),
-      visualDensity: const VisualDensity(horizontal: -4),
-      contentPadding: const EdgeInsets.only(right: 28),
-      onTap: () {
-        PickedIconModel pickedIcon = PickedIconModel(
-          id: widget.iconData.id,
-          icon: widget.iconData.icon,
-          name: widget.iconData.name,
-        );
-        context.pop(pickedIcon);
-      },
-      trailing: widget.pickedIconId == widget.iconData.id ? SvgContainer(
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primary,
+        border: widget.isShowBorderBottom ?
+          const Border(bottom: BorderSide(color: dividerColor, width: 0.5)):
+          const Border(),
+      ),
+      child: ListTile(
+        title: Text(widget.iconData.name, style: Theme.of(context).textTheme.titleLarge),
+        leading: Image.asset(widget.iconData.icon, width: 36),
+        visualDensity: const VisualDensity(horizontal: -4),
+        contentPadding: EdgeInsets.only(right: 28, left: widget.contentLeftPadding),
+        subtitle: widget.subtitle ,
+        onTap: () {
+          PickedIconModel pickedIcon = PickedIconModel(
+            id: widget.iconData.id,
+            icon: widget.iconData.icon,
+            name: widget.iconData.name,
+          );
+          context.pop(pickedIcon);
+        },
+        trailing: widget.pickedIconId == widget.iconData.id ? SvgContainer(
           iconWidth: 121,
           iconPath: 'assets/svg/check-circle-fill.svg',
           myIconColor: secondaryColor,
-      ):
-      const SizedBox.shrink(),
+        ):
+        const SizedBox.shrink(),
+      ),
     );
   }
 }

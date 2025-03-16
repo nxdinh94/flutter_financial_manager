@@ -71,8 +71,8 @@ class _AddWalletsState extends State<AddWallets> {
   void initState() {
     super.initState(); // Call super first
     final WalletViewModel walletViewModel = Provider.of<WalletViewModel>(context, listen: false);
-    List<dynamic> listData = walletViewModel.iconWalletTypeData.data ?? [];
-    getInitialData((data){
+    List<WalletTypeIconModel> listData = walletViewModel.iconWalletTypeData.data ?? [];
+    getInitialData<WalletTypeIconModel>((data){
       setState(() {
         pickedWalletType = data;
       });

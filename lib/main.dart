@@ -9,6 +9,7 @@ import 'package:fe_financial_manager/view_model/auth_view_model.dart';
 import 'package:fe_financial_manager/view_model/home_view_model.dart';
 import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,7 +36,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_)=>AuthViewModel()),
         ChangeNotifierProvider(create: (_) => ThemeManager()),
         ChangeNotifierProvider(create: (_)=> HomeViewViewModel()),
-        ChangeNotifierProvider(create: (_)=> AppViewModel()..getIconCategoriesApi()),
+        ChangeNotifierProvider(create: (_)=> AppViewModel()),
         ChangeNotifierProvider(create: (_)=> WalletViewModel()),
       ],
     child: const MyApp(),
@@ -79,6 +80,14 @@ class _MyAppState extends State<MyApp> {
       darkTheme: darkTheme,
       theme: lightTheme,
       routerConfig: CustomNavigationHelper.router,
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale('en', ''),
+        Locale('vi', ''),
+      ],
       builder: (context, router) {
         return SafeArea(
           child: Scaffold(
