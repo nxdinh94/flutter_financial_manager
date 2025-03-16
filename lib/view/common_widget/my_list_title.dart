@@ -45,9 +45,9 @@ class _MyListTitleState extends State<MyListTitle> {
         color: Theme.of(context).colorScheme.primary,
         border: Border(
           top: widget.hideTopBorder ? const BorderSide(color: Colors.transparent):
-            const BorderSide(color: dividerColor, width: 1),
+            const BorderSide(color: dividerColor, width: 0.5),
           bottom: widget.hideBottomBorder ? const BorderSide(color: Colors.transparent):
-            const BorderSide(color: dividerColor, width: 1),
+            const BorderSide(color: dividerColor, width: 0.5),
         )
       ),
       child: ListTile(

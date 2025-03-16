@@ -1,7 +1,7 @@
-import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/view/account_tab/widgets/account_banner.dart';
-import 'package:fe_financial_manager/view/account_tab/widgets/list_tile.dart';
+import 'package:fe_financial_manager/view/common_widget/my_list_title.dart';
+import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -45,17 +45,45 @@ class _AccountState extends State<Account> {
               SizedBox(height: 30,),
               AccountBanner(),
               Divider(height: 0,),
-              Container(
-                color: Theme.of(context).colorScheme.primary,
-                child: MyListTile(
-                  callback: (){
-                    context.push('${RoutesName.accountPath}/${RoutesName.accountSettingsPath}');
-                  },
-                  isSubTitle: true,
-                  leadingIcon: Icons.person,
-                  subTitle: 'Free account',
-                  title: 'My account',
-                )
+              MyListTitle(
+                title: 'My account',
+                callback: (){
+                  context.push('${RoutesName.accountPath}/${RoutesName.accountSettingsPath}');
+                },
+                leading: SvgContainer(
+                  iconWidth: 28,
+                  iconPath: 'assets/svg/person.svg',
+                ),
+                subTitle: const Text('Free account'),
+                leftContentPadding: 12,
+                hideBottomBorder: false,
+              ),
+              SizedBox(height: 30,),
+              MyListTitle(
+                title: 'Categories',
+                callback: (){
+                  context.push('${RoutesName.accountPath}/${RoutesName.allCategoryPath}');
+                },
+                leading: SvgContainer(
+                  iconWidth: 30,
+                  iconPath: 'assets/svg/category.svg'
+                ),
+                leftContentPadding: 12,
+                hideTopBorder: false,
+                hideBottomBorder: false,
+
+              ),
+              MyListTitle(
+                title: 'Events',
+                callback: (){
+                  context.push('${RoutesName.accountPath}/${RoutesName.eventPath}');
+                },
+                leading: SvgContainer(
+                  iconWidth: 30,
+                  iconPath: 'assets/svg/wallet.svg'
+                ),
+                leftContentPadding: 12,
+                hideBottomBorder: false,
               )
             ],
           ),

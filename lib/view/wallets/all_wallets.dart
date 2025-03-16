@@ -75,6 +75,7 @@ class _AllWalletsState extends State<AllWallets> {
               hideTrailing: false,
               hideTopBorder: false,
               hideBottomBorder: false,
+
             ),
           ],
         ),

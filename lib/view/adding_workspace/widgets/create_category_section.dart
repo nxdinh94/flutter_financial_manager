@@ -5,11 +5,12 @@ import 'package:fe_financial_manager/view/common_widget/adding_circle.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import '../../../constants/padding.dart';
 
-class AddNewCategory extends StatelessWidget {
-  const AddNewCategory({super.key});
+class CreateCategorySection extends StatelessWidget {
+  const CreateCategorySection({super.key});
 
   @override
   Widget build(BuildContext context) {

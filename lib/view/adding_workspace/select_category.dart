@@ -1,6 +1,6 @@
 import 'package:fe_financial_manager/data/response/status.dart';
 import 'package:fe_financial_manager/model/transaction_categories_icon_model.dart';
-import 'package:fe_financial_manager/view/adding_workspace/widgets/add_new_category.dart';
+import 'package:fe_financial_manager/view/adding_workspace/widgets/create_category_section.dart';
 import 'package:fe_financial_manager/view/adding_workspace/widgets/categories_icon_parent.dart';
 import 'package:fe_financial_manager/view/adding_workspace/widgets/tab_bar_elements.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
@@ -98,7 +98,7 @@ class _SelectCategoryState extends State<SelectCategory> with TickerProviderStat
                           child: Column(
                             children: [
                               const SizedBox(height: 10),
-                              const AddNewCategory(),
+                              const CreateCategorySection(),
                               const SizedBox(height: 10),
                               ...expenseIconsList.map<Widget>((e) {
                                 CategoriesIconModel categoriesIconParent = e as CategoriesIconModel; // Proper casting
@@ -111,7 +111,7 @@ class _SelectCategoryState extends State<SelectCategory> with TickerProviderStat
                           child: Column(
                             children: [
                               const SizedBox(height: 10),
-                              const AddNewCategory(),
+                              const CreateCategorySection(),
                               const SizedBox(height: 10),
                               ...incomeIconsList.map<Widget>((e) {
                                 CategoriesIconModel categoriesIconParent = e as CategoriesIconModel; // Proper casting

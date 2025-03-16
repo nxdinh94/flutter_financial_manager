@@ -33,4 +33,11 @@ class RoutesName {
   static const String pickWalletTypePath = 'pickWalletType';
   static const String pickExternalBankPath = 'pickExternalBank';
 
+
+  //Acount tab
+  static const String allCategoryPath = 'pickCategory';
+  static const String eventPath = 'event';
+  static const String createEventPath = 'createEvent';
+
+
 }

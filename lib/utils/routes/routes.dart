@@ -1,6 +1,7 @@
 import 'package:fe_financial_manager/utils/routes/my_bottom_navigation_bar.dart';
 import 'package:fe_financial_manager/view/account_tab/account_setting.dart';
-import 'package:fe_financial_manager/view/add_new_category/add_new_category.dart';
+import 'package:fe_financial_manager/view/account_tab/events_of_transactions/create_events.dart';
+import 'package:fe_financial_manager/view/account_tab/events_of_transactions/events.dart';
 import 'package:fe_financial_manager/view/adding_workspace/add_note.dart';
 import 'package:fe_financial_manager/view/adding_workspace/select_category.dart';
 import 'package:fe_financial_manager/view/adding_workspace/select_wallets.dart';
@@ -8,6 +9,7 @@ import 'package:fe_financial_manager/view/auth/change_password.dart';
 import 'package:fe_financial_manager/view/auth/forgot_password.dart';
 import 'package:fe_financial_manager/view/auth/home_auth.dart';
 import 'package:fe_financial_manager/view/auth/signup.dart';
+import 'package:fe_financial_manager/view/categories_of_transaction/create_category.dart';
 import 'package:fe_financial_manager/view/wallets/add_wallets.dart';
 import 'package:fe_financial_manager/view/wallets/all_wallets.dart';
 import 'package:fe_financial_manager/view/tab_screen/account.dart';
@@ -171,15 +173,6 @@ class CustomNavigationHelper {
                       ),
                     ]
                 ),
-                GoRoute(
-                  path: RoutesName.addNewCategoryPath,
-                  pageBuilder: (context, GoRouterState state){
-                    return getPage(
-                        child: AddNewCategory(),
-                        state: state
-                    );
-                  },
-                ),
               ]
           ),
           StatefulShellBranch(
@@ -216,11 +209,47 @@ class CustomNavigationHelper {
                             child: AccountSetting(),
                             state: state
                           );
-
                         }
-                      )
+                      ),
+                      GoRoute(
+                        path: RoutesName.allCategoryPath,
+                        pageBuilder: (context, GoRouterState state){
+                          return getPage(
+                              child: SelectCategory(),
+                              state: state
+                          );
+                        },
+                      ),
+
+                      GoRoute(
+                        path: RoutesName.eventPath,
+                        pageBuilder: (context, GoRouterState state){
+                          return getPage(
+                              child: Events(),
+                              state: state
+                          );
+                        },
+                      ),
+                      GoRoute(
+                        path: RoutesName.createEventPath,
+                        pageBuilder: (context, GoRouterState state){
+                          return getPage(
+                              child: CreateEvents(),
+                              state: state
+                          );
+                        },
+                      ),
                     ]
-                )
+                ),
+                GoRoute(
+                  path: RoutesName.addNewCategoryPath,
+                  pageBuilder: (context, GoRouterState state){
+                    return getPage(
+                        child: CreateCategory(),
+                        state: state
+                    );
+                  },
+                ),
               ]
           )
         ],

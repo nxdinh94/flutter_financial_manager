@@ -162,7 +162,7 @@ class _AddWalletsState extends State<AddWallets> {
               leading: pickedWalletType.icon == '' ?
                 Image.asset('assets/account_type/bank.png', width: defaultLeadingPngListTileSize) :
                 Image.asset(pickedWalletType.icon, width: defaultLeadingPngListTileSize),
-              title: pickedWalletType.name == '' ? 'Tiền mặt' : pickedWalletType.name,
+              title: pickedWalletType.name == '' ? 'Choose Wallet' : pickedWalletType.name,
               horizontalTitleGap: 12,
               leftContentPadding: 10,
               callback: ()async{
