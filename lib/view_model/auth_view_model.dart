@@ -27,25 +27,27 @@ class AuthViewModel with ChangeNotifier {
   }
 
   Future<void> loginApi(dynamic data, BuildContext context) async {
-    setLoading(true);
-    _myRepo.loginApi(data).then((value) {
-      String accessToken = value['data']['accessToken'];
-      String refreshToken = value['data']['refreshToken'];
-      final UserModel user = UserModel.fromJson(value['data']['user']);
-      //Persist user's tokens;
-      AuthManager.persistTokens(accessToken, refreshToken, user);
-      setLoading(false);
-      // Utils.flushBarErrorMessage(value['message'], context);
-      context.pushReplacement(RoutesName.homePath);
+    context.pushReplacement(RoutesName.homePath);
+    // setLoading(true);
 
-    }).onError((error, stackTrace) {
-      setLoading(false);
-      print(error.toString());
-      if (kDebugMode) {
-        Utils.flushBarErrorMessage('Email or password is not correct', context);
-        print(error.toString());
-      }
-    });
+    // _myRepo.loginApi(data).then((value) {
+    //   String accessToken = value['data']['accessToken'];
+    //   String refreshToken = value['data']['refreshToken'];
+    //   final UserModel user = UserModel.fromJson(value['data']['user']);
+    //   //Persist user's tokens;
+    //   AuthManager.persistTokens(accessToken, refreshToken, user);
+    //   setLoading(false);
+    //   // Utils.flushBarErrorMessage(value['message'], context);
+    //   context.pushReplacement(RoutesName.homePath);
+    //
+    // }).onError((error, stackTrace) {
+    //   setLoading(false);
+    //   print(error.toString());
+    //   if (kDebugMode) {
+    //     Utils.flushBarErrorMessage('Email or password is not correct', context);
+    //     print(error.toString());
+    //   }
+    // });
   }
 
   Future<void> signUpApi(dynamic data, BuildContext context) async {
