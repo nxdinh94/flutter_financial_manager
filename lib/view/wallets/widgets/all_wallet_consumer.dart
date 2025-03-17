@@ -31,6 +31,7 @@ class AllWalletConsumer extends StatelessWidget {
                 return CheckPickedListTile(
                   subtitle: MoneyVnd(fontSize: normal, amount: balance, iconWidth: 12, iconColor: iconColor),
                   iconData: e.value,
+                  titleTextStyle: Theme.of(context).textTheme.titleLarge,
                 );
               }).toList()
             );

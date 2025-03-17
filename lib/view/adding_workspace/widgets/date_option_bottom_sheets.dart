@@ -1,7 +1,9 @@
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
+import 'package:fe_financial_manager/utils/date_time.dart';
 import 'package:fe_financial_manager/view/common_widget/divider.dart';
 import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:flutter/material.dart';
@@ -30,13 +32,19 @@ Future showDateOptionBottomSheet(BuildContext context, Function setPickedDate){
                 children: [
                   TextContainer(
                     callback: ()async{
-                      print('object');
+                      String currentDate = getCurrentDayMonthYear();
+                      setPickedDate(currentDate);
+                      Navigator.pop(context);
                     },
                     title: 'Today'
                   ),
                   MyDivider(),
                   TextContainer(
-                    callback: ()async{},
+                    callback: ()async{
+                      String currentDate = getYesterdayOfCurrentDayMonthYear();
+                      setPickedDate(currentDate);
+                      Navigator.pop(context);
+                    },
                     title: 'Yesterday',
                   ),
                   MyDivider(),

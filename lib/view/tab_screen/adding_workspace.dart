@@ -133,10 +133,12 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
                 fontWeight: FontWeight.w500
               ),
               callback: () async {
+                if (!context.mounted) return;
                 dynamic result = await context.push<PickedIconModel>(
                   '${RoutesName.addingWorkSpacePath}/${RoutesName.pickCategoryPath}',
-                    extra: pickedCategory.id// Send the picked categoryId
+                    extra: pickedCategory// Send the picked categoryId
                 );
+
                 if(result != null){
                   setState(() {
                     pickedCategory = result as PickedIconModel;
@@ -175,6 +177,10 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
             MyListTitle(
               callback: () {
                 showDateOptionBottomSheet(context, (value){
+                  // prevent unnecessary re-render
+                  if(chosenDateOccurTransaction == value){
+                    return;
+                  }
                   setState(() {
                     chosenDateOccurTransaction = value;
                     nameOfTheDay= getNameOfDay(chosenDateOccurTransaction);

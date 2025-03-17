@@ -11,6 +11,7 @@ class CheckPickedListTile<T> extends StatefulWidget {
     this.pickedIconId = '',
     this.subtitle,
     this.contentLeftPadding = 12,
+    this.titleTextStyle,
     this.isShowBorderBottom = true,
   });
 
@@ -18,7 +19,8 @@ class CheckPickedListTile<T> extends StatefulWidget {
   String pickedIconId;
   Widget ? subtitle;
   double contentLeftPadding;
-  bool isShowBorderBottom;
+  bool  isShowBorderBottom;
+  TextStyle ? titleTextStyle;
 
   @override
   State<CheckPickedListTile> createState() => _CheckPickedListTileState();
@@ -36,7 +38,7 @@ class _CheckPickedListTileState extends State<CheckPickedListTile> {
           const Border(),
       ),
       child: ListTile(
-        title: Text(widget.iconData.name, style: Theme.of(context).textTheme.titleLarge),
+        title: Text(widget.iconData.name, style: widget.titleTextStyle ?? Theme.of(context).textTheme.bodyLarge),
         leading: Image.asset(widget.iconData.icon, width: 36),
         visualDensity: const VisualDensity(horizontal: -4),
         contentPadding: EdgeInsets.only(right: 28, left: widget.contentLeftPadding),

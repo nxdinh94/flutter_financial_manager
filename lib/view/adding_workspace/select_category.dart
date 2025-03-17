@@ -1,4 +1,5 @@
 import 'package:fe_financial_manager/data/response/status.dart';
+import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/model/transaction_categories_icon_model.dart';
 import 'package:fe_financial_manager/view/adding_workspace/widgets/create_category_section.dart';
 import 'package:fe_financial_manager/view/adding_workspace/widgets/categories_icon_parent.dart';
@@ -9,8 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SelectCategory extends StatefulWidget {
-  SelectCategory({super.key, this.pickedCategoryId});
-  String ? pickedCategoryId;
+  SelectCategory({super.key, this.pickedCategory});
+  PickedIconModel ? pickedCategory;
   @override
   State<SelectCategory> createState() => _SelectCategoryState();
 }
@@ -45,7 +46,7 @@ class _SelectCategoryState extends State<SelectCategory> with TickerProviderStat
     return Scaffold(
       appBar: AppBar(
         title: const Text('Select Category'),
-        leading: CustomBackNavbar(),
+        leading: CustomBackNavbar(value: widget.pickedCategory),
       ),
       body: Column(
         mainAxisSize: MainAxisSize.min,

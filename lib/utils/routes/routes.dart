@@ -1,3 +1,4 @@
+import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/utils/routes/my_bottom_navigation_bar.dart';
 import 'package:fe_financial_manager/view/account_tab/account_setting.dart';
 import 'package:fe_financial_manager/view/account_tab/events_of_transactions/create_events.dart';
@@ -164,9 +165,9 @@ class CustomNavigationHelper {
                       GoRoute(
                         path: RoutesName.pickCategoryPath,
                         pageBuilder: (context, GoRouterState state){
-                          String data = state.extra as String;
+                          PickedIconModel data = state.extra as PickedIconModel;
                           return getPage(
-                              child: SelectCategory(pickedCategoryId: data,),
+                              child: SelectCategory(pickedCategory: data),
                               state: state
                           );
                         },

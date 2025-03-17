@@ -80,9 +80,10 @@ class _MyAppState extends State<MyApp> {
       darkTheme: darkTheme,
       theme: lightTheme,
       routerConfig: CustomNavigationHelper.router,
-      localizationsDelegates: [
+      localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: [
         Locale('en', ''),
