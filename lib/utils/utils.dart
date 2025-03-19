@@ -48,7 +48,7 @@ class Utils {
         message: message,
         duration: Duration(seconds: 3),
         borderRadius: BorderRadius.circular(8),
-        flushbarPosition: FlushbarPosition.BOTTOM,
+        flushbarPosition: FlushbarPosition.TOP,
         backgroundColor: Colors.red,
         reverseAnimationCurve: Curves.bounceIn,
         positionOffset: 20,

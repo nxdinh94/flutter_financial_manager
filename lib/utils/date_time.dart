@@ -23,14 +23,12 @@ String getNameOfDay(String date) {
 }
 
 String getCurrentDayMonthYear(){
-  DateTime now = DateTime.now();
-  var formatter = DateFormat('yyyy-MM-ddTHH:mm:ssZ','en-US');
-  String formattedDate = formatter.format(now);
+  DateTime now = DateTime.now().toUtc();
+  String formattedDate = "${now.toIso8601String().split('.')[0]}Z";
   return formattedDate;
 }
 String getYesterdayOfCurrentDayMonthYear(){
-  DateTime now = DateTime.now().subtract(const Duration(days: 1));
-  var formatter = DateFormat('yyyy-MM-ddTHH:mm:ssZ','en-US');
-  String formattedDate = formatter.format(now);
+  DateTime now = DateTime.now().subtract(const Duration(days: 1)).toUtc();
+  String formattedDate = "${now.toIso8601String().split('.')[0]}Z";
   return formattedDate;
 }

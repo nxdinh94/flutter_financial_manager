@@ -70,8 +70,8 @@ Future showDateOptionBottomSheet(BuildContext context, Function setPickedDate){
                         ),
                       );
                       if(newDateTime != null){
-                        String pickedDate = DateFormat('yyyy-MM-ddTHH:mm:ssZ','en-US').format(newDateTime);
-                        setPickedDate(pickedDate);
+                        String formattedDate = "${newDateTime.toIso8601String().split('.')[0]}Z";
+                        setPickedDate(formattedDate);
                         Navigator.pop(context);
                       }
                     },

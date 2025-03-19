@@ -5,6 +5,7 @@ import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/utils/date_time.dart';
 import 'package:fe_financial_manager/utils/get_initial_wallet.dart';
 import 'package:fe_financial_manager/utils/routes/routes_name.dart';
+import 'package:fe_financial_manager/utils/utils.dart';
 import 'package:fe_financial_manager/view/adding_workspace/widgets/date_option_bottom_sheets.dart';
 import 'package:fe_financial_manager/view/adding_workspace/widgets/expanded_area.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_textfield.dart';
@@ -58,6 +59,10 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
   }
   // Save transaction
   Future <void> saveTransaction() async {
+    if(_amountController.text.isEmpty){
+      Utils.flushBarErrorMessage('Amount is not empty', context);
+      return;
+    }
     dataToSubmit = {
       'amount_of_money' : _amountController.text,
       'transaction_type_category_id' : pickedCategory.id,
@@ -65,9 +70,7 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
       'money_account_id' : pickedWallet.id,
       'description' : note,
     };
-    print(dataToSubmit);
-
-    // _transactionViewModel.addTransaction(dataToSubmit, resetDataAfterSaveTransaction ,context);
+    _transactionViewModel.addTransaction(dataToSubmit, resetDataAfterSaveTransaction ,context);
 
   }
 
