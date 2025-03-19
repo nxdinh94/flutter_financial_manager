@@ -17,7 +17,7 @@ class AppUrl {
   static const wallet = baseUrl + '/apps/money-account';
   static const externalBank = 'https://api.vietqr.io/v2/banks';
 
-  static const addTransaction = '/apps/transaction';
+  static const addTransaction =baseUrl +  '/apps/transaction';
 
 
 }

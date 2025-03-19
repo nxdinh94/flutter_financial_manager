@@ -14,6 +14,7 @@ import 'package:fe_financial_manager/view/common_widget/my_list_title.dart';
 import 'package:fe_financial_manager/view/common_widget/prefix_icon_amount_textfield.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:fe_financial_manager/view_model/app_view_model.dart';
+import 'package:fe_financial_manager/view_model/transaction_view_model.dart';
 import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -28,6 +29,10 @@ class AddingWorkspace extends StatefulWidget {
   State<AddingWorkspace> createState() => _AddingWorkspaceState();
 }
 class _AddingWorkspaceState extends State<AddingWorkspace> {
+
+  final TransactionViewModel _transactionViewModel = TransactionViewModel();
+  Map<String, dynamic> dataToSubmit = {};
+
   final TextEditingController _amountController = TextEditingController();
   String chosenDateOccurTransaction = '';
   String nameOfTheDay = '';
@@ -38,21 +43,32 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
   PickedIconModel pickedWallet = PickedIconModel(icon: '', name: '', id: '') ;
 
   void getDate(){
-    // return 'Monday, 2022-02-02';
+    // return 'Monday,  2025-03-19T20:31:38';
     chosenDateOccurTransaction = getCurrentDayMonthYear();
     nameOfTheDay= getNameOfDay(getCurrentDayMonthYear());
   }
+  String fromIsoToNormal(){
+    return DateTime.parse(chosenDateOccurTransaction).toIso8601String().split('T')[0];
+  }
+  void resetDataAfterSaveTransaction(){
+    setState(() {
+      _amountController.text = '';
+      note = '';
+    });
+  }
   // Save transaction
   Future <void> saveTransaction() async {
-    print(
-        {
-          'amount_of_money' : _amountController.text,
-          'transaction_type_category_id' : pickedCategory.id,
-          'occur_date' : chosenDateOccurTransaction,
-          'money_account_id' : pickedWallet.id,
-          'description' : note,
-        }
-    );
+    dataToSubmit = {
+      'amount_of_money' : _amountController.text,
+      'transaction_type_category_id' : pickedCategory.id,
+      'occur_date' : chosenDateOccurTransaction,
+      'money_account_id' : pickedWallet.id,
+      'description' : note,
+    };
+    print(dataToSubmit);
+
+    // _transactionViewModel.addTransaction(dataToSubmit, resetDataAfterSaveTransaction ,context);
+
   }
 
   @override
@@ -187,7 +203,7 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
                   });
                 });
               },
-              title: '$nameOfTheDay, $chosenDateOccurTransaction',
+              title: '$nameOfTheDay, ${fromIsoToNormal()}',
               leading: SvgContainer(
                 iconWidth: 28,
                 iconPath: 'assets/svg/calendar.svg'

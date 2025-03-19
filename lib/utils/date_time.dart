@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 String getNameOfDay(String date) {
@@ -22,15 +21,16 @@ String getNameOfDay(String date) {
       return '';
   }
 }
+
 String getCurrentDayMonthYear(){
-  var now = DateTime.now();
-  var formatter = DateFormat('yyyy-MM-dd');
+  DateTime now = DateTime.now();
+  var formatter = DateFormat('yyyy-MM-ddTHH:mm:ssZ','en-US');
   String formattedDate = formatter.format(now);
   return formattedDate;
 }
 String getYesterdayOfCurrentDayMonthYear(){
-  var now = DateTime.now().subtract(const Duration(days: 1));
-  var formatter = DateFormat('yyyy-MM-dd');
+  DateTime now = DateTime.now().subtract(const Duration(days: 1));
+  var formatter = DateFormat('yyyy-MM-ddTHH:mm:ssZ','en-US');
   String formattedDate = formatter.format(now);
   return formattedDate;
 }

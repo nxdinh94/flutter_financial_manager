@@ -70,7 +70,7 @@ Future showDateOptionBottomSheet(BuildContext context, Function setPickedDate){
                         ),
                       );
                       if(newDateTime != null){
-                        String pickedDate = DateFormat('yyyy-MM-dd').format(newDateTime);
+                        String pickedDate = DateFormat('yyyy-MM-ddTHH:mm:ssZ','en-US').format(newDateTime);
                         setPickedDate(pickedDate);
                         Navigator.pop(context);
                       }
@@ -96,37 +96,4 @@ Future showDateOptionBottomSheet(BuildContext context, Function setPickedDate){
       ),
     ),
   );
-}
-Future<void> _showCustomDatePicker(BuildContext context) async {
-  DateTime? selectedDate = await showDialog<DateTime>(
-    context: context,
-    builder: (BuildContext context) {
-      return Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        child: Container(
-          height: MediaQuery.of(context).size.height * 0.6, // 60% of screen height
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Expanded(
-                child: CalendarDatePicker(
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime(DateTime.now().year - 1),
-                  lastDate: DateTime(DateTime.now().year + 1),
-                  onDateChanged: (DateTime newDate) {
-                    Navigator.pop(context, newDate);
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    },
-  );
-
-  if (selectedDate != null) {
-    print("Selected Date: $selectedDate");
-  }
 }

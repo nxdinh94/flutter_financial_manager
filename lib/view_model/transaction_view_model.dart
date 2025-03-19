@@ -12,10 +12,11 @@ class TransactionViewModel  extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<void> addTransaction(Map<String, dynamic> data, BuildContext context)async{
+  Future<void> addTransaction(Map<String, dynamic> data,Function resetDataAfterSaveTransaction ,BuildContext context)async{
     setLoading(true);
     await _transactionRepository.addTransaction(data).then((value){
       setLoading(false);
+      resetDataAfterSaveTransaction();
       Utils.toastMessage('Your transaction has been recorded');
     }).onError((error, stackTrace){
       Utils.flushBarErrorMessage(error.toString(), context);
