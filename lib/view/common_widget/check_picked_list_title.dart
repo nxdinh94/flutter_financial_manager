@@ -1,5 +1,6 @@
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
+import 'package:fe_financial_manager/view/common_widget/check_icon.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -8,7 +9,7 @@ class CheckPickedListTile<T> extends StatefulWidget {
   CheckPickedListTile({
     super.key,
     required this.iconData,
-    this.pickedIconId = '',
+    this.pickedIconId,
     this.subtitle,
     this.contentLeftPadding = 12,
     this.titleTextStyle,
@@ -17,7 +18,7 @@ class CheckPickedListTile<T> extends StatefulWidget {
   });
 
   final T iconData;
-  String pickedIconId;
+  String ? pickedIconId;
   Widget ? subtitle;
   double contentLeftPadding;
   bool  isShowBorderBottom;
@@ -53,11 +54,7 @@ class _CheckPickedListTileState extends State<CheckPickedListTile> {
           //return value
           widget.onTap!(pickedIcon);
         },
-        trailing: widget.pickedIconId == widget.iconData.id ? SvgContainer(
-          iconWidth: 121,
-          iconPath: 'assets/svg/check-circle-fill.svg',
-          myIconColor: secondaryColor,
-        ):
+        trailing: widget.pickedIconId == widget.iconData.id ? CheckIcon():
         const SizedBox.shrink(),
       ),
     );

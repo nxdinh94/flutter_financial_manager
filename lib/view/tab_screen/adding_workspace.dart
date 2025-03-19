@@ -137,7 +137,7 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
                   pickedWallet = result;
                 }
               },
-              title: pickedWallet.name.isEmpty ? 'Tiền mặt' : pickedWallet.name,
+              title: pickedWallet.name.isEmpty ? 'Choose Wallet' : pickedWallet.name,
               leading: pickedWallet.icon.isEmpty ?
                 Image.asset('assets/another_icon/wallet-2.png', width: defaultLeadingPngListTileSize) :
                 Image.asset(pickedWallet.icon, width: defaultLeadingPngListTileSize),
@@ -162,7 +162,7 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
                 fontWeight: FontWeight.w500
               ),
               callback: () {
-                context.push<PickedIconModel>(
+                context.push(
                   '${RoutesName.addingWorkSpacePath}/${RoutesName.pickCategoryPath}',
                     extra: {
                       'pickedCategory': pickedCategory,
@@ -174,7 +174,7 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
               leading: FittedBox(
                 child: Image.asset(
                   pickedCategory.icon.isNotEmpty ?
-                  pickedCategory.icon: 'assets/another_icon/wallet-2.png',
+                  pickedCategory.icon: 'assets/another_icon/category.png',
                   width: 39,
                 ),
               ),

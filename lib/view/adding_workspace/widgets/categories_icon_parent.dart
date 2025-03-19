@@ -1,15 +1,17 @@
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/view/adding_workspace/widgets/categories_icon_children.dart';
+import 'package:fe_financial_manager/view/common_widget/check_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../model/transaction_categories_icon_model.dart';
 
 class CategoriesIconParent extends StatefulWidget {
-  CategoriesIconParent({super.key, required this.parentIcon, this.onTap});
+  CategoriesIconParent({super.key, required this.parentIcon, this.onTap, this.pickedCategoryId});
   final CategoriesIconModel parentIcon;
   Function  ? onTap;
+  String ? pickedCategoryId;
 
   @override
   State<CategoriesIconParent> createState() => _CategoriesIconParentState();
@@ -50,7 +52,12 @@ class _CategoriesIconParentState extends State<CategoriesIconParent> {
         leading: Image.asset(widget.parentIcon.icon, width: 42,),
         controlAffinity: ListTileControlAffinity.trailing,
         trailing: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
+            Visibility(
+              visible: widget.pickedCategoryId == widget.parentIcon.id,
+              child: const CheckIcon()
+            ),
             childrenIcon.isEmpty ?
             const SizedBox.shrink() : (isExpanded ?
             const Icon(Icons.keyboard_arrow_up_rounded, color: iconColor,)

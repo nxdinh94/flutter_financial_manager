@@ -104,7 +104,11 @@ class _SelectCategoryState extends State<SelectCategory> with TickerProviderStat
                               const SizedBox(height: 10),
                               ...expenseIconsList.map<Widget>((e) {
                                 CategoriesIconModel categoriesIconParent = e as CategoriesIconModel; // Proper casting
-                                return CategoriesIconParent(parentIcon: categoriesIconParent, onTap: widget.onItemTap,);
+                                return CategoriesIconParent(
+                                  parentIcon: categoriesIconParent,
+                                  onTap: widget.onItemTap,
+                                  pickedCategoryId: widget.pickedCategory?.id,
+                                );
                               }).toList()
                             ],
                           ),
@@ -117,7 +121,10 @@ class _SelectCategoryState extends State<SelectCategory> with TickerProviderStat
                               const SizedBox(height: 10),
                               ...incomeIconsList.map<Widget>((e) {
                                 CategoriesIconModel categoriesIconParent = e as CategoriesIconModel; // Proper casting
-                                return CategoriesIconParent(parentIcon: categoriesIconParent, onTap: widget.onItemTap,);
+                                return CategoriesIconParent(
+                                  parentIcon: categoriesIconParent, onTap: widget.onItemTap,
+                                  pickedCategoryId: widget.pickedCategory?.id,
+                                );
                               }).toList()
                             ],
                           ),
