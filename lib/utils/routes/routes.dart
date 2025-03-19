@@ -94,9 +94,11 @@ class CustomNavigationHelper {
                   GoRoute(
                       path: RoutesName.pickWalletTypePath,
                       pageBuilder: (context, GoRouterState state) {
-                        String data = state.extra as String;
+                        Map<String, dynamic> data = state.extra as Map<String, dynamic>;
+                        PickedIconModel pickedWalletType = data['pickedWalletType'];
+                        Function onTap = data['onTap'];
                         return getPage(
-                          child: PickWalletTypes(pickedWalletTypeId: data,),
+                          child: PickWalletTypes(pickedWalletType: pickedWalletType, onItemTap: onTap,),
                           state: state,
                         );
                       },
@@ -165,9 +167,11 @@ class CustomNavigationHelper {
                       GoRoute(
                         path: RoutesName.pickCategoryPath,
                         pageBuilder: (context, GoRouterState state){
-                          PickedIconModel data = state.extra as PickedIconModel;
+                          Map<String, dynamic> data = state.extra as Map<String, dynamic>;
+                          PickedIconModel pickedCategory = data['pickedCategory'];
+                          Function onTap = data['onTap'];
                           return getPage(
-                              child: SelectCategory(pickedCategory: data),
+                              child: SelectCategory(pickedCategory: pickedCategory, onItemTap: onTap,),
                               state: state
                           );
                         },
@@ -215,8 +219,10 @@ class CustomNavigationHelper {
                       GoRoute(
                         path: RoutesName.allCategoryPath,
                         pageBuilder: (context, GoRouterState state){
+                          Map<String, dynamic> data = state.extra as Map<String, dynamic>;
+                          Function onTap = data['onTap'];
                           return getPage(
-                              child: SelectCategory(),
+                              child: SelectCategory(onItemTap: onTap,),
                               state: state
                           );
                         },

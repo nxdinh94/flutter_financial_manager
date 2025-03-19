@@ -1,3 +1,4 @@
+import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/view/account_tab/widgets/account_banner.dart';
 import 'package:fe_financial_manager/view/common_widget/my_list_title.dart';
@@ -58,11 +59,18 @@ class _AccountState extends State<Account> {
                 leftContentPadding: 12,
                 hideBottomBorder: false,
               ),
-              SizedBox(height: 30,),
+              const SizedBox(height: 30,),
               MyListTitle(
                 title: 'Categories',
                 callback: (){
-                  context.push('${RoutesName.accountPath}/${RoutesName.allCategoryPath}');
+                  context.push(
+                    '${RoutesName.accountPath}/${RoutesName.allCategoryPath}',
+                    extra: {
+                      'onTap' : ( PickedIconModel value){
+                        print(value);
+                      }
+                    }
+                  );
                 },
                 leading: SvgContainer(
                   iconWidth: 30,

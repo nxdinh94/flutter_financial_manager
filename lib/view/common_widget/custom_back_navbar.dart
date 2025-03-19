@@ -1,5 +1,5 @@
-import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:flutter/material.dart';
+import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:go_router/go_router.dart';
 
 class CustomBackNavbar extends StatelessWidget {
@@ -12,11 +12,11 @@ class CustomBackNavbar extends StatelessWidget {
       onTap: () {
         context.pop(value ?? '');
       },
-      child: Row(
+      child: const Row(
         children: [
           Padding(
             padding: defaultHalfPadding,
-            child: const Icon(
+            child: Icon(
               Icons.arrow_back_ios_new_sharp,
               size: 20,
             ),

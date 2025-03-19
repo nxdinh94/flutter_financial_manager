@@ -66,7 +66,24 @@ class _AddWalletsState extends State<AddWallets> {
       }
     }
   }
-
+  void onItemCategoryTap(PickedIconModel value){
+    setState(() {
+      pickedWalletType = value;
+      //reset submitData
+      dataToSubmit.clear();
+      if(removeDiacritics(pickedWalletType.name) == 'Tai khoan ngan hang'){
+        final Map<String, dynamic> bankType = {'bank_type' : pickedBank.id.isNotEmpty ? double.parse(pickedBank.id) : ''};
+        dataToSubmit.addAll(bankType);
+      }else if(removeDiacritics(pickedWalletType.name) == 'Vi tin dung'){
+        final Map<String, dynamic> bankTypeAndCreditLimit = {
+          'bank_type' : pickedBank.id.isNotEmpty ? double.parse(pickedBank.id) : '',
+          'credit_limit' : ''
+        };
+        dataToSubmit.addAll(bankTypeAndCreditLimit);
+      }
+    });
+    context.pop();
+  }
   @override
   void initState() {
     super.initState(); // Call super first
@@ -165,28 +182,14 @@ class _AddWalletsState extends State<AddWallets> {
               title: pickedWalletType.name == '' ? 'Choose Wallet' : pickedWalletType.name,
               horizontalTitleGap: 12,
               leftContentPadding: 10,
-              callback: ()async{
-                dynamic result = await context.push(
+              callback: (){
+                context.push(
                   '${RoutesName.addWalletsPath}/${RoutesName.pickWalletTypePath}',
-                  extra: pickedWalletType.id
+                  extra: {
+                    'pickedWalletType': pickedWalletType,
+                    'onTap' : onItemCategoryTap
+                  }
                 );
-                if(result != null){
-                  setState(() {
-                    pickedWalletType = result as PickedIconModel;
-                    //reset submitData
-                    dataToSubmit.clear();
-                    if(removeDiacritics(pickedWalletType.name) == 'Tai khoan ngan hang'){
-                      final Map<String, dynamic> bankType = {'bank_type' : pickedBank.id.isNotEmpty ? double.parse(pickedBank.id) : ''};
-                      dataToSubmit.addAll(bankType);
-                    }else if(removeDiacritics(pickedWalletType.name) == 'Vi tin dung'){
-                      final Map<String, dynamic> bankTypeAndCreditLimit = {
-                        'bank_type' : pickedBank.id.isNotEmpty ? double.parse(pickedBank.id) : '',
-                        'credit_limit' : ''
-                      };
-                      dataToSubmit.addAll(bankTypeAndCreditLimit);
-                    }
-                  });
-                }
               },
             ),
             MyDivider(indent: dividerIndent,),

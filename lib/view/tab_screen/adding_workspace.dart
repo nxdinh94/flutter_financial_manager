@@ -57,8 +57,17 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
       note = '';
     });
   }
+
+  // Action when item of category tapped
+  void onItemCategoryTap(PickedIconModel value){
+    setState(() {
+      pickedCategory = value;
+    });
+    context.pop();
+  }
   // Save transaction
   Future <void> saveTransaction() async {
+
     if(_amountController.text.isEmpty){
       Utils.flushBarErrorMessage('Amount is not empty', context);
       return;
@@ -70,6 +79,7 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
       'money_account_id' : pickedWallet.id,
       'description' : note,
     };
+
     _transactionViewModel.addTransaction(dataToSubmit, resetDataAfterSaveTransaction ,context);
 
   }
@@ -151,18 +161,14 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
                 color: colorTextLabel,
                 fontWeight: FontWeight.w500
               ),
-              callback: () async {
-                if (!context.mounted) return;
-                dynamic result = await context.push<PickedIconModel>(
+              callback: () {
+                context.push<PickedIconModel>(
                   '${RoutesName.addingWorkSpacePath}/${RoutesName.pickCategoryPath}',
-                    extra: pickedCategory// Send the picked categoryId
+                    extra: {
+                      'pickedCategory': pickedCategory,
+                      'onTap' : onItemCategoryTap
+                    }
                 );
-
-                if(result != null){
-                  setState(() {
-                    pickedCategory = result as PickedIconModel;
-                  });
-                }
               },
               verticalContentPadding: 4,
               leading: FittedBox(

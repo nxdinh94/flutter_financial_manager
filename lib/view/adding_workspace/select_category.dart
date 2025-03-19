@@ -10,8 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SelectCategory extends StatefulWidget {
-  SelectCategory({super.key, this.pickedCategory});
+  SelectCategory({super.key, this.pickedCategory, this.onItemTap});
   PickedIconModel ? pickedCategory;
+  Function ?  onItemTap;
   @override
   State<SelectCategory> createState() => _SelectCategoryState();
 }
@@ -46,7 +47,7 @@ class _SelectCategoryState extends State<SelectCategory> with TickerProviderStat
     return Scaffold(
       appBar: AppBar(
         title: const Text('Select Category'),
-        leading: CustomBackNavbar(value: widget.pickedCategory),
+        leading: CustomBackNavbar(),
       ),
       body: Column(
         mainAxisSize: MainAxisSize.min,
@@ -103,7 +104,7 @@ class _SelectCategoryState extends State<SelectCategory> with TickerProviderStat
                               const SizedBox(height: 10),
                               ...expenseIconsList.map<Widget>((e) {
                                 CategoriesIconModel categoriesIconParent = e as CategoriesIconModel; // Proper casting
-                                return CategoriesIconParent(parentIcon: categoriesIconParent);
+                                return CategoriesIconParent(parentIcon: categoriesIconParent, onTap: widget.onItemTap,);
                               }).toList()
                             ],
                           ),
@@ -116,7 +117,7 @@ class _SelectCategoryState extends State<SelectCategory> with TickerProviderStat
                               const SizedBox(height: 10),
                               ...incomeIconsList.map<Widget>((e) {
                                 CategoriesIconModel categoriesIconParent = e as CategoriesIconModel; // Proper casting
-                                return CategoriesIconParent(parentIcon: categoriesIconParent,);
+                                return CategoriesIconParent(parentIcon: categoriesIconParent, onTap: widget.onItemTap,);
                               }).toList()
                             ],
                           ),

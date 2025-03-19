@@ -8,10 +8,11 @@ import '../../../constants/padding.dart';
 import '../../../model/transaction_categories_icon_model.dart';
 import '../../common_widget/divider.dart';
 class CategoriesIconChildren extends StatelessWidget {
-  const CategoriesIconChildren({
-    super.key, required this.categoryChildren,
+  CategoriesIconChildren({
+    super.key, required this.categoryChildren, this.onItemTap
   });
   final CategoriesIconModel categoryChildren;
+  Function ? onItemTap;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +28,7 @@ class CategoriesIconChildren extends StatelessWidget {
               iconData: categoryChildren,
               contentLeftPadding: 0,
               isShowBorderBottom: false,
+              onTap: onItemTap,
             )
           ),
         ],

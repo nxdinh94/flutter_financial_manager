@@ -8,8 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PickWalletTypes extends StatefulWidget {
-  PickWalletTypes({super.key, this.pickedWalletTypeId = ''});
-  String pickedWalletTypeId;
+  PickWalletTypes({super.key, this.pickedWalletType, this.onItemTap});
+  PickedIconModel ? pickedWalletType;
+  Function ? onItemTap;
   @override
   State<PickWalletTypes> createState() => _PickWalletTypesState();
 }
@@ -42,7 +43,8 @@ class _PickWalletTypesState extends State<PickWalletTypes> {
                     );
                     return CheckPickedListTile<PickedIconModel>(
                       iconData: pickedIconModel,
-                      pickedIconId: widget.pickedWalletTypeId,
+                      pickedIconId: widget.pickedWalletType!.id,
+                      onTap: widget.onItemTap,
                     );
                   }).toList()
                 );

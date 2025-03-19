@@ -7,8 +7,9 @@ import 'package:go_router/go_router.dart';
 import '../../../model/transaction_categories_icon_model.dart';
 
 class CategoriesIconParent extends StatefulWidget {
-  const CategoriesIconParent({super.key, required this.parentIcon});
+  CategoriesIconParent({super.key, required this.parentIcon, this.onTap});
   final CategoriesIconModel parentIcon;
+  Function  ? onTap;
 
   @override
   State<CategoriesIconParent> createState() => _CategoriesIconParentState();
@@ -42,20 +43,24 @@ class _CategoriesIconParentState extends State<CategoriesIconParent> {
               icon: widget.parentIcon.icon,
               name: widget.parentIcon.name
             );
-            context.pop(pickedCategory);
+            widget.onTap!(pickedCategory);
           },
           child: Text(widget.parentIcon.name)
         ),
         leading: Image.asset(widget.parentIcon.icon, width: 42,),
         controlAffinity: ListTileControlAffinity.trailing,
-        trailing: childrenIcon.isEmpty ?
-        const SizedBox.shrink() : (isExpanded ?
-        const Icon(Icons.keyboard_arrow_up_rounded, color: iconColor,)
-          : const Icon(Icons.keyboard_arrow_down_rounded, color: iconColor,)
+        trailing: Row(
+          children: [
+            childrenIcon.isEmpty ?
+            const SizedBox.shrink() : (isExpanded ?
+            const Icon(Icons.keyboard_arrow_up_rounded, color: iconColor,)
+                : const Icon(Icons.keyboard_arrow_down_rounded, color: iconColor,)
+            ),
+          ],
         ),
         children: childrenIcon.isNotEmpty ? childrenIcon.map((v){
           CategoriesIconModel categoryIconChildren = v;
-          return CategoriesIconChildren(categoryChildren: categoryIconChildren);
+          return CategoriesIconChildren(categoryChildren: categoryIconChildren, onItemTap: widget.onTap,);
         }).toList() : [],
       ),
     );

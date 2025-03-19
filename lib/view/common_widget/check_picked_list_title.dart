@@ -13,6 +13,7 @@ class CheckPickedListTile<T> extends StatefulWidget {
     this.contentLeftPadding = 12,
     this.titleTextStyle,
     this.isShowBorderBottom = true,
+    this.onTap
   });
 
   final T iconData;
@@ -21,7 +22,7 @@ class CheckPickedListTile<T> extends StatefulWidget {
   double contentLeftPadding;
   bool  isShowBorderBottom;
   TextStyle ? titleTextStyle;
-
+  Function ? onTap;
   @override
   State<CheckPickedListTile> createState() => _CheckPickedListTileState();
 }
@@ -49,7 +50,8 @@ class _CheckPickedListTileState extends State<CheckPickedListTile> {
             icon: widget.iconData.icon,
             name: widget.iconData.name,
           );
-          context.pop(pickedIcon);
+          //return value
+          widget.onTap!(pickedIcon);
         },
         trailing: widget.pickedIconId == widget.iconData.id ? SvgContainer(
           iconWidth: 121,
