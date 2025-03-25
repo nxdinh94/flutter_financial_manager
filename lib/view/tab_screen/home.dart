@@ -2,6 +2,7 @@
 
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
+import 'package:fe_financial_manager/generated/assets.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:fe_financial_manager/view/common_widget/money_vnd.dart';
 import 'package:fe_financial_manager/view/home_tab/widgets/my_column_chart.dart';
@@ -44,19 +45,23 @@ class _HomeState extends State<Home> {
                     children: [
                       MoneyVnd(fontSize: 24, amount: 999999999, iconWidth: 18),
                       const SizedBox(width: 12),
-                      SvgContainer(iconWidth: 22, iconPath: 'assets/svg/eye.svg', myIconColor: black,),
+                      SvgContainer(
+                        iconWidth: 22,
+                        iconPath: Assets.svgEyes,
+                        myIconColor: black,
+                      ),
                     ],
                   ),
                   Row(
                     children: [
                       SvgContainer(
                         iconWidth: 22, myIconColor: black,
-                        iconPath: 'assets/svg/magnifying-glass.svg',
+                        iconPath: Assets.svgMagnifyingGlass,
                       ),
                       const SizedBox(width: 24),
                       SvgContainer(
                         iconWidth: 22, myIconColor: Colors.black,
-                        iconPath: 'assets/svg/bell.svg'
+                        iconPath: Assets.svgBell
                       ),
                     ],
                   )

@@ -1,4 +1,5 @@
 import 'package:fe_financial_manager/constants/colors.dart';
+import 'package:fe_financial_manager/generated/assets.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +25,7 @@ class AddingCircle extends StatelessWidget {
         height: containerSize,
         child: SvgContainer(
           iconWidth: iconWidth,
-          iconPath: 'assets/svg/plus.svg',
+          iconPath: Assets.svgPlus,
           myIconColor: iconColor,
         ),
       ),

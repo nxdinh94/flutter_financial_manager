@@ -1,3 +1,4 @@
+import 'package:fe_financial_manager/generated/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
@@ -55,7 +56,7 @@ class _PasswordTextFormFieldState extends State<PasswordTextFormField> {
             // if clearAll is true, show clear icon, else show visibility icon
             child: widget.clearAll ?  InkWell(
               child: isHaveText?
-                SvgContainer(iconWidth: 18, iconPath: 'assets/svg/delete.svg',) :
+                SvgContainer(iconWidth: 18, iconPath: Assets.svgDelete,) :
                 const SizedBox.shrink(),
               onTap: (){
                 widget.passwordController.clear();

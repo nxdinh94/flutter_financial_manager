@@ -1,6 +1,7 @@
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
+import 'package:fe_financial_manager/generated/assets.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/utils/get_initial_wallet.dart';
 import 'package:fe_financial_manager/utils/routes/routes_name.dart';
@@ -87,7 +88,7 @@ class _CreateUpdateBudgetState extends State<CreateUpdateBudget> {
               padding: const EdgeInsets.only(right: 10.0),
               child: SvgContainer(
                 iconWidth: 22,
-                iconPath: 'assets/svg/trash.svg',
+                iconPath: Assets.svgTrash,
                 myIconColor: emergencyColor,
                 callback: (){
 
@@ -148,7 +149,7 @@ class _CreateUpdateBudgetState extends State<CreateUpdateBudget> {
               title: 'This month (01/03 - 31/03)',
               leading: SvgContainer(
                   iconWidth: 28,
-                  iconPath: 'assets/svg/calendar.svg'
+                  iconPath: Assets.svgCalendar
               ),
               horizontalTitleGap: 18,
             ),

@@ -1,6 +1,7 @@
 
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
+import 'package:fe_financial_manager/generated/assets.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/utils/date_time.dart';
 import 'package:fe_financial_manager/utils/get_initial_wallet.dart';
@@ -192,7 +193,7 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
               title: note.isNotEmpty ? note : 'Note',
               leading: SvgContainer(
                 iconWidth: 30,
-                iconPath: 'assets/svg/notes.svg'
+                iconPath: Assets.svgNotes
               ),
               horizontalTitleGap: 18,
             ),
@@ -214,7 +215,7 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
               title: '$nameOfTheDay, ${fromIsoToNormal()}',
               leading: SvgContainer(
                 iconWidth: 28,
-                iconPath: 'assets/svg/calendar.svg'
+                iconPath: Assets.svgCalendar
               ),
               horizontalTitleGap: 18,
             ),

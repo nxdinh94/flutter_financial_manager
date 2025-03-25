@@ -1,3 +1,4 @@
+import 'package:fe_financial_manager/generated/assets.dart';
 import 'package:fe_financial_manager/model/user_model.dart';
 import 'package:fe_financial_manager/utils/auth_manager.dart';
 import 'package:flutter/material.dart';
@@ -24,11 +25,11 @@ class AccountBanner extends StatelessWidget {
             borderRadius: BorderRadius.circular(100.0),
             child: Image.asset('assets/sampleImage/girl3.jpg', width: 80,),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 12),
           Text(user.name, style: Theme.of(context).textTheme.titleMedium,),
           Text(user.email, style: Theme.of(context).textTheme.labelSmall,),
-          SizedBox(height: 10),
-          SvgPicture.asset('assets/svg/google-icon.svg', width: 20,)
+          const SizedBox(height: 12),
+          SvgPicture.asset(Assets.svgGoogle, width: 24)
         ],
       ),
     );

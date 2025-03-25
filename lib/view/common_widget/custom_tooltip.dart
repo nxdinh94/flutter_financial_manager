@@ -1,4 +1,5 @@
 import 'package:fe_financial_manager/constants/colors.dart';
+import 'package:fe_financial_manager/generated/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';
@@ -27,7 +28,7 @@ class CustomToolTip extends StatelessWidget {
       ),
       child: Material(
         child: SvgPicture.asset(
-          'assets/svg/question-mark-round.svg',
+          Assets.svgQuestionMarkRound,
           colorFilter: const ColorFilter.mode(iconColor, BlendMode.srcIn),
         ),
       ),

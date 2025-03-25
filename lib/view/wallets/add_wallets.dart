@@ -1,6 +1,7 @@
 import 'package:diacritic/diacritic.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
+import 'package:fe_financial_manager/generated/assets.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/model/wallet_type_icon_model.dart';
 import 'package:fe_financial_manager/utils/get_initial_wallet.dart';
@@ -200,7 +201,9 @@ class _AddWalletsState extends State<AddWallets> {
                 removeDiacritics(pickedWalletType.name) == 'Vi tin dung',
               child: MyListTitle(
                 leading: pickedBank.icon == '' ?
-                  SvgContainer(iconPath: 'assets/svg/bank.svg', iconWidth: 52, containerSize: 40) :
+                  SvgContainer(
+                    iconPath: Assets.svgBank,
+                    iconWidth: 52, containerSize: 40) :
                   ExternalBankLogoCircle(logo: pickedBank.icon,),
                 title: pickedBank.name == '' ? 'Bank' : pickedBank.name,
                 horizontalTitleGap: 10,

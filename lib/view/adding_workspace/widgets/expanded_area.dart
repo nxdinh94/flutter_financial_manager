@@ -1,5 +1,6 @@
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
+import 'package:fe_financial_manager/generated/assets.dart';
 import 'package:fe_financial_manager/view/common_widget/divider.dart';
 import 'package:fe_financial_manager/view/common_widget/my_list_title.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
@@ -31,7 +32,7 @@ class _ExpandedAreaState extends State<ExpandedArea> {
                 callback: (){},
                 leading: SvgContainer(
                   iconWidth: 30,
-                  iconPath: 'assets/svg/person.svg'
+                  iconPath: Assets.svgPerson
                 ),
               ),
               MyDivider(),
@@ -42,7 +43,7 @@ class _ExpandedAreaState extends State<ExpandedArea> {
                 callback: (){},
                 leading: SvgContainer(
                   iconWidth: 28,
-                  iconPath: 'assets/svg/calendar.svg'
+                  iconPath: Assets.svgCalendar
                 ),
               ),
               MyDivider(),

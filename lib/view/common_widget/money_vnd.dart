@@ -1,4 +1,5 @@
 import 'package:fe_financial_manager/constants/colors.dart';
+import 'package:fe_financial_manager/generated/assets.dart';
 import 'package:fe_financial_manager/utils/to_vnd.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,7 @@ class MoneyVnd extends StatelessWidget {
               child: SvgContainer(
                 iconWidth: iconWidth,
                 myIconColor: textColor,
-                iconPath: 'assets/svg/vnd.svg',
+                iconPath: Assets.svgVnd,
                 containerSize: iconWidth,
               ),
             ),
