@@ -32,3 +32,6 @@ String getYesterdayOfCurrentDayMonthYear(){
   String formattedDate = "${now.toIso8601String().split('.')[0]}Z";
   return formattedDate;
 }
+int dateTimeToSecondsSinceEpoch(DateTime dateTime) {
+  return (dateTime.millisecondsSinceEpoch / 1000).round();
+}

@@ -38,7 +38,6 @@ class _CustomTextfieldState extends State<CustomTextfield> {
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
-
     return Container(
         color: Theme.of(context).colorScheme.primary,
         padding: EdgeInsets.symmetric(vertical: widget.verticalPadding),
@@ -73,7 +72,6 @@ class _CustomTextfieldState extends State<CustomTextfield> {
                 prefixIconConstraints: const BoxConstraints(
                   minWidth: 0, minHeight: 0
                 ),
-
               ),
             ),
           ],

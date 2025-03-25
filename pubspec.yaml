@@ -33,6 +33,9 @@ dependencies:
   syncfusion_flutter_charts: ^28.2.11
   pie_chart: ^5.4.0
   flutter_rounded_date_picker: ^3.0.4
+  percent_indicator: ^4.2.3
+  just_the_tooltip: ^0.0.12
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

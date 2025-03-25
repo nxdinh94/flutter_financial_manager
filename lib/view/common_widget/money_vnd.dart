@@ -5,34 +5,45 @@ import 'package:flutter/material.dart';
 class MoneyVnd extends StatelessWidget {
   MoneyVnd({
     super.key,
-    this.iconColor = colorTextBlack,
     this.iconWidth= 18,
     required this.fontSize,
     this.fontWeight = FontWeight.w600,
-    required this.amount
+    required this.amount,
+    this.textColor = colorTextBlack
   });
   double iconWidth;
-  Color iconColor;
   final double fontSize;
   FontWeight fontWeight;
   final double amount;
+  Color textColor;
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          toVnd(amount).toString(),
-          style: TextStyle(
-              fontWeight: fontWeight,
-              fontSize: fontSize
+    return RichText(
+      text: TextSpan(
+        children: [
+          WidgetSpan(
+            child: Text(
+              toVnd(amount).toString(),
+              style: TextStyle(
+                  fontWeight: fontWeight,
+                  fontSize: fontSize,
+                  color: textColor
+              ),
+            ),
           ),
-        ),
-        SvgContainer(
-          iconWidth: iconWidth,
-          myIconColor: iconColor,
-          iconPath: 'assets/svg/vnd.svg',
-        ),
-      ],
+          WidgetSpan(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 4.0),
+              child: SvgContainer(
+                iconWidth: iconWidth,
+                myIconColor: textColor,
+                iconPath: 'assets/svg/vnd.svg',
+                containerSize: iconWidth,
+              ),
+            ),
+          ),
+        ]
+      )
     );
   }
 }

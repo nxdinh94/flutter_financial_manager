@@ -1,3 +1,5 @@
+import 'package:fe_financial_manager/constants/colors.dart';
+import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:flutter/material.dart';
 
 class SwitchRow extends StatefulWidget {
@@ -20,18 +22,25 @@ class SwitchRow extends StatefulWidget {
 class _SwitchRowState extends State<SwitchRow> {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(widget.text, style: Theme.of(context).textTheme.bodyLarge,),
-        SizedBox(
-          width: 54,
-          child: Switch(
-            value: widget.flag,
-            onChanged: widget.callback,
+    return Container(
+      padding: horizontalHalfPadding,
+      decoration: BoxDecoration(
+        color: primaryColor,
+        border: Border.all(width: 0.5, color: dividerColor)
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(widget.text, style: Theme.of(context).textTheme.bodyLarge,),
+          SizedBox(
+            width: 54,
+            child: Switch(
+              value: widget.flag,
+              onChanged: widget.callback,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -9,22 +9,27 @@ class SvgContainer extends StatelessWidget {
     required this.iconPath,
     this.myIconColor = iconColor,
     this.containerSize = 20,
+    this.callback
   });
   final double iconWidth;
   final String iconPath;
   Color myIconColor;
   double containerSize;
+  VoidCallback ? callback;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center, // <---- The magic
-      width: containerSize,
-      height: containerSize,
-      child: SvgPicture.asset(
-        iconPath,
-        width: iconWidth,
-        colorFilter: ColorFilter.mode(myIconColor, BlendMode.srcIn),
-      )
+    return InkWell(
+      onTap: callback ?? (){},
+      child: Container(
+        alignment: Alignment.center, // <---- The magic
+        width: containerSize,
+        height: containerSize,
+        child: SvgPicture.asset(
+          iconPath,
+          width: iconWidth,
+          colorFilter: ColorFilter.mode(myIconColor, BlendMode.srcIn),
+        )
+      ),
     );
   }
 }

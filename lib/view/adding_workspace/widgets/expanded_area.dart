@@ -53,23 +53,14 @@ class _ExpandedAreaState extends State<ExpandedArea> {
               ),
               MyDivider(),
               const SizedBox(height: 40,),
-              Container(
-                padding: horizontalHalfPadding,
-                decoration: BoxDecoration(
-                  border: const Border.symmetric(
-                    horizontal:BorderSide(color: dividerColor, width: 1)
-                  ),
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                child: SwitchRow(
-                  flag: isIncludeInReport,
-                  callback: (value) {
-                    setState(() {
-                      isIncludeInReport = value;
-                    });
-                  },
-                  text: 'Include from report',
-                )
+              SwitchRow(
+                flag: isIncludeInReport,
+                callback: (value) {
+                  setState(() {
+                    isIncludeInReport = value;
+                  });
+                },
+                text: 'Include from report',
               ),
               const SizedBox(height: 5),
               Text(

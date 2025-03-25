@@ -42,7 +42,7 @@ class _HomeState extends State<Home> {
                 children: [
                   Row(
                     children: [
-                      MoneyVnd(fontSize: 24, amount: 999999999, iconColor: black,),
+                      MoneyVnd(fontSize: 24, amount: 999999999, iconWidth: 18),
                       const SizedBox(width: 12),
                       SvgContainer(iconWidth: 22, iconPath: 'assets/svg/eye.svg', myIconColor: black,),
                     ],

@@ -10,6 +10,8 @@ import 'package:fe_financial_manager/view/auth/change_password.dart';
 import 'package:fe_financial_manager/view/auth/forgot_password.dart';
 import 'package:fe_financial_manager/view/auth/home_auth.dart';
 import 'package:fe_financial_manager/view/auth/signup.dart';
+import 'package:fe_financial_manager/view/budgets/budget_details.dart';
+import 'package:fe_financial_manager/view/budgets/create_update_budget.dart';
 import 'package:fe_financial_manager/view/categories_of_transaction/create_category.dart';
 import 'package:fe_financial_manager/view/wallets/add_wallets.dart';
 import 'package:fe_financial_manager/view/wallets/all_wallets.dart';
@@ -191,7 +193,36 @@ class CustomNavigationHelper {
                           state: state
                       );
                     },
-                    routes: []
+                    routes: [
+                      GoRoute(
+                          path: RoutesName.createUpdateBudgetPath,
+                          pageBuilder: (context, GoRouterState state){
+                            return getPage(
+                                child: CreateUpdateBudget(),
+                                state: state
+                            );
+                          },
+                          routes: [
+
+                          ]
+                      ),
+                      GoRoute(
+                          path: RoutesName.budgetDetailPath,
+                          pageBuilder: (context, GoRouterState state){
+                            Map<String, dynamic> data = state.extra as Map<String, dynamic>;
+                            return getPage(
+                                child: BudgetDetails(
+                                  dataToPassSpendingLimitItemWidget: data
+                                ),
+                                state: state
+                            );
+                          },
+                          routes: [
+
+                          ]
+                      ),
+
+                    ]
                 )
               ]
           ),

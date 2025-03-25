@@ -33,7 +33,6 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
 
   final TransactionViewModel _transactionViewModel = TransactionViewModel();
   Map<String, dynamic> dataToSubmit = {};
-
   final TextEditingController _amountController = TextEditingController();
   String chosenDateOccurTransaction = '';
   String nameOfTheDay = '';

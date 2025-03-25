@@ -39,5 +39,8 @@ class RoutesName {
   static const String eventPath = 'event';
   static const String createEventPath = 'createEvent';
 
+  //Budgets
+  static const String createUpdateBudgetPath = 'createUpdateBudget';
+  static const String budgetDetailPath = 'budgetDetail';
 
 }

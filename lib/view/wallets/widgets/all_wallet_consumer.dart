@@ -29,7 +29,7 @@ class AllWalletConsumer extends StatelessWidget {
                 WalletModel val = e.value;
                 double balance = double.parse(val.accountBalance);
                 return CheckPickedListTile(
-                  subtitle: MoneyVnd(fontSize: normal, amount: balance, iconWidth: 12, iconColor: iconColor),
+                  subtitle: MoneyVnd(fontSize: normal, amount: balance, iconWidth: 12, textColor: colorTextLabel,),
                   iconData: e.value,
                   titleTextStyle: Theme.of(context).textTheme.titleLarge,
                 );

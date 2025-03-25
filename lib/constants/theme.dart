@@ -275,13 +275,15 @@ ThemeData lightTheme = ThemeData(
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      backgroundColor: const Color(0xff32B849),
+      backgroundColor: secondaryColor,
       foregroundColor: colorTextWhite,
+
       padding: const EdgeInsets.symmetric(vertical: 6),
       shadowColor: Colors.transparent,
       textStyle: const TextStyle(
         fontSize: normal,
         fontFamily: 'Roboto',
+        fontWeight: FontWeight.w500
       ),
     )
   ),

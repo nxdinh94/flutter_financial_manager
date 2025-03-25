@@ -52,7 +52,7 @@ class WalletBanner extends StatelessWidget {
                   leftContentPadding: 0,
                 ),
               ),
-              MoneyVnd(fontSize: big, amount: 999999999, iconColor: black, iconWidth: 12,),
+              MoneyVnd(fontSize: big, amount: 999999999, iconWidth: 12,),
             ],
           )
         ],

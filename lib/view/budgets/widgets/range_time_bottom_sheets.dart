@@ -1,14 +1,14 @@
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/utils/date_time.dart';
+import 'package:fe_financial_manager/view/adding_workspace/widgets/text_container.dart';
 import 'package:fe_financial_manager/view/common_widget/divider.dart';
 import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:flutter/material.dart';
-import 'text_container.dart';
 
 
-Future showDateOptionBottomSheet(BuildContext context, Function setPickedDate){
+Future showRangeTimeOptionBottomSheet(BuildContext context, Function setPickedDate){
   return showMaterialModalBottomSheet(
     backgroundColor: Colors.transparent,
     context: context,
