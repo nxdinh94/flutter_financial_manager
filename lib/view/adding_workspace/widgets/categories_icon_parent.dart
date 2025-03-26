@@ -8,9 +8,12 @@ import 'package:go_router/go_router.dart';
 import '../../../model/transaction_categories_icon_model.dart';
 
 class CategoriesIconParent extends StatefulWidget {
-  CategoriesIconParent({super.key, required this.parentIcon, this.onTap, this.pickedCategoryId});
+  CategoriesIconParent({
+    super.key,
+    required this.parentIcon,
+    required this.onTap, this.pickedCategoryId});
   final CategoriesIconModel parentIcon;
-  Function  ? onTap;
+  final void Function(PickedIconModel) onTap;
   String ? pickedCategoryId;
 
   @override

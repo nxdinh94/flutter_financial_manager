@@ -60,44 +60,20 @@ class _BudgetDetailsState extends State<BudgetDetails> {
 
     // Populate the map with elements from the input list
     for (var element in inputList){
-      if (elementGroups.containsKey(element['cash_flow_category_id'])) {
-        elementGroups[element['cash_flow_category_id']]!.add(element);
+      if (element['parent_id'] != null ) {
+        if(elementGroups.containsKey(element['transaction_type_id'])){
+          elementGroups[element['transaction_type_id']]!.add(element);
+        }else {
+          elementGroups[element['transaction_type_id']] = [element];
+        }
       } else {
-        elementGroups[element['cash_flow_category_id']] = [element];
+        elementGroups[element['transaction_type_id']] = [element];
       }
     }
 
     // Extract the values from the map and return as a list of lists
     return elementGroups.values.toList();
   }
-  Map<String, dynamic> thisSpendingLimit = {
-    'amount_of_money': {'\$numberDecimal': '5000000'},
-    'actual_spending': {'\$numberDecimal': '2000000'},
-    'should_spending': {'\$numberDecimal': '1500000'},
-    'expected_spending': {'\$numberDecimal': '4500000'},
-    'expense_records': [
-      {
-        'occur_date': '2025-03-20',
-        'amount_of_money': {'\$numberDecimal': '500000'},
-        'cash_flow_category_id': 'food'
-      },
-      {
-        'occur_date': '2025-03-21',
-        'amount_of_money': {'\$numberDecimal': '300000'},
-        'cash_flow_category_id': 'food'
-      },
-      {
-        'occur_date': '2025-03-21',
-        'amount_of_money': {'\$numberDecimal': '700000'},
-        'cash_flow_category_id': 'transport'
-      },
-      {
-        'occur_date': '2025-03-22',
-        'amount_of_money': {'\$numberDecimal': '1000000'},
-        'cash_flow_category_id': 'entertainment'
-      }
-    ]
-  };
 
   @override
   Widget build(BuildContext context) {
@@ -125,11 +101,10 @@ class _BudgetDetailsState extends State<BudgetDetails> {
       ),
       body: Consumer(
         builder: (context, value, child) {
-          // Map<String, dynamic> thisSpendingLimit = value.specificSpendingLimit;
-          spendingLimitToUpdate = thisSpendingLimit;
+          spendingLimitToUpdate = widget.dataToPassSpendingLimitItemWidget;
           List<ChartData> areaChartData = [];
           areaChartData = initialChartData;
-          if(thisSpendingLimit.isEmpty){
+          if(spendingLimitToUpdate.isEmpty){
             return SizedBox(
               height: 150,
               child: Center(
@@ -137,16 +112,16 @@ class _BudgetDetailsState extends State<BudgetDetails> {
               ),
             );
           }
-          double initialMoney = double.parse(thisSpendingLimit['amount_of_money'][r'$numberDecimal']) ;
-          double actualSpending = double.parse(thisSpendingLimit['actual_spending'][r'$numberDecimal']) ;
-          double shouldSpending = double.parse(thisSpendingLimit['should_spending'][r'$numberDecimal']) ;
-          double expectedSpending = double.parse(thisSpendingLimit['expected_spending'][r'$numberDecimal']) ;
+          double initialMoney = double.parse(spendingLimitToUpdate['amount_of_money'][r'$numberDecimal']) ;
+          double actualSpending = double.parse(spendingLimitToUpdate['actual_spending'][r'$numberDecimal']) ;
+          double shouldSpending = double.parse(spendingLimitToUpdate['should_spending'][r'$numberDecimal']) ;
+          double expectedSpending = double.parse(spendingLimitToUpdate['expected_spending'][r'$numberDecimal']) ;
 
-          List<dynamic> expenseRecord = thisSpendingLimit['expense_records'];
+          List<dynamic> expenseRecord = spendingLimitToUpdate['expense_records'];
 
           List<List<dynamic>> transformExpenseRecordByDay = groupSameElementsByDay(expenseRecord);//[[a,a,a],[b,b,b]]
           List<List<dynamic>> transformExpenseRecordByCateParent = groupSameElementsByCategoryParent(expenseRecord);//[[a,a,a],[b,b,b]]
-
+          print(transformExpenseRecordByCateParent);
           for(final item1 in transformExpenseRecordByDay){
             double totalGroupMoney = 0;
             int day = 0;

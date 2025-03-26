@@ -2,6 +2,7 @@ import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class MyListTitle extends StatefulWidget {
   MyListTitle({
@@ -17,10 +18,12 @@ class MyListTitle extends StatefulWidget {
     ),
     this.verticalContentPadding = 0,
     this.leftContentPadding = 20,
+    this.rightContentPadding = 10,
     this.horizontalTitleGap = 12,
     this.hideTrailing = true,
     this.hideBottomBorder = true,
     this.hideTopBorder = true,
+    this.trailing,
   });
   final String title;
   Widget ? subTitle;
@@ -29,10 +32,12 @@ class MyListTitle extends StatefulWidget {
   TextStyle titleTextStyle;
   double verticalContentPadding;
   double leftContentPadding;
+  double rightContentPadding;
   double horizontalTitleGap;
   bool hideTrailing;
   bool hideTopBorder;
   bool hideBottomBorder;
+  Widget ? trailing;
   @override
   State<MyListTitle> createState() => _MyListTitleState();
 }
@@ -51,28 +56,44 @@ class _MyListTitleState extends State<MyListTitle> {
         )
       ),
       child: ListTile(
-        title: Text(widget.title, style: widget.titleTextStyle),
-        subtitle:  widget.subTitle,
-        leading: ConstrainedBox(
-          constraints: const BoxConstraints(
-            minHeight: 35.0,
-            minWidth: 35.0,
-            maxWidth: 80,
-            maxHeight: 80
+        title: Animate(
+          effects: const [MoveEffect(begin: Offset(-20, 0)), FadeEffect()],
+          delay: const Duration(milliseconds: 100),
+          child: Text(
+            widget.title,
+            style: widget.titleTextStyle
           ),
-          child: widget.leading
+        ),
+        subtitle:  widget.subTitle,
+        leading: Animate(
+          effects: const [MoveEffect(begin: Offset(-20, 0)), FadeEffect()],
+          delay: const Duration(milliseconds: 100),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(
+              minHeight: 35.0,
+              minWidth: 35.0,
+              maxWidth: 80,
+              maxHeight: 80
+            ),
+            child: widget.leading
+          ),
         ),
         trailing: Visibility(
-          maintainInteractivity: false,
-          maintainState: false,
           visible: widget.hideTrailing,
-          child: const Icon(Icons.arrow_forward_ios, size: 15,)
+          child: Animate(
+            effects: const [MoveEffect(begin: Offset(20, 0)), FadeEffect()],
+            delay: const Duration(milliseconds: 100),
+            child: widget.trailing ?? const Icon(
+              Icons.arrow_forward_ios,
+              size: 15,
+            ),
+          )
         ),
         visualDensity: VisualDensity(
           horizontal: 0,
           vertical : widget.verticalContentPadding
         ),
-        contentPadding: EdgeInsets.only(left: widget.leftContentPadding , right: 10),
+        contentPadding: EdgeInsets.only(left: widget.leftContentPadding , right: widget.rightContentPadding),
         onTap: widget.callback,
         horizontalTitleGap: widget.horizontalTitleGap,
       ),

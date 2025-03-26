@@ -12,6 +12,8 @@ import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+
+import '../../model/picked_icon_model.dart';
 class AllWallets extends StatefulWidget {
   const AllWallets({super.key});
 
@@ -58,7 +60,11 @@ class _AllWalletsState extends State<AllWallets> {
             const SizedBox(height: 6),
 
             // List all wallet
-            const AllWalletConsumer(),
+            AllWalletConsumer(
+              onItemTap: (PickedIconModel value ) {
+                context.push(RoutesName.addWalletsPath);
+              }
+            ),
 
             const SizedBox(height: 20),
             MyListTitle(
@@ -75,7 +81,6 @@ class _AllWalletsState extends State<AllWallets> {
               hideTrailing: false,
               hideTopBorder: false,
               hideBottomBorder: false,
-
             ),
           ],
         ),

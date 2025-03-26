@@ -8,9 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PickWalletTypes extends StatefulWidget {
-  PickWalletTypes({super.key, this.pickedWalletType, this.onItemTap});
+  PickWalletTypes({super.key, this.pickedWalletType, required this.onItemTap});
   PickedIconModel ? pickedWalletType;
-  Function ? onItemTap;
+  final void Function(PickedIconModel) onItemTap;
   @override
   State<PickWalletTypes> createState() => _PickWalletTypesState();
 }

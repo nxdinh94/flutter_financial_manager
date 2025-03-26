@@ -88,7 +88,7 @@ class CustomNavigationHelper {
                 path: RoutesName.addWalletsPath,
                 pageBuilder: (context, GoRouterState state) {
                   return getPage(
-                    child: const AddWallets(),
+                    child: AddWallets(),
                     state: state,
                   );
                 },
@@ -98,7 +98,7 @@ class CustomNavigationHelper {
                       pageBuilder: (context, GoRouterState state) {
                         Map<String, dynamic> data = state.extra as Map<String, dynamic>;
                         PickedIconModel pickedWalletType = data['pickedWalletType'];
-                        Function onTap = data['onTap'];
+                        void Function (PickedIconModel) onTap = data['onTap'];
                         return getPage(
                           child: PickWalletTypes(pickedWalletType: pickedWalletType, onItemTap: onTap,),
                           state: state,
@@ -150,8 +150,11 @@ class CustomNavigationHelper {
                       GoRoute(
                         path: RoutesName.selectWalletPath,
                         pageBuilder: (context, GoRouterState state){
+                          Map<String, dynamic> data = state.extra as Map<String, dynamic>;
+                          PickedIconModel pickedWallet = data['pickedCategory'];
+                          void Function(PickedIconModel) onTap = data['onTap'];
                           return getPage(
-                              child: SelectWallets(),
+                              child: SelectWallets(pickedWallet: pickedWallet, onItemTap: onTap,),
                               state: state
                           );
                         },
@@ -171,7 +174,7 @@ class CustomNavigationHelper {
                         pageBuilder: (context, GoRouterState state){
                           Map<String, dynamic> data = state.extra as Map<String, dynamic>;
                           PickedIconModel pickedCategory = data['pickedCategory'];
-                          Function onTap = data['onTap'];
+                          void Function(PickedIconModel) onTap = data['onTap'];
                           return getPage(
                               child: SelectCategory(pickedCategory: pickedCategory, onItemTap: onTap,),
                               state: state
@@ -251,7 +254,7 @@ class CustomNavigationHelper {
                         path: RoutesName.allCategoryPath,
                         pageBuilder: (context, GoRouterState state){
                           Map<String, dynamic> data = state.extra as Map<String, dynamic>;
-                          Function onTap = data['onTap'];
+                          void Function(PickedIconModel) onTap = data['onTap'];
                           return getPage(
                               child: SelectCategory(onItemTap: onTap,),
                               state: state

@@ -35,7 +35,9 @@ dependencies:
   flutter_rounded_date_picker: ^3.0.4
   percent_indicator: ^4.2.3
   just_the_tooltip: ^0.0.12
-
+  mobkit_dashed_border: ^0.0.6
+  flutter_animate: ^4.5.0
+  loading_animation_widget: ^1.3.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

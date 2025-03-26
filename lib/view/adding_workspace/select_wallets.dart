@@ -1,9 +1,11 @@
+import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
 import 'package:fe_financial_manager/view/wallets/widgets/all_wallet_consumer.dart';
 import 'package:flutter/material.dart';
 class SelectWallets extends StatefulWidget {
-  const SelectWallets({super.key}) ;
-
+  const SelectWallets({super.key, required this.pickedWallet, required this.onItemTap}) ;
+  final PickedIconModel pickedWallet;
+  final void Function(PickedIconModel) onItemTap;
   @override
   State<SelectWallets> createState() => _SelectWalletsState();
 }
@@ -20,7 +22,7 @@ class _SelectWalletsState extends State<SelectWallets> {
         child: Column(
           children: [
             const SizedBox(height: 12),
-            AllWalletConsumer(),
+            AllWalletConsumer(pickedWallet: widget.pickedWallet, onItemTap: widget.onItemTap,),
           ],
         ),
       ),

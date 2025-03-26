@@ -10,9 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SelectCategory extends StatefulWidget {
-  SelectCategory({super.key, this.pickedCategory, this.onItemTap});
+  SelectCategory({super.key, this.pickedCategory, required this.onItemTap});
   PickedIconModel ? pickedCategory;
-  Function ?  onItemTap;
+  final void Function(PickedIconModel) onItemTap;
   @override
   State<SelectCategory> createState() => _SelectCategoryState();
 }

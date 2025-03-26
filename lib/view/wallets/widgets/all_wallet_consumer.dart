@@ -2,6 +2,7 @@ import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/data/response/status.dart';
+import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/model/wallet_model.dart';
 import 'package:fe_financial_manager/view/common_widget/check_picked_list_title.dart';
 import 'package:fe_financial_manager/view/common_widget/money_vnd.dart';
@@ -11,9 +12,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AllWalletConsumer extends StatelessWidget {
-  const AllWalletConsumer({
-    super.key,
+  AllWalletConsumer({
+    super.key, this.pickedWallet, required this.onItemTap
   });
+  PickedIconModel ? pickedWallet;
+  final void Function(PickedIconModel) onItemTap;
   @override
   Widget build(BuildContext context) {
     return Consumer<WalletViewModel>(
@@ -32,6 +35,10 @@ class AllWalletConsumer extends StatelessWidget {
                   subtitle: MoneyVnd(fontSize: normal, amount: balance, iconWidth: 12, textColor: colorTextLabel,),
                   iconData: e.value,
                   titleTextStyle: Theme.of(context).textTheme.titleLarge,
+                  onTap: (PickedIconModel value){
+                    onItemTap(value);
+                  },
+                  pickedIconId: pickedWallet?.id,
                 );
               }).toList()
             );

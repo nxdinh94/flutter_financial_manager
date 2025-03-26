@@ -3,6 +3,7 @@ import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/generated/assets.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
+import 'package:fe_financial_manager/model/wallet_model.dart';
 import 'package:fe_financial_manager/model/wallet_type_icon_model.dart';
 import 'package:fe_financial_manager/utils/get_initial_wallet.dart';
 import 'package:fe_financial_manager/utils/routes/routes_name.dart';
@@ -22,7 +23,8 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class AddWallets extends StatefulWidget {
-  const AddWallets({super.key});
+  AddWallets({super.key, this.walletToUpdate});
+  WalletModel ? walletToUpdate;
   @override
   State<AddWallets> createState() => _AddWalletsState();
 }

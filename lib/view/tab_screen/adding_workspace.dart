@@ -65,6 +65,12 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
     });
     context.pop();
   }
+  void onItemWalletTap(PickedIconModel value){
+    setState(() {
+      pickedWallet = value;
+    });
+    context.pop();
+  }
   // Save transaction
   Future <void> saveTransaction() async {
 
@@ -132,7 +138,13 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
             //Pick wallets
             MyListTitle(
               callback: () async{
-                dynamic result = await context.push('${RoutesName.addingWorkSpacePath}/${RoutesName.selectWalletPath}');
+                dynamic result = await context.push(
+                  '${RoutesName.addingWorkSpacePath}/${RoutesName.selectWalletPath}',
+                  extra: {
+                    'pickedWallet': pickedCategory,
+                    'onTap' : onItemWalletTap
+                  }
+                );
                 if(result != null){
                   pickedWallet = result;
                 }

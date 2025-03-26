@@ -9,11 +9,12 @@ import '../../../model/transaction_categories_icon_model.dart';
 import '../../common_widget/divider.dart';
 class CategoriesIconChildren extends StatelessWidget {
   CategoriesIconChildren({
-    super.key, required this.categoryChildren, this.onItemTap,
+    super.key, required this.categoryChildren,
+    required this.onItemTap,
     this.pickedCategoryId
   });
   final CategoriesIconModel categoryChildren;
-  Function ? onItemTap;
+  final void Function(PickedIconModel) onItemTap;
   String ? pickedCategoryId;
 
 
