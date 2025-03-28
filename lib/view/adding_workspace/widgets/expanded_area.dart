@@ -23,53 +23,56 @@ class _ExpandedAreaState extends State<ExpandedArea> {
     final double screenWidth = MediaQuery.of(context).size.width;
     return Column(
       children: [
-        if (isExpanded) Container(
-          child: Column(
-            children: [
-              MyDivider(),
-              MyListTitle(
-                title: 'With',
-                callback: (){},
-                leading: SvgContainer(
-                  iconWidth: 30,
-                  iconPath: Assets.svgPerson
-                ),
+        if (isExpanded) Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            MyDivider(),
+            MyListTitle(
+              title: 'With',
+              callback: (){},
+              leading: SvgContainer(
+                iconWidth: 30,
+                iconPath: Assets.svgPerson
               ),
-              MyDivider(),
-              const SizedBox(height: 20,),
-              MyDivider(),
-              MyListTitle(
-                title: 'Select event',
-                callback: (){},
-                leading: SvgContainer(
-                  iconWidth: 28,
-                  iconPath: Assets.svgCalendar
-                ),
+            ),
+            MyDivider(),
+            const SizedBox(height: 20,),
+            MyDivider(),
+            MyListTitle(
+              title: 'Select event',
+              callback: (){},
+              leading: SvgContainer(
+                iconWidth: 28,
+                iconPath: Assets.svgCalendar
               ),
-              MyDivider(),
-              MyListTitle(
-                title: 'No remind',
-                callback: (){},
-                leading: const Icon(Icons.watch_later_outlined, size: 33,)
-              ),
-              MyDivider(),
-              const SizedBox(height: 40,),
-              SwitchRow(
-                flag: isIncludeInReport,
-                callback: (value) {
-                  setState(() {
-                    isIncludeInReport = value;
-                  });
-                },
-                text: 'Include from report',
-              ),
-              const SizedBox(height: 5),
-              Text(
+            ),
+            MyDivider(),
+            MyListTitle(
+              title: 'No remind',
+              callback: (){},
+              leading: const Icon(Icons.watch_later_outlined, size: 33,)
+            ),
+            MyDivider(),
+            const SizedBox(height: 40,),
+            SwitchRow(
+              flag: isIncludeInReport,
+              callback: (value) {
+                setState(() {
+                  isIncludeInReport = value;
+                });
+              },
+              text: 'Include from report',
+              isShowBorder: true,
+            ),
+            const SizedBox(height: 5),
+            Padding(
+              padding: horizontalHalfPadding,
+              child: Text(
                 "Include this transaction in reports such as Overview",
                 style: Theme.of(context).textTheme.labelSmall,
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
 
         const SizedBox(height: 20,),

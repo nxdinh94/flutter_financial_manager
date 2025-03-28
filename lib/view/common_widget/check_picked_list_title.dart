@@ -14,10 +14,12 @@ class CheckPickedListTile<T> extends StatefulWidget {
     this.contentLeftPadding = 12,
     this.titleTextStyle,
     this.isShowBorderBottom = true,
-    required this.onTap
+    required this.onTap,
+    this.onReturnWholeItem
   });
 
   final T iconData;
+  final void Function(dynamic) ? onReturnWholeItem;
   String ? pickedIconId;
   Widget ? subtitle;
   double contentLeftPadding;
@@ -53,6 +55,10 @@ class _CheckPickedListTileState extends State<CheckPickedListTile> {
           );
           //return value
           widget.onTap(pickedIcon);
+          //return root data
+          if(widget.onReturnWholeItem != null){
+            widget.onReturnWholeItem!(widget.iconData);
+          }
         },
         trailing: widget.pickedIconId == widget.iconData.id ? const CheckIcon():
         const SizedBox.shrink(),

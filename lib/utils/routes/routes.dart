@@ -1,4 +1,5 @@
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
+import 'package:fe_financial_manager/model/wallet_model.dart';
 import 'package:fe_financial_manager/utils/routes/my_bottom_navigation_bar.dart';
 import 'package:fe_financial_manager/view/account_tab/account_setting.dart';
 import 'package:fe_financial_manager/view/account_tab/events_of_transactions/create_events.dart';
@@ -87,10 +88,19 @@ class CustomNavigationHelper {
               GoRoute(
                 path: RoutesName.addWalletsPath,
                 pageBuilder: (context, GoRouterState state) {
-                  return getPage(
-                    child: AddWallets(),
-                    state: state,
-                  );
+                  if(state.extra == null){
+                    return getPage(
+                      child: AddWallets(),
+                      state: state,
+                    );
+                  }else {
+                    WalletModel walletToUpdate = state.extra as WalletModel;
+                    return getPage(
+                      child: AddWallets(walletToUpdate: walletToUpdate,),
+                      state: state,
+                    );
+                  }
+
                 },
                 routes: [
                   GoRoute(

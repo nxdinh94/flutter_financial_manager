@@ -61,9 +61,11 @@ class _AllWalletsState extends State<AllWallets> {
 
             // List all wallet
             AllWalletConsumer(
-              onItemTap: (PickedIconModel value ) {
-                context.push(RoutesName.addWalletsPath);
-              }
+              onItemTap: (PickedIconModel value ) {},
+              onReturnWholeItem: (value) {
+                WalletModel dataToUpdate = value as WalletModel;
+                context.push(RoutesName.addWalletsPath, extra: dataToUpdate);
+              },
             ),
 
             const SizedBox(height: 20),

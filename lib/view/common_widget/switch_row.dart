@@ -7,11 +7,11 @@ class SwitchRow extends StatefulWidget {
     super.key,
     required this.flag,
     required this.callback, required this.text,
-
-
+    this.isShowBorder = false,
   });
 
   final bool flag;
+  final bool isShowBorder;
   final ValueChanged<bool> callback;
   final String text;
 
@@ -26,7 +26,7 @@ class _SwitchRowState extends State<SwitchRow> {
       padding: horizontalHalfPadding,
       decoration: BoxDecoration(
         color: primaryColor,
-        border: Border.all(width: 0.5, color: dividerColor)
+        border: widget.isShowBorder ?  Border.all(width: 0.5, color: dividerColor) : const Border()
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

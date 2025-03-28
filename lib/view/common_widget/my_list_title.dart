@@ -24,6 +24,7 @@ class MyListTitle extends StatefulWidget {
     this.hideBottomBorder = true,
     this.hideTopBorder = true,
     this.trailing,
+    this.isShowAnimate = true,
   });
   final String title;
   Widget ? subTitle;
@@ -38,6 +39,7 @@ class MyListTitle extends StatefulWidget {
   bool hideTopBorder;
   bool hideBottomBorder;
   Widget ? trailing;
+  bool isShowAnimate;
   @override
   State<MyListTitle> createState() => _MyListTitleState();
 }
@@ -57,7 +59,7 @@ class _MyListTitleState extends State<MyListTitle> {
       ),
       child: ListTile(
         title: Animate(
-          effects: const [MoveEffect(begin: Offset(-20, 0)), FadeEffect()],
+          effects: widget.isShowAnimate? const [MoveEffect(begin: Offset(-20, 0)), FadeEffect()]:[],
           delay: const Duration(milliseconds: 100),
           child: Text(
             widget.title,
@@ -66,7 +68,7 @@ class _MyListTitleState extends State<MyListTitle> {
         ),
         subtitle:  widget.subTitle,
         leading: Animate(
-          effects: const [MoveEffect(begin: Offset(-20, 0)), FadeEffect()],
+          effects:  widget.isShowAnimate? const [MoveEffect(begin: Offset(-20, 0)), FadeEffect()]:[],
           delay: const Duration(milliseconds: 100),
           child: ConstrainedBox(
             constraints: const BoxConstraints(
@@ -81,7 +83,7 @@ class _MyListTitleState extends State<MyListTitle> {
         trailing: Visibility(
           visible: widget.hideTrailing,
           child: Animate(
-            effects: const [MoveEffect(begin: Offset(20, 0)), FadeEffect()],
+            effects: widget.isShowAnimate? const [MoveEffect(begin: Offset(20, 0)), FadeEffect()] : [],
             delay: const Duration(milliseconds: 100),
             child: widget.trailing ?? const Icon(
               Icons.arrow_forward_ios,

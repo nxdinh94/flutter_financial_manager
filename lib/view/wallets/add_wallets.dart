@@ -2,6 +2,7 @@ import 'package:diacritic/diacritic.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/generated/assets.dart';
+import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/model/wallet_model.dart';
 import 'package:fe_financial_manager/model/wallet_type_icon_model.dart';
@@ -56,7 +57,8 @@ class _AddWalletsState extends State<AddWallets> {
       Utils.flushBarErrorMessage('Initial money or name of wallet cannot be empty', context);
       return;
     }
-    if(removeDiacritics(pickedWalletType.name) == 'Vi tin dung'  || removeDiacritics(pickedWalletType.name) == 'Tai khoan ngan hang'){
+    if(removeDiacritics(pickedWalletType.name) == 'Vi tin dung'
+        || removeDiacritics(pickedWalletType.name) == 'Tai khoan ngan hang'){
       if(dataToSubmit['bank_type'].toString().isEmpty){
         Utils.flushBarErrorMessage('Bank is required', context);
         return;
@@ -90,14 +92,24 @@ class _AddWalletsState extends State<AddWallets> {
   @override
   void initState() {
     super.initState(); // Call super first
-    final WalletViewModel walletViewModel = Provider.of<WalletViewModel>(context, listen: false);
-    List<WalletTypeIconModel> listData = walletViewModel.iconWalletTypeData.data ?? [];
-    getInitialData<WalletTypeIconModel>((data){
-      setState(() {
-        pickedWalletType = data;
-      });
-    },listData, context);
-
+    if(widget.walletToUpdate == null){
+      final WalletViewModel walletViewModel = Provider.of<WalletViewModel>(context, listen: false);
+      List<WalletTypeIconModel> listData = walletViewModel.iconWalletTypeData.data ?? [];
+      getInitialData<WalletTypeIconModel>((data){
+        setState(() {
+          pickedWalletType = data;
+        });
+      },listData, context);
+    }else{
+      pickedWalletType = PickedIconModel(
+        icon: widget.walletToUpdate!.icon,
+        name: widget.walletToUpdate!.name,
+        id: widget.walletToUpdate!.id
+      );
+      _amountController.text = widget.walletToUpdate!.accountBalance;
+      _nameController.text = widget.walletToUpdate!.name;
+      // _noteController.text = widget.walletToUpdate!.;
+    }
   }
 
   @override
@@ -185,6 +197,7 @@ class _AddWalletsState extends State<AddWallets> {
               title: pickedWalletType.name == '' ? 'Choose Wallet' : pickedWalletType.name,
               horizontalTitleGap: 12,
               leftContentPadding: 10,
+              isShowAnimate: false,
               callback: (){
                 context.push(
                   '${RoutesName.addWalletsPath}/${RoutesName.pickWalletTypePath}',
@@ -211,9 +224,7 @@ class _AddWalletsState extends State<AddWallets> {
                 horizontalTitleGap: 10,
                 leftContentPadding: 10,
                 callback: ()async{
-                  dynamic result = await context.push(
-                    '${RoutesName.addWalletsPath}/${RoutesName.pickExternalBankPath}'
-                  );
+                  dynamic result = await context.push(FinalRoutes.pickExternalBankPath);
                   if(result != null){
                     setState(() {
                       pickedBank = result as PickedIconModel;
@@ -239,18 +250,14 @@ class _AddWalletsState extends State<AddWallets> {
             ),
             MyDivider(indent: dividerIndent,),
 
-            Container(
-              color: Theme.of(context).colorScheme.primary,
-              padding: horizontalHalfPadding,
-              child: SwitchRow(
-                text: 'Include from report',
-                callback: (value){
-                  setState(() {
-                    isIncludeFromReport = value;
-                  });
-                },
-                flag: isIncludeFromReport,
-              ),
+            SwitchRow(
+              text: 'Include from report',
+              callback: (value){
+                setState(() {
+                  isIncludeFromReport = value;
+                });
+              },
+              flag: isIncludeFromReport,
             ),
           ],
         ),
