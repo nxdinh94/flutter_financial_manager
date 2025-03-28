@@ -32,7 +32,7 @@ class NoRunningBudget extends StatelessWidget {
             width: screenWidth,
             child: ElevatedButton(
             onPressed: (){
-              context.push('${RoutesName.budgetsPath}/${RoutesName.createUpdateBudgetPath}');
+              context.push(RoutesName.createUpdateBudgetPath);
             },
             child: const Text('Create a budget'))
           ),

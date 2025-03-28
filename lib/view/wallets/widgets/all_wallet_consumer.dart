@@ -40,7 +40,9 @@ class AllWalletConsumer extends StatelessWidget {
                     onItemTap(value);
                   },
                   onReturnWholeItem: (value){
-                    onReturnWholeItem!(value);
+                    if(onReturnWholeItem != null){
+                      onReturnWholeItem!(value);
+                    }
                   },
                   pickedIconId: pickedWallet?.id,
                 );

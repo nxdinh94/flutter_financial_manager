@@ -24,8 +24,8 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class AddWallets extends StatefulWidget {
-  AddWallets({super.key, this.walletToUpdate});
-  WalletModel ? walletToUpdate;
+  const AddWallets({super.key, this.walletToUpdate});
+  final WalletModel ? walletToUpdate;
   @override
   State<AddWallets> createState() => _AddWalletsState();
 }
@@ -200,7 +200,7 @@ class _AddWalletsState extends State<AddWallets> {
               isShowAnimate: false,
               callback: (){
                 context.push(
-                  '${RoutesName.addWalletsPath}/${RoutesName.pickWalletTypePath}',
+                  FinalRoutes.pickWalletTypePath,
                   extra: {
                     'pickedWalletType': pickedWalletType,
                     'onTap' : onItemCategoryTap

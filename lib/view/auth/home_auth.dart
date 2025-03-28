@@ -1,6 +1,7 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/generated/assets.dart';
+import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:flutter/material.dart';
@@ -120,7 +121,7 @@ class _HomeAuthState extends State<HomeAuth> {
                       height: 42,
                       child: ElevatedButton(
                         onPressed: (){
-                          context.push('${RoutesName.homeAuthPath}/${RoutesName.signUpPath}');
+                          context.push(FinalRoutes.signUpPath);
                         },
                         child: const Text(
                           'Sign up for free', style: TextStyle(
@@ -135,7 +136,7 @@ class _HomeAuthState extends State<HomeAuth> {
                       height: 42,
                       child: ElevatedButton(
                         onPressed: (){
-                          context.push('${RoutesName.homeAuthPath}/${RoutesName.signInPath}');
+                          context.push(FinalRoutes.signInPath);
                         },
                         style: Theme.of(context).elevatedButtonTheme.style?.copyWith(
                           backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.secondary),

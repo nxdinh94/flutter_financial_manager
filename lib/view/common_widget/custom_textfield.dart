@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'svg_container.dart';
 
 class CustomTextfield extends StatefulWidget {
-  CustomTextfield({
+  const CustomTextfield({
     super.key,
     required TextEditingController amountController,
     required this.hintText,
@@ -21,14 +21,14 @@ class CustomTextfield extends StatefulWidget {
 
   final TextEditingController _amountController;
   final String hintText;
-  bool hideLegend;
-  Widget ? legend;
-  TextInputType textInputType;
-  Widget  ? prefixIcon;
-  double fontSize;
-  double verticalPadding ;
-  EdgeInsets  prefixIconPadding;
-  ValueChanged<String> ? onChange;
+  final bool hideLegend;
+  final Widget ? legend;
+  final TextInputType textInputType;
+  final Widget  ? prefixIcon;
+  final double fontSize;
+  final double verticalPadding ;
+  final EdgeInsets  prefixIconPadding;
+  final ValueChanged<String> ? onChange;
 
   @override
   State<CustomTextfield> createState() => _CustomTextfieldState();

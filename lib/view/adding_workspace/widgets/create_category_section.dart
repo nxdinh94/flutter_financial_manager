@@ -1,4 +1,5 @@
 import 'package:fe_financial_manager/constants/colors.dart';
+import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/view/adding_workspace/widgets/text_container.dart';
 import 'package:fe_financial_manager/view/common_widget/adding_circle.dart';
@@ -24,7 +25,7 @@ class CreateCategorySection extends StatelessWidget {
           ),
           TextContainer(
             callback: () async{
-              context.push(RoutesName.addNewCategoryPath);
+              context.push(FinalRoutes.addNewCategoryPath);
             },
             title: 'New category',
             textColor: Theme.of(context).colorScheme.secondary,

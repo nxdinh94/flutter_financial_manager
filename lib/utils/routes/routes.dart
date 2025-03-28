@@ -161,7 +161,7 @@ class CustomNavigationHelper {
                         path: RoutesName.selectWalletPath,
                         pageBuilder: (context, GoRouterState state){
                           Map<String, dynamic> data = state.extra as Map<String, dynamic>;
-                          PickedIconModel pickedWallet = data['pickedCategory'];
+                          PickedIconModel pickedWallet = data['pickedWallet'];
                           void Function(PickedIconModel) onTap = data['onTap'];
                           return getPage(
                               child: SelectWallets(pickedWallet: pickedWallet, onItemTap: onTap,),

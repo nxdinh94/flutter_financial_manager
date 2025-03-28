@@ -2,6 +2,7 @@ import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/generated/assets.dart';
+import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/utils/get_initial_wallet.dart';
 import 'package:fe_financial_manager/utils/routes/routes_name.dart';
@@ -21,8 +22,8 @@ import 'package:provider/provider.dart';
 
 import '../../view_model/wallet_view_model.dart';
 class CreateUpdateBudget extends StatefulWidget {
-  CreateUpdateBudget({super.key, this.budgets});
-  Map<String, dynamic> ?  budgets;
+  const CreateUpdateBudget({super.key, this.budgets});
+  final Map<String, dynamic> ?  budgets;
 
   @override
   State<CreateUpdateBudget> createState() => _CreateUpdateBudgetState();
@@ -112,7 +113,7 @@ class _CreateUpdateBudgetState extends State<CreateUpdateBudget> {
               ),
               callback: () {
                 context.push(
-                    '${RoutesName.addingWorkSpacePath}/${RoutesName.pickCategoryPath}',
+                    FinalRoutes.pickCategoryPath,
                     extra: {
                       'pickedCategory': pickedCategory,
                       'onTap' : onItemCategoryTap
@@ -156,7 +157,7 @@ class _CreateUpdateBudgetState extends State<CreateUpdateBudget> {
             MyDivider(indent: dividerIndent),
             MyListTitle(
               callback: () async{
-                dynamic result = await context.push('${RoutesName.addingWorkSpacePath}/${RoutesName.selectWalletPath}');
+                dynamic result = await context.push(FinalRoutes.selectWalletPath);
                 if(result != null){
                   pickedWallet = result;
                 }

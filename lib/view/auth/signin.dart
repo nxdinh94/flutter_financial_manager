@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, library_private_types_in_public_api, prefer_final_fields, unused_local_variable, avoid_print
 
+import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/view/auth/widgets/email_text_form_field.dart';
 import 'package:fe_financial_manager/view/auth/widgets/password_text_form_field.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
@@ -124,7 +125,7 @@ class _SigninState extends State<Signin> {
                   children: [
                     InkWell(
                       onTap: () {
-                        context.push('${RoutesName.homeAuthPath}/${RoutesName.signUpPath}');
+                        context.push(FinalRoutes.signUpPath);
                       },
                       child: Text("Sign Up", style: TextStyle(
                         fontSize: Theme.of(context).textTheme.bodySmall?.fontSize,
@@ -134,7 +135,7 @@ class _SigninState extends State<Signin> {
 
                     InkWell(
                         onTap: () {
-                          context.push('${RoutesName.homeAuthPath}/${RoutesName.forgotPasswordPath}');
+                          context.push(FinalRoutes.forgotPasswordPath);
                         },
                         child: Text("Forgot password?", style: TextStyle(
                           fontSize: Theme.of(context).textTheme.bodySmall?.fontSize,

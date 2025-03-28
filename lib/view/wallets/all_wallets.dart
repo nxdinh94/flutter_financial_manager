@@ -1,6 +1,7 @@
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/data/response/api_response.dart';
 import 'package:fe_financial_manager/data/response/status.dart';
+import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/model/wallet_model.dart';
 import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/view/common_widget/adding_circle.dart';
@@ -64,15 +65,15 @@ class _AllWalletsState extends State<AllWallets> {
               onItemTap: (PickedIconModel value ) {},
               onReturnWholeItem: (value) {
                 WalletModel dataToUpdate = value as WalletModel;
-                context.push(RoutesName.addWalletsPath, extra: dataToUpdate);
+                context.push(FinalRoutes.addWalletsPath, extra: dataToUpdate);
               },
             ),
 
             const SizedBox(height: 20),
             MyListTitle(
               callback: (){
-                context.push(RoutesName.addWalletsPath);
-              },
+                context.push(FinalRoutes.addWalletsPath);
+},
               title: 'Add wallet',
               titleTextStyle:
                 Theme.of(context).textTheme.bodyLarge!.copyWith(color: secondaryColor),

@@ -1,3 +1,4 @@
+import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/model/user_model.dart';
 import 'package:fe_financial_manager/utils/auth_manager.dart';
 import 'package:flutter/cupertino.dart';
@@ -36,7 +37,7 @@ class AuthViewModel with ChangeNotifier {
       AuthManager.persistTokens(accessToken, refreshToken, user);
       setLoading(false);
       // Utils.flushBarErrorMessage(value['message'], context);
-      context.pushReplacement(RoutesName.homePath);
+      context.pushReplacement(FinalRoutes.homePath);
 
     }).onError((error, stackTrace) {
       setLoading(false);
@@ -54,7 +55,7 @@ class AuthViewModel with ChangeNotifier {
     _myRepo.signUpApi(data).then((value) {
       setSignUpLoading(false);
       Utils.flushBarErrorMessage('SignUp Successfully', context);
-      context.push('${RoutesName.homeAuthPath}/${RoutesName.signInPath}');
+      context.push(FinalRoutes.signInPath);
     }).onError((error, stackTrace) {
       print(error);
       // Utils.flushBarErrorMessage(error.toString(), context);
@@ -68,7 +69,7 @@ class AuthViewModel with ChangeNotifier {
     AuthManager.logout();
     _myRepo.logOutApi(refreshToken).then((value){
       setLoading(true);
-      context.pushReplacement(RoutesName.homeAuthPath);
+      context.pushReplacement(FinalRoutes.homeAuthPath);
 
       Utils.toastMessage('Logout Successfully');
     }).onError((error, stackTrace){

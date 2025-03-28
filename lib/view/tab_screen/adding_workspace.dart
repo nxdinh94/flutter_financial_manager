@@ -2,6 +2,7 @@
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/generated/assets.dart';
+import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/utils/date_time.dart';
 import 'package:fe_financial_manager/utils/get_initial_wallet.dart';
@@ -139,9 +140,9 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
             MyListTitle(
               callback: () async{
                 dynamic result = await context.push(
-                  '${RoutesName.addingWorkSpacePath}/${RoutesName.selectWalletPath}',
+                  FinalRoutes.selectWalletPath,
                   extra: {
-                    'pickedWallet': pickedCategory,
+                    'pickedWallet': pickedWallet,
                     'onTap' : onItemWalletTap
                   }
                 );
@@ -175,7 +176,7 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
               ),
               callback: () {
                 context.push(
-                  '${RoutesName.addingWorkSpacePath}/${RoutesName.pickCategoryPath}',
+                  FinalRoutes.pickCategoryPath,
                     extra: {
                       'pickedCategory': pickedCategory,
                       'onTap' : onItemCategoryTap
@@ -197,7 +198,7 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
               callback: () async {
                 final dynamic result =
                   await context.push<String>(
-                    '${RoutesName.addingWorkSpacePath}/${RoutesName.addNotePath}', extra: note);
+                   FinalRoutes.addNotePath , extra: note);
                 setState(() {
                   note = result;
                 });

@@ -1,4 +1,5 @@
 import 'package:fe_financial_manager/generated/assets.dart';
+import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/view/account_tab/widgets/account_banner.dart';
@@ -48,7 +49,7 @@ class _AccountState extends State<Account> {
             MyListTitle(
               title: 'My account',
               callback: (){
-                context.push('${RoutesName.accountPath}/${RoutesName.accountSettingsPath}');
+                context.push(FinalRoutes.accountSettingsPath);
               },
               leading: SvgContainer(
                 iconWidth: 28,
@@ -63,7 +64,7 @@ class _AccountState extends State<Account> {
               title: 'Categories',
               callback: (){
                 context.push(
-                  '${RoutesName.accountPath}/${RoutesName.allCategoryPath}',
+                  FinalRoutes.allCategoryPath,
                   extra: {
                     'onTap' : ( PickedIconModel value){
                       print(value);
@@ -83,7 +84,7 @@ class _AccountState extends State<Account> {
             MyListTitle(
               title: 'Events',
               callback: (){
-                context.push('${RoutesName.accountPath}/${RoutesName.eventPath}');
+                context.push(FinalRoutes.eventPath);
               },
               leading: SvgContainer(
                 iconWidth: 30,

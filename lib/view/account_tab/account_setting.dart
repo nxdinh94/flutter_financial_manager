@@ -1,5 +1,6 @@
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
+import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/utils/auth_manager.dart';
 import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/view/account_tab/widgets/account_banner.dart';
@@ -27,7 +28,7 @@ class AccountSetting extends StatelessWidget {
             AccountSettingOption(
               title: 'Change password',
               callback: (){
-                context.push(RoutesName.changePasswordPath);
+                context.push(FinalRoutes.changePasswordPath);
               },
               titleColor: Theme.of(context).colorScheme.secondary,
             ),

@@ -1,6 +1,7 @@
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/data_sample.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
+import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/view/budgets/widgets/no_running_budget.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
@@ -24,7 +25,7 @@ class _BudgetsState extends State<Budgets> {
         title: Text('Running Budgets'),
         actions: [
           TextButton(onPressed: (){
-            context.push('${RoutesName.budgetsPath}/${RoutesName.createUpdateBudgetPath}');
+            context.push(FinalRoutes.createUpdateBudgetPath);
           }, child: Text('Add'))
         ],
       ),
@@ -36,7 +37,7 @@ class _BudgetsState extends State<Budgets> {
             return BudgetItems(
               itemSpendingLimit: value,
               callback: ()async{
-                context.push('${RoutesName.budgetsPath}/${RoutesName.budgetDetailPath}', extra: value);
+                context.push(FinalRoutes.budgetDetailPath, extra: value);
               },
               paddingBottom: 6,
             );

@@ -1,6 +1,7 @@
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/generated/assets.dart';
+import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/view/budgets/widgets/area_chart.dart';
 import 'package:fe_financial_manager/view/budgets/widgets/budget_items.dart';
 import 'package:fe_financial_manager/view/budgets/widgets/suggestion_spending_money.dart';
@@ -90,8 +91,7 @@ class _BudgetDetailsState extends State<BudgetDetails> {
               iconPath: Assets.svgPenAppbar, iconWidth: 24, myIconColor: black,
               callback: ()async{
                 context.push(
-                    '${RoutesName.budgetsPath}/${RoutesName.createUpdateBudgetPath}',
-                    extra: spendingLimitToUpdate
+                    FinalRoutes.createUpdateBudgetPath, extra: spendingLimitToUpdate
                 );
               },
             ),

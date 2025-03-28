@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../generated/paths.dart';
 import '../../utils/routes/routes_name.dart';
 import 'widgets/email_text_form_field.dart';
 
@@ -147,7 +148,7 @@ class _SignupState extends State<Signup> {
                   children: [
                     InkWell(
                       onTap: () {
-                        context.push('${RoutesName.homeAuthPath}/${RoutesName.signInPath}');
+                        context.push(FinalRoutes.signInPath);
                       },
                       child: Text("Sign in", style: TextStyle(
                           fontSize: Theme.of(context).textTheme.bodySmall?.fontSize,

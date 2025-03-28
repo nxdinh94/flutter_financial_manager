@@ -1,6 +1,7 @@
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
+import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/view/common_widget/divider.dart';
 import 'package:fe_financial_manager/view/common_widget/money_vnd.dart';
@@ -31,7 +32,7 @@ class WalletBanner extends StatelessWidget {
                 Text('My wallets', style: Theme.of(context).textTheme.titleLarge,),
                 InkWell(
                   onTap: (){
-                    context.push('${RoutesName.homePath}/${RoutesName.allWalletsPath}');
+                    context.push(FinalRoutes.allWalletsPath);
                   },
                   child: Text('See all',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(color: secondaryColor)

@@ -2,6 +2,8 @@ import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../generated/paths.dart';
 class Events extends StatefulWidget {
   const Events({super.key});
 
@@ -19,7 +21,7 @@ class _EventsState extends State<Events> {
         actions: [
           GestureDetector(
             onTap: (){
-              context.push('${RoutesName.accountPath}/${RoutesName.createEventPath}');
+              context.push(FinalRoutes.createEventPath);
             },
             child: Icon(Icons.add, size: 44,)
           )
