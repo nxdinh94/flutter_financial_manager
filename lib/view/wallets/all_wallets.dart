@@ -6,6 +6,7 @@ import 'package:fe_financial_manager/model/wallet_model.dart';
 import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/view/common_widget/adding_circle.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
+import 'package:fe_financial_manager/view/common_widget/divider.dart';
 import 'package:fe_financial_manager/view/common_widget/my_list_title.dart';
 import 'package:fe_financial_manager/view/wallets/widgets/all_wallet_consumer.dart';
 import 'package:fe_financial_manager/view/wallets/widgets/total_balance_wallets.dart';
@@ -59,7 +60,7 @@ class _AllWalletsState extends State<AllWallets> {
               child: Text('INCLUDED IN TOTAL', style: Theme.of(context).textTheme.labelSmall,),
             ),
             const SizedBox(height: 6),
-
+            MyDivider(),
             // List all wallet
             AllWalletConsumer(
               onItemTap: (PickedIconModel value ) {},
@@ -73,7 +74,7 @@ class _AllWalletsState extends State<AllWallets> {
             MyListTitle(
               callback: (){
                 context.push(FinalRoutes.addWalletsPath);
-},
+              },
               title: 'Add wallet',
               titleTextStyle:
                 Theme.of(context).textTheme.bodyLarge!.copyWith(color: secondaryColor),
@@ -84,6 +85,9 @@ class _AllWalletsState extends State<AllWallets> {
               hideTrailing: false,
               hideTopBorder: false,
               hideBottomBorder: false,
+              leftContentPadding: 12,
+              horizontalTitleGap: 10,
+              isShowAnimate: false,
             ),
           ],
         ),

@@ -1,13 +1,17 @@
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
+import 'package:fe_financial_manager/data/response/status.dart';
 import 'package:fe_financial_manager/generated/paths.dart';
+import 'package:fe_financial_manager/model/wallet_model.dart';
 import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/view/common_widget/divider.dart';
 import 'package:fe_financial_manager/view/common_widget/money_vnd.dart';
 import 'package:fe_financial_manager/view/common_widget/my_list_title.dart';
+import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class WalletBanner extends StatelessWidget {
   const WalletBanner({
@@ -35,26 +39,42 @@ class WalletBanner extends StatelessWidget {
                     context.push(FinalRoutes.allWalletsPath);
                   },
                   child: Text('See all',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(color: secondaryColor)
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(color: secondaryColor)
                   ),
                 )
               ],
             ),
           ),
-          MyDivider(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: MyListTitle(
-                  title: 'Tiền mặt', callback: (){},
-                  leading: Image.asset('assets/account_type/bank.png', width: 33,),
-                  hideTrailing: false,
-                  leftContentPadding: 0,
-                ),
-              ),
-              MoneyVnd(fontSize: big, amount: 999999999, iconWidth: 12,),
-            ],
+          Consumer<WalletViewModel>(
+            builder: (context, value, child) {
+              switch(value.allWalletData.status){
+                case Status.LOADING:
+                  return const Center(child: CircularProgressIndicator(color: Colors.black));
+                case Status.COMPLETED:
+                  List<WalletModel> listData = value.allWalletData.data;
+                  return listData.isEmpty ? Text('Empty'): Column(
+                      children: listData.asMap().entries.map((e){
+                        int index = e.key;
+                        WalletModel val = e.value;
+                        double balance = double.parse(val.accountBalance);
+                        return MyListTitle(
+                          callback: (){},
+                          title: val.name,
+                          leading: Image.asset(val.icon, width: 33,),
+                          hideTrailing: true,
+                          hideTopBorder: false,
+                          trailing: MoneyVnd(fontSize: big, amount: balance, iconWidth: 12,),
+                          leftContentPadding: 0,
+                          rightContentPadding: 0,
+                        );
+                      }).toList()
+                  );
+                case Status.ERROR:
+                  return const Center(child: Text('Error'));
+                default :
+                  return const SizedBox.shrink();
+              }
+            },
           )
         ],
       ),

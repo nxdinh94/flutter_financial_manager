@@ -3,10 +3,11 @@ import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/view/common_widget/check_icon.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 
 class CheckPickedListTile<T> extends StatefulWidget {
-  CheckPickedListTile({
+  const CheckPickedListTile({
     super.key,
     required this.iconData,
     this.pickedIconId,
@@ -15,17 +16,19 @@ class CheckPickedListTile<T> extends StatefulWidget {
     this.titleTextStyle,
     this.isShowBorderBottom = true,
     required this.onTap,
-    this.onReturnWholeItem
+    this.onReturnWholeItem,
+    this.isShowAnimate = true,
   });
 
   final T iconData;
   final void Function(dynamic) ? onReturnWholeItem;
-  String ? pickedIconId;
-  Widget ? subtitle;
-  double contentLeftPadding;
-  bool  isShowBorderBottom;
-  TextStyle ? titleTextStyle;
+  final String ? pickedIconId;
+  final Widget ? subtitle;
+  final double contentLeftPadding;
+  final bool  isShowBorderBottom;
+  final TextStyle ? titleTextStyle;
   final void Function (PickedIconModel) onTap;
+  final bool isShowAnimate;
   @override
   State<CheckPickedListTile> createState() => _CheckPickedListTileState();
 }
@@ -42,11 +45,25 @@ class _CheckPickedListTileState extends State<CheckPickedListTile> {
           const Border(),
       ),
       child: ListTile(
-        title: Text(widget.iconData.name, style: widget.titleTextStyle ?? Theme.of(context).textTheme.bodyLarge),
-        leading: Image.asset(widget.iconData.icon, width: 36),
+        title: Animate(
+          effects: widget.isShowAnimate? const [MoveEffect(begin: Offset(-20, 0)), FadeEffect()]:[],
+          delay: const Duration(milliseconds: 100),
+          child: Text(
+            widget.iconData.name, style: widget.titleTextStyle ?? Theme.of(context).textTheme.bodyLarge
+          ),
+        ),
+        leading: Animate(
+          effects:  widget.isShowAnimate? const [MoveEffect(begin: Offset(-20, 0)), FadeEffect()]:[],
+          delay: const Duration(milliseconds: 100),
+          child: Image.asset(widget.iconData.icon, width: 36)
+        ),
         visualDensity: const VisualDensity(horizontal: -4),
         contentPadding: EdgeInsets.only(right: 28, left: widget.contentLeftPadding),
-        subtitle: widget.subtitle ,
+        subtitle: Animate(
+          effects: widget.isShowAnimate? const [MoveEffect(begin: Offset(-20, 0)), FadeEffect()]:[],
+          delay: const Duration(milliseconds: 100),
+          child: widget.subtitle ?? const SizedBox.shrink(),
+        ),
         onTap: () {
           PickedIconModel pickedIcon = PickedIconModel(
             id: widget.iconData.id,

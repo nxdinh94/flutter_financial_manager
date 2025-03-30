@@ -6,6 +6,7 @@ import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/model/wallet_model.dart';
 import 'package:fe_financial_manager/model/wallet_type_icon_model.dart';
+import 'package:fe_financial_manager/utils/cleaned_number.dart';
 import 'package:fe_financial_manager/utils/get_initial_wallet.dart';
 import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/utils/utils.dart';
@@ -43,13 +44,13 @@ class _AddWalletsState extends State<AddWallets> {
   Map<String, dynamic> dataToSubmit = {};
 
   void updateRequiredAttributeForDataToSubmit(){
-    dataToSubmit['account_balance'] = _amountController.text;
+    dataToSubmit['account_balance'] = cleanedNumber(_amountController.text);
     dataToSubmit['name'] = _nameController.text;
     dataToSubmit['description'] = _noteController.text;
     dataToSubmit['money_account_type_id']  = pickedWalletType.id;
     dataToSubmit['save_to_report'] = isIncludeFromReport;
     if(removeDiacritics(pickedWalletType.name) == 'Vi tin dung'){
-      dataToSubmit['credit_limit'] = _creditLimitationController.text;
+      dataToSubmit['credit_limit'] = cleanedNumber(_creditLimitationController.text);
     }
   }
   void validateDataToSubmit (){
@@ -143,7 +144,7 @@ class _AddWalletsState extends State<AddWallets> {
         child: Column(
           children: [
             CustomTextfield(
-              amountController: _amountController,
+              controller: _amountController,
               hideLegend: false,
               legend: Text('Initials balance', style: Theme.of(context).textTheme.bodyLarge,),
               textInputType: TextInputType.number,
@@ -161,7 +162,7 @@ class _AddWalletsState extends State<AddWallets> {
             Visibility(
               visible: removeDiacritics(pickedWalletType.name) == 'Vi tin dung',
               child: CustomTextfield(
-                amountController: _creditLimitationController,
+                controller: _creditLimitationController,
                 hideLegend: false,
                 legend: Text('Credit limitation', style: Theme.of(context).textTheme.bodyLarge,),
                 textInputType: TextInputType.number,
@@ -179,7 +180,7 @@ class _AddWalletsState extends State<AddWallets> {
             MyDivider(indent: dividerIndent,),
             const SizedBox(height: 12,),
             CustomTextfield(
-              amountController: _nameController,
+              controller: _nameController,
               textInputType: TextInputType.text,
               prefixIcon: Image.asset('assets/another_icon/wallet-2.png', width: defaultLeadingPngListTileSize),
               fontSize: big,
@@ -236,7 +237,7 @@ class _AddWalletsState extends State<AddWallets> {
             ),
             MyDivider(indent: dividerIndent,),
             CustomTextfield(
-              amountController: _noteController,
+              controller: _noteController,
               textInputType: TextInputType.text,
               prefixIcon: SvgContainer(
                 iconWidth: 27,

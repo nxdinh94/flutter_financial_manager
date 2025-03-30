@@ -16,6 +16,8 @@ class TotalBalanceWallets extends StatelessWidget {
       subTitle: MoneyVnd(fontSize: normal, amount: balance, iconWidth: 12,),
       hideBottomBorder: false,
       hideTopBorder: false,
+      leftContentPadding: 12,
+      horizontalTitleGap: 10,
     );
   }
 }

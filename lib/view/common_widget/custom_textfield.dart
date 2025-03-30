@@ -1,13 +1,14 @@
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'svg_container.dart';
 
 class CustomTextfield extends StatefulWidget {
   const CustomTextfield({
     super.key,
-    required TextEditingController amountController,
+    required this.controller,
     required this.hintText,
     this.hideLegend = true,
     this.legend,
@@ -17,9 +18,9 @@ class CustomTextfield extends StatefulWidget {
     this.verticalPadding = 0,
     this.prefixIconPadding = EdgeInsets.zero,
     this.onChange
-  }) : _amountController = amountController;
+  });
 
-  final TextEditingController _amountController;
+  final TextEditingController controller;
   final String hintText;
   final bool hideLegend;
   final Widget ? legend;
@@ -35,6 +36,8 @@ class CustomTextfield extends StatefulWidget {
 }
 
 class _CustomTextfieldState extends State<CustomTextfield> {
+  String _formatNumber(String s) => NumberFormat.decimalPattern('en').format(int.parse(s));
+
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
@@ -50,8 +53,14 @@ class _CustomTextfieldState extends State<CustomTextfield> {
               child: widget.legend ?? const Text('Legend'),
             ),
             TextField(
-              controller: widget._amountController,
-              onChanged: widget.onChange,
+              controller: widget.controller,
+              onChanged: widget.textInputType == TextInputType.number ? (string) {
+                string = _formatNumber(string.replaceAll(',', ''));
+                widget.controller.value = TextEditingValue(
+                  text: string,
+                  selection: TextSelection.collapsed(offset: string.length),
+                );
+              } : widget.onChange,
               cursorColor: Theme.of(context).colorScheme.secondary,
               keyboardType: widget.textInputType,
               style: TextStyle(

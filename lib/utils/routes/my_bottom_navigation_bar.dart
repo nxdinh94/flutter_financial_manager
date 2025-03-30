@@ -1,3 +1,4 @@
+import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class MyBottomNavigationBar extends StatefulWidget {
 
 class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
   int count  = 0;
+  bool isInAddingTab = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,6 +39,13 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
           }
           // refresh ui whenever go through favorite tab
           if(index == 2){
+            setState(() {
+              isInAddingTab = true;
+            });
+          }else{
+            setState(() {
+              isInAddingTab = false;
+            });
           }
         },
         currentIndex: widget.child.currentIndex,
@@ -61,7 +70,8 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
               child: Container(
                 width: 45,
                 height: 45,
-                color: Theme.of(context).colorScheme.secondary,
+                color: isInAddingTab ?
+                  Theme.of(context).colorScheme.secondary : iconColor ,
                 child: Icon(
                   Icons.add,
                   size: 26,

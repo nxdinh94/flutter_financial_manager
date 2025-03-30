@@ -75,6 +75,7 @@ class _HomeState extends State<Home> {
               ),
               const SizedBox(height: 12,),
               WalletBanner(),
+              const SizedBox(height: 12,),
 
               //Row chart
               GestureDetector(
@@ -86,24 +87,24 @@ class _HomeState extends State<Home> {
                   color: primaryColor,
                   child: Column(
                     children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                flex: 4,
-                                child:  MyColumnChart(
-                                  data:  [
-                                    CollumChartModel(2010, 35, secondaryColor),
-                                    CollumChartModel(2011, 38, Colors.red),
-                                  ]
-                                ),
-                              ),
-                              Expanded(
-                                flex: 5,
-                                child: Text('data')
-                              ),
-                            ],
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            flex: 4,
+                            child:  MyColumnChart(
+                              data:  [
+                                CollumChartModel(2010, 35, secondaryColor),
+                                CollumChartModel(2011, 38, Colors.red),
+                              ]
+                            ),
                           ),
+                          Expanded(
+                            flex: 5,
+                            child: Text('data')
+                          ),
+                        ],
+                      ),
 
                       Visibility(
                         visible: true,

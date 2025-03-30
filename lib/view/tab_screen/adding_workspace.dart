@@ -4,6 +4,7 @@ import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/generated/assets.dart';
 import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
+import 'package:fe_financial_manager/utils/cleaned_number.dart';
 import 'package:fe_financial_manager/utils/date_time.dart';
 import 'package:fe_financial_manager/utils/get_initial_wallet.dart';
 import 'package:fe_financial_manager/utils/routes/routes_name.dart';
@@ -80,13 +81,12 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
       return;
     }
     dataToSubmit = {
-      'amount_of_money' : _amountController.text,
+      'amount_of_money' : cleanedNumber(_amountController.text),
       'transaction_type_category_id' : pickedCategory.id,
       'occur_date' : chosenDateOccurTransaction,
       'money_account_id' : pickedWallet.id,
       'description' : note,
     };
-
     _transactionViewModel.addTransaction(dataToSubmit, resetDataAfterSaveTransaction ,context);
 
   }
@@ -158,7 +158,7 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
             MyDivider(indent: dividerIndent),
             //Pick amount
             CustomTextfield(
-              amountController: _amountController,
+              controller: _amountController,
               textInputType: TextInputType.number,
               prefixIcon: PrefixIconAmountTextfield(),
               fontSize: 40,

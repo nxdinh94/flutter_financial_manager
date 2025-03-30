@@ -132,7 +132,7 @@ class _CreateUpdateBudgetState extends State<CreateUpdateBudget> {
             MyDivider(indent: dividerIndent),
             //Pick amount
             CustomTextfield(
-              amountController: _amountController,
+              controller: _amountController,
               textInputType: TextInputType.number,
               prefixIcon: PrefixIconAmountTextfield(),
               fontSize: extraBigger,

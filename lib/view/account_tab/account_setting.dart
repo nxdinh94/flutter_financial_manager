@@ -68,20 +68,16 @@ class AccountSettingOption extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Theme.of(context).colorScheme.primary,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          TextButton(
-              onPressed: callback,
-              child: Text(
-                title,
-                style: TextStyle(
-                    color: titleColor,
-                    fontSize: normal
-                ),
-              )
+      alignment: Alignment.center,
+      child: TextButton(
+          onPressed: callback,
+          child: Text(
+            title,
+            style: TextStyle(
+              color: titleColor,
+              fontSize: normal
+            ),
           )
-        ],
       ),
     );
   }
