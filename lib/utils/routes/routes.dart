@@ -5,7 +5,8 @@ import 'package:fe_financial_manager/view/account_tab/account_setting.dart';
 import 'package:fe_financial_manager/view/account_tab/events_of_transactions/create_events.dart';
 import 'package:fe_financial_manager/view/account_tab/events_of_transactions/events.dart';
 import 'package:fe_financial_manager/view/adding_workspace/add_note.dart';
-import 'package:fe_financial_manager/view/adding_workspace/select_category.dart';
+import 'package:fe_financial_manager/view/categories_of_transaction/edit_categories.dart';
+import 'package:fe_financial_manager/view/categories_of_transaction/select_category.dart';
 import 'package:fe_financial_manager/view/adding_workspace/select_wallets.dart';
 import 'package:fe_financial_manager/view/auth/change_password.dart';
 import 'package:fe_financial_manager/view/auth/forgot_password.dart';
@@ -14,6 +15,7 @@ import 'package:fe_financial_manager/view/auth/signup.dart';
 import 'package:fe_financial_manager/view/budgets/budget_details.dart';
 import 'package:fe_financial_manager/view/budgets/create_update_budget.dart';
 import 'package:fe_financial_manager/view/categories_of_transaction/create_category.dart';
+import 'package:fe_financial_manager/view/categories_of_transaction/select_parent_categories.dart';
 import 'package:fe_financial_manager/view/wallets/add_wallets.dart';
 import 'package:fe_financial_manager/view/wallets/all_wallets.dart';
 import 'package:fe_financial_manager/view/tab_screen/account.dart';
@@ -271,12 +273,11 @@ class CustomNavigationHelper {
                           );
                         },
                       ),
-
                       GoRoute(
                         path: RoutesName.eventPath,
                         pageBuilder: (context, GoRouterState state){
                           return getPage(
-                              child: Events(),
+                              child: const Events(),
                               state: state
                           );
                         },
@@ -285,10 +286,32 @@ class CustomNavigationHelper {
                         path: RoutesName.createEventPath,
                         pageBuilder: (context, GoRouterState state){
                           return getPage(
-                              child: CreateEvents(),
+                              child: const CreateEvents(),
                               state: state
                           );
                         },
+                      ),
+                      GoRoute(
+                        path: RoutesName.editCategoryPath,
+                        pageBuilder: (context, GoRouterState state){
+                          Map<String, dynamic> data = state.extra as Map<String, dynamic>;
+                          PickedIconModel pickedCategory = data['pickedCategory'];
+                          return getPage(
+                              child: EditCategories(pickedCategory: pickedCategory,),
+                              state: state
+                          );
+                        },
+                        routes: [
+                          GoRoute(
+                            path: RoutesName.selectParentCategoriesPath,
+                            pageBuilder: (context, GoRouterState state){
+                              return getPage(
+                                  child: const SelectParentCategories(),
+                                  state: state
+                              );
+                            },
+                          ),
+                        ]
                       ),
                     ]
                 ),

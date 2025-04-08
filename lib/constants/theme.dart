@@ -264,7 +264,7 @@ ThemeData lightTheme = ThemeData(
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
       side: BorderSide(color: Colors.grey.shade300),
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+      // padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       overlayColor: Colors.grey,
       foregroundColor: colorTextBlack,
       textStyle: const TextStyle(

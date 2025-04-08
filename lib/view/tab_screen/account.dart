@@ -1,13 +1,11 @@
 import 'package:fe_financial_manager/generated/assets.dart';
 import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
-import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/view/account_tab/widgets/account_banner.dart';
 import 'package:fe_financial_manager/view/common_widget/my_list_title.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 class Account extends StatefulWidget {
   const Account({super.key});
@@ -67,7 +65,12 @@ class _AccountState extends State<Account> {
                   FinalRoutes.allCategoryPath,
                   extra: {
                     'onTap' : ( PickedIconModel value){
-                      print(value);
+                      context.push(
+                        FinalRoutes.editCategoryPath,
+                        extra: {
+                          'pickedCategory' : value
+                        }
+                      );
                     }
                   }
                 );

@@ -70,7 +70,7 @@ class _CustomTextfieldState extends State<CustomTextfield> {
               decoration: InputDecoration(
                 prefixIcon: Padding(
                   padding: widget.prefixIconPadding,
-                  child: widget.prefixIcon ?? SizedBox.shrink()
+                  child: widget.prefixIcon ?? const SizedBox.shrink()
                 ),
                 hintText: widget.hintText,
                 hintStyle: TextStyle(

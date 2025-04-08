@@ -29,6 +29,14 @@ class WalletRepository{
       rethrow;
     }
   }
+  Future<dynamic> getWalletByIdApi() async {
+    try {
+      dynamic response = await _apiServices.getGetApiResponse(AppUrl.wallet, true);
+      return response['data'];
+    } catch (e) {
+      rethrow;
+    }
+  }
   Future<dynamic> getExternalBankApi() async {
     try {
       dynamic response = await _apiServices.getGetApiResponse(AppUrl.externalBank, true);

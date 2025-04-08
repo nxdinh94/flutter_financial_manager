@@ -1,10 +1,6 @@
-
-
 import 'package:fe_financial_manager/data/response/api_response.dart';
-import 'package:fe_financial_manager/model/wallet_type_icon_model.dart';
 import 'package:fe_financial_manager/repository/app_repository.dart';
 import 'package:flutter/foundation.dart';
-
 class AppViewModel extends ChangeNotifier{
 
   final AppRepository _appRepository = AppRepository();
@@ -12,6 +8,9 @@ class AppViewModel extends ChangeNotifier{
   // Icon Categories
   ApiResponse _iconCategoriesData = ApiResponse.loading();
   ApiResponse get iconCategoriesData => _iconCategoriesData;
+
+
+
 
   bool _loading = false;
   bool get loading => _loading;

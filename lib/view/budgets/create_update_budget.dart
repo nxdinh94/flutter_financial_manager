@@ -31,6 +31,7 @@ class CreateUpdateBudget extends StatefulWidget {
 
 class _CreateUpdateBudgetState extends State<CreateUpdateBudget> {
   final TextEditingController _amountController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   bool isRepeatBudget = false;
   PickedIconModel pickedCategory = PickedIconModel(icon: '', name: '', id: '') ;
   PickedIconModel pickedWallet = PickedIconModel(icon: '', name: '', id: '') ;
@@ -76,7 +77,7 @@ class _CreateUpdateBudgetState extends State<CreateUpdateBudget> {
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
-    final double dividerIndent = screenHeight * 0.094;
+    final double dividerIndent = screenHeight * 0.093;
 
     return Scaffold(
       appBar: AppBar(
@@ -104,6 +105,27 @@ class _CreateUpdateBudgetState extends State<CreateUpdateBudget> {
         child: Column(
           children: [
             const SizedBox(height: 20,),
+
+            //name
+            CustomTextfield(
+              controller: _nameController,
+              prefixIcon: SvgContainer(iconPath: Assets.svgWallet, iconWidth: 38, containerSize: 50),
+              fontSize: big,
+              hintText: 'Name of budget',
+              prefixIconPadding: const EdgeInsets.only(right: 11, left: 10),
+
+            ),
+            MyDivider(indent: dividerIndent),//Pick amount
+            CustomTextfield(
+              controller: _amountController,
+              textInputType: TextInputType.number,
+              prefixIcon: PrefixIconAmountTextfield(),
+              fontSize: extraBigger,
+              hintText: '0',
+              prefixIconPadding: const EdgeInsets.only(right: 11, left: 10),
+              verticalPadding: 10,
+            ),
+            MyDivider(indent: dividerIndent),
             MyListTitle(
               title: pickedCategory.name.isNotEmpty ? pickedCategory.name:  'Select category' ,
               titleTextStyle: const TextStyle(
@@ -130,17 +152,7 @@ class _CreateUpdateBudgetState extends State<CreateUpdateBudget> {
               ),
             ),
             MyDivider(indent: dividerIndent),
-            //Pick amount
-            CustomTextfield(
-              controller: _amountController,
-              textInputType: TextInputType.number,
-              prefixIcon: PrefixIconAmountTextfield(),
-              fontSize: extraBigger,
-              hintText: '0',
-              prefixIconPadding: const EdgeInsets.only(right: 11, left: 10),
-              verticalPadding: 10,
-            ),
-            MyDivider(indent: dividerIndent),
+
             MyListTitle(
               callback: () {
                 showRangeTimeOptionBottomSheet(context, (){
@@ -154,6 +166,7 @@ class _CreateUpdateBudgetState extends State<CreateUpdateBudget> {
               ),
               horizontalTitleGap: 18,
             ),
+
             MyDivider(indent: dividerIndent),
             MyListTitle(
               callback: () async{

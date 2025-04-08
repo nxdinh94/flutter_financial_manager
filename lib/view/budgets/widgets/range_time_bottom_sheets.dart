@@ -21,7 +21,7 @@ Future showRangeTimeOptionBottomSheet(BuildContext context, Function setPickedDa
           children: [
             Container(
               decoration: BoxDecoration(
-                color: primaryColor,
+                color: bottomSheetBG,
                 borderRadius: BorderRadius.circular(10)
               ),
               child: Column(
@@ -33,7 +33,25 @@ Future showRangeTimeOptionBottomSheet(BuildContext context, Function setPickedDa
                       setPickedDate(currentDate);
                       Navigator.pop(context);
                     },
-                    title: 'Today'
+                    title: 'This week'
+                  ),
+                  MyDivider(),
+                  TextContainer(
+                    callback: ()async{
+                      String currentDate = getCurrentDayMonthYear();
+                      setPickedDate(currentDate);
+                      Navigator.pop(context);
+                    },
+                    title: 'This month'
+                  ),
+                  MyDivider(),
+                  TextContainer(
+                    callback: ()async{
+                      String currentDate = getCurrentDayMonthYear();
+                      setPickedDate(currentDate);
+                      Navigator.pop(context);
+                    },
+                    title: 'This quarter'
                   ),
                   MyDivider(),
                   TextContainer(
@@ -42,7 +60,7 @@ Future showRangeTimeOptionBottomSheet(BuildContext context, Function setPickedDa
                       setPickedDate(currentDate);
                       Navigator.pop(context);
                     },
-                    title: 'Yesterday',
+                    title: 'This year',
                   ),
                   MyDivider(),
                   TextContainer(

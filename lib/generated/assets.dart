@@ -17,6 +17,7 @@ class Assets{
   static const String svgMagnifyingGlass = 'assets/svg/magnifying-glass.svg';
   static const String svgBell = 'assets/svg/bell.svg';
   static const String svgBank = 'assets/svg/bank.svg';
+  static const String svgTextAlignLeft = 'assets/svg/text-align-left.svg';
 
 }
 

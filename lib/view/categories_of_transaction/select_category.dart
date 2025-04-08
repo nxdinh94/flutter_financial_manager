@@ -7,11 +7,12 @@ import 'package:fe_financial_manager/view/adding_workspace/widgets/tab_bar_eleme
 import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
 import 'package:fe_financial_manager/view_model/app_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class SelectCategory extends StatefulWidget {
-  SelectCategory({super.key, this.pickedCategory, required this.onItemTap});
-  PickedIconModel ? pickedCategory;
+  const SelectCategory({super.key, this.pickedCategory, required this.onItemTap});
+  final PickedIconModel ? pickedCategory;
   final void Function(PickedIconModel) onItemTap;
   @override
   State<SelectCategory> createState() => _SelectCategoryState();
@@ -43,10 +44,11 @@ class _SelectCategoryState extends State<SelectCategory> with TickerProviderStat
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double dividerIndent = screenHeight * 0.094;
-
+    String currentRoute = GoRouterState.of(context).uri.toString();
+    bool isFromAccountScreen = currentRoute.contains('account');
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Select Category'),
+        title: Text(isFromAccountScreen ? 'Edit Category' : 'Select Category'),
         leading: CustomBackNavbar(),
       ),
       body: Column(

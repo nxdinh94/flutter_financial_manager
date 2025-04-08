@@ -25,7 +25,7 @@ class CreateCategorySection extends StatelessWidget {
           ),
           TextContainer(
             callback: () async{
-              context.push(FinalRoutes.addNewCategoryPath);
+              context.push(FinalRoutes.createNewCategoryPath);
             },
             title: 'New category',
             textColor: Theme.of(context).colorScheme.secondary,

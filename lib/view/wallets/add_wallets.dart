@@ -241,7 +241,7 @@ class _AddWalletsState extends State<AddWallets> {
               textInputType: TextInputType.text,
               prefixIcon: SvgContainer(
                 iconWidth: 27,
-                iconPath: 'assets/svg/notes.svg',
+                iconPath: Assets.svgTextAlignLeft,
                 containerSize: 38,
               ),
               fontSize: big,

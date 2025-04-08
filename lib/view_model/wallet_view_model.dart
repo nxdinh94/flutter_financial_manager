@@ -86,6 +86,21 @@ class WalletViewModel extends ChangeNotifier{
       }
     });
   }
+  Future<void> getWalletById()async{
+    setLoading(false);
+    await _walletRepository.getAllWalletApi().then((value){
+      List<dynamic> walletDataJson = value;
+      List<WalletModel> transformedData = walletDataJson.map(
+        (e)=> WalletModel.fromJson(e)).toList();
+      setWalletData(ApiResponse.completed(transformedData));
+      setLoading(true);
+    }).onError((error, stackTrace) {
+      setLoading(false);
+      if (kDebugMode) {
+        print(error.toString());
+      }
+    });
+  }
   Future<void> getExternalBank()async{
     setLoading(false);
     await _walletRepository.getExternalBankApi().then((value){

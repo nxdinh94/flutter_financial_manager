@@ -12,6 +12,7 @@ const Color dividerColor = Color(0xffD4D4D4);
 const Color iosTextBlue = Color(0xff0091FE);
 const Color black = Color(0xff000000);
 const Color white = Color(0xffffffff);
+const Color bottomSheetBG = Color(0xffF2F2F2);
 
 final pieChartColorList = <Color>[
   const Color(0xffFFDA78),
