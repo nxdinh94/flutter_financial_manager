@@ -11,7 +11,7 @@ class _AddNewCategoryState extends State<AddNewCategory> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('All categories'),
+        title: Text('New Category'),
       ),
       body: Container(),
     );

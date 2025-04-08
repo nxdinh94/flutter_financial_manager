@@ -2,7 +2,7 @@
 
 class AppUrl {
   // static const baseUrl = 'http://10.60.222.22:3222/api';
-  static const baseUrl = 'http://192.168.2.11:3222/api';
+  static const baseUrl = 'http://192.168.0.113:3222/api';
 
   static const loginEndPint = baseUrl + '/auth/login';
 
