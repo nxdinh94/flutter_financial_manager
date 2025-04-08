@@ -6,6 +6,7 @@ class IconModel {
 
   factory IconModel.fromJson(Map<String, dynamic> json){
     return IconModel(
+        // id base on screen that return
         id : json['id'] ?? '',
         name : json['name'] ?? '',
         icon : json['money_account_type']['icon']  ?? '',

@@ -13,7 +13,7 @@ class CategoriesIconParent extends StatefulWidget {
     required this.parentIcon,
     required this.onTap, this.pickedCategoryId});
   final CategoriesIconModel parentIcon;
-  final void Function(PickedIconModel) onTap;
+  final Future<void> Function(PickedIconModel) onTap;
   final String ? pickedCategoryId;
 
   @override

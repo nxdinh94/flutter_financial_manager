@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 class PickWalletTypes extends StatefulWidget {
   PickWalletTypes({super.key, this.pickedWalletType, required this.onItemTap});
   PickedIconModel ? pickedWalletType;
-  final void Function(PickedIconModel) onItemTap;
+  final Future<void> Function(PickedIconModel) onItemTap;
   @override
   State<PickWalletTypes> createState() => _PickWalletTypesState();
 }

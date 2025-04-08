@@ -3,6 +3,7 @@ import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/generated/assets.dart';
 import 'package:fe_financial_manager/generated/paths.dart';
+import 'package:fe_financial_manager/model/external_bank_model.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/model/wallet_model.dart';
 import 'package:fe_financial_manager/model/wallet_type_icon_model.dart';
@@ -26,7 +27,7 @@ import 'package:provider/provider.dart';
 
 class AddWallets extends StatefulWidget {
   const AddWallets({super.key, this.walletToUpdate});
-  final WalletModel ? walletToUpdate;
+  final SingleWalletModel ? walletToUpdate;
   @override
   State<AddWallets> createState() => _AddWalletsState();
 }
@@ -44,7 +45,7 @@ class _AddWalletsState extends State<AddWallets> {
   Map<String, dynamic> dataToSubmit = {};
 
   void updateRequiredAttributeForDataToSubmit(){
-    dataToSubmit['account_balance'] = cleanedNumber(_amountController.text);
+    dataToSubmit['initial_balance'] = cleanedNumber(_amountController.text);
     dataToSubmit['name'] = _nameController.text;
     dataToSubmit['description'] = _noteController.text;
     dataToSubmit['money_account_type_id']  = pickedWalletType.id;
@@ -53,26 +54,28 @@ class _AddWalletsState extends State<AddWallets> {
       dataToSubmit['credit_limit'] = cleanedNumber(_creditLimitationController.text);
     }
   }
-  void validateDataToSubmit (){
+  bool validateDataToSubmit (){
     if(_amountController.text.isEmpty && _nameController.text.isEmpty){
       Utils.flushBarErrorMessage('Initial money or name of wallet cannot be empty', context);
-      return;
+      return false;
     }
     if(removeDiacritics(pickedWalletType.name) == 'Vi tin dung'
         || removeDiacritics(pickedWalletType.name) == 'Tai khoan ngan hang'){
       if(dataToSubmit['bank_type'].toString().isEmpty){
-        Utils.flushBarErrorMessage('Bank is required', context);
-        return;
+        Utils.flushBarErrorMessage('Bank is required', context, );
+        return false;
       }
     }
     if(removeDiacritics(pickedWalletType.name) == 'Vi tin dung'){
       if(_creditLimitationController.text.isEmpty){
         Utils.flushBarErrorMessage('Credit limitation is required', context);
-        return;
+         return false;
       }
     }
+    return true;
   }
-  void onItemCategoryTap(PickedIconModel value){
+  // Action when Wallet category listTile tapped
+  Future<void> onItemCategoryTap(PickedIconModel value)async {
     setState(() {
       pickedWalletType = value;
       //reset submitData
@@ -103,13 +106,33 @@ class _AddWalletsState extends State<AddWallets> {
       },listData, context);
     }else{
       pickedWalletType = PickedIconModel(
-        icon: widget.walletToUpdate!.icon,
-        name: widget.walletToUpdate!.name,
+        icon: widget.walletToUpdate!.iconPath,
+        name: widget.walletToUpdate!.iconName,
         id: widget.walletToUpdate!.id
       );
-      _amountController.text = widget.walletToUpdate!.accountBalance;
+      _amountController.text = widget.walletToUpdate!.initialBalance;
       _nameController.text = widget.walletToUpdate!.name;
-      // _noteController.text = widget.walletToUpdate!.;
+      _noteController.text = widget.walletToUpdate!.description!;
+
+      // if wallet is credit card or bank account => set credit limitation
+      if(removeDiacritics(pickedWalletType.name) == 'Vi tin dung'
+          || removeDiacritics(pickedWalletType.name) == 'Tai khoan ngan hang'){
+        List<ExternalBankModel> data = context.read<WalletViewModel>().externalBankData.data;
+        for (ExternalBankModel bank in data){
+          if(bank.id ==  double.parse(widget.walletToUpdate!.bankType!) ){
+            setState(() {
+              pickedBank = PickedIconModel(
+                  icon: bank.logo,
+                  name: bank.shortName,
+                  id: bank.id.toString()
+              );
+            });
+          }
+        }
+      }
+      if(removeDiacritics(pickedWalletType.name) == 'Vi tin dung'){
+        _creditLimitationController.text = widget.walletToUpdate!.creditLimit!;
+      }
     }
   }
 
@@ -134,10 +157,15 @@ class _AddWalletsState extends State<AddWallets> {
       ),
       floatingActionButton: MyFloatActionButton(callback: ()async{
         updateRequiredAttributeForDataToSubmit();
-        validateDataToSubmit();
+        bool isValidData = validateDataToSubmit();
+        if(!isValidData) return;
         print(dataToSubmit);
 
-        await _walletViewModel.createWallet(dataToSubmit, context);
+        if(widget.walletToUpdate == null){
+          await _walletViewModel.createWallet(dataToSubmit, context);
+        }else{
+
+        }
 
       }),
       body: SingleChildScrollView(

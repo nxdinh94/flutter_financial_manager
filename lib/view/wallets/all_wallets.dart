@@ -3,7 +3,7 @@ import 'package:fe_financial_manager/data/response/api_response.dart';
 import 'package:fe_financial_manager/data/response/status.dart';
 import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/model/wallet_model.dart';
-import 'package:fe_financial_manager/utils/routes/routes_name.dart';
+import 'package:fe_financial_manager/utils/utils.dart';
 import 'package:fe_financial_manager/view/common_widget/adding_circle.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
 import 'package:fe_financial_manager/view/common_widget/divider.dart';
@@ -63,11 +63,15 @@ class _AllWalletsState extends State<AllWallets> {
             MyDivider(),
             // List all wallet
             AllWalletConsumer(
-              onItemTap: (PickedIconModel value ) {},
-              onReturnWholeItem: (value) {
-                WalletModel dataToUpdate = value as WalletModel;
-                context.push(FinalRoutes.addWalletsPath, extra: dataToUpdate);
-              },
+              onItemTap: (PickedIconModel value )async {
+                await context.read<WalletViewModel>().getSingleWallet(value.id);
+                ApiResponse<dynamic> result = context.read<WalletViewModel>().singleWalletData;
+                if(result.status == Status.COMPLETED){
+                  context.push(FinalRoutes.addWalletsPath, extra: result.data);
+                }else{
+                  Utils.flushBarErrorMessage('Invalid wallet', context);
+                }
+              }
             ),
 
             const SizedBox(height: 20),

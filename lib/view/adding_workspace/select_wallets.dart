@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class SelectWallets extends StatefulWidget {
   const SelectWallets({super.key, required this.pickedWallet, required this.onItemTap}) ;
   final PickedIconModel pickedWallet;
-  final void Function(PickedIconModel) onItemTap;
+  final Future<void> Function(PickedIconModel) onItemTap;
   @override
   State<SelectWallets> createState() => _SelectWalletsState();
 }
@@ -22,7 +22,10 @@ class _SelectWalletsState extends State<SelectWallets> {
         child: Column(
           children: [
             const SizedBox(height: 12),
-            AllWalletConsumer(pickedWallet: widget.pickedWallet, onItemTap: widget.onItemTap,),
+            AllWalletConsumer(
+              pickedWallet: widget.pickedWallet,
+              onItemTap: widget.onItemTap,
+            ),
           ],
         ),
       ),

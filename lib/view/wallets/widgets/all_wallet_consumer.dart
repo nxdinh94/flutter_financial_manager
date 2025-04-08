@@ -10,12 +10,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AllWalletConsumer extends StatelessWidget {
-  AllWalletConsumer({
-    super.key, this.pickedWallet, required this.onItemTap, this.onReturnWholeItem
+  const AllWalletConsumer({
+    super.key,
+    this.pickedWallet,
+    required this.onItemTap,
   });
-  PickedIconModel ? pickedWallet;
-  final void Function(PickedIconModel) onItemTap;
-  final void Function(dynamic) ? onReturnWholeItem;
+  final PickedIconModel ? pickedWallet;
+  final Future<void> Function(PickedIconModel) onItemTap;
   @override
   Widget build(BuildContext context) {
     return Consumer<WalletViewModel>(
@@ -34,13 +35,8 @@ class AllWalletConsumer extends StatelessWidget {
                   subtitle: MoneyVnd(fontSize: normal, amount: balance, iconWidth: 12, textColor: colorTextLabel,),
                   iconData: e.value,
                   titleTextStyle: Theme.of(context).textTheme.titleLarge,
-                  onTap: (PickedIconModel value){
-                    onItemTap(value);
-                  },
-                  onReturnWholeItem: (value){
-                    if(onReturnWholeItem != null){
-                      onReturnWholeItem!(value);
-                    }
+                  onTap: (PickedIconModel value)async{
+                    await onItemTap(value);
                   },
                   pickedIconId: pickedWallet?.id,
                 );

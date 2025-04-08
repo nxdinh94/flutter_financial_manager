@@ -23,6 +23,10 @@ class WalletViewModel extends ChangeNotifier{
   ApiResponse _externalBankData = ApiResponse.loading();
   ApiResponse get externalBankData => _externalBankData ;
 
+  // Wallet by Id
+  ApiResponse _singleWalletData = ApiResponse.loading();
+  ApiResponse get singleWalletData => _singleWalletData;
+
   bool _loading = false;
   bool get loading => _loading;
 
@@ -34,8 +38,14 @@ class WalletViewModel extends ChangeNotifier{
     _iconWalletTypeData = value;
     notifyListeners();
   }
+  // Set all wallet data
   void setWalletData(ApiResponse<List<WalletModel>> value) {
     _allWalletData = value;
+    notifyListeners();
+  }
+  // Set wallet by id data
+  void setSingleWalletData(ApiResponse<SingleWalletModel> value) {
+    _singleWalletData = value;
     notifyListeners();
   }
   void setExternalBankData(ApiResponse<List<ExternalBankModel>> value) {
@@ -66,7 +76,7 @@ class WalletViewModel extends ChangeNotifier{
       setLoading(true);
     }).onError((error, stackTrace) {
       setLoading(false);
-      Utils.flushBarErrorMessage(error.toString(), context);
+      // Utils.flushBarErrorMessage(error.toString(), context);
       if (kDebugMode) {
         print(error.toString());
       }
@@ -86,13 +96,11 @@ class WalletViewModel extends ChangeNotifier{
       }
     });
   }
-  Future<void> getWalletById()async{
+  Future<void> getSingleWallet(String walletId)async{
     setLoading(false);
-    await _walletRepository.getAllWalletApi().then((value){
-      List<dynamic> walletDataJson = value;
-      List<WalletModel> transformedData = walletDataJson.map(
-        (e)=> WalletModel.fromJson(e)).toList();
-      setWalletData(ApiResponse.completed(transformedData));
+    await _walletRepository.getSingleWalletApi(walletId).then((value){
+      SingleWalletModel transformedData = SingleWalletModel.fromJson(value);
+      setSingleWalletData(ApiResponse.completed(transformedData));
       setLoading(true);
     }).onError((error, stackTrace) {
       setLoading(false);

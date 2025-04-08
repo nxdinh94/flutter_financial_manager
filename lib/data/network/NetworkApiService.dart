@@ -81,6 +81,7 @@ class NetworkApiService extends BaseApiServices {
     dynamic decodedResponse = jsonDecode(response.body);
     String error = '';
     if(response.statusCode != 200){
+      print("decodedResponse $decodedResponse");
       //cause be response is {"message": "Jwt expired"}
       if(response.statusCode == 403){
         error = decodedResponse['message'];

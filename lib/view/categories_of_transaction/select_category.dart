@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 class SelectCategory extends StatefulWidget {
   const SelectCategory({super.key, this.pickedCategory, required this.onItemTap});
   final PickedIconModel ? pickedCategory;
-  final void Function(PickedIconModel) onItemTap;
+  final Future<void> Function(PickedIconModel) onItemTap;
   @override
   State<SelectCategory> createState() => _SelectCategoryState();
 }

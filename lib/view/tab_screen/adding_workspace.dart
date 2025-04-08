@@ -61,13 +61,13 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
   }
 
   // Action when item of category tapped
-  void onItemCategoryTap(PickedIconModel value){
+  Future<void> onItemCategoryTap(PickedIconModel value)async {
     setState(() {
       pickedCategory = value;
     });
     context.pop();
   }
-  void onItemWalletTap(PickedIconModel value){
+  Future<void> onItemWalletTap(PickedIconModel value)async {
     setState(() {
       pickedWallet = value;
     });

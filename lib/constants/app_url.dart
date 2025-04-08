@@ -15,6 +15,9 @@ class AppUrl {
   static const getIconWalletType = baseUrl + '/admins/money-account-types';
 
   static const wallet = baseUrl + '/apps/money-account';
+  static const getWalletById = baseUrl + '/apps/money-account'; // /api/apps/money-account/:id
+
+
   static const externalBank = 'https://api.vietqr.io/v2/banks';
 
   static const addTransaction =baseUrl +  '/apps/transaction';

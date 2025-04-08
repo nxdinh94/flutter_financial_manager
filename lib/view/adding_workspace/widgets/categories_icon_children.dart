@@ -14,7 +14,7 @@ class CategoriesIconChildren extends StatelessWidget {
     this.pickedCategoryId
   });
   final CategoriesIconModel categoryChildren;
-  final void Function(PickedIconModel) onItemTap;
+  final Future<void> Function(PickedIconModel) onItemTap;
   String ? pickedCategoryId;
 
 

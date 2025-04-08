@@ -24,5 +24,62 @@ class WalletModel extends IconModel {
       'account_balance': accountBalance,
     };
   }
-
 }
+class SingleWalletModel {
+  final String id;
+  final String name;
+  final String initialBalance;
+  final String? creditLimit;
+  final String? description;
+  final String? reminderWhenDue;
+  final String? bankType;
+  final List<dynamic> creditCardReminders;
+  final String iconPath;
+  final String iconName;
+  SingleWalletModel({
+    required this.id,
+    required this.name,
+    required this.initialBalance,
+    required this.iconPath,
+    required this.iconName,
+    this.creditLimit,
+    this.description,
+    this.reminderWhenDue,
+    this.bankType,
+    required this.creditCardReminders,
+  });
+
+  factory SingleWalletModel.fromJson(Map<String, dynamic> json) {
+    return SingleWalletModel(
+      id: json['id'] ?? '',
+      name: json['name'] ?? '',
+      initialBalance: json['initial_balance'] ?? '0',
+      iconPath: json['money_account_type']['icon'] ?? '',
+      iconName: json['money_account_type']['name'] ?? '',
+      creditLimit: json['credit_limit'],
+      description: json['description'],
+      reminderWhenDue: json['reminder_when_due'],
+      bankType: json['bank_type'].toString(),
+      creditCardReminders: json['credit_card_reminders'] ?? [],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'initial_balance': initialBalance,
+      'money_account_type': {
+        'icon': iconPath,
+        'name': iconName,
+      },
+      'credit_limit': creditLimit,
+      'description': description,
+      'reminder_when_due': reminderWhenDue,
+      'bank_type': bankType,
+      'credit_card_reminders': creditCardReminders,
+    };
+  }
+}
+
+

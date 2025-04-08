@@ -1,10 +1,8 @@
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/view/common_widget/check_icon.dart';
-import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:go_router/go_router.dart';
 
 class CheckPickedListTile<T> extends StatefulWidget {
   const CheckPickedListTile({
@@ -16,18 +14,16 @@ class CheckPickedListTile<T> extends StatefulWidget {
     this.titleTextStyle,
     this.isShowBorderBottom = true,
     required this.onTap,
-    this.onReturnWholeItem,
     this.isShowAnimate = true,
   });
 
   final T iconData;
-  final void Function(dynamic) ? onReturnWholeItem;
   final String ? pickedIconId;
   final Widget ? subtitle;
   final double contentLeftPadding;
   final bool  isShowBorderBottom;
   final TextStyle ? titleTextStyle;
-  final void Function (PickedIconModel) onTap;
+  final Future<void> Function (PickedIconModel) onTap;
   final bool isShowAnimate;
   @override
   State<CheckPickedListTile> createState() => _CheckPickedListTileState();
@@ -64,18 +60,14 @@ class _CheckPickedListTileState extends State<CheckPickedListTile> {
           delay: const Duration(milliseconds: 100),
           child: widget.subtitle ?? const SizedBox.shrink(),
         ),
-        onTap: () {
+        onTap: ()async {
           PickedIconModel pickedIcon = PickedIconModel(
             id: widget.iconData.id,
             icon: widget.iconData.icon,
             name: widget.iconData.name,
           );
           //return value
-          widget.onTap(pickedIcon);
-          //return root data
-          if(widget.onReturnWholeItem != null){
-            widget.onReturnWholeItem!(widget.iconData);
-          }
+          await widget.onTap(pickedIcon);
         },
         trailing: widget.pickedIconId == widget.iconData.id ? const CheckIcon():
         const SizedBox.shrink(),

@@ -37,8 +37,10 @@ class _SelectParentCategoriesState extends State<SelectParentCategories> {
                     const SizedBox(height: 10),
                     ...expenseIconsList.map<Widget>((e) {
                       CategoriesIconModel categoriesIconParent = e as CategoriesIconModel; // Proper casting
-                      CheckPickedListTile(iconData: categoriesIconParent, onTap: (PickedIconModel ) {
-                      });
+                      CheckPickedListTile(
+                        iconData: categoriesIconParent,
+                        onTap: (value) async{}
+                      );
                     }).toList()
                   ],
                 );
