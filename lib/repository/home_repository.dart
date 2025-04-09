@@ -4,6 +4,4 @@ import '../data/network/BaseApiServices.dart';
 
 class HomeRepository {
   BaseApiServices _apiServices = NetworkApiService();
-
-
 }

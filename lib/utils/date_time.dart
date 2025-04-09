@@ -1,4 +1,3 @@
-import 'package:intl/intl.dart';
 
 String getNameOfDay(String date) {
   int day = DateTime.parse(date).weekday;

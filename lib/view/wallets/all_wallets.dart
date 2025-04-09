@@ -9,6 +9,7 @@ import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart'
 import 'package:fe_financial_manager/view/common_widget/divider.dart';
 import 'package:fe_financial_manager/view/common_widget/my_list_title.dart';
 import 'package:fe_financial_manager/view/wallets/widgets/all_wallet_consumer.dart';
+import 'package:fe_financial_manager/view/wallets/widgets/option_bottom_sheets.dart';
 import 'package:fe_financial_manager/view/wallets/widgets/total_balance_wallets.dart';
 import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
@@ -66,12 +67,16 @@ class _AllWalletsState extends State<AllWallets> {
               onItemTap: (PickedIconModel value )async {
                 await context.read<WalletViewModel>().getSingleWallet(value.id);
                 ApiResponse<dynamic> result = context.read<WalletViewModel>().singleWalletData;
+                // Check if the wallet is valid then navigate to the update wallet screen
                 if(result.status == Status.COMPLETED){
                   context.push(FinalRoutes.addWalletsPath, extra: result.data);
                 }else{
                   Utils.flushBarErrorMessage('Invalid wallet', context);
                 }
-              }
+              },
+              trailingCallbackForCheckPickedListTile: (PickedIconModel value){
+                showOptionBottomSheet(context, value);
+              },
             ),
 
             const SizedBox(height: 20),

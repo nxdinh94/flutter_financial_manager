@@ -18,6 +18,9 @@ class Assets{
   static const String svgBell = 'assets/svg/bell.svg';
   static const String svgBank = 'assets/svg/bank.svg';
   static const String svgTextAlignLeft = 'assets/svg/text-align-left.svg';
+  static const String svgThreeDotsVertical = 'assets/svg/three-dots-vertical.svg';
+  static const String svgTransfer = 'assets/svg/transfer.svg';
+  static const String svgAdjustHorizontal = 'assets/svg/adjust-horizontal.svg';
 
 }
 

@@ -16,7 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'constants/theme.dart';
 Future<void> main() async {
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   await setupLocator();
   // setup light mode if no mode chosen
   int ? mode =  locator<SharedPreferences>().getInt('mode');

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/data/response/status.dart';
@@ -6,7 +7,6 @@ import 'package:fe_financial_manager/model/wallet_model.dart';
 import 'package:fe_financial_manager/view/common_widget/check_picked_list_title.dart';
 import 'package:fe_financial_manager/view/common_widget/money_vnd.dart';
 import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AllWalletConsumer extends StatelessWidget {
@@ -14,9 +14,11 @@ class AllWalletConsumer extends StatelessWidget {
     super.key,
     this.pickedWallet,
     required this.onItemTap,
+    this.trailingCallbackForCheckPickedListTile,
   });
   final PickedIconModel ? pickedWallet;
   final Future<void> Function(PickedIconModel) onItemTap;
+  final void Function(PickedIconModel) ? trailingCallbackForCheckPickedListTile;
   @override
   Widget build(BuildContext context) {
     return Consumer<WalletViewModel>(
@@ -39,6 +41,7 @@ class AllWalletConsumer extends StatelessWidget {
                     await onItemTap(value);
                   },
                   pickedIconId: pickedWallet?.id,
+                  onTrailingTap: trailingCallbackForCheckPickedListTile,
                 );
               }).toList()
             );

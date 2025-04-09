@@ -2,19 +2,19 @@ import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 class MyPieChart extends StatelessWidget {
-  Map<String, double> dataMap;
+  final Map<String, double> dataMap;
   final bool isShowLegend;
   final bool isShowPercentageValue;
   final bool isShowChartValue;
   final double height;
-  MyPieChart({
-    Key? key,
+  const MyPieChart({
+    super.key,
     required this.dataMap,
     this.isShowLegend = true,
     this.isShowPercentageValue = false,
     this.isShowChartValue = false,
     this.height =200
-  }) : super(key: key);
+  });
 
 
 

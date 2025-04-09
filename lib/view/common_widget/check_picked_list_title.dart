@@ -1,7 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:fe_financial_manager/constants/colors.dart';
+import 'package:fe_financial_manager/generated/assets.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/view/common_widget/check_icon.dart';
-import 'package:flutter/material.dart';
+import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 class CheckPickedListTile<T> extends StatefulWidget {
@@ -15,6 +17,7 @@ class CheckPickedListTile<T> extends StatefulWidget {
     this.isShowBorderBottom = true,
     required this.onTap,
     this.isShowAnimate = true,
+    this.onTrailingTap
   });
 
   final T iconData;
@@ -25,6 +28,7 @@ class CheckPickedListTile<T> extends StatefulWidget {
   final TextStyle ? titleTextStyle;
   final Future<void> Function (PickedIconModel) onTap;
   final bool isShowAnimate;
+  final void Function(PickedIconModel) ?  onTrailingTap;
   @override
   State<CheckPickedListTile> createState() => _CheckPickedListTileState();
 }
@@ -69,8 +73,21 @@ class _CheckPickedListTileState extends State<CheckPickedListTile> {
           //return value
           await widget.onTap(pickedIcon);
         },
-        trailing: widget.pickedIconId == widget.iconData.id ? const CheckIcon():
-        const SizedBox.shrink(),
+        // if the trailingCallback is null, then show the check icon
+        // if the pickedIconId is equal to the iconData.id, then show the check icon
+        trailing: widget.onTrailingTap == null ? ( widget.pickedIconId == widget.iconData.id ? const CheckIcon():
+        const SizedBox.shrink()): SvgContainer(
+          iconWidth: 18,
+          iconPath: Assets.svgThreeDotsVertical,
+          callback: (){
+            PickedIconModel pickedIcon = PickedIconModel(
+              id: widget.iconData.id,
+              icon: widget.iconData.icon,
+              name: widget.iconData.name,
+            );
+            widget.onTrailingTap!(pickedIcon);
+          },
+        ),
       ),
     );
   }

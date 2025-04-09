@@ -109,6 +109,18 @@ class WalletViewModel extends ChangeNotifier{
       }
     });
   }
+  Future<void> deleteWallet(String walletId)async{
+    setLoading(false);
+    await _walletRepository.deleteWalletApi(walletId).then((value){
+      Utils.toastMessage('Delete wallet successfully');
+      setLoading(true);
+    }).onError((error, stackTrace) {
+      setLoading(false);
+      if (kDebugMode) {
+        print(error.toString());
+      }
+    });
+  }
   Future<void> getExternalBank()async{
     setLoading(false);
     await _walletRepository.getExternalBankApi().then((value){

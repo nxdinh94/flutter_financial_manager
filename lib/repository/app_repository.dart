@@ -1,7 +1,6 @@
 import 'package:fe_financial_manager/data/network/BaseApiServices.dart';
 import 'package:fe_financial_manager/data/network/NetworkApiService.dart';
 import 'package:fe_financial_manager/model/transaction_categories_icon_model.dart';
-import 'package:fe_financial_manager/model/wallet_type_icon_model.dart';
 import 'package:fe_financial_manager/constants/app_url.dart';
 
 class AppRepository{
