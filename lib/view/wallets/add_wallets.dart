@@ -1,15 +1,13 @@
 import 'package:diacritic/diacritic.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
-import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/generated/assets.dart';
 import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/model/external_bank_model.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/model/wallet_model.dart';
 import 'package:fe_financial_manager/model/wallet_type_icon_model.dart';
-import 'package:fe_financial_manager/utils/cleaned_number.dart';
+import 'package:fe_financial_manager/utils/format_number.dart';
 import 'package:fe_financial_manager/utils/get_initial_wallet.dart';
-import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/utils/utils.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_textfield.dart';
@@ -45,17 +43,20 @@ class _AddWalletsState extends State<AddWallets> {
   Map<String, dynamic> dataToSubmit = {};
 
   void updateRequiredAttributeForDataToSubmit(){
-    dataToSubmit['initial_balance'] = cleanedNumber(_amountController.text);
+    dataToSubmit['initial_balance'] = FormatNumber.cleanedNumber(_amountController.text);
     dataToSubmit['name'] = _nameController.text;
     dataToSubmit['description'] = _noteController.text;
     dataToSubmit['money_account_type_id']  = pickedWalletType.id;
     dataToSubmit['save_to_report'] = isIncludeFromReport;
     if(removeDiacritics(pickedWalletType.name) == 'Vi tin dung'){
-      dataToSubmit['credit_limit'] = cleanedNumber(_creditLimitationController.text);
+      dataToSubmit['credit_limit'] = FormatNumber.cleanedNumber(_creditLimitationController.text);
+    }
+    if(widget.walletToUpdate != null){
+      dataToSubmit['id'] = widget.walletToUpdate!.id;
     }
   }
   bool validateDataToSubmit (){
-    if(_amountController.text.isEmpty && _nameController.text.isEmpty){
+    if(_amountController.text.isEmpty || _nameController.text.isEmpty){
       Utils.flushBarErrorMessage('Initial money or name of wallet cannot be empty', context);
       return false;
     }
@@ -106,11 +107,11 @@ class _AddWalletsState extends State<AddWallets> {
       },listData, context);
     }else{
       pickedWalletType = PickedIconModel(
-        icon: widget.walletToUpdate!.iconPath,
-        name: widget.walletToUpdate!.iconName,
-        id: widget.walletToUpdate!.id
+        icon: widget.walletToUpdate!.walletTypeIconPath,
+        name: widget.walletToUpdate!.walletTypeName,
+        id: widget.walletToUpdate!.walletTypeId
       );
-      _amountController.text = widget.walletToUpdate!.initialBalance;
+      _amountController.text = FormatNumber.format(widget.walletToUpdate!.initialBalance) ;
       _nameController.text = widget.walletToUpdate!.name;
       _noteController.text = widget.walletToUpdate!.description!;
 
@@ -131,7 +132,7 @@ class _AddWalletsState extends State<AddWallets> {
         }
       }
       if(removeDiacritics(pickedWalletType.name) == 'Vi tin dung'){
-        _creditLimitationController.text = widget.walletToUpdate!.creditLimit!;
+        _creditLimitationController.text =FormatNumber.format(widget.walletToUpdate!.creditLimit!);
       }
     }
   }
@@ -164,7 +165,7 @@ class _AddWalletsState extends State<AddWallets> {
         if(widget.walletToUpdate == null){
           await _walletViewModel.createWallet(dataToSubmit, context);
         }else{
-
+          await _walletViewModel.updateWallet(dataToSubmit, context);
         }
 
       }),

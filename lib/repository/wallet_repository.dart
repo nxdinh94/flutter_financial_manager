@@ -40,8 +40,8 @@ class WalletRepository{
   }
   Future<dynamic> updateWalletApi(Map<String, dynamic> data) async {
     try {
-      dynamic response = await _apiServices.getPatchApiResponse(AppUrl.wallet, true);
-      return response['data'];
+      dynamic response = await _apiServices.getPatchApiResponse(AppUrl.wallet, data,true);
+      return response['message'];
     } catch (e) {
       rethrow;
     }

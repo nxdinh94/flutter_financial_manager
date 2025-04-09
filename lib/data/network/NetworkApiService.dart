@@ -31,7 +31,7 @@ class NetworkApiService extends BaseApiServices {
     return responseJson;
   }
   @override
-  Future getPostApiResponse(String url, dynamic data,  [bool isBearToken = false]) async {
+  Future getPostApiResponse(String url, dynamic data,  [bool isBearToken = true]) async {
     String token = AuthManager.readAuth();
     Map<String, String> headers = {
       'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ class NetworkApiService extends BaseApiServices {
     return responseJson;
   }
   @override
-  Future getPatchApiResponse(String url, dynamic data,  [bool isBearToken = false]) async {
+  Future getPatchApiResponse(String url, dynamic data,  [bool isBearToken = true]) async {
     String token = AuthManager.readAuth();
     Map<String, String> headers = {
       'Content-Type': 'application/json',

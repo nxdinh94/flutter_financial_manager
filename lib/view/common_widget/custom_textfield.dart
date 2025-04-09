@@ -1,8 +1,8 @@
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-
+import 'package:flutter/services.dart';
+import '../../utils/format_number.dart';
 import 'svg_container.dart';
 
 class CustomTextfield extends StatefulWidget {
@@ -36,7 +36,6 @@ class CustomTextfield extends StatefulWidget {
 }
 
 class _CustomTextfieldState extends State<CustomTextfield> {
-  String _formatNumber(String s) => NumberFormat.decimalPattern('en').format(int.parse(s));
 
   @override
   Widget build(BuildContext context) {
@@ -54,11 +53,15 @@ class _CustomTextfieldState extends State<CustomTextfield> {
             ),
             TextField(
               controller: widget.controller,
-              onChanged: widget.textInputType == TextInputType.number ? (string) {
-                string = _formatNumber(string.replaceAll(',', ''));
+              onChanged: widget.textInputType == TextInputType.number ? (String value) {
+                if(value.isEmpty){
+                  value = '0';
+                  widget.controller.text = value;
+                }
+                value = FormatNumber.format(value.replaceAll(',', ''));
                 widget.controller.value = TextEditingValue(
-                  text: string,
-                  selection: TextSelection.collapsed(offset: string.length),
+                  text: value,
+                  selection: TextSelection.collapsed(offset: value.length),
                 );
               } : widget.onChange,
               cursorColor: Theme.of(context).colorScheme.secondary,

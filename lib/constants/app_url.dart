@@ -11,11 +11,12 @@ class AppUrl {
 
   static const changePasswordEndPoint = baseUrl + '/users/change-password';
 
-  static const getIconCategories = baseUrl + '/apps/transaction-type-categories';
+  static const getIconCategories = baseUrl + '/transactions/transaction-type-categories';
+  static const createIconCategories = baseUrl + '/transactions/transaction-type-category';
+  static const transaction = baseUrl + '/transactions/transaction';
+
   static const getIconWalletType = baseUrl + '/admins/money-account-types';
-
   static const wallet = baseUrl + '/money-accounts/money-account';
-
 
   static const externalBank = 'https://api.vietqr.io/v2/banks';
 

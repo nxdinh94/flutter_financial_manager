@@ -6,6 +6,7 @@ import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/utils/cleaned_number.dart';
 import 'package:fe_financial_manager/utils/date_time.dart';
+import 'package:fe_financial_manager/utils/format_number.dart';
 import 'package:fe_financial_manager/utils/get_initial_wallet.dart';
 import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/utils/utils.dart';
@@ -81,7 +82,7 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
       return;
     }
     dataToSubmit = {
-      'amount_of_money' : cleanedNumber(_amountController.text),
+      'amount_of_money' : FormatNumber.cleanedNumber(_amountController.text),
       'transaction_type_category_id' : pickedCategory.id,
       'occur_date' : chosenDateOccurTransaction,
       'money_account_id' : pickedWallet.id,

@@ -69,7 +69,12 @@ class _AllWalletsState extends State<AllWallets> {
                 ApiResponse<dynamic> result = context.read<WalletViewModel>().singleWalletData;
                 // Check if the wallet is valid then navigate to the update wallet screen
                 if(result.status == Status.COMPLETED){
-                  context.push(FinalRoutes.addWalletsPath, extra: result.data);
+                  dynamic isPopFromUpdate = await context.push(FinalRoutes.addWalletsPath, extra: result.data);
+                  if (!context.mounted) return;
+                  if(isPopFromUpdate){
+                    await context.read<WalletViewModel>().getAllWallet();
+                  }
+
                 }else{
                   Utils.flushBarErrorMessage('Invalid wallet', context);
                 }

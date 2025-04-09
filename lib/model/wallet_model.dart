@@ -34,14 +34,16 @@ class SingleWalletModel {
   final String? reminderWhenDue;
   final String? bankType;
   final List<dynamic> creditCardReminders;
-  final String iconPath;
-  final String iconName;
+  final String walletTypeIconPath;
+  final String walletTypeName;
+  final String walletTypeId;
   SingleWalletModel({
     required this.id,
     required this.name,
     required this.initialBalance,
-    required this.iconPath,
-    required this.iconName,
+    required this.walletTypeIconPath,
+    required this.walletTypeName,
+    required this.walletTypeId,
     this.creditLimit,
     this.description,
     this.reminderWhenDue,
@@ -54,8 +56,9 @@ class SingleWalletModel {
       id: json['id'] ?? '',
       name: json['name'] ?? '',
       initialBalance: json['initial_balance'] ?? '0',
-      iconPath: json['money_account_type']['icon'] ?? '',
-      iconName: json['money_account_type']['name'] ?? '',
+      walletTypeIconPath: json['money_account_type']['icon'] ?? '',
+      walletTypeName: json['money_account_type']['name'] ?? '',
+      walletTypeId: json['money_account_type']['id'] ?? '',
       creditLimit: json['credit_limit'],
       description: json['description'],
       reminderWhenDue: json['reminder_when_due'],
@@ -70,8 +73,9 @@ class SingleWalletModel {
       'name': name,
       'initial_balance': initialBalance,
       'money_account_type': {
-        'icon': iconPath,
-        'name': iconName,
+        'icon': walletTypeIconPath,
+        'name': walletTypeName,
+        'id': walletTypeId,
       },
       'credit_limit': creditLimit,
       'description': description,

@@ -119,6 +119,20 @@ class WalletViewModel extends ChangeNotifier{
       if (kDebugMode) {
         print(error.toString());
       }
+      });
+  }
+  Future<void> updateWallet(Map<String, dynamic> data, BuildContext context)async{
+    setLoading(true);
+    await _walletRepository.updateWalletApi(data).then((message){
+      // backend return message
+      Utils.toastMessage(message);
+      context.pop(true);
+      setLoading(false);
+    }).onError((error, stackTrace) {
+      setLoading(false);
+      if (kDebugMode) {
+        print(error.toString());
+      }
     });
   }
   Future<void> getExternalBank()async{
