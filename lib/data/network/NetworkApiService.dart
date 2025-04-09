@@ -76,6 +76,28 @@ class NetworkApiService extends BaseApiServices {
     }
     return responseJson;
   }
+  @override
+  Future getDeleteApiResponse(String url,  [bool isBearToken = true]) async {
+    String token = AuthManager.readAuth();
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+    if(token.isNotEmpty && isBearToken){
+      headers['Authorization'] = 'Bearer $token';
+    }
+    dynamic responseJson;
+    try {
+      Response response = await http.delete(
+        Uri.parse(url),
+        headers: headers,
+      ).timeout(const Duration(seconds: 10));
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw Exception('No internet connection');
+    }
+    return responseJson;
+  }
 
   dynamic returnResponse(http.Response response) {
     dynamic decodedResponse = jsonDecode(response.body);
