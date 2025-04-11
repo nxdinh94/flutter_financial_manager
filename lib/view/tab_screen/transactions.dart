@@ -145,7 +145,6 @@ class _TransactionsState extends State<Transactions> {
                     break;
                   default:
                     throw Exception('Unknown status');
-                    break;
                 }
 
               },
@@ -182,7 +181,6 @@ class TotalRevenueOrSpendingItem extends StatelessWidget {
               fontSize: big,
               amount: double.parse(amountOfMoney),
               key: ValueKey(amountOfMoney),
-              iconWidth: small,
               textColor: foreground,
             )
         )
@@ -212,8 +210,6 @@ class BodyOfPage extends StatelessWidget {
 
         double totalRevenueMoney = double.parse(entry.value['total_income']);
         double totalSpendingMoney = double.parse(entry.value['total_expense']);
-
-
         return Column(
           children: [
             Container(
@@ -248,14 +244,12 @@ class BodyOfPage extends StatelessWidget {
                                   amount: totalRevenueMoney,
                                   textColor: secondaryColor,
                                   fontSize: normal,
-                                  iconWidth: tiny,
                                 ),
                                 const SizedBox(height: 6),
                                 MoneyVnd(
                                   amount: totalSpendingMoney,
                                   textColor: emergencyColor,
                                   fontSize: normal,
-                                  iconWidth: small,
                                 ),
                               ],
                             ),
@@ -291,7 +285,7 @@ class BodyOfPage extends StatelessWidget {
                                     callback: () {
                                       context.push(RoutesName.addingWorkSpacePath, extra: e);
                                     },
-                                    leading: Image.asset(e.transactionTypeCategory.icon, width: 35),
+                                    leading: Image.asset(e.transactionTypeCategory.icon, width: 38),
                                     title: e.transactionTypeCategory.name,
                                     subTitle: e.description.isNotEmpty ?
                                       Text(e.description, style: Theme.of(context).textTheme.labelSmall?.copyWith(fontStyle: FontStyle.italic),) : null,
@@ -299,19 +293,18 @@ class BodyOfPage extends StatelessWidget {
                                     rightContentPadding: 0,
                                     trailing: Column(
                                       mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment: CrossAxisAlignment.end,
                                       children: [
                                         MoneyVnd(
                                           amount: double.parse(e.amountOfMoney),
                                           textColor: e.transactionTypeCategory.transactionType == 'Expense' ? emergencyColor : secondaryColor,
                                           fontSize: normal,
-                                          iconWidth: tiny,
                                         ),
                                         const SizedBox(height: 6),
                                         MoneyVnd(
                                           amount: double.parse(e.moneyAccount.accountBalance!),
                                           textColor: colorTextLabel,
                                           fontSize: normal,
-                                          iconWidth: tiny,
                                           isWrapTextWithParentheses: true,
                                         ),
                                       ],

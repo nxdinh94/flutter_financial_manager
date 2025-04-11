@@ -48,7 +48,7 @@ class SuggestionSpendingMoney extends StatelessWidget {
               WidgetSpan(
                   child: MoneyVnd(
                     amount: amount,
-                    iconWidth: tiny, fontSize: small,
+                    fontSize: small,
                     textColor: amountColor,
                   ),
                   alignment: PlaceholderAlignment.middle

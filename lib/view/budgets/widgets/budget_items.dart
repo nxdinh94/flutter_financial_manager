@@ -148,7 +148,7 @@ class _BudgetItemsState extends State<BudgetItems> {
                             children: [
                               Text('$startTime - $endTime', style: const TextStyle(color: colorTextLabel, fontSize: tiny)),
                               MoneyVnd(
-                                  fontSize: normal, amount: 20000, iconWidth: tiny,
+                                  fontSize: normal, amount: 20000,
                               ),
                             ],
                           ),
@@ -180,7 +180,6 @@ class _BudgetItemsState extends State<BudgetItems> {
                             fontSize: small,
                             amount: 999999999,
                             textColor:  spendingPercentage == 1 ? emergencyColor : colorTextBlack,
-                            iconWidth: tiny,
                           ),
                         ),
                       ]

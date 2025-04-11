@@ -6,14 +6,12 @@ import 'package:flutter/material.dart';
 class MoneyVnd extends StatelessWidget {
   MoneyVnd({
     super.key,
-    this.iconWidth= 18,
     required this.fontSize,
     this.fontWeight = FontWeight.w600,
     required this.amount,
     this.textColor = colorTextBlack,
     this.isWrapTextWithParentheses = false,
   });
-  double iconWidth;
   final double fontSize;
   FontWeight fontWeight;
   final double amount;
@@ -46,10 +44,10 @@ class MoneyVnd extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(bottom: 4.0),
               child: SvgContainer(
-                iconWidth: iconWidth,
+                iconWidth: fontSize -2,
                 myIconColor: textColor,
                 iconPath: Assets.svgVnd,
-                containerSize: iconWidth,
+                containerSize: fontSize -2,
               ),
             ),
           ),

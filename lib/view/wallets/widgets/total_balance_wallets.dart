@@ -13,7 +13,7 @@ class TotalBalanceWallets extends StatelessWidget {
       title: 'Total',
       titleTextStyle: Theme.of(context).textTheme.titleLarge!,
       leading: Image.asset('assets/another_icon/global.png', width: 33,),
-      subTitle: MoneyVnd(fontSize: normal, amount: balance, iconWidth: 12,),
+      subTitle: MoneyVnd(fontSize: normal, amount: balance),
       hideBottomBorder: false,
       hideTopBorder: false,
       leftContentPadding: 12,

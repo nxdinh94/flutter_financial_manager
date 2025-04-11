@@ -34,7 +34,7 @@ class AllWalletConsumer extends StatelessWidget {
                 WalletModel val = e.value;
                 double balance = double.parse(val.accountBalance);
                 return CheckPickedListTile(
-                  subtitle: MoneyVnd(fontSize: normal, amount: balance, iconWidth: 12, textColor: colorTextLabel,),
+                  subtitle: MoneyVnd(fontSize: normal, amount: balance, textColor: colorTextLabel,),
                   iconData: e.value,
                   titleTextStyle: Theme.of(context).textTheme.titleLarge,
                   onTap: (PickedIconModel value)async{
