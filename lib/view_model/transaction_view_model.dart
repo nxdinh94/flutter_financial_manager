@@ -1,11 +1,23 @@
+import 'package:fe_financial_manager/data/response/api_response.dart';
 import 'package:fe_financial_manager/repository/transaction_repository.dart';
 import 'package:fe_financial_manager/utils/utils.dart';
 import 'package:flutter/material.dart';
+
+import '../model/transactions_history_model.dart';
 class TransactionViewModel  extends ChangeNotifier{
 
   final TransactionRepository _transactionRepository = TransactionRepository();
   bool _loading = false;
   bool get loading => _loading;
+
+  ApiResponse<Map<String, dynamic>> _transactionHistoryData = ApiResponse.loading();
+  ApiResponse<Map<String, dynamic>> get transactionHistoryData => _transactionHistoryData;
+
+
+  void setTransactionHistoryData(ApiResponse<Map<String, dynamic>> data){
+    _transactionHistoryData = data;
+    notifyListeners();
+  }
 
   void setLoading(bool value){
     _loading = loading;
@@ -20,6 +32,30 @@ class TransactionViewModel  extends ChangeNotifier{
       Utils.toastMessage('Your transaction has been recorded');
     }).onError((error, stackTrace){
       Utils.flushBarErrorMessage(error.toString(), context);
+    });
+  }
+
+  // Data include {fromDate, toDate, walletId}
+  Future<void> getTransaction(Map<String, dynamic> data)async{
+    setLoading(true);
+    await _transactionRepository.getTransaction(data).then((value){
+      // value key is {transactions_by_date, total_all_expense, total_all_income}
+      // date : {transactions, total_expense, total_income}
+
+      // transform value
+      for(String keys in value['transactions_by_date'].keys){
+        List<dynamic> listOfTransaction = value['transactions_by_date'][keys]['transactions'];
+        List<TransactionHistoryModel> transformedList = [];
+        for (var e in listOfTransaction) {
+          transformedList.add(TransactionHistoryModel.fromJson(e));
+        }
+        value['transactions_by_date'][keys]['transactions'] = transformedList;
+      }
+      setTransactionHistoryData(ApiResponse.completed(value));
+
+      setLoading(false);
+    }).onError((error, stackTrace){
+      print(error);
     });
   }
 

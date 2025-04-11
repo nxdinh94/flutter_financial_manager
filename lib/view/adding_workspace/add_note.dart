@@ -26,7 +26,7 @@ class _AddNoteState extends State<AddNote> {
       appBar: AppBar(
         title: const Text('Note'),
         leading: CustomBackNavbar(
-          value: textTyped,
+          value: textTyped.trim(),
         ),
       ),
       body: Container(

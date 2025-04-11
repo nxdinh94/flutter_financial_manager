@@ -98,43 +98,92 @@ List<Map<String, dynamic>> budgetList = [
     ]
   }
 ];
+
+// convert transactions to list of TransactionHistoryModel
 Map<String, dynamic> dataForTransactionHistory = {
-  'response_revenue_money': {r'$numberDecimal': '1500000'},
-  'response_spending_money': {r'$numberDecimal': '1200000'},
-  'response_expense_record': [
-    {
-      'date': '2025-03-25',
-      'records': [
+  "transactions_by_date": {
+    "2025-04-10": {
+      "transactions": [
         {
-          'name': 'Ăn sáng',
-          'icon': 'assets/icon_category/spending_money_icon/anUong/breakfast.png',
-          'cash_flow_type': 0, // Chi tiêu
-          'amount_of_money': {r'$numberDecimal': '50000'},
+          "id": "93391103-58ce-4eb1-8336-0389d323c1ce",
+          "amount_of_money": "123123",
+          "transaction_type_category": {
+            "icon": "assets/icon_category/spending_money_icon/anUong/burger_parent.png",
+            "name": "Ăn uống",
+            "transaction_type": {
+              "type": "Expense"
+            }
+          },
+          "money_account": {
+            "name": "heeee2",
+            "account_balance": "12083765",
+            "credit_limit": null,
+            "money_account_type": {
+              "icon": "assets/account_type/money.png",
+              "name": "Ví tiền mặt"
+            }
+          },
+          "description": "",
+          "occur_date": "2025-04-10T14:08:35.000Z",
+          "save_to_report": true
         },
         {
-          'name': 'Lương tháng 3',
-          'icon': 'assets/icon_category/revenue_money_icon/salary.png',
-          'cash_flow_type': 1, // Thu nhập
-          'amount_of_money': {r'$numberDecimal': '1000000'},
+          "id": "eb724c0b-b6d8-4cdc-b460-f8ed35cf6115",
+          "amount_of_money": "11111",
+          "transaction_type_category": {
+            "icon": "assets/icon_category/spending_money_icon/anUong/burger_parent.png",
+            "name": "Ăn uống",
+            "transaction_type": {
+              "type": "Expense"
+            }
+          },
+          "money_account": {
+            "name": "heeee2",
+            "account_balance": "12083765",
+            "credit_limit": null,
+            "money_account_type": {
+              "icon": "assets/account_type/money.png",
+              "name": "Ví tiền mặt"
+            }
+          },
+          "description": "",
+          "occur_date": "2025-04-10T14:08:35.000Z",
+          "save_to_report": true
         },
       ],
+      "total_expense": "256456",
+      "total_income": "0"
     },
-    {
-      'date': '2025-03-24',
-      'records': [
+    "2025-03-21": {
+      "transactions": [
         {
-          'name': 'Mua sắm',
-          'icon': 'assets/icon_category/spending_money_icon/dichVuSinhHoat/clothes-rack-parent.png',
-          'cash_flow_type': 0,
-          'amount_of_money': {r'$numberDecimal': '700000'},
-        },
-        {
-          'name': 'Thưởng KPI',
-          'icon': 'assets/icon_category/revenue_money_icon/award.png',
-          'cash_flow_type': 1,
-          'amount_of_money': {r'$numberDecimal': '500000'},
-        },
+          "id": "758de7d0-c750-461e-90a5-8821486e913e",
+          "amount_of_money": "4111",
+          "transaction_type_category": {
+            "icon": "assets/icon_category/spending_money_icon/anUong/burger_parent.png",
+            "name": "Ăn uống",
+            "transaction_type": {
+              "type": "Expense"
+            }
+          },
+          "money_account": {
+            "name": "te2",
+            "account_balance": "1217889",
+            "credit_limit": "2222222",
+            "money_account_type": {
+              "icon": "assets/account_type/credit.png",
+              "name": "Ví tín dụng"
+            }
+          },
+          "description": "",
+          "occur_date": "2025-03-21T00:00:00.000Z",
+          "save_to_report": true
+        }
       ],
+      "total_expense": "4111",
+      "total_income": "0"
     },
-  ],
+  },
+  "total_all_expense": "273011",
+  "total_all_income": "0"
 };

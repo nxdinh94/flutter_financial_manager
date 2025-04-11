@@ -5,7 +5,9 @@ const Color colorTextWhite = Color(0xFFF2F2F2);
 const Color colorTextLabel = Color(0xFF999999);
 
 const Color emergencyColor = Color(0xFFC50808);
+const Color expenseColumnChartColor = Color(0xFFE70A4D);
 const Color secondaryColor = Color(0xff32B849);
+
 const Color primaryColor = Color(0xffffffff);
 const Color iconColor = Color(0xff949398);
 const Color dividerColor = Color(0xffD4D4D4);

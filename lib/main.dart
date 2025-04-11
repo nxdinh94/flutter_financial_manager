@@ -7,6 +7,7 @@ import 'package:fe_financial_manager/utils/theme_manager.dart';
 import 'package:fe_financial_manager/view_model/app_view_model.dart';
 import 'package:fe_financial_manager/view_model/auth_view_model.dart';
 import 'package:fe_financial_manager/view_model/home_view_model.dart';
+import 'package:fe_financial_manager/view_model/transaction_view_model.dart';
 import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -37,6 +38,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_)=> HomeViewViewModel()),
         ChangeNotifierProvider(create: (_)=> AppViewModel()),
         ChangeNotifierProvider(create: (_)=> WalletViewModel()),
+        ChangeNotifierProvider(create: (_)=> TransactionViewModel()),
       ],
     child: const MyApp(),
     )

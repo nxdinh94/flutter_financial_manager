@@ -1,6 +1,5 @@
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
-import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -25,6 +24,7 @@ class MyListTitle extends StatefulWidget {
     this.hideTopBorder = true,
     this.trailing,
     this.isShowAnimate = true,
+    this.minConstraintSize = 35,
   });
   final String title;
   Widget ? subTitle;
@@ -40,6 +40,7 @@ class MyListTitle extends StatefulWidget {
   bool hideBottomBorder;
   Widget ? trailing;
   bool isShowAnimate;
+  double minConstraintSize;
   @override
   State<MyListTitle> createState() => _MyListTitleState();
 }
@@ -67,13 +68,13 @@ class _MyListTitleState extends State<MyListTitle> {
           ),
         ),
         subtitle:  widget.subTitle,
-        leading: Animate(
+        leading: widget.leading  == null ? null: Animate(
           effects:  widget.isShowAnimate? const [MoveEffect(begin: Offset(-20, 0)), FadeEffect()]:[],
           delay: const Duration(milliseconds: 100),
           child: ConstrainedBox(
-            constraints: const BoxConstraints(
-              minHeight: 35.0,
-              minWidth: 35.0,
+            constraints: BoxConstraints(
+              minHeight: widget.minConstraintSize,
+              minWidth: widget.minConstraintSize,
               maxWidth: 80,
               maxHeight: 80
             ),

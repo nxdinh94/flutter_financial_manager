@@ -1,4 +1,6 @@
 
+import 'package:intl/intl.dart';
+
 String getNameOfDay(String date) {
   int day = DateTime.parse(date).weekday;
   switch (day) {
@@ -20,7 +22,13 @@ String getNameOfDay(String date) {
       return '';
   }
 }
-
+//YYYY-MM-DD
+String convertDateTimeToString(DateTime dateTime) {
+  final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  final String formatted = formatter.format(dateTime);
+  return formatted;
+}
+//2025-04-11T01:56:05Z
 String getCurrentDayMonthYear(){
   DateTime now = DateTime.now().toUtc();
   String formattedDate = "${now.toIso8601String().split('.')[0]}Z";

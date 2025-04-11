@@ -1,4 +1,5 @@
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
+import 'package:fe_financial_manager/model/transactions_history_model.dart';
 import 'package:fe_financial_manager/model/wallet_model.dart';
 import 'package:fe_financial_manager/utils/routes/my_bottom_navigation_bar.dart';
 import 'package:fe_financial_manager/view/account_tab/account_setting.dart';
@@ -32,32 +33,38 @@ import 'package:go_router/go_router.dart';
 import 'routes_name.dart';
 
 class CustomNavigationHelper {
-
-
   static late final GoRouter router;
 
-  static final GlobalKey<NavigatorState> parentNavigatorKey = GlobalKey<NavigatorState>();
-  static final GlobalKey<NavigatorState> homeTabNavigatorKey = GlobalKey<NavigatorState>();
-  static final GlobalKey<NavigatorState> transactionsTabNavigatorKey = GlobalKey<NavigatorState>();
-  static final GlobalKey<NavigatorState> addingWorkspaceTabNavigatorKey = GlobalKey<NavigatorState>();
-  static final GlobalKey<NavigatorState> budgetsTabNavigatorKey = GlobalKey<NavigatorState>();
-  static final GlobalKey<NavigatorState> accountTabNavigatorKey = GlobalKey<NavigatorState>();
-  static final GlobalKey<NavigatorState> authTabNavigatorKey = GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> parentNavigatorKey =
+      GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> homeTabNavigatorKey =
+      GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> transactionsTabNavigatorKey =
+      GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> addingWorkspaceTabNavigatorKey =
+      GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> budgetsTabNavigatorKey =
+      GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> accountTabNavigatorKey =
+      GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> authTabNavigatorKey =
+      GlobalKey<NavigatorState>();
 
-  BuildContext get context => router.routerDelegate.navigatorKey.currentContext!;
+  BuildContext get context =>
+      router.routerDelegate.navigatorKey.currentContext!;
 
   GoRouterDelegate get routerDelegate => router.routerDelegate;
 
-  GoRouteInformationParser get routeInformationParser => router.routeInformationParser;
-
+  GoRouteInformationParser get routeInformationParser =>
+      router.routeInformationParser;
 
   CustomNavigationHelper._internal();
-  static final CustomNavigationHelper _instance = CustomNavigationHelper._internal();//instance of CustomNavigatorHelper
+  static final CustomNavigationHelper _instance =
+      CustomNavigationHelper._internal(); //instance of CustomNavigatorHelper
   static CustomNavigationHelper get instance => _instance;
   factory CustomNavigationHelper(String initialRoute) {
     return _instance._initialize(initialRoute);
   }
-
 
   CustomNavigationHelper _initialize(String initialRoute) {
     final routes = [
@@ -85,39 +92,46 @@ class CustomNavigationHelper {
                         );
                       },
                     ),
-                  ]
-              ),
+                  ]),
               GoRoute(
-                path: RoutesName.addWalletsPath,
-                pageBuilder: (context, GoRouterState state) {
-                  if(state.extra == null){
-                    return getPage(
-                      child: AddWallets(),
-                      state: state,
-                    );
-                  }else {
-                    SingleWalletModel walletToUpdate = state.extra as SingleWalletModel;
-                    return getPage(
-                      child: AddWallets(walletToUpdate: walletToUpdate,),
-                      state: state,
-                    );
-                  }
-
-                },
-                routes: [
-                  GoRoute(
+                  path: RoutesName.addWalletsPath,
+                  pageBuilder: (context, GoRouterState state) {
+                    if (state.extra == null) {
+                      return getPage(
+                        child: AddWallets(),
+                        state: state,
+                      );
+                    } else {
+                      SingleWalletModel walletToUpdate =
+                          state.extra as SingleWalletModel;
+                      return getPage(
+                        child: AddWallets(
+                          walletToUpdate: walletToUpdate,
+                        ),
+                        state: state,
+                      );
+                    }
+                  },
+                  routes: [
+                    GoRoute(
                       path: RoutesName.pickWalletTypePath,
                       pageBuilder: (context, GoRouterState state) {
-                        Map<String, dynamic> data = state.extra as Map<String, dynamic>;
-                        PickedIconModel pickedWalletType = data['pickedWalletType'];
-                        Future<void> Function (PickedIconModel) onTap = data['onTap'];
+                        Map<String, dynamic> data =
+                            state.extra as Map<String, dynamic>;
+                        PickedIconModel pickedWalletType =
+                            data['pickedWalletType'];
+                        Future<void> Function(PickedIconModel) onTap =
+                            data['onTap'];
                         return getPage(
-                          child: PickWalletTypes(pickedWalletType: pickedWalletType, onItemTap: onTap,),
+                          child: PickWalletTypes(
+                            pickedWalletType: pickedWalletType,
+                            onItemTap: onTap,
+                          ),
                           state: state,
                         );
                       },
-                  ),
-                  GoRoute(
+                    ),
+                    GoRoute(
                       path: RoutesName.pickExternalBankPath,
                       pageBuilder: (context, GoRouterState state) {
                         return getPage(
@@ -125,215 +139,183 @@ class CustomNavigationHelper {
                           state: state,
                         );
                       },
-                  ),
-                ]
-              ),
+                    ),
+                  ]),
             ],
           ),
           StatefulShellBranch(
-            navigatorKey: transactionsTabNavigatorKey,
-            routes: [
-              GoRoute(
-                path: RoutesName.transactionsPath,
-                pageBuilder: (context, GoRouterState state){
-                  return getPage(
-                    child: const Transactions(),
-                    state: state
-                  );
-                },
-                routes: [
-
-                ]
-              )
-            ]
-          ),
+              navigatorKey: transactionsTabNavigatorKey,
+              routes: [
+                GoRoute(
+                    path: RoutesName.transactionsPath,
+                    pageBuilder: (context, GoRouterState state) {
+                      return getPage(child: const Transactions(), state: state);
+                    },
+                    routes: [])
+              ]),
           StatefulShellBranch(
               navigatorKey: addingWorkspaceTabNavigatorKey,
               routes: [
                 GoRoute(
                     path: RoutesName.addingWorkSpacePath,
-                    pageBuilder: (context, GoRouterState state){
+                    pageBuilder: (context, GoRouterState state) {
+                      if(state.extra == null){
+                        return getPage(child: const AddingWorkspace(), state: state);
+                      }
+                      TransactionHistoryModel data = state.extra as TransactionHistoryModel;
                       return getPage(
-                          child: AddingWorkspace(),
-                          state: state
+                        child: AddingWorkspace(transactionToUpdate: data),
+                        state: state
                       );
                     },
                     routes: [
                       GoRoute(
                         path: RoutesName.selectWalletPath,
-                        pageBuilder: (context, GoRouterState state){
-                          Map<String, dynamic> data = state.extra as Map<String, dynamic>;
+                        pageBuilder: (context, GoRouterState state) {
+                          Map<String, dynamic> data =
+                              state.extra as Map<String, dynamic>;
                           PickedIconModel pickedWallet = data['pickedWallet'];
-                          Future<void> Function(PickedIconModel) onTap = data['onTap'];
+                          Future<void> Function(PickedIconModel) onTap =
+                              data['onTap'];
                           return getPage(
-                              child: SelectWallets(pickedWallet: pickedWallet, onItemTap: onTap,),
-                              state: state
-                          );
+                              child: SelectWallets(
+                                pickedWallet: pickedWallet,
+                                onItemTap: onTap,
+                              ),
+                              state: state);
                         },
                       ),
                       GoRoute(
                         path: RoutesName.addNotePath,
-                        pageBuilder: (context, GoRouterState state){
-                          dynamic  data = state.extra as String;
+                        pageBuilder: (context, GoRouterState state) {
+                          dynamic data = state.extra as String;
                           return getPage(
-                              child: AddNote(note: data,),
-                              state: state
-                          );
+                              child: AddNote(
+                                note: data,
+                              ),
+                              state: state);
                         },
                       ),
                       GoRoute(
                         path: RoutesName.pickCategoryPath,
-                        pageBuilder: (context, GoRouterState state){
-                          Map<String, dynamic> data = state.extra as Map<String, dynamic>;
-                          PickedIconModel pickedCategory = data['pickedCategory'];
-                          Future<void> Function(PickedIconModel) onTap = data['onTap'];
+                        pageBuilder: (context, GoRouterState state) {
+                          Map<String, dynamic> data =
+                              state.extra as Map<String, dynamic>;
+                          PickedIconModel pickedCategory =
+                              data['pickedCategory'];
+                          Future<void> Function(PickedIconModel) onTap =
+                              data['onTap'];
                           return getPage(
-                              child: SelectCategory(pickedCategory: pickedCategory, onItemTap: onTap,),
-                              state: state
-                          );
+                              child: SelectCategory(
+                                pickedCategory: pickedCategory,
+                                onItemTap: onTap,
+                              ),
+                              state: state);
                         },
                       ),
-                    ]
-                ),
-              ]
-          ),
-          StatefulShellBranch(
-              navigatorKey: budgetsTabNavigatorKey,
-              routes: [
-                GoRoute(
-                    path: RoutesName.budgetsPath,
-                    pageBuilder: (context, GoRouterState state){
+                    ]),
+              ]),
+          StatefulShellBranch(navigatorKey: budgetsTabNavigatorKey, routes: [
+            GoRoute(
+                path: RoutesName.budgetsPath,
+                pageBuilder: (context, GoRouterState state) {
+                  return getPage(child: Budgets(), state: state);
+                },
+                routes: [
+                  GoRoute(
+                      path: RoutesName.createUpdateBudgetPath,
+                      pageBuilder: (context, GoRouterState state) {
+                        return getPage(
+                            child: CreateUpdateBudget(), state: state);
+                      },
+                      routes: []),
+                  GoRoute(
+                      path: RoutesName.budgetDetailPath,
+                      pageBuilder: (context, GoRouterState state) {
+                        Map<String, dynamic> data =
+                            state.extra as Map<String, dynamic>;
+                        return getPage(
+                            child: BudgetDetails(
+                                dataToPassSpendingLimitItemWidget: data),
+                            state: state);
+                      },
+                      routes: []),
+                ])
+          ]),
+          StatefulShellBranch(navigatorKey: accountTabNavigatorKey, routes: [
+            GoRoute(
+                path: RoutesName.accountPath,
+                pageBuilder: (context, GoRouterState state) {
+                  return getPage(child: Account(), state: state);
+                },
+                routes: [
+                  GoRoute(
+                      path: RoutesName.accountSettingsPath,
+                      pageBuilder: (context, GoRouterState state) {
+                        return getPage(child: AccountSetting(), state: state);
+                      }),
+                  GoRoute(
+                    path: RoutesName.allCategoryPath,
+                    pageBuilder: (context, GoRouterState state) {
+                      Map<String, dynamic> data =
+                          state.extra as Map<String, dynamic>;
+                      Future<void> Function(PickedIconModel) onTap =
+                          data['onTap'];
                       return getPage(
-                          child: Budgets(),
-                          state: state
-                      );
-                    },
-                    routes: [
-                      GoRoute(
-                          path: RoutesName.createUpdateBudgetPath,
-                          pageBuilder: (context, GoRouterState state){
-                            return getPage(
-                                child: CreateUpdateBudget(),
-                                state: state
-                            );
-                          },
-                          routes: [
-
-                          ]
-                      ),
-                      GoRoute(
-                          path: RoutesName.budgetDetailPath,
-                          pageBuilder: (context, GoRouterState state){
-                            Map<String, dynamic> data = state.extra as Map<String, dynamic>;
-                            return getPage(
-                                child: BudgetDetails(
-                                  dataToPassSpendingLimitItemWidget: data
-                                ),
-                                state: state
-                            );
-                          },
-                          routes: [
-
-                          ]
-                      ),
-
-                    ]
-                )
-              ]
-          ),
-          StatefulShellBranch(
-              navigatorKey: accountTabNavigatorKey,
-              routes: [
-                GoRoute(
-                    path: RoutesName.accountPath,
-                    pageBuilder: (context, GoRouterState state){
-                      return getPage(
-                          child: Account(),
-                          state: state
-                      );
-                    },
-                    routes: [
-                      GoRoute(
-                        path: RoutesName.accountSettingsPath,
-                        pageBuilder: (context, GoRouterState state){
-                          return getPage(
-                            child: AccountSetting(),
-                            state: state
-                          );
-                        }
-                      ),
-                      GoRoute(
-                        path: RoutesName.allCategoryPath,
-                        pageBuilder: (context, GoRouterState state){
-                          Map<String, dynamic> data = state.extra as Map<String, dynamic>;
-                          Future<void> Function(PickedIconModel) onTap = data['onTap'];
-                          return getPage(
-                              child: SelectCategory(onItemTap: onTap,),
-                              state: state
-                          );
-                        },
-                      ),
-                      GoRoute(
-                        path: RoutesName.eventPath,
-                        pageBuilder: (context, GoRouterState state){
-                          return getPage(
-                              child: const Events(),
-                              state: state
-                          );
-                        },
-                      ),
-                      GoRoute(
-                        path: RoutesName.createEventPath,
-                        pageBuilder: (context, GoRouterState state){
-                          return getPage(
-                              child: const CreateEvents(),
-                              state: state
-                          );
-                        },
-                      ),
-                      GoRoute(
-                        path: RoutesName.editCategoryPath,
-                        pageBuilder: (context, GoRouterState state){
-                          Map<String, dynamic> data = state.extra as Map<String, dynamic>;
-                          PickedIconModel pickedCategory = data['pickedCategory'];
-                          return getPage(
-                              child: EditCategories(pickedCategory: pickedCategory,),
-                              state: state
-                          );
-                        },
-                        routes: [
-                          GoRoute(
-                            path: RoutesName.selectParentCategoriesPath,
-                            pageBuilder: (context, GoRouterState state){
-                              return getPage(
-                                  child: const SelectParentCategories(),
-                                  state: state
-                              );
-                            },
+                          child: SelectCategory(
+                            onItemTap: onTap,
                           ),
-                        ]
-                      ),
-                    ]
-                ),
-                GoRoute(
-                  path: RoutesName.addNewCategoryPath,
-                  pageBuilder: (context, GoRouterState state){
-                    return getPage(
-                        child: CreateCategory(),
-                        state: state
-                    );
-                  },
-                ),
-              ]
-          )
+                          state: state);
+                    },
+                  ),
+                  GoRoute(
+                    path: RoutesName.eventPath,
+                    pageBuilder: (context, GoRouterState state) {
+                      return getPage(child: const Events(), state: state);
+                    },
+                  ),
+                  GoRoute(
+                    path: RoutesName.createEventPath,
+                    pageBuilder: (context, GoRouterState state) {
+                      return getPage(child: const CreateEvents(), state: state);
+                    },
+                  ),
+                  GoRoute(
+                      path: RoutesName.editCategoryPath,
+                      pageBuilder: (context, GoRouterState state) {
+                        Map<String, dynamic> data =
+                            state.extra as Map<String, dynamic>;
+                        PickedIconModel pickedCategory = data['pickedCategory'];
+                        return getPage(
+                            child: EditCategories(
+                              pickedCategory: pickedCategory,
+                            ),
+                            state: state);
+                      },
+                      routes: [
+                        GoRoute(
+                          path: RoutesName.selectParentCategoriesPath,
+                          pageBuilder: (context, GoRouterState state) {
+                            return getPage(
+                                child: const SelectParentCategories(),
+                                state: state);
+                          },
+                        ),
+                      ]),
+                ]),
+            GoRoute(
+              path: RoutesName.addNewCategoryPath,
+              pageBuilder: (context, GoRouterState state) {
+                return getPage(child: CreateCategory(), state: state);
+              },
+            ),
+          ])
         ],
-        pageBuilder: (
-            BuildContext context,
-            GoRouterState state,
-            StatefulNavigationShell navigationShell
-            ) {
+        pageBuilder: (BuildContext context, GoRouterState state,
+            StatefulNavigationShell navigationShell) {
           return getPage(
-            child:  MyBottomNavigationBar(child: navigationShell), // Show it elsewhere
+            child: MyBottomNavigationBar(
+                child: navigationShell), // Show it elsewhere
             state: state,
           );
         },
@@ -345,62 +327,42 @@ class CustomNavigationHelper {
             navigatorKey: authTabNavigatorKey,
             routes: [
               GoRoute(
-                path: RoutesName.homeAuthPath,
-                pageBuilder: (context, state) {
-                  return getPage(
-                    child: HomeAuth(),
-                    state: state,
-                  );
-                },
-                routes: [
-                  GoRoute(
-                      path: RoutesName.signUpPath,
-                      pageBuilder: (context, state){
-                        return getPage(
-                            child: const Signup(),
-                            state: state
-                        );
-                      }
-                  ),
-                  GoRoute(
-                      path: RoutesName.signInPath,
-                      pageBuilder: (context, state){
-                        return getPage(
-                            child: Signin(),
-                            state: state
-                        );
-                      }
-                  ),
-                  GoRoute(
-                      path: RoutesName.forgotPasswordPath,
-                      pageBuilder: (context, state){
-                        return getPage(
-                            child: ForgotPassword(),
-                            state: state
-                        );
-                      }
-                  ),
-                ]
-              ),
+                  path: RoutesName.homeAuthPath,
+                  pageBuilder: (context, state) {
+                    return getPage(
+                      child: HomeAuth(),
+                      state: state,
+                    );
+                  },
+                  routes: [
+                    GoRoute(
+                        path: RoutesName.signUpPath,
+                        pageBuilder: (context, state) {
+                          return getPage(child: const Signup(), state: state);
+                        }),
+                    GoRoute(
+                        path: RoutesName.signInPath,
+                        pageBuilder: (context, state) {
+                          return getPage(child: Signin(), state: state);
+                        }),
+                    GoRoute(
+                        path: RoutesName.forgotPasswordPath,
+                        pageBuilder: (context, state) {
+                          return getPage(child: ForgotPassword(), state: state);
+                        }),
+                  ]),
               GoRoute(
-                path: RoutesName.changePasswordPath,
-                pageBuilder: (context, state){
-                  return getPage(
-                    child: ChangePassword(),
-                    state: state
-                  );
-                }
-              )
+                  path: RoutesName.changePasswordPath,
+                  pageBuilder: (context, state) {
+                    return getPage(child: ChangePassword(), state: state);
+                  })
             ],
           )
         ],
-        pageBuilder: (
-            BuildContext context,
-            GoRouterState state,
-            StatefulNavigationShell navigationShell
-            ) {
+        pageBuilder: (BuildContext context, GoRouterState state,
+            StatefulNavigationShell navigationShell) {
           return getPage(
-            child:  navigationShell, // Show it elsewhere
+            child: navigationShell, // Show it elsewhere
             state: state,
           );
         },
@@ -424,12 +386,12 @@ class CustomNavigationHelper {
       key: state.pageKey,
       transitionsBuilder: (context, animation, secondaryAnimation, child) =>
           SlideTransition(
-            position: Tween<Offset>(
-              begin: const Offset(-1, 0),
-              end: Offset.zero,
-            ).animate(animation),
-            child: child,
-          ),
+        position: Tween<Offset>(
+          begin: const Offset(-1, 0),
+          end: Offset.zero,
+        ).animate(animation),
+        child: child,
+      ),
     );
   }
 }

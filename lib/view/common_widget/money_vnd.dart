@@ -10,18 +10,28 @@ class MoneyVnd extends StatelessWidget {
     required this.fontSize,
     this.fontWeight = FontWeight.w600,
     required this.amount,
-    this.textColor = colorTextBlack
+    this.textColor = colorTextBlack,
+    this.isWrapTextWithParentheses = false,
   });
   double iconWidth;
   final double fontSize;
   FontWeight fontWeight;
   final double amount;
   Color textColor;
+  bool isWrapTextWithParentheses;
   @override
   Widget build(BuildContext context) {
     return RichText(
       text: TextSpan(
         children: [
+          TextSpan(
+            text: isWrapTextWithParentheses ? '(' : '',
+            style: TextStyle(
+                fontWeight: fontWeight,
+                fontSize:  fontSize +2,
+                color: textColor
+            ),
+          ),
           WidgetSpan(
             child: Text(
               toVnd(amount).toString(),
@@ -41,6 +51,14 @@ class MoneyVnd extends StatelessWidget {
                 iconPath: Assets.svgVnd,
                 containerSize: iconWidth,
               ),
+            ),
+          ),
+          TextSpan(
+            text: isWrapTextWithParentheses ? ')' : '',
+            style: TextStyle(
+                fontWeight: fontWeight,
+                fontSize: fontSize +2,
+                color: textColor
             ),
           ),
         ]

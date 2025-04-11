@@ -4,11 +4,10 @@ import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/generated/assets.dart';
 import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
-import 'package:fe_financial_manager/utils/cleaned_number.dart';
+import 'package:fe_financial_manager/model/transactions_history_model.dart';
 import 'package:fe_financial_manager/utils/date_time.dart';
 import 'package:fe_financial_manager/utils/format_number.dart';
 import 'package:fe_financial_manager/utils/get_initial_wallet.dart';
-import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/utils/utils.dart';
 import 'package:fe_financial_manager/view/adding_workspace/widgets/date_option_bottom_sheets.dart';
 import 'package:fe_financial_manager/view/adding_workspace/widgets/expanded_area.dart';
@@ -23,19 +22,19 @@ import 'package:fe_financial_manager/view_model/transaction_view_model.dart';
 import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 
 import '../../model/transaction_categories_icon_model.dart';
 
 class AddingWorkspace extends StatefulWidget {
-  const AddingWorkspace({super.key});
-
+  const AddingWorkspace({super.key, this.transactionToUpdate});
+  final TransactionHistoryModel ? transactionToUpdate;
   @override
   State<AddingWorkspace> createState() => _AddingWorkspaceState();
 }
 class _AddingWorkspaceState extends State<AddingWorkspace> {
 
-  final TransactionViewModel _transactionViewModel = TransactionViewModel();
   Map<String, dynamic> dataToSubmit = {};
   final TextEditingController _amountController = TextEditingController();
   String chosenDateOccurTransaction = '';
@@ -48,8 +47,14 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
 
   void getDate(){
     // return 'Monday,  2025-03-19T20:31:38';
-    chosenDateOccurTransaction = getCurrentDayMonthYear();
-    nameOfTheDay= getNameOfDay(getCurrentDayMonthYear());
+    if(widget.transactionToUpdate != null){
+      chosenDateOccurTransaction = convertDateTimeToString(widget.transactionToUpdate?.occurDate ?? DateTime.now());
+      nameOfTheDay= getNameOfDay(chosenDateOccurTransaction);
+    }else {
+      chosenDateOccurTransaction = getCurrentDayMonthYear();
+      nameOfTheDay= getNameOfDay(getCurrentDayMonthYear());
+    }
+
   }
   String fromIsoToNormal(){
     return DateTime.parse(chosenDateOccurTransaction).toIso8601String().split('T')[0];
@@ -81,6 +86,7 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
       Utils.flushBarErrorMessage('Amount is not empty', context);
       return;
     }
+    // event_id, related_party, reminder_date
     dataToSubmit = {
       'amount_of_money' : FormatNumber.cleanedNumber(_amountController.text),
       'transaction_type_category_id' : pickedCategory.id,
@@ -88,34 +94,51 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
       'money_account_id' : pickedWallet.id,
       'description' : note,
     };
-    _transactionViewModel.addTransaction(dataToSubmit, resetDataAfterSaveTransaction ,context);
+    await context.read<TransactionViewModel>().addTransaction(dataToSubmit, resetDataAfterSaveTransaction ,context);
 
   }
 
   @override
   void initState() {
+    if(widget.transactionToUpdate ==  null){
+      final WalletViewModel walletViewModel = Provider.of<WalletViewModel>(context, listen: false);
+      final List<dynamic> listWalletData = walletViewModel.allWalletData.data ?? [];
 
-    final WalletViewModel walletViewModel = Provider.of<WalletViewModel>(context, listen: false);
-    final List<dynamic> listWalletData = walletViewModel.allWalletData.data ?? [];
+      final AppViewModel appViewModel = Provider.of<AppViewModel>(context, listen: false);
+      final List<dynamic> listCategoriesData = appViewModel.iconCategoriesData.data?.categoriesIconListMap['expense'] ?? [];
 
-    final AppViewModel appViewModel = Provider.of<AppViewModel>(context, listen: false);
-    final List<dynamic> listCategoriesData = appViewModel.iconCategoriesData.data?.categoriesIconListMap['expense'] ?? [];
+      // Get initial wallet
+      getInitialData((data){
+        setState(() {
+          pickedWallet = data;
+        });
+      }, listWalletData, context);
 
-    // Get initial wallet
-    getInitialData((data){
-      setState(() {
-        pickedWallet = data;
-      });
-    }, listWalletData, context);
+      // Get initial transaction categories
+      getInitialData((data){
+        setState(() {
+          pickedCategory = data;
+        });
+      }, listCategoriesData, context);
 
-    // Get initial transaction categories
-    getInitialData((data){
-      setState(() {
-        pickedCategory = data;
-      });
-    }, listCategoriesData, context);
+      getDate();
+    }else {
+      pickedWallet = PickedIconModel(
+        icon: widget.transactionToUpdate!.moneyAccount.walletTypeIconPath,
+        name: widget.transactionToUpdate!.moneyAccount.name,
+        id: widget.transactionToUpdate!.moneyAccount.id,
+      );
+      pickedCategory = PickedIconModel(
+        icon: widget.transactionToUpdate!.transactionTypeCategory.icon,
+        name: widget.transactionToUpdate!.transactionTypeCategory.name,
+        id: widget.transactionToUpdate!.transactionTypeCategory.id,
+      );
+      _amountController.text = widget.transactionToUpdate?.amountOfMoney.toString() ?? '';
+      note = widget.transactionToUpdate?.description ?? '';
+      getDate();
+    }
 
-    getDate();
+
     super.initState();
   }
 

@@ -1,14 +1,17 @@
 // ignore_for_file: library_private_types_in_public_api, prefer_const_constructors
 
 import 'package:fe_financial_manager/constants/colors.dart';
+import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/generated/assets.dart';
+import 'package:fe_financial_manager/view/common_widget/my_list_title.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:fe_financial_manager/view/common_widget/money_vnd.dart';
 import 'package:fe_financial_manager/view/home_tab/widgets/my_column_chart.dart';
 import 'package:fe_financial_manager/view/home_tab/widgets/my_pie_chart.dart';
 import 'package:fe_financial_manager/view/home_tab/widgets/wallets_banner.dart';
 import 'package:fe_financial_manager/view_model/app_view_model.dart';
+import 'package:fe_financial_manager/view_model/transaction_view_model.dart';
 import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +30,8 @@ class _HomeState extends State<Home> {
       Provider.of<WalletViewModel>(context, listen: false).getAllWallet();
       Provider.of<WalletViewModel>(context, listen: false).getExternalBank();
       Provider.of<AppViewModel>(context, listen: false).getIconCategoriesApi();
+      Provider.of<TransactionViewModel>(context, listen: false).getTransaction(
+          {'fromDate' : '2025-03-01', 'toDate' : '2025-04-10', 'walletId' : ''});
     });
     super.initState();
   }
@@ -92,16 +97,28 @@ class _HomeState extends State<Home> {
                         children: [
                           Expanded(
                             flex: 4,
-                            child:  MyColumnChart(
-                              data:  [
-                                CollumChartModel(2010, 35, secondaryColor),
-                                CollumChartModel(2011, 38, Colors.red),
-                              ]
+                            child:  Container(
+                              color: Colors.greenAccent,
+                              child: MyColumnChart(
+                                data:  [
+                                  CollumChartModel(2010, 35, secondaryColor),
+                                  CollumChartModel(2011, 38, expenseColumnChartColor),
+                                ]
+                              ),
                             ),
                           ),
                           Expanded(
-                            flex: 5,
-                            child: Text('data')
+                            flex: 6,
+                            child: Container(
+                              color: Colors.yellow,
+                              padding: EdgeInsets.all(1),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  ColumnLabels()
+                                ],
+                              ),
+                            )
                           ),
                         ],
                       ),
@@ -138,6 +155,37 @@ class _HomeState extends State<Home> {
           ),
         ),
       )
+    );
+  }
+}
+
+class ColumnLabels extends StatelessWidget {
+  const ColumnLabels({
+    super.key,
+  });
+  final String label;
+  final double ? iconSize;
+  final Color color;
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    return MyListTitle(
+      title: 'Income',
+      leading: Container(
+        width: 15,
+        height: 15,
+        decoration: BoxDecoration(
+          color: secondaryColor,
+          borderRadius: BorderRadius.circular(10)
+        ),
+      ),
+      minConstraintSize: 10,
+      leftContentPadding: 0,
+      horizontalTitleGap: 0,
+      trailing: MoneyVnd(amount: 999999999, fontSize: big, iconWidth: normal),
+      callback: () {  },
     );
   }
 }

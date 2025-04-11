@@ -29,6 +29,7 @@ class SingleWalletModel {
   final String id;
   final String name;
   final String initialBalance;
+  final String? accountBalance;
   final String? creditLimit;
   final String? description;
   final String? reminderWhenDue;
@@ -41,6 +42,7 @@ class SingleWalletModel {
     required this.id,
     required this.name,
     required this.initialBalance,
+    this.accountBalance,
     required this.walletTypeIconPath,
     required this.walletTypeName,
     required this.walletTypeId,
@@ -56,6 +58,7 @@ class SingleWalletModel {
       id: json['id'] ?? '',
       name: json['name'] ?? '',
       initialBalance: json['initial_balance'] ?? '0',
+      accountBalance: json['account_balance'] ?? '0',
       walletTypeIconPath: json['money_account_type']['icon'] ?? '',
       walletTypeName: json['money_account_type']['name'] ?? '',
       walletTypeId: json['money_account_type']['id'] ?? '',
@@ -72,6 +75,7 @@ class SingleWalletModel {
       'id': id,
       'name': name,
       'initial_balance': initialBalance,
+      'account_balance': accountBalance,
       'money_account_type': {
         'icon': walletTypeIconPath,
         'name': walletTypeName,
