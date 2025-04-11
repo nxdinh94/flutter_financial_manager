@@ -2,6 +2,7 @@ import 'package:fe_financial_manager/data/response/api_response.dart';
 import 'package:fe_financial_manager/repository/transaction_repository.dart';
 import 'package:fe_financial_manager/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../model/transactions_history_model.dart';
 class TransactionViewModel  extends ChangeNotifier{
@@ -34,9 +35,19 @@ class TransactionViewModel  extends ChangeNotifier{
       Utils.flushBarErrorMessage(error.toString(), context);
     });
   }
+  Future<void> updateTransaction(Map<String, dynamic> data, BuildContext context)async{
+    setLoading(true);
+    await _transactionRepository.updateTransaction(data).then((value){
+      Utils.toastMessage('Your transaction has been updated');
+      context.pop(true);
+      setLoading(false);
+    }).onError((error, stackTrace){
+      Utils.flushBarErrorMessage(error.toString(), context);
+    });
+  }
 
   // Data include {fromDate, toDate, walletId}
-  Future<void> getTransaction(Map<String, dynamic> data)async{
+  Future<void> getTransactionInRangeTime(Map<String, dynamic> data)async{
     setLoading(true);
     await _transactionRepository.getTransaction(data).then((value){
       // value key is {transactions_by_date, total_all_expense, total_all_income}

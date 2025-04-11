@@ -23,6 +23,7 @@ import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../model/transaction_categories_icon_model.dart';
@@ -48,11 +49,11 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
   void getDate(){
     // return 'Monday,  2025-03-19T20:31:38';
     if(widget.transactionToUpdate != null){
-      chosenDateOccurTransaction = convertDateTimeToString(widget.transactionToUpdate?.occurDate ?? DateTime.now());
-      nameOfTheDay= getNameOfDay(chosenDateOccurTransaction);
+      chosenDateOccurTransaction = DateTimeHelper.convertDateTimeToIsoString(widget.transactionToUpdate?.occurDate ?? DateTime.now());
+      nameOfTheDay= DateTimeHelper.getNameOfDay(chosenDateOccurTransaction);
     }else {
-      chosenDateOccurTransaction = getCurrentDayMonthYear();
-      nameOfTheDay= getNameOfDay(getCurrentDayMonthYear());
+      chosenDateOccurTransaction = DateTimeHelper.getCurrentDayMonthYear();
+      nameOfTheDay= DateTimeHelper.getNameOfDay(DateTimeHelper.getCurrentDayMonthYear());
     }
 
   }
@@ -94,7 +95,13 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
       'money_account_id' : pickedWallet.id,
       'description' : note,
     };
-    await context.read<TransactionViewModel>().addTransaction(dataToSubmit, resetDataAfterSaveTransaction ,context);
+    if(widget.transactionToUpdate == null){
+      await context.read<TransactionViewModel>().addTransaction(dataToSubmit, resetDataAfterSaveTransaction ,context);
+    }else {
+      dataToSubmit['id'] = widget.transactionToUpdate!.id;
+
+      await context.read<TransactionViewModel>().updateTransaction(dataToSubmit ,context);
+    }
 
   }
 
@@ -133,7 +140,7 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
         name: widget.transactionToUpdate!.transactionTypeCategory.name,
         id: widget.transactionToUpdate!.transactionTypeCategory.id,
       );
-      _amountController.text = widget.transactionToUpdate?.amountOfMoney.toString() ?? '';
+      _amountController.text = FormatNumber.format(widget.transactionToUpdate!.amountOfMoney.toString());
       note = widget.transactionToUpdate?.description ?? '';
       getDate();
     }
@@ -245,7 +252,7 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
                   }
                   setState(() {
                     chosenDateOccurTransaction = value;
-                    nameOfTheDay= getNameOfDay(chosenDateOccurTransaction);
+                    nameOfTheDay= DateTimeHelper.getNameOfDay(chosenDateOccurTransaction);
                   });
                 });
               },

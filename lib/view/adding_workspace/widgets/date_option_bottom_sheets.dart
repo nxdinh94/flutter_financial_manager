@@ -29,7 +29,7 @@ Future showDateOptionBottomSheet(BuildContext context, Function setPickedDate){
                 children: [
                   TextContainer(
                     callback: ()async{
-                      String currentDate = getCurrentDayMonthYear();
+                      String currentDate = DateTimeHelper.getCurrentDayMonthYear();
                       setPickedDate(currentDate);
                       Navigator.pop(context);
                     },
@@ -38,7 +38,7 @@ Future showDateOptionBottomSheet(BuildContext context, Function setPickedDate){
                   MyDivider(),
                   TextContainer(
                     callback: ()async{
-                      String currentDate = getYesterdayOfCurrentDayMonthYear();
+                      String currentDate = DateTimeHelper.getYesterdayOfCurrentDayMonthYear();
                       setPickedDate(currentDate);
                       Navigator.pop(context);
                     },

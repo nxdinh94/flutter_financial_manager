@@ -29,7 +29,7 @@ Future showRangeTimeOptionBottomSheet(BuildContext context, Function setPickedDa
                 children: [
                   TextContainer(
                     callback: ()async{
-                      String currentDate = getCurrentDayMonthYear();
+                      String currentDate = DateTimeHelper.getCurrentDayMonthYear();
                       setPickedDate(currentDate);
                       Navigator.pop(context);
                     },
@@ -38,7 +38,7 @@ Future showRangeTimeOptionBottomSheet(BuildContext context, Function setPickedDa
                   MyDivider(),
                   TextContainer(
                     callback: ()async{
-                      String currentDate = getCurrentDayMonthYear();
+                      String currentDate = DateTimeHelper.getCurrentDayMonthYear();
                       setPickedDate(currentDate);
                       Navigator.pop(context);
                     },
@@ -47,7 +47,7 @@ Future showRangeTimeOptionBottomSheet(BuildContext context, Function setPickedDa
                   MyDivider(),
                   TextContainer(
                     callback: ()async{
-                      String currentDate = getCurrentDayMonthYear();
+                      String currentDate = DateTimeHelper.getCurrentDayMonthYear();
                       setPickedDate(currentDate);
                       Navigator.pop(context);
                     },
@@ -56,7 +56,7 @@ Future showRangeTimeOptionBottomSheet(BuildContext context, Function setPickedDa
                   MyDivider(),
                   TextContainer(
                     callback: ()async{
-                      String currentDate = getYesterdayOfCurrentDayMonthYear();
+                      String currentDate = DateTimeHelper.getYesterdayOfCurrentDayMonthYear();
                       setPickedDate(currentDate);
                       Navigator.pop(context);
                     },

@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
       Provider.of<WalletViewModel>(context, listen: false).getAllWallet();
       Provider.of<WalletViewModel>(context, listen: false).getExternalBank();
       Provider.of<AppViewModel>(context, listen: false).getIconCategoriesApi();
-      Provider.of<TransactionViewModel>(context, listen: false).getTransaction(
+      Provider.of<TransactionViewModel>(context, listen: false).getTransactionInRangeTime(
           {'fromDate' : '2025-03-01', 'toDate' : '2025-04-11', 'walletId' : ''});
     });
     super.initState();

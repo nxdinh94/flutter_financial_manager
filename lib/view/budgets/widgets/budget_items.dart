@@ -36,8 +36,8 @@ class _BudgetItemsState extends State<BudgetItems> {
 
   bool onSpendingLimitOutOfDate(DateTime endDate) {
     DateTime now = DateTime.now();
-    int endDateToSecond = dateTimeToSecondsSinceEpoch(endDate);
-    int nowToSecond = dateTimeToSecondsSinceEpoch(now);
+    int endDateToSecond = DateTimeHelper.dateTimeToSecondsSinceEpoch(endDate);
+    int nowToSecond = DateTimeHelper.dateTimeToSecondsSinceEpoch(now);
     return nowToSecond > endDateToSecond;
   }
 

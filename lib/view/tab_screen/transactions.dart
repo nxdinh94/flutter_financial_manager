@@ -13,6 +13,7 @@ import 'package:mobkit_dashed_border/mobkit_dashed_border.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/response/status.dart';
+import '../../utils/date_time.dart';
 import '../common_widget/dash_line_painter/dash_line_painter.dart';
 import '../common_widget/loading_animation.dart';
 
@@ -207,6 +208,7 @@ class BodyOfPage extends StatelessWidget {
         final String transformDay = dateSplit[2];
         final String transformMonth = dateSplit[1];
         final String transformYear = dateSplit[0];
+        final String nameOfTheDay = DateTimeHelper.getNameOfDay(date);
 
         double totalRevenueMoney = double.parse(entry.value['total_income']);
         double totalSpendingMoney = double.parse(entry.value['total_expense']);
@@ -224,16 +226,16 @@ class BodyOfPage extends StatelessWidget {
                         Padding(
                           padding: horizontalHalfPadding,
                           child: Text(transformDay,
-                              style: const TextStyle(
-                                color: colorTextBlack,
-                                fontSize: 35,
-                                fontWeight: FontWeight.w700,
-                              )),
+                            style: const TextStyle(
+                              color: colorTextBlack,
+                              fontSize: 35,
+                              fontWeight: FontWeight.w700,
+                            )),
                         ),
                         Expanded(
                           child: MyListTitle(
                             callback: (){},
-                            title: 'foo',
+                            title: nameOfTheDay,
                             subTitle: Text('$transformMonth/$transformYear',
                                 style: const TextStyle(color: colorTextLabel, fontSize: small)),
                             trailing: Column(
@@ -282,8 +284,13 @@ class BodyOfPage extends StatelessWidget {
                                 ),
                                 Expanded(
                                   child: MyListTitle(
-                                    callback: () {
-                                      context.push(RoutesName.addingWorkSpacePath, extra: e);
+                                    callback: () async{
+                                      dynamic isFromUpdateScreen = await context.push(RoutesName.addingWorkSpacePath, extra: e);
+                                      if(!context.mounted) return;
+                                      if(isFromUpdateScreen){
+                                        await Provider.of<TransactionViewModel>(context, listen: false).getTransactionInRangeTime(
+                                            {'fromDate' : '2025-03-01', 'toDate' : '2025-04-11', 'money_account_id' : ''});
+                                      }
                                     },
                                     leading: Image.asset(e.transactionTypeCategory.icon, width: 38),
                                     title: e.transactionTypeCategory.name,

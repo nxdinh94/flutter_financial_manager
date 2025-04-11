@@ -14,6 +14,14 @@ class TransactionRepository{
       rethrow;
     }
   }
+  Future<dynamic> updateTransaction (Map<String, dynamic> data)async{
+    try{
+      final dynamic response = await _baseApiServices.getPatchApiResponse(AppUrl.transaction, data);
+      return response;
+    }catch(e){
+      rethrow;
+    }
+  }
   // Data include {fromDate, toDate, walletId}
   Future<dynamic> getTransaction (Map<String, dynamic> data)async{
     try{
