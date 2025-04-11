@@ -262,10 +262,11 @@ class CustomNavigationHelper {
                       Future<void> Function(PickedIconModel) onTap =
                           data['onTap'];
                       return getPage(
-                          child: SelectCategory(
-                            onItemTap: onTap,
-                          ),
-                          state: state);
+                        child: SelectCategory(
+                          onItemTap: onTap,
+                        ),
+                        state: state
+                      );
                     },
                   ),
                   GoRoute(

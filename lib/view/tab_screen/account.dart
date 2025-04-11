@@ -15,6 +15,16 @@ class Account extends StatefulWidget {
 }
 
 class _AccountState extends State<Account> {
+
+  Future<void> onCategoryItemTap ( PickedIconModel value) async {
+    context.push(
+        FinalRoutes.editCategoryPath,
+        extra: {
+          'pickedCategory' : value
+        }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,14 +74,7 @@ class _AccountState extends State<Account> {
                 context.push(
                   FinalRoutes.allCategoryPath,
                   extra: {
-                    'onTap' : ( PickedIconModel value){
-                      context.push(
-                        FinalRoutes.editCategoryPath,
-                        extra: {
-                          'pickedCategory' : value
-                        }
-                      );
-                    }
+                    'onTap' : onCategoryItemTap
                   }
                 );
               },
@@ -82,7 +85,6 @@ class _AccountState extends State<Account> {
               leftContentPadding: 12,
               hideTopBorder: false,
               hideBottomBorder: false,
-
             ),
             MyListTitle(
               title: 'Events',

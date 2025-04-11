@@ -14,9 +14,15 @@ class TransactionViewModel  extends ChangeNotifier{
   ApiResponse<Map<String, dynamic>> _transactionHistoryData = ApiResponse.loading();
   ApiResponse<Map<String, dynamic>> get transactionHistoryData => _transactionHistoryData;
 
+  ApiResponse<Map<String, dynamic>> _transactionByWalletInRangeTime = ApiResponse.loading();
+  ApiResponse<Map<String, dynamic>> get transactionByWalletInRangeTime => _transactionByWalletInRangeTime;
 
   void setTransactionHistoryData(ApiResponse<Map<String, dynamic>> data){
     _transactionHistoryData = data;
+    notifyListeners();
+  }
+  void setTransactionByWalletInRangeTime(ApiResponse<Map<String, dynamic>> data){
+    _transactionByWalletInRangeTime = data;
     notifyListeners();
   }
 
@@ -47,9 +53,9 @@ class TransactionViewModel  extends ChangeNotifier{
   }
 
   // Data include {fromDate, toDate, walletId}
-  Future<void> getTransactionInRangeTime(Map<String, dynamic> data)async{
+  Future<void> getTransactionInRangeTime(Map<String, dynamic> rangeTime)async{
     setLoading(true);
-    await _transactionRepository.getTransaction(data).then((value){
+    await _transactionRepository.getTransaction(rangeTime).then((value){
       // value key is {transactions_by_date, total_all_expense, total_all_income}
       // date : {transactions, total_expense, total_income}
 
@@ -62,8 +68,12 @@ class TransactionViewModel  extends ChangeNotifier{
         }
         value['transactions_by_date'][keys]['transactions'] = transformedList;
       }
-      setTransactionHistoryData(ApiResponse.completed(value));
 
+      if(rangeTime['money_account_id'] != ''){
+        setTransactionByWalletInRangeTime(ApiResponse.completed(value));
+      }else {
+        setTransactionHistoryData(ApiResponse.completed(value));
+      }
       setLoading(false);
     }).onError((error, stackTrace){
       print(error);

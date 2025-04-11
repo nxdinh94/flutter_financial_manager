@@ -22,11 +22,19 @@ class TransactionRepository{
       rethrow;
     }
   }
-  // Data include {fromDate, toDate, walletId}
+  // Data include {fromDate, toDate, money_account_id}
   Future<dynamic> getTransaction (Map<String, dynamic> data)async{
+
     try{
-      // final String api = '${AppUrl.transaction}?from=${data['fromDate']}&to=${data['toDate']}&walletId=${data['walletId']}';
-      final String api = '${AppUrl.transaction}?from=${data['fromDate']}&to=${data['toDate']}&walletId=${data['walletId']}';
+      String api = AppUrl.transaction;
+
+      if(data['from'] != null && data['from'] != '' ){
+        if(data['moneyAccountId'] == null || data['moneyAccountId'] == ''){
+          api = '${AppUrl.transaction}?from=${data['from']}&to=${data['to']}';
+        }else {
+          api = '${AppUrl.transaction}?from=${data['from']}&to=${data['to']}&money_account_id=${data['moneyAccountId']}';
+        }
+      }
       final dynamic response = await _baseApiServices.getGetApiResponse(api, true);
       return response['data'];
     }catch(e){

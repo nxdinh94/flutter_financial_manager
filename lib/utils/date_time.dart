@@ -7,6 +7,22 @@ class DateTimeHelper {
     final String formatted = formatter.format(dateTime);
     return formatted;
   }
+  static String formatToDoubleDigitDate(String date) {
+    try {
+      // Parse input date
+      final parts = date.split('-');
+      if (parts.length != 3) return date;
+
+      final day = parts[0].padLeft(2, '0');
+      final month = parts[1].padLeft(2, '0');
+      final year = parts[2];
+
+      return '$day-$month-$year';
+    } catch (e) {
+      return date; // Trả lại như cũ nếu lỗi
+    }
+  }
+
 
   //2025-04-11T01:56:05Z
   static String convertDateTimeToIsoString(DateTime time) {

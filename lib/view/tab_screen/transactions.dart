@@ -25,12 +25,10 @@ class Transactions extends StatefulWidget {
 }
 
 class _TransactionsState extends State<Transactions> {
-  String selectedTimeToShow = '';
+  String selectedTimeToShow = 'All time';
 
   @override
   void initState() {
-    selectedTimeToShow = 'All';
-
     super.initState();
   }
   @override
@@ -55,7 +53,8 @@ class _TransactionsState extends State<Transactions> {
                 padding: defaultHalfPadding,
                 child: Center(
                   child: RightArrowRichText(
-                      text: selectedTimeToShow, color: secondaryColor, fontWeight: FontWeight.w500
+                    text: selectedTimeToShow,
+                    color: secondaryColor, fontWeight: FontWeight.w500
                   )
                 ),
               ),
@@ -139,8 +138,7 @@ class _TransactionsState extends State<Transactions> {
                   case Status.ERROR:
                     return const Center(
                       child: Text(
-                        'Error',
-                        style: TextStyle(color: colorTextLabel, fontSize: normal),
+                        'Error', style: TextStyle(color: colorTextLabel, fontSize: normal),
                       ),
                     );
                     break;
