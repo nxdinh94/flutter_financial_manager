@@ -53,6 +53,10 @@ void main() {
         expect(find.byKey(const ValueKey('signIn')), findsOneWidget);
 
         final loginButton = find.byKey(const ValueKey('loginButton'));
+        // Nhập email và password
+        await tester.enterText(find.byKey(const ValueKey('emailTextFormField')), 'nguyenxuandinh336@gmail.com');
+        await tester.enterText(find.byKey(const ValueKey('passwordTextFormField')), 'Dinh@123');
+
         await tester.tap(loginButton);
         await tester.pumpAndSettle();
         expect(find.byKey(const ValueKey('homeTab')), findsOneWidget);

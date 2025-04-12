@@ -112,7 +112,7 @@ class _HomeAuthState extends State<HomeAuth> {
               ),
             ),
             Expanded(
-              flex: 3,
+              flex: 4,
               child: Container(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
