@@ -1,1 +1,6 @@
-# Whenever a widget is mount, it will always call initStates function
+## Push notifications
+## isolate
+## Testing
+## Work with Dio
+## Provider -> RiverPod
+## Native module
