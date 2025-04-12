@@ -316,7 +316,8 @@ class CustomNavigationHelper {
             StatefulNavigationShell navigationShell) {
           return getPage(
             child: MyBottomNavigationBar(
-                child: navigationShell), // Show it elsewhere
+              child: navigationShell
+            ),
             state: state,
           );
         },

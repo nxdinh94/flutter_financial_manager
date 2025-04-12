@@ -11,6 +11,7 @@ import 'package:fe_financial_manager/view_model/transaction_view_model.dart';
 import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,11 +25,10 @@ Future<void> main() async {
   if(mode == null){
     locator<SharedPreferences>().setInt('mode', 0);
   }
-  if (AuthManager.isLogin()) {
-    CustomNavigationHelper(RoutesName.homePath);
-  } else {
-    CustomNavigationHelper(RoutesName.homeAuthPath);
-  }
+  final isLoggedIn = AuthManager.isLogin();
+  final initialRoute = isLoggedIn ? RoutesName.homePath : RoutesName.homeAuthPath;
+  CustomNavigationHelper(initialRoute);
+
 
   runApp(
     MultiProvider(
@@ -40,13 +40,15 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_)=> WalletViewModel()),
         ChangeNotifierProvider(create: (_)=> TransactionViewModel()),
       ],
-    child: const MyApp(),
+    child: MyApp(router: CustomNavigationHelper.router, ),
     )
   );
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, required this.router});
+  final GoRouter router;
+
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -80,7 +82,7 @@ class _MyAppState extends State<MyApp> {
       themeMode: _themeMode,
       darkTheme: darkTheme,
       theme: lightTheme,
-      routerConfig: CustomNavigationHelper.router,
+      routerConfig: widget.router,
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

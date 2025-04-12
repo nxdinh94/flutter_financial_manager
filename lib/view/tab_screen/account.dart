@@ -28,8 +28,9 @@ class _AccountState extends State<Account> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: const ValueKey('accountTab'),
       appBar: AppBar(
-        title: Text('More',),
+        title: const Text('More',),
         backgroundColor: Theme.of(context).colorScheme.primary,
         actions: [
           Row(

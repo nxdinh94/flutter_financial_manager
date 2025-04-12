@@ -30,6 +30,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      key: ValueKey('homeTab'),
       body: SingleChildScrollView(
         child: Column(
           children: [

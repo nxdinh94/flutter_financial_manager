@@ -144,8 +144,6 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
       note = widget.transactionToUpdate?.description ?? '';
       getDate();
     }
-
-
     super.initState();
   }
 
@@ -155,6 +153,7 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double dividerIndent = screenHeight * 0.094;
     return Scaffold(
+      key: const ValueKey('addingWorkspaceTab'),
       appBar: AppBar(
         title: const Text('Add Transaction'),
       ),
@@ -199,6 +198,7 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
             MyDivider(indent: dividerIndent),
             //Pick category
             MyListTitle(
+              key: const ValueKey('pickCategory'),
               title: pickedCategory.name.isNotEmpty ? pickedCategory.name:  'Select category' ,
               titleTextStyle: const TextStyle(
                 fontSize: extraBigger,

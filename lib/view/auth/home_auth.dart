@@ -23,6 +23,7 @@ class _HomeAuthState extends State<HomeAuth> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: const ValueKey('homeAuth'),
       backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
         // toolbarHeight: 80,
@@ -120,6 +121,7 @@ class _HomeAuthState extends State<HomeAuth> {
                       width: MediaQuery.of(context).size.width,
                       height: 42,
                       child: ElevatedButton(
+                        key: const ValueKey('toSignUpScreen'),
                         onPressed: (){
                           context.push(FinalRoutes.signUpPath);
                         },
@@ -135,6 +137,7 @@ class _HomeAuthState extends State<HomeAuth> {
                       width: MediaQuery.of(context).size.width,
                       height: 42,
                       child: ElevatedButton(
+                        key: const ValueKey('toSignInScreen'),
                         onPressed: (){
                           context.push(FinalRoutes.signInPath);
                         },

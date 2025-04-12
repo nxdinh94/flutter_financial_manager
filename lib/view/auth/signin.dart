@@ -18,6 +18,8 @@ class Signin extends StatefulWidget {
 class _SigninState extends State<Signin> {
     ValueNotifier<bool> _obsecurePassword = ValueNotifier<bool>(true);
 
+    // TextEditingController _emailController = TextEditingController(text: 'nguyenxuandinh336@gmail.com');
+    // TextEditingController _passwordController = TextEditingController(text: 'Dinh@123');
     TextEditingController _emailController = TextEditingController();
     TextEditingController _passwordController = TextEditingController();
 
@@ -39,6 +41,7 @@ class _SigninState extends State<Signin> {
     final authViewMode = Provider.of<AuthViewModel>(context);
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
+      key: const ValueKey('signIn'),
       backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -60,7 +63,10 @@ class _SigninState extends State<Signin> {
                   ),
                   child: Column(
                     children: [
-                      EmailTextFormField(emailController: _emailController),
+                      EmailTextFormField(
+                        key: const ValueKey('emailTextFormField'),
+                        emailController: _emailController
+                      ),
                       Divider(
                         height: 0,
                       ),
@@ -68,6 +74,7 @@ class _SigninState extends State<Signin> {
                         valueListenable: _obsecurePassword,
                         builder: (context, value, child) {
                           return PasswordTextFormField(
+                            key: const ValueKey('passwordTextFormField'),
                             isSecurePass: _obsecurePassword.value,
                             passwordController: _passwordController,
                             callback: () {
@@ -86,6 +93,7 @@ class _SigninState extends State<Signin> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
+                    key: const ValueKey('loginButton'),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(6.0),
@@ -103,8 +111,8 @@ class _SigninState extends State<Signin> {
                      // } else {
 
                      Map data = {
-                       'email':'nguyenxuandinh336@gmail.com',
-                       'password': 'Dinh@123',
+                       'email': _emailController.text.trim(),
+                       'password': _passwordController.text.trim(),
                      };
 
                      authViewMode.loginApi(data, context);

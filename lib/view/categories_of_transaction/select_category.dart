@@ -47,6 +47,7 @@ class _SelectCategoryState extends State<SelectCategory> with TickerProviderStat
     String currentRoute = GoRouterState.of(context).uri.toString();
     bool isFromAccountScreen = currentRoute.contains('account');
     return Scaffold(
+      key: const ValueKey('selectCategory'),
       appBar: AppBar(
         title: Text(isFromAccountScreen ? 'Edit Category' : 'Select Category'),
         leading: CustomBackNavbar(),

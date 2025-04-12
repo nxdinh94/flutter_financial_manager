@@ -41,6 +41,7 @@ class _SignupState extends State<Signup> {
     final authViewMode = Provider.of<AuthViewModel>(context);
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
+      key: const ValueKey('signUp'),
       backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,

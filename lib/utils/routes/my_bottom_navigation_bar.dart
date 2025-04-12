@@ -56,14 +56,17 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
         ),
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
+            key: const ValueKey('homeTabButton'),
             icon: const Icon(Icons.home),
             label: 'Home',
           ),
           const BottomNavigationBarItem(
+            key: ValueKey('transactionsTabButton'),
             icon: Icon(Icons.account_balance_wallet_rounded, size: 24),
             label: 'Transactions',
           ),
           BottomNavigationBarItem(
+            key: const ValueKey('addWorkspaceTabButton'),
             icon: ClipRRect(
               borderRadius: BorderRadius.circular(50),
               child: Container(
@@ -81,6 +84,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
             label: '',
           ),
           BottomNavigationBarItem(
+            key: const ValueKey('budgetsTabButton'),
             icon: Stack(
               alignment: Alignment.center,
               children: [
@@ -100,6 +104,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
             label: 'Budgets',
           ),
           const BottomNavigationBarItem(
+            key: ValueKey('accountTabButton'),
             icon: Icon(
               Icons.person,
               size: 28,
