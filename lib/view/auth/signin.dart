@@ -6,8 +6,10 @@ import 'package:fe_financial_manager/view/auth/widgets/password_text_form_field.
 import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:loading_overlay/loading_overlay.dart';
 import 'package:provider/provider.dart';
 import '../../utils/routes/routes_name.dart';
+import '../../utils/utils.dart';
 import '../../view_model/auth_view_model.dart';
 
 class Signin extends StatefulWidget {
@@ -24,7 +26,27 @@ class _SigninState extends State<Signin> {
     TextEditingController _passwordController = TextEditingController();
 
     final _formKey = GlobalKey<FormState>();
-
+    bool isLoading = false;
+    bool validateInput(){
+      if (_emailController.text.isEmpty && _passwordController.text.isEmpty) {
+        Utils.flushBarErrorMessage('Email and password cannot be empty', context);
+        return false;
+      }
+      if(_emailController.text.isNotEmpty && _passwordController.text.isNotEmpty){
+        final bool emailValid =
+        RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+            .hasMatch(_emailController.text);
+        if(!emailValid){
+          Utils.flushBarErrorMessage('Invalid email', context);
+          return false;
+        }
+        if (_passwordController.text.length < 6) {
+          Utils.flushBarErrorMessage('Please enter more than 6 digit password', context);
+          return false;
+        }
+      }
+      return true;
+    }
 
     @override
     void dispose() {
@@ -36,127 +58,118 @@ class _SigninState extends State<Signin> {
       _obsecurePassword.dispose();
     }
 
-  @override
-  Widget build(BuildContext context) {
-    final authViewMode = Provider.of<AuthViewModel>(context);
-    final height = MediaQuery.of(context).size.height;
-    return Scaffold(
-      key: const ValueKey('signIn'),
-      backgroundColor: Theme.of(context).colorScheme.primary,
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        leading: CustomBackNavbar(),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 40.0),
-        child: Container(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.tertiary,
-                    borderRadius: BorderRadius.circular(12)
-                  ),
+    @override
+    Widget build(BuildContext context) {
+      final height = MediaQuery.of(context).size.height;
+
+      return Consumer<AuthViewModel>(
+        builder: (context, auth, child) {
+          return LoadingOverlay(
+            isLoading: auth.loading,
+            child: Scaffold(
+              key: const ValueKey('signIn'),
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              appBar: AppBar(
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                leading: CustomBackNavbar(),
+              ),
+              body: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                child: Form(
+                  key: _formKey,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      EmailTextFormField(
-                        key: const ValueKey('emailTextFormField'),
-                        emailController: _emailController
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.tertiary,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Column(
+                          children: [
+                            EmailTextFormField(
+                                key: const ValueKey('emailTextFormField'),
+                                emailController: _emailController
+                            ),
+                            Divider(height: 0),
+                            ValueListenableBuilder(
+                              valueListenable: _obsecurePassword,
+                              builder: (context, value, child) {
+                                return PasswordTextFormField(
+                                  key: const ValueKey('passwordTextFormField'),
+                                  isSecurePass: value,
+                                  passwordController: _passwordController,
+                                  callback: () {
+                                    _obsecurePassword.value = !_obsecurePassword.value;
+                                  },
+                                  hintText: 'Password',
+                                );
+                              },
+                            ),
+                          ],
+                        ),
                       ),
-                      Divider(
-                        height: 0,
+                      SizedBox(height: height * 0.02),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          key: const ValueKey('loginButton'),
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(6.0),
+                            ),
+                          ),
+                          onPressed: () async {
+                            bool isValid = validateInput();
+                            if (isValid) {
+                              Map data = {
+                                'email': _emailController.text.trim(),
+                                'password': _passwordController.text.trim(),
+                              };
+                              await auth.loginApi(data, context);
+                            }
+                          },
+                          child: Text(
+                            'Sign in',
+                            style: TextStyle(fontWeight: FontWeight.w700),
+                          ),
+                        ),
                       ),
-                      ValueListenableBuilder(
-                        valueListenable: _obsecurePassword,
-                        builder: (context, value, child) {
-                          return PasswordTextFormField(
-                            key: const ValueKey('passwordTextFormField'),
-                            isSecurePass: _obsecurePassword.value,
-                            passwordController: _passwordController,
-                            callback: () {
-                              _obsecurePassword.value =
-                              !_obsecurePassword.value;
-                            },
-                            hintText: 'Password',
-                          );
-                        }),
-                      ],
-                    ),
+                      SizedBox(height: height * .02),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          InkWell(
+                            onTap: () => context.push(FinalRoutes.signUpPath),
+                            child: Text(
+                              "Sign Up",
+                              style: TextStyle(
+                                fontSize: Theme.of(context).textTheme.bodySmall?.fontSize,
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () => context.push(FinalRoutes.forgotPasswordPath),
+                            child: Text(
+                              "Forgot password?",
+                              style: TextStyle(
+                                fontSize: Theme.of(context).textTheme.bodySmall?.fontSize,
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-                SizedBox(
-                  height: height * 0.02,
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    key: const ValueKey('loginButton'),
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6.0),
-                      )
-                    ),
-                    onPressed: () {
-                     // if (_emailController.text.isEmpty) {
-                     //   Utils.flushBarErrorMessage('Please enter email', context);
-                     // } else if (_passwordController.text.isEmpty) {
-                     //   Utils.flushBarErrorMessage(
-                     //       'Please enter password', context);
-                     // } else if (_passwordController.text.length < 6) {
-                     //   Utils.flushBarErrorMessage(
-                     //       'Please enter 6 digit password', context);
-                     // } else {
-
-                     Map data = {
-                       'email': _emailController.text.trim(),
-                       'password': _passwordController.text.trim(),
-                     };
-
-                     authViewMode.loginApi(data, context);
-                     print('api hit');
-                     // }
-                    },
-                    child: Text('Sign in', style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                    ),
-                  )
-                 ),
-               ),
-                SizedBox(
-                  height: height * .02,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        context.push(FinalRoutes.signUpPath);
-                      },
-                      child: Text("Sign Up", style: TextStyle(
-                        fontSize: Theme.of(context).textTheme.bodySmall?.fontSize,
-                          color: Theme.of(context).colorScheme.secondary
-                      )
-                    ),),
-
-                    InkWell(
-                        onTap: () {
-                          context.push(FinalRoutes.forgotPasswordPath);
-                        },
-                        child: Text("Forgot password?", style: TextStyle(
-                          fontSize: Theme.of(context).textTheme.bodySmall?.fontSize,
-                          color: Theme.of(context).colorScheme.secondary
-                        ))
-                    ),
-                  ],
-                )
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
-    );
-  }
+          );
+        },
+      );
+    }
+
 }

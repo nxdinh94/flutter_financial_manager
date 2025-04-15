@@ -70,7 +70,7 @@ class _AddWalletsState extends State<AddWallets> {
     if(removeDiacritics(pickedWalletType.name) == 'Vi tin dung'){
       if(_creditLimitationController.text.isEmpty){
         Utils.flushBarErrorMessage('Credit limitation is required', context);
-         return false;
+        return false;
       }
     }
     return true;

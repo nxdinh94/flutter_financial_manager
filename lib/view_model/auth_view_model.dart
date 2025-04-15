@@ -33,7 +33,6 @@ class AuthViewModel with ChangeNotifier {
       String accessToken = value['data']['accessToken'];
       String refreshToken = value['data']['refreshToken'];
       final UserModel user = UserModel.fromJson(value['data']['user']);
-      //Persist user's tokens;
       AuthManager.persistTokens(accessToken, refreshToken, user);
       setLoading(false);
       // Utils.flushBarErrorMessage(value['message'], context);
@@ -41,7 +40,7 @@ class AuthViewModel with ChangeNotifier {
 
     }).onError((error, stackTrace) {
       setLoading(false);
-      print(error.toString());
+      print('======${error.toString()}');
       if (kDebugMode) {
         Utils.flushBarErrorMessage('Email or password is not correct', context);
         print(error.toString());
