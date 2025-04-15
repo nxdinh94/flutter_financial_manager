@@ -1,8 +1,10 @@
 import 'package:fe_financial_manager/data/response/api_response.dart';
 import 'package:fe_financial_manager/repository/transaction_repository.dart';
 import 'package:fe_financial_manager/utils/utils.dart';
+import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import '../model/transactions_history_model.dart';
 class TransactionViewModel  extends ChangeNotifier{
@@ -33,9 +35,10 @@ class TransactionViewModel  extends ChangeNotifier{
 
   Future<void> addTransaction(Map<String, dynamic> data,Function resetDataAfterSaveTransaction ,BuildContext context)async{
     setLoading(true);
-    await _transactionRepository.addTransaction(data).then((value){
+    await _transactionRepository.addTransaction(data).then((value)async{
       setLoading(false);
       resetDataAfterSaveTransaction();
+      await context.read<WalletViewModel>().getAllWallet();
       Utils.toastMessage('Your transaction has been recorded');
     }).onError((error, stackTrace){
       Utils.flushBarErrorMessage(error.toString(), context);
@@ -45,6 +48,16 @@ class TransactionViewModel  extends ChangeNotifier{
     setLoading(true);
     await _transactionRepository.updateTransaction(data).then((value){
       Utils.toastMessage('Your transaction has been updated');
+      context.pop(true);
+      setLoading(false);
+    }).onError((error, stackTrace){
+      Utils.flushBarErrorMessage(error.toString(), context);
+    });
+  }
+  Future<void> deleteTransaction(String transactionId, BuildContext context)async{
+    setLoading(true);
+    await _transactionRepository.deleteTransaction(transactionId).then((value){
+        Utils.toastMessage('Your transaction has been deleted');
       context.pop(true);
       setLoading(false);
     }).onError((error, stackTrace){

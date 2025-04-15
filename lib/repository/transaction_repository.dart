@@ -22,6 +22,15 @@ class TransactionRepository{
       rethrow;
     }
   }
+  Future<dynamic> deleteTransaction (String transactionId)async{
+    try{
+      String api = '${AppUrl.transaction}/$transactionId';
+      final dynamic response = await _baseApiServices.getDeleteApiResponse(api);
+      return response;
+    }catch(e){
+      rethrow;
+    }
+  }
   // Data include {fromDate, toDate, money_account_id}
   Future<dynamic> getTransaction (Map<String, dynamic> data)async{
 

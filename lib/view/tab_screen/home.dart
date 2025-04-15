@@ -23,7 +23,7 @@ class _HomeState extends State<Home> {
       Provider.of<WalletViewModel>(context, listen: false).getExternalBank();
       Provider.of<AppViewModel>(context, listen: false).getIconCategoriesApi();
       Provider.of<TransactionViewModel>(context, listen: false).getTransactionInRangeTime(
-          {'from' : '2025-03-01', 'to' : '2025-04-11', 'money_account_id' : ''});
+          {'from' : '2025-03-01', 'to' : '2025-04-29', 'money_account_id' : ''});
     });
     super.initState();
   }

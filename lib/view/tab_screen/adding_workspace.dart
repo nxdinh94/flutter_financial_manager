@@ -24,6 +24,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
+import 'package:loading_overlay/loading_overlay.dart';
 import 'package:provider/provider.dart';
 
 import '../../model/transaction_categories_icon_model.dart';
@@ -99,7 +100,6 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
       await context.read<TransactionViewModel>().addTransaction(dataToSubmit, resetDataAfterSaveTransaction ,context);
     }else {
       dataToSubmit['id'] = widget.transactionToUpdate!.id;
-
       await context.read<TransactionViewModel>().updateTransaction(dataToSubmit ,context);
     }
 
@@ -152,124 +152,148 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
     final double dividerIndent = screenHeight * 0.094;
-    return Scaffold(
-      key: const ValueKey('addingWorkspaceTab'),
-      appBar: AppBar(
-        title: const Text('Add Transaction'),
-      ),
-      floatingActionButton: MyFloatActionButton(
-        callback: () async{
-          await saveTransaction();
-        },
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 20,),
-            //Pick wallets
-            MyListTitle(
+    return Consumer<TransactionViewModel>(
+      builder: (BuildContext context,  value, Widget? child) {
+        return LoadingOverlay(
+          isLoading: value.loading,
+          child: Scaffold(
+            key: const ValueKey('addingWorkspaceTab'),
+            appBar: AppBar(
+              title: const Text('Add Transaction'),
+              actions: [
+                Visibility(
+                  visible: widget.transactionToUpdate != null,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 10.0),
+                    child: SvgContainer(
+                      callback: ()async{
+                        await context.read<TransactionViewModel>().deleteTransaction(
+                            widget.transactionToUpdate!.id, context);
+                      },
+                      iconWidth: 28,
+                      iconPath: Assets.svgTrash,
+                      myIconColor: emergencyColor,
+                    ),
+                  ),
+                )
+              ],
+            ),
+            floatingActionButton: MyFloatActionButton(
               callback: () async{
-                dynamic result = await context.push(
-                  FinalRoutes.selectWalletPath,
-                  extra: {
-                    'pickedWallet': pickedWallet,
-                    'onTap' : onItemWalletTap
-                  }
-                );
-                if(result != null){
-                  pickedWallet = result;
-                }
+                await saveTransaction();
               },
-              title: pickedWallet.name.isEmpty ? 'Choose Wallet' : pickedWallet.name,
-              leading: pickedWallet.icon.isEmpty ?
-                Image.asset('assets/another_icon/wallet-2.png', width: defaultLeadingPngListTileSize) :
-                Image.asset(pickedWallet.icon, width: defaultLeadingPngListTileSize),
             ),
-            MyDivider(indent: dividerIndent),
-            //Pick amount
-            CustomTextfield(
-              controller: _amountController,
-              textInputType: TextInputType.number,
-              prefixIcon: PrefixIconAmountTextfield(),
-              fontSize: 40,
-              hintText: '0',
-              prefixIconPadding: const EdgeInsets.only(right: 11, left: 10),
-            ),
-            MyDivider(indent: dividerIndent),
-            //Pick category
-            MyListTitle(
-              key: const ValueKey('pickCategory'),
-              title: pickedCategory.name.isNotEmpty ? pickedCategory.name:  'Select category' ,
-              titleTextStyle: const TextStyle(
-                fontSize: extraBigger,
-                color: colorTextLabel,
-                fontWeight: FontWeight.w500
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(height: 20,),
+                  //Pick wallets
+                  MyListTitle(
+                    callback: () async{
+                      dynamic result = await context.push(
+                          FinalRoutes.selectWalletPath,
+                          extra: {
+                            'pickedWallet': pickedWallet,
+                            'onTap' : onItemWalletTap
+                          }
+                      );
+                      if(result != null){
+                        pickedWallet = result;
+                      }
+                    },
+                    title: pickedWallet.name.isEmpty ? 'Choose Wallet' : pickedWallet.name,
+                    leading: pickedWallet.icon.isEmpty ?
+                    Image.asset('assets/another_icon/wallet-2.png', width: defaultLeadingPngListTileSize) :
+                    Image.asset(pickedWallet.icon, width: defaultLeadingPngListTileSize),
+                  ),
+                  MyDivider(indent: dividerIndent),
+                  //Pick amount
+                  CustomTextfield(
+                    controller: _amountController,
+                    textInputType: TextInputType.number,
+                    prefixIcon: PrefixIconAmountTextfield(),
+                    fontSize: 40,
+                    hintText: '0',
+                    prefixIconPadding: const EdgeInsets.only(right: 11, left: 10),
+                  ),
+                  MyDivider(indent: dividerIndent),
+                  //Pick category
+                  MyListTitle(
+                    key: const ValueKey('pickCategory'),
+                    title: pickedCategory.name.isNotEmpty ? pickedCategory.name:  'Select category' ,
+                    titleTextStyle: const TextStyle(
+                        fontSize: extraBigger,
+                        color: colorTextLabel,
+                        fontWeight: FontWeight.w500
+                    ),
+                    callback: () {
+                      context.push(
+                          FinalRoutes.pickCategoryPath,
+                          extra: {
+                            'pickedCategory': pickedCategory,
+                            'onTap' : onItemCategoryTap
+                          }
+                      );
+                    },
+                    verticalContentPadding: 4,
+                    leading: FittedBox(
+                      child: Image.asset(
+                        pickedCategory.icon.isNotEmpty ?
+                        pickedCategory.icon: 'assets/another_icon/category.png',
+                        width: 39,
+                      ),
+                    ),
+                  ),
+                  MyDivider(indent: dividerIndent),
+                  //Pick note
+                  MyListTitle(
+                    callback: () async {
+                      final dynamic result =
+                      await context.push<String>(
+                          FinalRoutes.addNotePath , extra: note);
+                      setState(() {
+                        note = result;
+                      });
+                    },
+                    title: note.isNotEmpty ? note : 'Note',
+                    leading: SvgContainer(
+                        iconWidth: 30,
+                        iconPath: Assets.svgNotes
+                    ),
+                    horizontalTitleGap: 18,
+                  ),
+                  MyDivider(indent: dividerIndent),
+                  //Pick date
+                  MyListTitle(
+                    callback: () {
+                      showDateOptionBottomSheet(context, (value){
+                        // prevent unnecessary re-render
+                        if(chosenDateOccurTransaction == value){
+                          return;
+                        }
+                        setState(() {
+                          chosenDateOccurTransaction = value;
+                          nameOfTheDay= DateTimeHelper.getNameOfDay(chosenDateOccurTransaction);
+                        });
+                      });
+                    },
+                    title: '$nameOfTheDay, ${fromIsoToNormal()}',
+                    leading: SvgContainer(
+                        iconWidth: 28,
+                        iconPath: Assets.svgCalendar
+                    ),
+                    horizontalTitleGap: 18,
+                  ),
+                  MyDivider(),
+                  const SizedBox(height: 20,),
+                  ExpandedArea(),
+                  const SizedBox(height: 80,)
+                ],
               ),
-              callback: () {
-                context.push(
-                  FinalRoutes.pickCategoryPath,
-                    extra: {
-                      'pickedCategory': pickedCategory,
-                      'onTap' : onItemCategoryTap
-                    }
-                );
-              },
-              verticalContentPadding: 4,
-              leading: FittedBox(
-                child: Image.asset(
-                  pickedCategory.icon.isNotEmpty ?
-                  pickedCategory.icon: 'assets/another_icon/category.png',
-                  width: 39,
-                ),
-              ),
             ),
-            MyDivider(indent: dividerIndent),
-            //Pick note
-            MyListTitle(
-              callback: () async {
-                final dynamic result =
-                  await context.push<String>(
-                   FinalRoutes.addNotePath , extra: note);
-                setState(() {
-                  note = result;
-                });
-              },
-              title: note.isNotEmpty ? note : 'Note',
-              leading: SvgContainer(
-                iconWidth: 30,
-                iconPath: Assets.svgNotes
-              ),
-              horizontalTitleGap: 18,
-            ),
-            MyDivider(indent: dividerIndent),
-            //Pick date
-            MyListTitle(
-              callback: () {
-                showDateOptionBottomSheet(context, (value){
-                  // prevent unnecessary re-render
-                  if(chosenDateOccurTransaction == value){
-                    return;
-                  }
-                  setState(() {
-                    chosenDateOccurTransaction = value;
-                    nameOfTheDay= DateTimeHelper.getNameOfDay(chosenDateOccurTransaction);
-                  });
-                });
-              },
-              title: '$nameOfTheDay, ${fromIsoToNormal()}',
-              leading: SvgContainer(
-                iconWidth: 28,
-                iconPath: Assets.svgCalendar
-              ),
-              horizontalTitleGap: 18,
-            ),
-            MyDivider(),
-            const SizedBox(height: 20,),
-            ExpandedArea(),
-            const SizedBox(height: 80,)
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
