@@ -11,6 +11,7 @@ import 'package:fe_financial_manager/view/auth/forgot_password.dart';
 import 'package:fe_financial_manager/view/auth/home_auth.dart';
 import 'package:fe_financial_manager/view/auth/signup.dart';
 import 'package:fe_financial_manager/view/categories_of_transaction/create_category.dart';
+import 'package:fe_financial_manager/view/categories_of_transaction/update_category.dart';
 import 'package:fe_financial_manager/view/wallets/add_wallets.dart';
 import 'package:fe_financial_manager/view/wallets/all_wallets.dart';
 import 'package:fe_financial_manager/view/tab_screen/account.dart';
@@ -247,6 +248,15 @@ class CustomNavigationHelper {
                   pageBuilder: (context, GoRouterState state){
                     return getPage(
                         child: CreateCategory(),
+                        state: state
+                    );
+                  },
+                ),
+                GoRoute(
+                  path: RoutesName.editCategoryPath,
+                  pageBuilder: (context, GoRouterState state){
+                    return getPage(
+                        child: UpdateCategory(),
                         state: state
                     );
                   },
