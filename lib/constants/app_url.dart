@@ -14,6 +14,7 @@ class AppUrl {
   static const getIconCategories = baseUrl + '/transactions/transaction-type-categories';
   static const createIconCategories = baseUrl + '/transactions/transaction-type-category';
   static const transaction = baseUrl + '/transactions/transaction';
+  // GET : '${AppUrl.transaction}?from=__&to=__&money_account_id=__';
 
   static const getIconWalletType = baseUrl + '/admins/money-account-types';
   static const wallet = baseUrl + '/money-accounts/money-account';

@@ -33,12 +33,14 @@ class TransactionHistoryModel {
 }
 class TransactionTypeCategory {
   final String id;
+  final String parentId;
   final String icon;
   final String name;
   final String transactionType;
 
   TransactionTypeCategory({
     required this.id,
+    required this.parentId,
     required this.icon,
     required this.name,
     required this.transactionType,
@@ -47,6 +49,7 @@ class TransactionTypeCategory {
   factory TransactionTypeCategory.fromJson(Map<String, dynamic> json) {
     return TransactionTypeCategory(
       id: json['id'] ?? '',
+      parentId: json['parent_id'] ?? '',
       icon: json['icon'] ?? 'assets/another_icon/empty_box.png',
       name: json['name'],
       transactionType: json['transaction_type']['type'],

@@ -43,5 +43,8 @@ class RoutesName {
   //Budgets
   static const String createUpdateBudgetPath = 'createUpdateBudget';
   static const String budgetDetailPath = 'budgetDetail';
+  static const String groupTransactionDetailPath = 'groupTransactionDetail';
 
+  //Home
+  static const String summaryDetailPath = 'summaryDetail';
 }

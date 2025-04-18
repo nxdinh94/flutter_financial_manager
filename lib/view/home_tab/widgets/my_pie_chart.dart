@@ -13,12 +13,8 @@ class MyPieChart extends StatelessWidget {
     this.isShowLegend = true,
     this.isShowPercentageValue = false,
     this.isShowChartValue = false,
-    this.height =200
+    this.height = 200
   });
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return FittedBox(
@@ -27,7 +23,7 @@ class MyPieChart extends StatelessWidget {
         dataMap: dataMap,
         animationDuration: const Duration(milliseconds: 1500),
         chartLegendSpacing: 80,
-        chartRadius: MediaQuery.of(context).size.width / 3.2,
+        chartRadius: MediaQuery.of(context).size.width / 4.4,
         initialAngleInDegree: 0,
         chartType: ChartType.ring,
         ringStrokeWidth: 50,
@@ -47,7 +43,6 @@ class MyPieChart extends StatelessWidget {
           legendTextStyle:const TextStyle(
             color: colorTextLabel,
           ),
-
         ),
 
         chartValuesOptions:  ChartValuesOptions(

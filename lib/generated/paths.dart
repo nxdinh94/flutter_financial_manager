@@ -27,7 +27,8 @@ class FinalRoutes {
   static const String budgetDetailPath = '${RoutesName.budgetsPath}/${RoutesName.budgetDetailPath}';
   static const String homeAuthPath = RoutesName.homeAuthPath;
   static const String selectParentCategories = '$editCategoryPath/${RoutesName.selectParentCategoriesPath}';
-
+  static const String summaryDetailPath = '${RoutesName.homePath}/${RoutesName.summaryDetailPath}';
+  static const String groupTransactionDetailPath = '${RoutesName.homePath}/${RoutesName.summaryDetailPath}/${RoutesName.groupTransactionDetailPath}';
   static const String something = '';
 
 }

@@ -2,6 +2,7 @@
 import 'package:fe_financial_manager/constants/app_url.dart';
 import 'package:fe_financial_manager/data/network/BaseApiServices.dart';
 import 'package:fe_financial_manager/data/network/NetworkApiService.dart';
+import 'package:fe_financial_manager/model/ParamsGetTransactionInRangeTime.dart';
 
 class TransactionRepository{
   final BaseApiServices _baseApiServices = NetworkApiService();
@@ -32,16 +33,16 @@ class TransactionRepository{
     }
   }
   // Data include {fromDate, toDate, money_account_id}
-  Future<dynamic> getTransaction (Map<String, dynamic> data)async{
+  Future<dynamic> getTransaction (ParamsGetTransactionInRangeTime params)async{
 
     try{
       String api = AppUrl.transaction;
 
-      if(data['from'] != null && data['from'] != '' ){
-        if(data['moneyAccountId'] == null || data['moneyAccountId'] == ''){
-          api = '${AppUrl.transaction}?from=${data['from']}&to=${data['to']}';
+      if(params.from != '' && params.to != ''){
+        if(params.moneyAccountId == ''){
+          api = '${AppUrl.transaction}?from=${params.from}&to=${params.to}';
         }else {
-          api = '${AppUrl.transaction}?from=${data['from']}&to=${data['to']}&money_account_id=${data['moneyAccountId']}';
+          api = '${AppUrl.transaction}?from=${params.from}&to=${params.to}&money_account_id=${params.moneyAccountId}';
         }
       }
       final dynamic response = await _baseApiServices.getGetApiResponse(api, true);

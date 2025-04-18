@@ -1,4 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api, prefer_const_constructor
+import 'package:fe_financial_manager/model/ParamsGetTransactionInRangeTime.dart';
+import 'package:fe_financial_manager/utils/rangeTimeChartHomePage.dart';
 import 'package:fe_financial_manager/view/home_tab/widgets/chart_section.dart';
 import 'package:fe_financial_manager/view/home_tab/widgets/header.dart';
 import 'package:fe_financial_manager/view/home_tab/widgets/wallets_banner.dart';
@@ -17,13 +19,22 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   void initState() {
+
+    List<String> thisMonth = getThisMonth().split('/');
+    String beginOfMonth = thisMonth[0];
+    String endOfMonth = thisMonth[1];
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<WalletViewModel>(context, listen: false).getIconsWalletType();
-      Provider.of<WalletViewModel>(context, listen: false).getAllWallet();
-      Provider.of<WalletViewModel>(context, listen: false).getExternalBank();
+      // Make sure that getIconCategoriesApi is invoked first
       Provider.of<AppViewModel>(context, listen: false).getIconCategoriesApi();
+      Provider.of<WalletViewModel>(context, listen: false).getIconsWalletType();
+              Provider.of<WalletViewModel>(context, listen: false).getAllWallet();
+          Provider.of<WalletViewModel>(context, listen: false).getExternalBank();
       Provider.of<TransactionViewModel>(context, listen: false).getTransactionInRangeTime(
-          {'from' : '2025-03-01', 'to' : '2025-04-29', 'money_account_id' : ''});
+          ParamsGetTransactionInRangeTime(from : '', to : '', moneyAccountId : ''));
+      // Default range time is current month
+      Provider.of<TransactionViewModel>(context, listen: false).getTransactionForChart(
+          ParamsGetTransactionInRangeTime(from : beginOfMonth, to : endOfMonth, moneyAccountId : ''), context);
     });
     super.initState();
   }

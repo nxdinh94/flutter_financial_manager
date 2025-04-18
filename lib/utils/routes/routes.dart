@@ -17,6 +17,8 @@ import 'package:fe_financial_manager/view/budgets/budget_details.dart';
 import 'package:fe_financial_manager/view/budgets/create_update_budget.dart';
 import 'package:fe_financial_manager/view/categories_of_transaction/create_category.dart';
 import 'package:fe_financial_manager/view/categories_of_transaction/select_parent_categories.dart';
+import 'package:fe_financial_manager/view/home_tab/group_transaction_detail.dart';
+import 'package:fe_financial_manager/view/home_tab/summary_detail.dart';
 import 'package:fe_financial_manager/view/wallets/add_wallets.dart';
 import 'package:fe_financial_manager/view/wallets/all_wallets.dart';
 import 'package:fe_financial_manager/view/tab_screen/account.dart';
@@ -75,30 +77,59 @@ class CustomNavigationHelper {
             navigatorKey: homeTabNavigatorKey,
             routes: [
               GoRoute(
-                  path: RoutesName.homePath,
-                  pageBuilder: (context, GoRouterState state) {
-                    return getPage(
-                      child: const Home(),
-                      state: state,
-                    );
-                  },
-                  routes: <RouteBase>[
-                    GoRoute(
-                      path: RoutesName.allWalletsPath,
-                      pageBuilder: (context, GoRouterState state) {
-                        return getPage(
-                          child: const AllWallets(),
-                          state: state,
-                        );
-                      },
-                    ),
-                  ]),
+                path: RoutesName.homePath,
+                pageBuilder: (context, GoRouterState state) {
+                  return getPage(
+                    child: const Home(),
+                    state: state,
+                  );
+                },
+                routes: <RouteBase>[
+                  GoRoute(
+                    path: RoutesName.allWalletsPath,
+                    pageBuilder: (context, GoRouterState state) {
+                      return getPage(
+                        child: const AllWallets(),
+                        state: state,
+                      );
+                    },
+                  ),
+                  GoRoute(
+                    path: RoutesName.summaryDetailPath,
+                    pageBuilder: (context, GoRouterState state) {
+                      return getPage(
+                        child: const SummaryDetail(),
+                        state: state,
+                      );
+                    },
+                    routes: [
+                      GoRoute(
+                        path: RoutesName.groupTransactionDetailPath,
+                        pageBuilder: (context, GoRouterState state) {
+                          Map<String, dynamic> data = state.extra as Map<String, dynamic>;
+
+                          String parentName = data['parentName'];
+                          String transactionType = data['transactionType'];
+                          return getPage(
+                            child: GroupTransactionDetail(
+                              parentName: parentName,
+                              transactionType: transactionType,
+                            ),
+                            state: state,
+                          );
+                        },
+                      )
+                    ]
+                  ),
+
+                ]
+              ),
               GoRoute(
                   path: RoutesName.addWalletsPath,
                   pageBuilder: (context, GoRouterState state) {
                     if (state.extra == null) {
                       return getPage(
-                        child: AddWallets(),
+                        child: const AddWallets(),
                         state: state,
                       );
                     } else {
@@ -135,7 +166,7 @@ class CustomNavigationHelper {
                       path: RoutesName.pickExternalBankPath,
                       pageBuilder: (context, GoRouterState state) {
                         return getPage(
-                          child: ExternalBank(),
+                          child: const ExternalBank(),
                           state: state,
                         );
                       },
@@ -151,7 +182,8 @@ class CustomNavigationHelper {
                     pageBuilder: (context, GoRouterState state) {
                       return getPage(child: const Transactions(), state: state);
                     },
-                    routes: [])
+                    routes: const []
+                )
               ]),
           StatefulShellBranch(
               navigatorKey: addingWorkspaceTabNavigatorKey,
@@ -219,7 +251,7 @@ class CustomNavigationHelper {
             GoRoute(
                 path: RoutesName.budgetsPath,
                 pageBuilder: (context, GoRouterState state) {
-                  return getPage(child: Budgets(), state: state);
+                  return getPage(child: const Budgets(), state: state);
                 },
                 routes: [
                   GoRoute(

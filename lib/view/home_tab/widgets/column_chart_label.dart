@@ -19,7 +19,7 @@ class ColumnChartLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MyListTitle(
-      title: 'Income',
+      title: label,
       leading: Container(
         width: iconSize,
         height: iconSize,

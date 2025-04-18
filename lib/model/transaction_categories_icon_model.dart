@@ -43,7 +43,7 @@ class CategoriesIconListModel {
 
 class CategoriesIconModel extends IconModel {
   final String transactionTypeId;
-  final String ? parentId;
+  final String parentId;
   final List<CategoriesIconModel> children;
 
   CategoriesIconModel({
@@ -51,7 +51,7 @@ class CategoriesIconModel extends IconModel {
     required super.name,
     required super.icon,
     required this.transactionTypeId,
-    this.parentId,
+    required this.parentId,
     required this.children,
   });
 

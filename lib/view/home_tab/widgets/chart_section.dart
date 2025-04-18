@@ -2,16 +2,21 @@ import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/data/response/status.dart';
+import 'package:fe_financial_manager/generated/paths.dart';
+import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/view/common_widget/divider.dart';
+import 'package:fe_financial_manager/view/common_widget/loading_animation.dart';
 import 'package:fe_financial_manager/view/common_widget/money_vnd.dart';
 import 'package:fe_financial_manager/view/home_tab/widgets/column_chart_label.dart';
 import 'package:fe_financial_manager/view/home_tab/widgets/my_column_chart.dart';
 import 'package:fe_financial_manager/view/home_tab/widgets/my_pie_chart.dart';
 import 'package:fe_financial_manager/view_model/transaction_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../../constants/rangeTimeChartHomePage.dart';
+import '../../../utils/rangeTimeChartHomePage.dart';
+import '../../../model/ParamsGetTransactionInRangeTime.dart';
 class ChartSection extends StatefulWidget {
   const ChartSection({
     super.key,
@@ -22,17 +27,16 @@ class ChartSection extends StatefulWidget {
 }
 
 class _ChartSectionState extends State<ChartSection> {
-  String defaultTitleRangeTimeChartHomePage = '';
-  String defaultRangeTimeChartHomePage = '';
 
   @override
   void initState() {
-    defaultTitleRangeTimeChartHomePage = rangeTimeHomePageChart[2]['title'];
-    defaultRangeTimeChartHomePage = rangeTimeHomePageChart[2]['value'];
+
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
+    String defaultRangeTimeChartHomePage = rangeTimeHomePageChart[2]['value'];
+
     return Container(
       padding: defaultHalfPadding,
       decoration: BoxDecoration(
@@ -60,18 +64,15 @@ class _ChartSectionState extends State<ChartSection> {
                 isDense: true,
                 value: defaultRangeTimeChartHomePage,
                 onChanged: (String? time) async {
-                  setState(() {
-                    defaultRangeTimeChartHomePage = time!;
-                  });
-                  String from = defaultRangeTimeChartHomePage.split('/')[0];
-                  String to = defaultRangeTimeChartHomePage.split('/')[1];
+                  String from = time!.split('/')[0];
+                  String to = time.split('/')[1];
                   // Meaning of ~ is all the time
                   if(from == '~' && to == '~'){
-                    await Provider.of<TransactionViewModel>(context, listen: false).getTransactionInRangeTime(
-                        {'from' : '', 'to' : '', 'money_account_id' : ''});
+                    await Provider.of<TransactionViewModel>(context, listen: false).getTransactionForChart(
+                        ParamsGetTransactionInRangeTime(from : '', to : '', moneyAccountId : ''), context);
                   }else {
-                    await Provider.of<TransactionViewModel>(context, listen: false).getTransactionInRangeTime(
-                      {'from': from, 'to': to, 'money_account_id': ''});
+                    await Provider.of<TransactionViewModel>(context, listen: false).getTransactionForChart(
+                        ParamsGetTransactionInRangeTime(from: from, to: to, moneyAccountId: ''), context);
                   }
                 },
                 style: const TextStyle(color: Colors.blue),
@@ -97,11 +98,15 @@ class _ChartSectionState extends State<ChartSection> {
           ),
           Consumer<TransactionViewModel>(
             builder: (context, value, child) {
-              switch (value.transactionHistoryData.status) {
+              switch (value.transactionForChart.status) {
                 case Status.LOADING:
-                  return const Center(child: CircularProgressIndicator());
+                  return const LoadingAnimation(containerHeight: 200, iconSize: 60,);
                 case Status.COMPLETED:
-                  dynamic transaction = value.transactionHistoryData.data?['transactions_by_date'];
+                  dynamic transaction = value.transactionForChart.data?['transactions_by_date'];
+                  double expense = double.parse(value.transactionForChart.data!['total_all_expense']);
+                  double income = double.parse(value.transactionForChart.data!['total_all_income']);
+                  double balance = income - expense;
+                  Map<String, double> expenseDataForPieChart = value.expenseDataForPieChart;
                   if(transaction.isEmpty){
                     return  Container(
                       height: 80,
@@ -112,71 +117,64 @@ class _ChartSectionState extends State<ChartSection> {
                       ),
                     );
                   }
-                  double expense = double.parse(
-                      value.transactionHistoryData.data!['total_all_expense']);
-                  double income = double.parse(
-                      value.transactionHistoryData.data!['total_all_income']);
-                  double balance = income - expense;
                   return Container(
                     padding: const EdgeInsets.only(bottom: 48),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Expanded(
-                              flex: 4,
-                              child: SizedBox(
-                                height: 160,
-                                child: MyColumnChart(
-                                  data: [
-                                    ColumnChartModel(1, income, secondaryColor),
-                                    ColumnChartModel(2, expense, expenseColumnChartColor),
-                                  ],
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () {
+                        context.push(FinalRoutes.summaryDetailPath);
+                      },
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Expanded(
+                                flex: 4,
+                                child: SizedBox(
+                                  height: 160,
+                                  child: MyColumnChart(
+                                    data: [
+                                      ColumnChartModel(1, income, secondaryColor),
+                                      ColumnChartModel(2, expense, expenseColumnChartColor),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                            Expanded(
-                                flex: 7,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    ColumnChartLabel(
-                                      color: secondaryColor,
-                                      label: 'Income',
-                                      amount: income,
-                                    ),
-                                    ColumnChartLabel(
-                                      color: expenseColumnChartColor,
-                                      label: 'Expense',
-                                      amount: expense,
-                                    ),
-                                    MyDivider(),
-                                    SizedBox(height: 12,),
-                                    MoneyVnd(fontSize: big, amount: balance)
-                                  ],
-                                )
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 48),
-                        // Only show if there are expenses
-                        Visibility(
-                          visible: true,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 22),
-                            child: MyPieChart(dataMap: <String, double>{
-                              "Flutter": 5,
-                              "React": 3,
-                              "Xamarin": 2,
-                              "Ionic": 2,
-                            }),
+                              Expanded(
+                                  flex: 7,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      ColumnChartLabel(
+                                        color: secondaryColor,
+                                        label: 'Income',
+                                        amount: income,
+                                      ),
+                                      ColumnChartLabel(
+                                        color: expenseColumnChartColor,
+                                        label: 'Expense',
+                                        amount: expense,
+                                      ),
+                                      MyDivider(),
+                                      const SizedBox(height: 12,),
+                                      MoneyVnd(fontSize: big, amount: balance)
+                                    ],
+                                  )
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
+                          const SizedBox(height: 48),
+                          // Only show if there are expenses
+                          Visibility(
+                            visible: expenseDataForPieChart.isNotEmpty,
+                            child: MyPieChart(dataMap: expenseDataForPieChart)
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 case Status.ERROR:

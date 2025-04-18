@@ -1,6 +1,8 @@
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
+import 'package:fe_financial_manager/generated/paths.dart';
+import 'package:fe_financial_manager/model/ParamsGetTransactionInRangeTime.dart';
 import 'package:fe_financial_manager/model/transactions_history_model.dart';
 import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/view/common_widget/money_vnd.dart';
@@ -283,21 +285,21 @@ class BodyOfPage extends StatelessWidget {
                                 Expanded(
                                   child: MyListTitle(
                                     callback: () async{
-                                      dynamic isFromUpdateScreen = await context.push(RoutesName.addingWorkSpacePath, extra: e);
+                                      dynamic isFromUpdateScreen = await context.push(FinalRoutes.addingWorkSpacePath, extra: e);
                                       if(!context.mounted) return;
                                       if(isFromUpdateScreen){
                                         await Provider.of<TransactionViewModel>(context, listen: false).getTransactionInRangeTime(
-                                            {'fromDate' : '2025-03-01', 'toDate' : '2025-04-11', 'money_account_id' : ''});
+                                          ParamsGetTransactionInRangeTime(from : '', to : '', moneyAccountId : ''));
                                       }
                                     },
                                     leading: Image.asset(e.transactionTypeCategory.icon, width: 38),
                                     title: e.transactionTypeCategory.name,
                                     subTitle: e.description.isNotEmpty ?
                                       Text(e.description, style: Theme.of(context).textTheme.labelSmall?.copyWith(fontStyle: FontStyle.italic),) : null,
-                                    leftContentPadding: 0,
-                                    rightContentPadding: 0,
-                                    trailing: Column(
-                                      mainAxisSize: MainAxisSize.min,
+                                      leftContentPadding: 0,
+                                      rightContentPadding: 0,
+                                      trailing: Column(
+                                        mainAxisSize: MainAxisSize.min,
                                       crossAxisAlignment: CrossAxisAlignment.end,
                                       children: [
                                         MoneyVnd(
