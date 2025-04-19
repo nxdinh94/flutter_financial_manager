@@ -17,7 +17,7 @@ import 'package:fe_financial_manager/view/common_widget/my_list_title.dart';
 import 'package:fe_financial_manager/view/common_widget/prefix_icon_amount_textfield.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:fe_financial_manager/view/common_widget/switch_row.dart';
-import 'package:fe_financial_manager/view/wallets/widgets/external_bank_logo_circle.dart';
+import 'package:fe_financial_manager/view/wallets_tab/widgets/external_bank_logo_circle.dart';
 import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

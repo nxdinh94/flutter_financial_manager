@@ -3,14 +3,12 @@ import 'package:fe_financial_manager/data/response/api_response.dart';
 import 'package:fe_financial_manager/data/response/status.dart';
 import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/model/wallet_model.dart';
-import 'package:fe_financial_manager/utils/utils.dart';
 import 'package:fe_financial_manager/view/common_widget/adding_circle.dart';
-import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
 import 'package:fe_financial_manager/view/common_widget/divider.dart';
 import 'package:fe_financial_manager/view/common_widget/my_list_title.dart';
-import 'package:fe_financial_manager/view/wallets/widgets/all_wallet_consumer.dart';
-import 'package:fe_financial_manager/view/wallets/widgets/option_bottom_sheets.dart';
-import 'package:fe_financial_manager/view/wallets/widgets/total_balance_wallets.dart';
+import 'package:fe_financial_manager/view/wallets_tab/widgets/all_wallet_consumer.dart';
+import 'package:fe_financial_manager/view/wallets_tab/widgets/option_bottom_sheets.dart';
+import 'package:fe_financial_manager/view/wallets_tab/widgets/total_balance_wallets.dart';
 import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -46,7 +44,6 @@ class _AllWalletsState extends State<AllWallets> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Wallets'),
-        leading: CustomBackNavbar(),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -65,19 +62,7 @@ class _AllWalletsState extends State<AllWallets> {
             // List all wallet
             AllWalletConsumer(
               onItemTap: (PickedIconModel value )async {
-                await context.read<WalletViewModel>().getSingleWallet(value.id);
-                ApiResponse<dynamic> result = context.read<WalletViewModel>().singleWalletData;
-                // Check if the wallet is valid then navigate to the update wallet screen
-                if(result.status == Status.COMPLETED){
-                  dynamic isPopFromUpdate = await context.push(FinalRoutes.addWalletsPath, extra: result.data);
-                  if (!context.mounted) return;
-                  if(isPopFromUpdate){
-                    await context.read<WalletViewModel>().getAllWallet();
-                  }
 
-                }else{
-                  Utils.flushBarErrorMessage('Invalid wallet', context);
-                }
               },
               trailingCallbackForCheckPickedListTile: (PickedIconModel value){
                 showOptionBottomSheet(context, value);

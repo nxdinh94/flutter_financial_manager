@@ -34,8 +34,7 @@ class _GroupTransactionDetailState extends State<GroupTransactionDetail> {
   List<TransactionHistoryModel> getTransactionList(
       TransactionViewModel viewModel, String parentName, String type) {
 
-    final Map<PickedIconModel, dynamic> data =
-    type.contains('Expense')
+    final Map<PickedIconModel, dynamic> data = type.contains('Expense')
         ? viewModel.expenseTransactionForDetailSummary
         : viewModel.incomeTransactionForDetailSummary;
 
@@ -55,15 +54,9 @@ class _GroupTransactionDetailState extends State<GroupTransactionDetail> {
     if (!context.mounted) return;
 
     if (isFromUpdateScreen) {
+      ParamsGetTransactionInRangeTime params = context.read<TransactionViewModel>().paramsGetTransactionChartInRangeTime;
       await Provider.of<TransactionViewModel>(context, listen: false)
-          .getTransactionForChart(
-        ParamsGetTransactionInRangeTime(
-          from: '',
-          to: '',
-          moneyAccountId: '',
-        ),
-        context,
-      );
+          .getTransactionForChart(params,context);
     }
   }
 
@@ -77,7 +70,7 @@ class _GroupTransactionDetailState extends State<GroupTransactionDetail> {
       body: SingleChildScrollView(
         child: Consumer<TransactionViewModel>(
           builder: (context, viewModel, child) {
-            final transactions = getTransactionList(
+            final List<TransactionHistoryModel> transactions = getTransactionList(
                 viewModel,
                 widget.parentName,
                 widget.transactionType

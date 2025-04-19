@@ -1,7 +1,8 @@
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
-import 'package:fe_financial_manager/view/wallets/widgets/all_wallet_consumer.dart';
 import 'package:flutter/material.dart';
+
+import '../wallets_tab/widgets/all_wallet_consumer.dart';
 class SelectWallets extends StatefulWidget {
   const SelectWallets({super.key, required this.pickedWallet, required this.onItemTap}) ;
   final PickedIconModel pickedWallet;

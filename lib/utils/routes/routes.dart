@@ -19,19 +19,20 @@ import 'package:fe_financial_manager/view/categories_of_transaction/create_categ
 import 'package:fe_financial_manager/view/categories_of_transaction/select_parent_categories.dart';
 import 'package:fe_financial_manager/view/home_tab/group_transaction_detail.dart';
 import 'package:fe_financial_manager/view/home_tab/summary_detail.dart';
-import 'package:fe_financial_manager/view/wallets/add_wallets.dart';
-import 'package:fe_financial_manager/view/wallets/all_wallets.dart';
+import 'package:fe_financial_manager/view/transactionHistory/choose_range_time.dart';
+import 'package:fe_financial_manager/view/tab_screen/all_wallets.dart';
 import 'package:fe_financial_manager/view/tab_screen/account.dart';
 import 'package:fe_financial_manager/view/tab_screen/adding_workspace.dart';
 import 'package:fe_financial_manager/view/tab_screen/budgets.dart';
 import 'package:fe_financial_manager/view/tab_screen/home.dart';
 import 'package:fe_financial_manager/view/auth/signin.dart';
-import 'package:fe_financial_manager/view/tab_screen/transactions.dart';
-import 'package:fe_financial_manager/view/wallets/external_bank.dart';
-import 'package:fe_financial_manager/view/wallets/pick_wallet_types.dart';
+import 'package:fe_financial_manager/view/transactionHistory/transactions_history.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../view/wallets_tab/add_wallets.dart';
+import '../../view/wallets_tab/external_bank.dart';
+import '../../view/wallets_tab/pick_wallet_types.dart';
 import 'routes_name.dart';
 
 class CustomNavigationHelper {
@@ -41,7 +42,7 @@ class CustomNavigationHelper {
       GlobalKey<NavigatorState>();
   static final GlobalKey<NavigatorState> homeTabNavigatorKey =
       GlobalKey<NavigatorState>();
-  static final GlobalKey<NavigatorState> transactionsTabNavigatorKey =
+  static final GlobalKey<NavigatorState> walletTabNavigatorKey =
       GlobalKey<NavigatorState>();
   static final GlobalKey<NavigatorState> addingWorkspaceTabNavigatorKey =
       GlobalKey<NavigatorState>();
@@ -86,10 +87,11 @@ class CustomNavigationHelper {
                 },
                 routes: <RouteBase>[
                   GoRoute(
-                    path: RoutesName.allWalletsPath,
+                    path: RoutesName.transactionHistoryDetailPath,
                     pageBuilder: (context, GoRouterState state) {
+                      String nameOfSelectedRangeTime = state.extra as String;
                       return getPage(
-                        child: const AllWallets(),
+                        child: TransactionsHistory(nameOfSelectedRangeTime: nameOfSelectedRangeTime,),
                         state: state,
                       );
                     },
@@ -175,77 +177,88 @@ class CustomNavigationHelper {
             ],
           ),
           StatefulShellBranch(
-              navigatorKey: transactionsTabNavigatorKey,
+              navigatorKey: walletTabNavigatorKey,
               routes: [
                 GoRoute(
-                    path: RoutesName.transactionsPath,
-                    pageBuilder: (context, GoRouterState state) {
-                      return getPage(child: const Transactions(), state: state);
-                    },
-                    routes: const []
+                  path: RoutesName.walletPath,
+                  pageBuilder: (context, GoRouterState state) {
+                    return getPage(child: const AllWallets(), state: state);
+                  },
+                  routes:  [
+                    GoRoute(
+                      path: RoutesName.chooseRangeTimeToShowTransactionPath,
+                      pageBuilder: (context, GoRouterState state) {
+                        String nameOfSelectedRangeTime = state.extra as String;
+                        return getPage(
+                          child: ChooseRangeTime(nameOfSelectedRangeTime: nameOfSelectedRangeTime,),
+                          state: state
+                        );
+                      }
+                    )
+                  ]
                 )
               ]),
           StatefulShellBranch(
               navigatorKey: addingWorkspaceTabNavigatorKey,
               routes: [
                 GoRoute(
-                    path: RoutesName.addingWorkSpacePath,
-                    pageBuilder: (context, GoRouterState state) {
-                      if(state.extra == null){
-                        return getPage(child: const AddingWorkspace(), state: state);
-                      }
-                      TransactionHistoryModel data = state.extra as TransactionHistoryModel;
-                      return getPage(
-                        child: AddingWorkspace(transactionToUpdate: data),
-                        state: state
-                      );
-                    },
-                    routes: [
-                      GoRoute(
-                        path: RoutesName.selectWalletPath,
-                        pageBuilder: (context, GoRouterState state) {
-                          Map<String, dynamic> data =
-                              state.extra as Map<String, dynamic>;
-                          PickedIconModel pickedWallet = data['pickedWallet'];
-                          Future<void> Function(PickedIconModel) onTap =
-                              data['onTap'];
-                          return getPage(
-                              child: SelectWallets(
-                                pickedWallet: pickedWallet,
-                                onItemTap: onTap,
-                              ),
-                              state: state);
-                        },
-                      ),
-                      GoRoute(
-                        path: RoutesName.addNotePath,
-                        pageBuilder: (context, GoRouterState state) {
-                          dynamic data = state.extra as String;
-                          return getPage(
-                              child: AddNote(
-                                note: data,
-                              ),
-                              state: state);
-                        },
-                      ),
-                      GoRoute(
-                        path: RoutesName.pickCategoryPath,
-                        pageBuilder: (context, GoRouterState state) {
-                          Map<String, dynamic> data =
-                              state.extra as Map<String, dynamic>;
-                          PickedIconModel pickedCategory =
-                              data['pickedCategory'];
-                          Future<void> Function(PickedIconModel) onTap =
-                              data['onTap'];
-                          return getPage(
-                              child: SelectCategory(
-                                pickedCategory: pickedCategory,
-                                onItemTap: onTap,
-                              ),
-                              state: state);
-                        },
-                      ),
-                    ]),
+                  path: RoutesName.addingWorkSpacePath,
+                  pageBuilder: (context, GoRouterState state) {
+                    if(state.extra == null){
+                      return getPage(child: const AddingWorkspace(), state: state);
+                    }
+                    TransactionHistoryModel data = state.extra as TransactionHistoryModel;
+                    return getPage(
+                      child: AddingWorkspace(transactionToUpdate: data),
+                      state: state
+                    );
+                  },
+                  routes: [
+                    GoRoute(
+                      path: RoutesName.selectWalletPath,
+                      pageBuilder: (context, GoRouterState state) {
+                        Map<String, dynamic> data =
+                            state.extra as Map<String, dynamic>;
+                        PickedIconModel pickedWallet = data['pickedWallet'];
+                        Future<void> Function(PickedIconModel) onTap =
+                            data['onTap'];
+                        return getPage(
+                            child: SelectWallets(
+                              pickedWallet: pickedWallet,
+                              onItemTap: onTap,
+                            ),
+                            state: state);
+                      },
+                    ),
+                    GoRoute(
+                      path: RoutesName.addNotePath,
+                      pageBuilder: (context, GoRouterState state) {
+                        dynamic data = state.extra as String;
+                        return getPage(
+                            child: AddNote(
+                              note: data,
+                            ),
+                            state: state);
+                      },
+                    ),
+                    GoRoute(
+                      path: RoutesName.pickCategoryPath,
+                      pageBuilder: (context, GoRouterState state) {
+                        Map<String, dynamic> data =
+                            state.extra as Map<String, dynamic>;
+                        PickedIconModel pickedCategory =
+                            data['pickedCategory'];
+                        Future<void> Function(PickedIconModel) onTap =
+                            data['onTap'];
+                        return getPage(
+                            child: SelectCategory(
+                              pickedCategory: pickedCategory,
+                              onItemTap: onTap,
+                            ),
+                            state: state);
+                      },
+                    ),
+                  ]),
               ]),
           StatefulShellBranch(navigatorKey: budgetsTabNavigatorKey, routes: [
             GoRoute(
@@ -258,9 +271,11 @@ class CustomNavigationHelper {
                       path: RoutesName.createUpdateBudgetPath,
                       pageBuilder: (context, GoRouterState state) {
                         return getPage(
-                            child: CreateUpdateBudget(), state: state);
+                          child: const CreateUpdateBudget(),
+                          state: state
+                        );
                       },
-                      routes: []),
+                  ),
                   GoRoute(
                       path: RoutesName.budgetDetailPath,
                       pageBuilder: (context, GoRouterState state) {
@@ -271,9 +286,9 @@ class CustomNavigationHelper {
                                 dataToPassSpendingLimitItemWidget: data),
                             state: state);
                       },
-                      routes: []),
+                  ),
                 ])
-          ]),
+            ]),
           StatefulShellBranch(navigatorKey: accountTabNavigatorKey, routes: [
             GoRoute(
                 path: RoutesName.accountPath,

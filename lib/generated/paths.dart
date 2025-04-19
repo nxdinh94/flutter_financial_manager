@@ -9,6 +9,9 @@ class FinalRoutes {
   static const String accountSettingsPath = '${RoutesName.accountPath}/${RoutesName.accountSettingsPath}';
   static const String allCategoryPath = '${RoutesName.accountPath}/${RoutesName.allCategoryPath}';
   static const String homePath = RoutesName.homePath;
+  static const String transactionHistoryDetailPath = '${RoutesName.homePath}/${RoutesName.transactionHistoryDetailPath}';
+  static const String walletPath = RoutesName.walletPath;
+  static const String chooseRangeTimeToShowTransactionPath = '${RoutesName.walletPath}/${RoutesName.chooseRangeTimeToShowTransactionPath}';
 
   static const String pickExternalBankPath = '${RoutesName.addWalletsPath}/${RoutesName.pickExternalBankPath}';
   static const String pickWalletTypePath = '${RoutesName.addWalletsPath}/${RoutesName.pickWalletTypePath}';

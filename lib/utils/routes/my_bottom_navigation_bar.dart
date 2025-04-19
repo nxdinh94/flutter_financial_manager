@@ -61,9 +61,9 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
             label: 'Home',
           ),
           const BottomNavigationBarItem(
-            key: ValueKey('transactionsTabButton'),
+            key: ValueKey('walletTabButton'),
             icon: Icon(Icons.account_balance_wallet_rounded, size: 24),
-            label: 'Transactions',
+            label: 'Wallets',
           ),
           BottomNavigationBarItem(
             key: const ValueKey('addWorkspaceTabButton'),

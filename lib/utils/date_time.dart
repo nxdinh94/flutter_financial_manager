@@ -7,6 +7,7 @@ class DateTimeHelper {
     final String formatted = formatter.format(dateTime);
     return formatted;
   }
+  // yyyy-M-d => yyyy-MM-dd
   static String formatToDoubleDigitDate(String date) {
     try {
       // Parse input date

@@ -3,7 +3,6 @@ import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/data/response/status.dart';
 import 'package:fe_financial_manager/generated/paths.dart';
-import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/view/common_widget/divider.dart';
 import 'package:fe_financial_manager/view/common_widget/loading_animation.dart';
 import 'package:fe_financial_manager/view/common_widget/money_vnd.dart';
@@ -15,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../../utils/rangeTimeChartHomePage.dart';
+import '../../../utils/range_time_chart_home_page.dart';
 import '../../../model/ParamsGetTransactionInRangeTime.dart';
 class ChartSection extends StatefulWidget {
   const ChartSection({
@@ -27,15 +26,21 @@ class ChartSection extends StatefulWidget {
 }
 
 class _ChartSectionState extends State<ChartSection> {
+  String defaultRangeTimeChartHomePage = '';
+  String getSelectedTitle(String value) {
+    return rangeTimeHomePageChart.firstWhere(
+            (element) => element['value'] == value,
+        orElse: () => {'title': ''}
+    )['title'];
+  }
 
   @override
   void initState() {
-
+    defaultRangeTimeChartHomePage = rangeTimeHomePageChart[2]['value'];
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
-    String defaultRangeTimeChartHomePage = rangeTimeHomePageChart[2]['value'];
 
     return Container(
       padding: defaultHalfPadding,
@@ -64,8 +69,16 @@ class _ChartSectionState extends State<ChartSection> {
                 isDense: true,
                 value: defaultRangeTimeChartHomePage,
                 onChanged: (String? time) async {
+                  setState(() {
+                    defaultRangeTimeChartHomePage = time!;
+                  });
                   String from = time!.split('/')[0];
                   String to = time.split('/')[1];
+
+                  context.read<TransactionViewModel>().setParamsGetTransactionChartInRangeTime(
+                      ParamsGetTransactionInRangeTime(from: from, to: to, moneyAccountId: '')
+                  );
+
                   // Meaning of ~ is all the time
                   if(from == '~' && to == '~'){
                     await Provider.of<TransactionViewModel>(context, listen: false).getTransactionForChart(
@@ -186,13 +199,22 @@ class _ChartSectionState extends State<ChartSection> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              RichText(
-                text: TextSpan(
-                  text: 'Note history',
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: secondaryColor),
-                  children: const [
-                    WidgetSpan(child: Icon(Icons.arrow_forward_ios_rounded, size: 15, color: secondaryColor)),
-                  ]
+              GestureDetector(
+                onTap: () {
+                  String title = getSelectedTitle(defaultRangeTimeChartHomePage);
+                  context.push(
+                    FinalRoutes.transactionHistoryDetailPath,
+                    extra: title,  // truyền title qua extra
+                  );
+                },
+                child: RichText(
+                  text: TextSpan(
+                    text: 'Note history',
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: secondaryColor),
+                    children: const [
+                      WidgetSpan(child: Icon(Icons.arrow_forward_ios_rounded, size: 15, color: secondaryColor)),
+                    ]
+                  ),
                 ),
               )
             ],

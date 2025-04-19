@@ -4,10 +4,10 @@ import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/model/ParamsGetTransactionInRangeTime.dart';
 import 'package:fe_financial_manager/model/transactions_history_model.dart';
-import 'package:fe_financial_manager/utils/routes/routes_name.dart';
+import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
 import 'package:fe_financial_manager/view/common_widget/money_vnd.dart';
 import 'package:fe_financial_manager/view/common_widget/my_list_title.dart';
-import 'package:fe_financial_manager/view/transactions/widgets/right_arrow_rich_text.dart';
+import 'package:fe_financial_manager/view/common_widget/right_arrow_rich_text.dart';
 import 'package:fe_financial_manager/view_model/transaction_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -19,18 +19,20 @@ import '../../utils/date_time.dart';
 import '../common_widget/dash_line_painter/dash_line_painter.dart';
 import '../common_widget/loading_animation.dart';
 
-class Transactions extends StatefulWidget {
-  const Transactions({super.key});
-
+class TransactionsHistory extends StatefulWidget {
+  const TransactionsHistory({
+    super.key, required this.nameOfSelectedRangeTime});
+  final String nameOfSelectedRangeTime;
   @override
-  State<Transactions> createState() => _TransactionsState();
+  State<TransactionsHistory> createState() => _TransactionsHistoryState();
 }
 
-class _TransactionsState extends State<Transactions> {
-  String selectedTimeToShow = 'All time';
+class _TransactionsHistoryState extends State<TransactionsHistory> {
+  String selectedTimeToShow = '';
 
   @override
   void initState() {
+    selectedTimeToShow = widget.nameOfSelectedRangeTime;
     super.initState();
   }
   @override
@@ -41,6 +43,7 @@ class _TransactionsState extends State<Transactions> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Transactions History'),
+        leading: CustomBackNavbar(),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -48,7 +51,17 @@ class _TransactionsState extends State<Transactions> {
             GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: ()async{
-
+                Map<String, dynamic> result =
+                  await context.push(
+                    FinalRoutes.chooseRangeTimeToShowTransactionPath, extra: widget.nameOfSelectedRangeTime
+                  ) as Map<String, dynamic>;
+                if(!context.mounted) return;
+                ParamsGetTransactionInRangeTime rangeTime = result['value']!;
+                setState(() {
+                  selectedTimeToShow = result['name'];
+                });
+                await Provider.of<TransactionViewModel>(context, listen: false).getTransactionInRangeTime(
+                  ParamsGetTransactionInRangeTime(from : rangeTime.from , to : rangeTime.to, moneyAccountId : ''));
               },
               child: Container(
                 color: primaryColor,
@@ -115,10 +128,8 @@ class _TransactionsState extends State<Transactions> {
                         style: TextStyle(color: colorTextLabel, fontSize: normal),
                       ),
                     );
-                    break;
                   default:
                     throw Exception('Unknown status');
-                    break;
                 }
               },
             ),
@@ -143,7 +154,6 @@ class _TransactionsState extends State<Transactions> {
                         'Error', style: TextStyle(color: colorTextLabel, fontSize: normal),
                       ),
                     );
-                    break;
                   default:
                     throw Exception('Unknown status');
                 }

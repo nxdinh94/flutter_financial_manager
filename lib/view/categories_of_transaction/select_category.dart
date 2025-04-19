@@ -3,7 +3,7 @@ import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/model/transaction_categories_icon_model.dart';
 import 'package:fe_financial_manager/view/adding_workspace/widgets/create_category_section.dart';
 import 'package:fe_financial_manager/view/adding_workspace/widgets/categories_icon_parent.dart';
-import 'package:fe_financial_manager/view/adding_workspace/widgets/tab_bar_elements.dart';
+import 'package:fe_financial_manager/view/common_widget/tab_bar_elements.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
 import 'package:fe_financial_manager/view_model/app_view_model.dart';
 import 'package:flutter/material.dart';

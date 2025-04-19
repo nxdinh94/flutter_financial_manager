@@ -1,7 +1,5 @@
-import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
-import 'package:fe_financial_manager/model/transaction_categories_icon_model.dart';
-import 'package:fe_financial_manager/view/adding_workspace/widgets/tab_bar_elements.dart';
+import 'package:fe_financial_manager/view/common_widget/tab_bar_elements.dart';
 import 'package:fe_financial_manager/view/home_tab/widgets/summary_detail_tab.dart';
 import 'package:fe_financial_manager/view_model/transaction_view_model.dart';
 import 'package:flutter/material.dart';
@@ -17,16 +15,18 @@ class SummaryDetail extends StatefulWidget {
 
 class _SummaryDetailState extends State<SummaryDetail> with TickerProviderStateMixin {
   late final TabController _tabController;
-  int _selectedTab = 0;
+  late int _selectedTab;
 
   @override
   void initState() {
-    _tabController = TabController(length: 2, vsync: this);
+    _selectedTab = 0;
+    _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
     _tabController.addListener(() {
       setState(() {
         _selectedTab = _tabController.index;
       });
     });
+
     super.initState();
   }
   @override
@@ -37,7 +37,6 @@ class _SummaryDetailState extends State<SummaryDetail> with TickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: AppBar(
           leading: CustomBackNavbar(),

@@ -38,6 +38,15 @@ class TransactionViewModel  extends ChangeNotifier{
   Map<String, double> _incomeDataForPieChart = {};
   Map<String, double> get incomeDataForPieChart => _incomeDataForPieChart;
 
+  ParamsGetTransactionInRangeTime _paramsGetTransactionChartInRangeTime
+                              = ParamsGetTransactionInRangeTime(from: '', to: '', moneyAccountId: '');
+  ParamsGetTransactionInRangeTime get paramsGetTransactionChartInRangeTime => _paramsGetTransactionChartInRangeTime;
+
+  void setParamsGetTransactionChartInRangeTime(ParamsGetTransactionInRangeTime params){
+    _paramsGetTransactionChartInRangeTime = params;
+    notifyListeners();
+  }
+
   void setDataForPieChart(Map<String, double> expense, Map<String, double> income){
     _expenseDataForPieChart = expense;
     _incomeDataForPieChart = income;

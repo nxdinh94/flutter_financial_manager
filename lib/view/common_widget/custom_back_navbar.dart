@@ -3,8 +3,8 @@ import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:go_router/go_router.dart';
 
 class CustomBackNavbar extends StatelessWidget {
-  CustomBackNavbar({super.key, this.value});
-  dynamic value;
+  const CustomBackNavbar({super.key, this.value});
+  final dynamic value;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,6 @@ class CustomBackNavbar extends StatelessWidget {
               size: 20,
             ),
           ),
-          // Text('My Account')
         ],
       )
     );
