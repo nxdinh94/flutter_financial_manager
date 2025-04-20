@@ -10,6 +10,7 @@ import 'package:fe_financial_manager/view/auth/signin.dart';
 import 'package:fe_financial_manager/view_model/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -65,6 +66,7 @@ class FakeAuthViewModel extends ChangeNotifier implements AuthViewModel {
 void main() {
   group('', () {
     setUp(()async {
+      await GetIt.instance.reset();    // 💡 thêm dòng này trước!
       await setupLocator();
       final prefs = locator<SharedPreferences>();
       int? mode = prefs.getInt('mode');
@@ -76,100 +78,53 @@ void main() {
       CustomNavigationHelper(initialRoute);
 
     },);
-    testWidgets('Login form shows error when empty', (WidgetTester tester) async {
-      await tester.pumpWidget(
-        MultiProvider(
-          providers: [
-            ChangeNotifierProvider(create: (_)=>AuthViewModel()),
-            ChangeNotifierProvider(create: (_)=>ThemeManager()),
 
-          ],
-          child: MyApp(router: CustomNavigationHelper.router),
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      expect(find.byKey(const ValueKey('homeAuth')), findsOneWidget);
-
-      final toSignInButton = find.byKey(const ValueKey('toSignInScreen'));
-      await tester.tap(toSignInButton);
-      await tester.pumpAndSettle();
-      // Tìm nút login
-      final loginButton = find.byKey(const ValueKey('loginButton'));
-      expect(loginButton, findsOneWidget);
-
-      // Bấm nút login khi email và password rỗng
-      await tester.tap(loginButton);
-      await tester.pumpAndSettle(Duration(seconds: 2));
-
-
-      // Kiểm tra xem có thông báo lỗi không
-      expect(find.text('Email and password cannot be empty'), findsOneWidget);
-      await tester.pump(Duration(seconds: 2));
-
-    });
-
-    testWidgets('Login form shows invalid email message', (WidgetTester tester) async {
-
-      await tester.pumpWidget(
-        MultiProvider(
-          providers: [
-            ChangeNotifierProvider(create: (_)=>AuthViewModel()),
-            ChangeNotifierProvider(create: (_)=>ThemeManager()),
-
-          ],
-          child: MyApp(router: CustomNavigationHelper.router),
-        ),
-      );
-      await tester.pumpAndSettle();
-      expect(find.byKey(const ValueKey('homeAuth')), findsOneWidget);
-
-      final toSignInButton = find.byKey(const ValueKey('toSignInScreen'));
-      await tester.tap(toSignInButton);
-      await tester.pumpAndSettle();
-
-      // Nhập email sai và password hợp lệ
-      await tester.enterText(find.byKey(const ValueKey('emailTextFormField')), 'invalid_email');
-      await tester.enterText(find.byKey(const ValueKey('passwordTextFormField')), 'validPassword');
-
-      await tester.tap(find.byKey(const ValueKey('loginButton')));
-      await tester.pump();
-
-      expect(find.text('Invalid email'), findsOneWidget);
-    });
-
-    testWidgets('Login form calls loginApi when valid input', (WidgetTester tester) async {
+    testWidgets('Login form - Empty Input, Invalid Email, Valid Login', (WidgetTester tester) async {
       final fakeAuth = FakeAuthViewModel();
 
       await tester.pumpWidget(
         MultiProvider(
           providers: [
-            ChangeNotifierProvider(create: (_)=>AuthViewModel()),
-            ChangeNotifierProvider(create: (_)=>ThemeManager()),
-
+            ChangeNotifierProvider<AuthViewModel>.value(value: fakeAuth),
+            ChangeNotifierProvider(create: (_) => ThemeManager()),
           ],
           child: MyApp(router: CustomNavigationHelper.router),
         ),
       );
       await tester.pumpAndSettle();
+
+      // 💡 Verify màn HomeAuth
       expect(find.byKey(const ValueKey('homeAuth')), findsOneWidget);
 
       final toSignInButton = find.byKey(const ValueKey('toSignInScreen'));
       await tester.tap(toSignInButton);
       await tester.pumpAndSettle();
 
-      // Nhập email và password hợp lệ
+      // === CASE 1: Empty Input ===
+      await tester.tap(find.byKey(const ValueKey('loginButton')));
+      await tester.pump(const Duration(milliseconds: 500));
+      expect(find.text('Email and password cannot be empty'), findsOneWidget);
+      await tester.pumpAndSettle(const Duration(seconds: 4));
+
+      // === CASE 2: Invalid Email Format ===
+      await tester.enterText(find.byKey(const ValueKey('emailTextFormField')), 'invalid_email');
+      await tester.enterText(find.byKey(const ValueKey('passwordTextFormField')), 'validPassword');
+
+      await tester.tap(find.byKey(const ValueKey('loginButton')));
+      await tester.pump(const Duration(milliseconds: 500));
+      expect(find.text('Invalid email'), findsOneWidget);
+      await tester.pumpAndSettle(const Duration(seconds: 4));
+
+      // === CASE 3: Valid Input ===
       await tester.enterText(find.byKey(const ValueKey('emailTextFormField')), 'nguyenxuandinh336@gmail.com');
       await tester.enterText(find.byKey(const ValueKey('passwordTextFormField')), 'Dinh@123');
 
       await tester.tap(find.byKey(const ValueKey('loginButton')));
       await tester.pump();
 
-      // Vì `loginApi` sẽ chuyển loading = true -> show LoadingOverlay
       expect(fakeAuth.loading, true);
-
-      // Đợi hoàn thành
       await tester.pump(const Duration(milliseconds: 600));
+      // Check loading = false sau khi login xong
       expect(fakeAuth.loading, false);
     });
   },);
