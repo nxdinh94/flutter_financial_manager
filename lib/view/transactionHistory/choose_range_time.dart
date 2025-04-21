@@ -1,5 +1,7 @@
+import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/model/ParamsGetTransactionInRangeTime.dart';
+import 'package:fe_financial_manager/utils/date_time.dart';
 import 'package:fe_financial_manager/utils/range_time_chart_home_page.dart';
 import 'package:fe_financial_manager/view/common_widget/my_list_title.dart';
 import 'package:fe_financial_manager/view/common_widget/tab_bar_elements.dart';
@@ -7,6 +9,8 @@ import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart'
 import 'package:fe_financial_manager/view_model/transaction_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'package:provider/provider.dart';
 
 class ChooseRangeTime extends StatefulWidget {
@@ -113,7 +117,7 @@ class _ChooseRangeTimeState extends State<ChooseRangeTime> with TickerProviderSt
                     callback: (){
                       String result = getCurrentDay();
                       context.pop({
-                        'name': 'Yesterday',
+                        'name': 'Today',
                         'value': ParamsGetTransactionInRangeTime(
                           from: result.split('/')[0],
                           to: result.split('/')[1],
@@ -128,14 +132,24 @@ class _ChooseRangeTimeState extends State<ChooseRangeTime> with TickerProviderSt
 
                   ),
                   MyListTitle(
-                    callback: (){
-
+                    callback: ()async{
+                      String result = await DateTimeHelper.showDatePicker(context);
+                      if(result.isNotEmpty){
+                        String formated = DateTimeHelper.convertDateTimeToString(DateTime.parse(result));
+                        context.pop({
+                          'name': formated,
+                          'value': ParamsGetTransactionInRangeTime(
+                              from: formated,
+                              to: formated,
+                              moneyAccountId: ''
+                          ),
+                        });
+                      }
                     },
                     title: 'Others',
                     hideTrailing: false,
                     hideBottomBorder: false,
                     isShowAnimate: false,
-
                   ),
 
                 ],
@@ -220,7 +234,51 @@ class _ChooseRangeTimeState extends State<ChooseRangeTime> with TickerProviderSt
 
                   ),
                   MyListTitle(
-                    callback: (){},
+                    callback: ()async{
+                      showMonthPicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        monthPickerDialogSettings: MonthPickerDialogSettings(
+                          headerSettings: PickerHeaderSettings(
+                            headerBackgroundColor: secondaryColor,
+                            hideHeaderRow: true,
+                            headerCurrentPageTextStyle:
+                              Theme.of(context).textTheme.headlineLarge!.copyWith(color: colorTextWhite),
+                            headerSelectedIntervalTextStyle:
+                              Theme.of(context).textTheme.headlineLarge!.copyWith(color: colorTextWhite),
+                          ),
+                          dialogSettings: PickerDialogSettings(
+                            locale: const Locale('en'),
+                            dialogRoundedCornersRadius: 20,
+                            dialogBackgroundColor: primaryColor,
+                          ),
+                          dateButtonsSettings: PickerDateButtonsSettings(
+                            selectedDateRadius: 12,
+                            monthTextStyle: Theme.of(context).textTheme.titleMedium!.copyWith(color: colorTextWhite),
+                            unselectedMonthsTextColor: colorTextBlack,
+                          )
+
+
+                        )
+                      ).then((date) {
+                        if (date != null) {
+                          int month = date.month;
+                          int year = date.year;
+                          int numberDayOfMonth = DateTime(year, month + 1, 0).day;
+
+                          String beginMonth = DateTimeHelper.convertDateTimeToString(date);
+                          String endMonth = DateTimeHelper.formatToDoubleDigitDate('$year-$month-$numberDayOfMonth');
+                          context.pop({
+                            'name': '$beginMonth/$endMonth',
+                            'value': ParamsGetTransactionInRangeTime(
+                              from: beginMonth,
+                              to: endMonth,
+                              moneyAccountId: ''
+                            ),
+                          });
+                        }
+                      });
+                    },
                     title: 'Others',
                     hideTrailing: false,
                     hideBottomBorder: false,

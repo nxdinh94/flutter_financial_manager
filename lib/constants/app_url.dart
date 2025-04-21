@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
 
 class AppUrl {
-  // static const baseUrl = 'http://10.60.100.135:3222/api';
-  static const baseUrl = 'http://192.168.2.11:3222/api';
+  static const baseUrl = 'http://10.60.129.161:3222/api';
+  // static const baseUrl = 'http://192.168.2.11:3222/api';
 
   static const loginEndPint = baseUrl + '/auth/login';
 
@@ -15,7 +15,6 @@ class AppUrl {
   static const createIconCategories = baseUrl + '/transactions/transaction-type-category';
   static const transaction = baseUrl + '/transactions/transaction';
   // GET : '${AppUrl.transaction}?from=__&to=__&money_account_id=__';
-
   static const getIconWalletType = baseUrl + '/admins/money-account-types';
   static const wallet = baseUrl + '/money-accounts/money-account';
 

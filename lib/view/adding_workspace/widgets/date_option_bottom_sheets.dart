@@ -48,27 +48,9 @@ Future showDateOptionBottomSheet(BuildContext context, Function setPickedDate){
                   TextContainer(
                     title: 'Custom',
                     callback: ()async{
-                      DateTime ? newDateTime = await showRoundedDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(DateTime.now().year - 1),
-                        lastDate: DateTime(DateTime.now().year + 1),
-                        borderRadius: 16,
-                        height: 260,
-                        styleDatePicker: MaterialRoundedDatePickerStyle(
-                          backgroundHeader: Theme.of(context).colorScheme.secondary,
-                          decorationDateSelected: BoxDecoration(
-                            color: Theme.of(context).colorScheme.secondary,
-                            borderRadius: BorderRadius.circular(100),
-                          ),
-                          textStyleDayOnCalendarSelected: TextStyle(
-                            color: Theme.of(context).colorScheme.primary
-                          )
-                        ),
-                      );
-                      if(newDateTime != null){
-                        String formattedDate = "${newDateTime.toIso8601String().split('.')[0]}Z";
-                        setPickedDate(formattedDate);
+                      String result = await DateTimeHelper.showDatePicker(context);
+                      if(result.isNotEmpty){
+                        setPickedDate(result);
                         Navigator.pop(context);
                       }
                     },

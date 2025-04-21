@@ -1,5 +1,6 @@
+import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 import 'package:intl/intl.dart';
-
+import 'package:flutter/material.dart';
 class DateTimeHelper {
   //YYYY-MM-DD
   static String convertDateTimeToString(DateTime dateTime) {
@@ -24,6 +25,32 @@ class DateTimeHelper {
     }
   }
 
+  static Future<String> showDatePicker(BuildContext context) async {
+    DateTime ? newDateTime = await showRoundedDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(DateTime.now().year - 1),
+      lastDate: DateTime(DateTime.now().year + 1),
+      borderRadius: 16,
+      height: 260,
+      styleDatePicker: MaterialRoundedDatePickerStyle(
+          backgroundHeader: Theme.of(context).colorScheme.secondary,
+          decorationDateSelected: BoxDecoration(
+            color: Theme.of(context).colorScheme.secondary,
+            borderRadius: BorderRadius.circular(100),
+          ),
+          textStyleDayOnCalendarSelected: TextStyle(
+              color: Theme.of(context).colorScheme.primary
+          )
+      ),
+    );
+    // Convert to isoString format
+    if(newDateTime != null){
+      String formattedDate = "${newDateTime.toIso8601String().split('.')[0]}Z";
+      return formattedDate;
+    }
+    return '';
+  }
 
   //2025-04-11T01:56:05Z
   static String convertDateTimeToIsoString(DateTime time) {
