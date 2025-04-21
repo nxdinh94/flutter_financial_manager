@@ -6,6 +6,7 @@ import 'package:fe_financial_manager/view/adding_workspace/widgets/create_catego
 import 'package:fe_financial_manager/view/adding_workspace/widgets/categories_icon_parent.dart';
 import 'package:fe_financial_manager/view/adding_workspace/widgets/tab_bar_elements.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
+import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:fe_financial_manager/view_model/app_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -50,6 +51,19 @@ class _SelectCategoryState extends State<SelectCategory> with TickerProviderStat
         title: const Text('Select Category'),
         leading: CustomBackNavbar(value: widget.pickedCategory),
         actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            child: GestureDetector(
+              onTap: () {
+                context.push(RoutesName.editCategoryPath);
+              },
+              child: SvgContainer(
+                iconWidth: 18,
+                iconPath: 'assets/svg/pen.svg',
+                myIconColor: Colors.black,
+              ),
+            ),
+          ),
           GestureDetector(
             onTap: (){
               context.push(RoutesName.addNewCategoryPath);
