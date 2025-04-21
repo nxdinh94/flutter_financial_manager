@@ -29,6 +29,7 @@ class RoutesName {
   //Add new category
   static const String addNewCategoryPath = '/addNewCategory';
   static const String editCategoryPath = 'editCategory';
+  static const String aiResultPath = 'aiResult';
 
   //All wallets_tab
   static const String allWalletsPath = 'allWallets';

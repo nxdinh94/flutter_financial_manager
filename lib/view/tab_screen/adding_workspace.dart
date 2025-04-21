@@ -1,4 +1,6 @@
 
+import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/generated/assets.dart';
@@ -22,12 +24,9 @@ import 'package:fe_financial_manager/view_model/transaction_view_model.dart';
 import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:http/http.dart';
-import 'package:intl/intl.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:provider/provider.dart';
-
-import '../../model/transaction_categories_icon_model.dart';
 
 class AddingWorkspace extends StatefulWidget {
   const AddingWorkspace({super.key, this.transactionToUpdate});
@@ -96,18 +95,34 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
       'money_account_id' : pickedWallet.id,
       'description' : note,
     };
-    if(widget.transactionToUpdate == null){
-      await context.read<TransactionViewModel>().addTransaction(dataToSubmit, resetDataAfterSaveTransaction ,context);
-    }else {
+    if(widget.transactionToUpdate != null && widget.transactionToUpdate!.id.isNotEmpty){
       dataToSubmit['id'] = widget.transactionToUpdate!.id;
       await context.read<TransactionViewModel>().updateTransaction(dataToSubmit ,context);
+    }else {
+      print('dataToSubmit: $dataToSubmit');
+      await context.read<TransactionViewModel>().addTransaction(dataToSubmit, resetDataAfterSaveTransaction ,context);
     }
 
   }
 
+
   @override
   void initState() {
-    if(widget.transactionToUpdate ==  null){
+    if(widget.transactionToUpdate != null){
+      pickedWallet = PickedIconModel(
+        icon: widget.transactionToUpdate!.moneyAccount.walletTypeIconPath,
+        name: widget.transactionToUpdate!.moneyAccount.name,
+        id: widget.transactionToUpdate!.moneyAccount.id,
+      );
+      pickedCategory = PickedIconModel(
+        icon: widget.transactionToUpdate!.transactionTypeCategory.icon,
+        name: widget.transactionToUpdate!.transactionTypeCategory.name,
+        id: widget.transactionToUpdate!.transactionTypeCategory.id,
+      );
+      _amountController.text = FormatNumber.format(widget.transactionToUpdate!.amountOfMoney.toString());
+      note = widget.transactionToUpdate?.description ?? '';
+      getDate();
+    }else {
       final WalletViewModel walletViewModel = Provider.of<WalletViewModel>(context, listen: false);
       final List<dynamic> listWalletData = walletViewModel.allWalletData.data ?? [];
 
@@ -129,20 +144,6 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
       }, listCategoriesData, context);
 
       getDate();
-    }else {
-      pickedWallet = PickedIconModel(
-        icon: widget.transactionToUpdate!.moneyAccount.walletTypeIconPath,
-        name: widget.transactionToUpdate!.moneyAccount.name,
-        id: widget.transactionToUpdate!.moneyAccount.id,
-      );
-      pickedCategory = PickedIconModel(
-        icon: widget.transactionToUpdate!.transactionTypeCategory.icon,
-        name: widget.transactionToUpdate!.transactionTypeCategory.name,
-        id: widget.transactionToUpdate!.transactionTypeCategory.id,
-      );
-      _amountController.text = FormatNumber.format(widget.transactionToUpdate!.amountOfMoney.toString());
-      note = widget.transactionToUpdate?.description ?? '';
-      getDate();
     }
     super.initState();
   }
@@ -162,7 +163,7 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
               title: const Text('Add Transaction'),
               actions: [
                 Visibility(
-                  visible: widget.transactionToUpdate != null,
+                  visible: widget.transactionToUpdate != null && widget.transactionToUpdate!.id.isNotEmpty,
                   child: Padding(
                     padding: const EdgeInsets.only(right: 10.0),
                     child: SvgContainer(
@@ -173,6 +174,19 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
                       iconWidth: 28,
                       iconPath: Assets.svgTrash,
                       myIconColor: emergencyColor,
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: widget.transactionToUpdate == null,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 10.0),
+                    child: SvgContainer(
+                      callback: ()async{
+                        await context.read<TransactionViewModel>().uploadImage(context);
+                      },
+                      iconWidth: 28,
+                      iconPath: Assets.svgImage,
                     ),
                   ),
                 )
@@ -287,7 +301,8 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
                   MyDivider(),
                   const SizedBox(height: 20,),
                   ExpandedArea(),
-                  const SizedBox(height: 80,)
+                  const SizedBox(height: 20,),
+                  // _image == null ? Text('Chưa có ảnh nào.') : Image.file(_image!),
                 ],
               ),
             ),

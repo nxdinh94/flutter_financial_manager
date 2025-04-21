@@ -111,7 +111,7 @@ class _GroupTransactionDetailState extends State<GroupTransactionDetail> {
                               alignment: PlaceholderAlignment.middle,
                             ),
                             TextSpan(
-                              text: transaction.moneyAccount.name,
+                              text: transaction.moneyAccount!.name,
                               style: Theme.of(context).textTheme.labelMedium,
                             ),
                           ],

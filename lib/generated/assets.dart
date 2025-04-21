@@ -22,6 +22,8 @@ class Assets{
   static const String svgTransfer = 'assets/svg/transfer.svg';
   static const String svgAdjustHorizontal = 'assets/svg/adjust-horizontal.svg';
   static const String svgUpdate = 'assets/svg/history.svg';
+  static const String svgImage = 'assets/svg/image.svg';
+  static const String svgRefresh = 'assets/svg/refresh.svg';
 
 }
 

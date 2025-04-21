@@ -21,7 +21,7 @@ class TransactionHistoryModel {
 
   factory TransactionHistoryModel.fromJson(Map<String, dynamic> json) {
     return TransactionHistoryModel(
-      id: json['id'],
+      id: json['id'] ?? '',
       amountOfMoney: json['amount_of_money'],
       transactionTypeCategory: TransactionTypeCategory.fromJson(json['transaction_type_category']),
       moneyAccount: SingleWalletModel.fromJson(json['money_account']),
@@ -52,7 +52,7 @@ class TransactionTypeCategory {
       parentId: json['parent_id'] ?? '',
       icon: json['icon'] ?? 'assets/another_icon/empty_box.png',
       name: json['name'],
-      transactionType: json['transaction_type']['type'],
+      transactionType: json['transaction_type']['type'] ?? '',
     );
   }
 }

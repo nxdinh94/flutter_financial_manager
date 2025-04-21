@@ -319,7 +319,7 @@ class BodyOfPage extends StatelessWidget {
                                         ),
                                         const SizedBox(height: 6),
                                         MoneyVnd(
-                                          amount: double.parse(e.moneyAccount.accountBalance!),
+                                          amount: double.parse(e.moneyAccount!.accountBalance!),
                                           textColor: colorTextLabel,
                                           fontSize: normal,
                                           isWrapTextWithParentheses: true,

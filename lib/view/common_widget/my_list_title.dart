@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 class MyListTitle extends StatefulWidget {
-  MyListTitle({
+  const MyListTitle({
     super.key,
     required this.title,
     this.subTitle,
@@ -27,20 +27,20 @@ class MyListTitle extends StatefulWidget {
     this.minConstraintSize = 35,
   });
   final String title;
-  Widget ? subTitle;
-  Widget ? leading;
+  final Widget ? subTitle;
+  final Widget ? leading;
   final VoidCallback callback;
-  TextStyle titleTextStyle;
-  double verticalContentPadding;
-  double leftContentPadding;
-  double rightContentPadding;
-  double horizontalTitleGap;
-  bool hideTrailing;
-  bool hideTopBorder;
-  bool hideBottomBorder;
-  Widget ? trailing;
-  bool isShowAnimate;
-  double minConstraintSize;
+  final TextStyle titleTextStyle;
+  final double verticalContentPadding;
+  final double leftContentPadding;
+  final double rightContentPadding;
+  final double horizontalTitleGap;
+  final bool hideTrailing;
+  final bool hideTopBorder;
+  final bool hideBottomBorder;
+  final Widget ? trailing;
+  final bool isShowAnimate;
+  final double minConstraintSize;
   @override
   State<MyListTitle> createState() => _MyListTitleState();
 }

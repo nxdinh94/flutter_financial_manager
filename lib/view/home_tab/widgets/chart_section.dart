@@ -83,9 +83,17 @@ class _ChartSectionState extends State<ChartSection> {
                   if(from == '~' && to == '~'){
                     await Provider.of<TransactionViewModel>(context, listen: false).getTransactionForChart(
                         ParamsGetTransactionInRangeTime(from : '', to : '', moneyAccountId : ''), context);
+                    await Provider.of<TransactionViewModel>(context, listen: false).getTransactionInRangeTime(
+                        ParamsGetTransactionInRangeTime(from : '', to : '', moneyAccountId : '')
+                    );
+
                   }else {
                     await Provider.of<TransactionViewModel>(context, listen: false).getTransactionForChart(
                         ParamsGetTransactionInRangeTime(from: from, to: to, moneyAccountId: ''), context);
+                    await Provider.of<TransactionViewModel>(context, listen: false).getTransactionInRangeTime(
+                        ParamsGetTransactionInRangeTime(from: from, to: to, moneyAccountId: '')
+                    );
+
                   }
                 },
                 style: const TextStyle(color: Colors.blue),

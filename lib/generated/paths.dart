@@ -5,6 +5,7 @@ import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 class FinalRoutes {
   static const String allWalletsPath = '${RoutesName.homePath}/${RoutesName.allWalletsPath}';
   static const String addingWorkSpacePath = RoutesName.addingWorkSpacePath;
+  static const String aiResultPath = '${RoutesName.addingWorkSpacePath}/${RoutesName.aiResultPath}';
   static const String addWalletsPath = RoutesName.addWalletsPath;
   static const String accountSettingsPath = '${RoutesName.accountPath}/${RoutesName.accountSettingsPath}';
   static const String allCategoryPath = '${RoutesName.accountPath}/${RoutesName.allCategoryPath}';

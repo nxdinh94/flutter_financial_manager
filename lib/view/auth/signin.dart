@@ -61,7 +61,6 @@ class _SigninState extends State<Signin> {
     @override
     Widget build(BuildContext context) {
       final height = MediaQuery.of(context).size.height;
-
       return Consumer<AuthViewModel>(
         builder: (context, auth, child) {
           return LoadingOverlay(

@@ -34,10 +34,9 @@ class _HomeState extends State<Home> {
       Provider.of<AppViewModel>(context, listen: false).getIconCategoriesApi();
       Provider.of<TransactionViewModel>(context, listen: false).setParamsGetTransactionChartInRangeTime(defaultRangeTime);
       Provider.of<WalletViewModel>(context, listen: false).getIconsWalletType();
-              Provider.of<WalletViewModel>(context, listen: false).getAllWallet();
-          Provider.of<WalletViewModel>(context, listen: false).getExternalBank();
-      Provider.of<TransactionViewModel>(context, listen: false).getTransactionInRangeTime(
-          ParamsGetTransactionInRangeTime(from : '', to : '', moneyAccountId : ''));
+      Provider.of<WalletViewModel>(context, listen: false).getAllWallet();
+      Provider.of<WalletViewModel>(context, listen: false).getExternalBank();
+      Provider.of<TransactionViewModel>(context, listen: false).getTransactionInRangeTime(defaultRangeTime);
       // Default range time is current month
       Provider.of<TransactionViewModel>(context, listen: false).getTransactionForChart(defaultRangeTime, context);
     });

@@ -1,16 +1,23 @@
+import 'dart:io';
+
 import 'package:fe_financial_manager/data/response/api_response.dart';
+import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/model/ParamsGetTransactionInRangeTime.dart';
+import 'package:fe_financial_manager/model/info_extracted_from_ai_model.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/model/transaction_categories_icon_model.dart';
+import 'package:fe_financial_manager/model/wallet_model.dart';
 import 'package:fe_financial_manager/repository/transaction_repository.dart';
 import 'package:fe_financial_manager/utils/utils.dart';
 import 'package:fe_financial_manager/view_model/app_view_model.dart';
 import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../model/transactions_history_model.dart';
+import '../utils/get_initial_wallet.dart';
 class TransactionViewModel  extends ChangeNotifier{
 
   final TransactionRepository _transactionRepository = TransactionRepository();
@@ -26,6 +33,10 @@ class TransactionViewModel  extends ChangeNotifier{
   ApiResponse<Map<String, dynamic>> _transactionForChart = ApiResponse.loading();
   ApiResponse<Map<String, dynamic>> get transactionForChart => _transactionForChart;
 
+  ApiResponse<InfoExtractedFromAiModel> _infoExtractedFromAi = ApiResponse.loading();
+  ApiResponse<InfoExtractedFromAiModel> get infoExtractedFromAi => _infoExtractedFromAi;
+
+
   Map<PickedIconModel, dynamic> _expenseTransactionForDetailSummary = {};
   Map<PickedIconModel, dynamic> get expenseTransactionForDetailSummary => _expenseTransactionForDetailSummary;
 
@@ -38,12 +49,18 @@ class TransactionViewModel  extends ChangeNotifier{
   Map<String, double> _incomeDataForPieChart = {};
   Map<String, double> get incomeDataForPieChart => _incomeDataForPieChart;
 
+
+
   ParamsGetTransactionInRangeTime _paramsGetTransactionChartInRangeTime
                               = ParamsGetTransactionInRangeTime(from: '', to: '', moneyAccountId: '');
   ParamsGetTransactionInRangeTime get paramsGetTransactionChartInRangeTime => _paramsGetTransactionChartInRangeTime;
 
   void setParamsGetTransactionChartInRangeTime(ParamsGetTransactionInRangeTime params){
     _paramsGetTransactionChartInRangeTime = params;
+    notifyListeners();
+  }
+  void setInfoExtractedFromAi(ApiResponse<InfoExtractedFromAiModel> data){
+    _infoExtractedFromAi = data;
     notifyListeners();
   }
 
@@ -76,15 +93,15 @@ class TransactionViewModel  extends ChangeNotifier{
   }
 
   void setLoading(bool value){
-    _loading = loading;
+    _loading = value;
     notifyListeners();
   }
 
-  Future<void> addTransaction(Map<String, dynamic> data,Function resetDataAfterSaveTransaction ,BuildContext context)async{
+  Future<void> addTransaction(Map<String, dynamic> data,Function func ,BuildContext context)async{
     setLoading(true);
     await _transactionRepository.addTransaction(data).then((value)async{
       setLoading(false);
-      resetDataAfterSaveTransaction();
+      func();
       await context.read<WalletViewModel>().getAllWallet();
       Utils.toastMessage('Your transaction has been recorded');
     }).onError((error, stackTrace){
@@ -257,4 +274,71 @@ class TransactionViewModel  extends ChangeNotifier{
       print(error);
     });
   }
+
+  Future<void> uploadImage(BuildContext context, [bool isGotoPage = true]) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setLoading(true);
+      File imageFile = File(pickedFile.path);
+      String imagePath = imageFile.path;
+      _transactionRepository.uploadImage(imagePath).then((value){
+        Map<String, dynamic> data = value['important_info'];
+        // truncate amount_of_money to 2 decimal places, then convert to double
+        data['amount_of_money'] = data['amount_of_money'].truncate().toString();
+
+        // get initial data for wallet
+        final List<WalletModel> listWalletData = context.read<WalletViewModel>().allWalletData.data ?? [];
+        getInitialData((v){
+          data['wallet_type'] = {
+            'money_account_type': {
+              'icon': v.icon,
+            },
+            'id': v.id,
+            'name': v.name,
+          };
+        }, listWalletData, context);
+
+        // get initial data for category
+        final List<CategoriesIconModel> listCategoriesData = context.read<AppViewModel>().iconCategoriesData.data?.categoriesIconListMap['expense'] ?? [];
+        for(CategoriesIconModel i in listCategoriesData){
+          if(i.name == data['category']){
+            data['category'] = {
+              'icon': i.icon,
+              'name': i.name,
+              'id': i.id,
+              'transaction_type': {
+                'type': '',
+              }
+            };
+            break;
+          }
+          for(CategoriesIconModel c in i.children){
+            if(c.name == data['category']){
+              data['category'] = {
+                'icon': i.icon,
+                'name': i.name,
+                'id': i.id
+              };
+              break;
+            }
+          }
+        }
+
+
+        final InfoExtractedFromAiModel result = InfoExtractedFromAiModel.fromJson(data);
+        setInfoExtractedFromAi(ApiResponse.completed(result));
+        if(isGotoPage){
+          context.push(FinalRoutes.aiResultPath);
+        }
+        setLoading(false);
+      });
+    } else {
+      setInfoExtractedFromAi(ApiResponse.error('Unable to process'));
+      Utils.flushBarErrorMessage('Unable to load image', context);
+    }
+  }
+
+
 }
