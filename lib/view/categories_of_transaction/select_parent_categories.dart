@@ -1,7 +1,10 @@
+import 'package:diacritic/diacritic.dart';
+import 'package:fe_financial_manager/constants/transaction_type_id.dart';
 import 'package:fe_financial_manager/data/response/status.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/view/common_widget/check_picked_list_title.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
+import 'package:fe_financial_manager/view/common_widget/empty_value_screen.dart';
 import 'package:fe_financial_manager/view_model/app_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +24,13 @@ class SelectParentCategories extends StatefulWidget {
 }
 
 class _SelectParentCategoriesState extends State<SelectParentCategories> {
+  late bool isExpenseTransactionTypeId;
+  @override
+  void initState() {
+    isExpenseTransactionTypeId = widget.selectedTransactionTypeId == transactionTypeId[1];
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,25 +44,38 @@ class _SelectParentCategoriesState extends State<SelectParentCategories> {
             case Status.LOADING:
               return const Center(child: CircularProgressIndicator());
             case Status.COMPLETED:
-              final expenseIconsList = value.iconCategoriesData.data?.categoriesIconListMap['expense'];
-              // final incomeIconsList = value.iconCategoriesData.data?.categoriesIconListMap['income'];
-              if (expenseIconsList == null || expenseIconsList.isEmpty) {
-                return const Center(child: Text("No icons available"));
+              if(isExpenseTransactionTypeId){
+                final expenseIconsList = value.iconCategoriesData.data?.categoriesIconListMap['expense'];
+                if (expenseIconsList == null || expenseIconsList.isEmpty) {
+                  return const Center(child: Text("No icons available"));
+                }
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 10),
+                      ...expenseIconsList.map((e) {
+                        CategoriesIconModel categoriesIconParent = e as CategoriesIconModel; // Proper casting
+                        return CheckPickedListTile<CategoriesIconModel>(
+                            iconData: categoriesIconParent,
+                            onTap: widget.onTap
+                        );
+                      }).toList()
+                    ],
+                  ),
+                );
+              }else {
+                final List<CategoriesIconModel> incomeIconsList = value.iconCategoriesData.data?.categoriesIconListMap['income'];
+                for(final item in incomeIconsList){
+                  if(removeDiacritics(item.name) == 'Luong'){
+                    return CheckPickedListTile<CategoriesIconModel>(
+                      iconData: item,
+                      onTap: widget.onTap
+                    );
+                  }
+                }
+                return const EmptyValueScreen(title: 'Empty Value Screen', iconSize: 60,);
               }
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 10),
-                    ...expenseIconsList.map((e) {
-                      CategoriesIconModel categoriesIconParent = e as CategoriesIconModel; // Proper casting
-                      return CheckPickedListTile<CategoriesIconModel>(
-                        iconData: categoriesIconParent,
-                        onTap: widget.onTap
-                      );
-                    }).toList()
-                  ],
-                ),
-              );
+
             case Status.ERROR:
               throw UnimplementedError();
             default:

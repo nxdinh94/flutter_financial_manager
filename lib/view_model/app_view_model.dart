@@ -1,6 +1,10 @@
 import 'package:fe_financial_manager/data/response/api_response.dart';
 import 'package:fe_financial_manager/repository/app_repository.dart';
+import 'package:fe_financial_manager/utils/utils.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import '../model/transaction_categories_icon_model.dart';
 class AppViewModel extends ChangeNotifier{
@@ -48,7 +52,20 @@ class AppViewModel extends ChangeNotifier{
       }
     }
     setListOfIdOfExpenseCategory(listId);
-
+  }
+  // create transaction categories
+  Future<void> createTransactionCategoriesApi(Map<String, dynamic> data, BuildContext context) async {
+    setLoading(true);
+    await _appRepository.createIconCategoriesApi(data).then((value) async{
+      Utils.toastMessage('Category created successfully');
+      context.pop(true);
+      setLoading(false);
+    }).onError((error, stackTrace) {
+      setLoading(false);
+      if (kDebugMode) {
+        print(error.toString());
+      }
+    });
   }
 
   Future<void> getIconCategoriesApi() async {

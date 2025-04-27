@@ -21,17 +21,16 @@ import 'package:fe_financial_manager/view/categories_of_transaction/create_categ
 import 'package:fe_financial_manager/view/categories_of_transaction/select_parent_categories.dart';
 import 'package:fe_financial_manager/view/home_tab/group_transaction_detail.dart';
 import 'package:fe_financial_manager/view/home_tab/summary_detail.dart';
-import 'package:fe_financial_manager/view/transactionHistory/choose_range_time.dart';
 import 'package:fe_financial_manager/view/tab_screen/all_wallets.dart';
 import 'package:fe_financial_manager/view/tab_screen/account.dart';
 import 'package:fe_financial_manager/view/tab_screen/adding_workspace.dart';
 import 'package:fe_financial_manager/view/tab_screen/budgets.dart';
 import 'package:fe_financial_manager/view/tab_screen/home.dart';
 import 'package:fe_financial_manager/view/auth/signin.dart';
-import 'package:fe_financial_manager/view/transactionHistory/transactions_history.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
+import '../../view/transaction_history/choose_range_time.dart';
+import '../../view/transaction_history/transactions_history.dart';
 import '../../view/wallets_tab/add_wallets.dart';
 import '../../view/wallets_tab/external_bank.dart';
 import '../../view/wallets_tab/pick_wallet_types.dart';

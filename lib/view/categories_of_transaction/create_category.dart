@@ -1,6 +1,7 @@
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
+import 'package:fe_financial_manager/constants/transaction_type_id.dart';
 import 'package:fe_financial_manager/generated/assets.dart';
 import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
@@ -11,8 +12,10 @@ import 'package:fe_financial_manager/view/common_widget/divider.dart';
 import 'package:fe_financial_manager/view/common_widget/my_float_action_button.dart';
 import 'package:fe_financial_manager/view/common_widget/my_list_title.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
+import 'package:fe_financial_manager/view_model/app_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 class CreateCategory extends StatefulWidget {
   const CreateCategory({super.key});
 
@@ -22,8 +25,7 @@ class CreateCategory extends StatefulWidget {
 
 class _CreateCategoryState extends State<CreateCategory> {
   final TextEditingController _nameController = TextEditingController();
-  final List<bool> _selectedToggleItem = <bool>[true, false];
-  final List<String> transactionTypeId = <String>['e2443bef-0715-4e06-b55e-fddcf018127a', 'a4c18d24-e41f-4a69-8547-1548ce81db43'];
+  final List<bool> _selectedToggleItem = <bool>[false, true];
   final List<Widget> categoriesType = <Widget>[const Text('Income'), const Text('expense')];
   String selectedTransactionTypeId = '';
   String iconPath = '';
@@ -39,7 +41,7 @@ class _CreateCategoryState extends State<CreateCategory> {
 
   @override
   void initState() {
-    selectedTransactionTypeId = transactionTypeId[0];
+    selectedTransactionTypeId = transactionTypeId[1];
     super.initState();
   }
   @override
@@ -55,7 +57,7 @@ class _CreateCategoryState extends State<CreateCategory> {
         leading: const CustomBackNavbar(),
       ),
       floatingActionButton: MyFloatActionButton(
-        callback: (){
+        callback: ()async{
           if(_nameController.text.isEmpty || iconPath.isEmpty){
             Utils.flushBarErrorMessage('Name and icon are required', context);
             return; 
@@ -70,6 +72,7 @@ class _CreateCategoryState extends State<CreateCategory> {
           }else{
             data.remove('parent_id');
           }
+          await context.read<AppViewModel>().createTransactionCategoriesApi(data, context);
 
         }
       ),

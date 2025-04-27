@@ -59,11 +59,11 @@ class _CheckPickedListTileState extends State<CheckPickedListTile> {
         ),
         visualDensity: const VisualDensity(horizontal: -4),
         contentPadding: EdgeInsets.only(right: 28, left: widget.contentLeftPadding),
-        subtitle: Animate(
+        subtitle: widget.subtitle != null ? Animate(
           effects: widget.isShowAnimate? const [MoveEffect(begin: Offset(-20, 0)), FadeEffect()]:[],
           delay: const Duration(milliseconds: 100),
-          child: widget.subtitle ?? const SizedBox.shrink(),
-        ),
+          child: widget.subtitle!,
+        ) : null,
         onTap: ()async {
           PickedIconModel pickedIcon = PickedIconModel(
             id: widget.iconData.id,
