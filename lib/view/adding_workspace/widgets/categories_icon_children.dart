@@ -8,14 +8,14 @@ import '../../../constants/padding.dart';
 import '../../../model/transaction_categories_icon_model.dart';
 import '../../common_widget/divider.dart';
 class CategoriesIconChildren extends StatelessWidget {
-  CategoriesIconChildren({
+  const CategoriesIconChildren({
     super.key, required this.categoryChildren,
     required this.onItemTap,
     this.pickedCategoryId
   });
   final CategoriesIconModel categoryChildren;
   final Future<void> Function(PickedIconModel) onItemTap;
-  String ? pickedCategoryId;
+  final String ? pickedCategoryId;
 
 
   @override

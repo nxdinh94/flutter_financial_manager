@@ -1,13 +1,12 @@
+import 'package:fe_financial_manager/constants/transaction_type_id.dart';
+import 'package:fe_financial_manager/model/transaction_categories_icon_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../constants/colors.dart';
-import '../../constants/font_size.dart';
 import '../../generated/assets.dart';
 import '../../generated/paths.dart';
 import '../../model/picked_icon_model.dart';
-import '../../model/transaction_categories_icon_model.dart';
 import '../../data/response/status.dart';
 import '../../view_model/app_view_model.dart';
 import '../common_widget/custom_back_navbar.dart';
@@ -27,11 +26,50 @@ class EditCategories extends StatefulWidget {
 class _EditCategoriesState extends State<EditCategories> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+  late PickedIconModel parentCategory;
+  String iconPath = '';
+  Future<void> _onSave ()async {
+    Map<String, dynamic> data = {
+      'id': widget.pickedCategory.id,
+      'name': _nameController.text,
+      'icon': iconPath,
+      'parent_id': parentCategory.id,
+      'transaction_type_id': transactionTypeId[1],
+    };
+    if(data['parent_id'].toString().isEmpty){
+      data.remove('parent_id');
+    }
+    await context.read<AppViewModel>().updateTransactionCategoriesApi(data, context);
+  }
+  Future<void> _onDelete ()async {
+    await context.read<AppViewModel>().deleteTransactionCategoriesApi(widget.pickedCategory.id, context);
+  }
+  Future<void> _onSelectParentCategory(PickedIconModel pickedIcon) async {
+    setState(() {
+      parentCategory = pickedIcon;
+    });
+    context.pop();
+  }
+
+  PickedIconModel? _findParentCategory(List<CategoriesIconModel> icons, String iconId) {
+    for (final parent in icons) {
+      for (final child in parent.children) {
+        if (child.id == iconId) {
+          return PickedIconModel(id: parent.id, name: parent.name, icon: parent.icon);
+        }
+      }
+    }
+    return null;
+  }
+
 
   @override
   void initState() {
     super.initState();
     _nameController.text = widget.pickedCategory.name;
+    iconPath = widget.pickedCategory.icon;
+    final expenseIcons = context.read<AppViewModel>().iconCategoriesData.data?.categoriesIconListMap['expense'] ?? [];
+    parentCategory = _findParentCategory(expenseIcons, widget.pickedCategory.id) ?? PickedIconModel(icon: '', name: '', id: '');
   }
 
   @override
@@ -48,22 +86,42 @@ class _EditCategoriesState extends State<EditCategories> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit Categories'),
-        leading: CustomBackNavbar(),
+        title: const Text('Edit Category'),
+        leading: const CustomBackNavbar(),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             _IconPickerField(
               controller: _nameController,
-              pickedCategory: widget.pickedCategory,
+              iconPath: iconPath,
+              callback: ()async{
+                dynamic path = await context.push(
+                  FinalRoutes.pickIconPathForCategoryPath,
+                );
+                if(!mounted) return;
+                if(path != null){
+                  setState(() {
+                    iconPath = path;
+                  });
+                }
+              }
             ),
             MyDivider(indent: dividerIndent),
-            _ParentCategorySelector(pickedCategory: widget.pickedCategory),
+            _ParentCategorySelector(
+              parentCategory: parentCategory,
+              callback: () => context.push(FinalRoutes.selectParentCategories,  extra: {
+                'selectedTransactionTypeId': transactionTypeId[1],
+                'onTap': _onSelectParentCategory,
+              }),
+            ),
             const SizedBox(height: 12),
-            _DescriptionField(controller: _descriptionController),
-            const SizedBox(height: 20),
-            const _ActionButtons(),
+            // _DescriptionField(controller: _descriptionController),
+            // const SizedBox(height: 20),
+            _ActionButtons(
+              deleteAction: _onDelete,
+              saveAction: _onSave,
+            ),
           ],
         ),
       ),
@@ -74,11 +132,13 @@ class _EditCategoriesState extends State<EditCategories> {
 // ---------------- Icon Picker ----------------
 class _IconPickerField extends StatelessWidget {
   final TextEditingController controller;
-  final PickedIconModel pickedCategory;
+  final String iconPath;
+  final VoidCallback callback;
 
   const _IconPickerField({
     required this.controller,
-    required this.pickedCategory,
+    required this.iconPath,
+    required this.callback,
   });
 
   @override
@@ -87,13 +147,11 @@ class _IconPickerField extends StatelessWidget {
       controller: controller,
       hintText: 'Name',
       prefixIcon: GestureDetector(
-        onTap: () {
-          // TODO: Pick icon
-        },
+        onTap: callback,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset(pickedCategory.icon, width: 40),
+            Image.asset(iconPath, width: 40),
             Text(
               'Pick icon',
               style: Theme.of(context).textTheme.labelSmall?.copyWith(color: secondaryColor),
@@ -109,58 +167,27 @@ class _IconPickerField extends StatelessWidget {
 
 // ---------------- Parent Category Selector ----------------
 class _ParentCategorySelector extends StatelessWidget {
-  final PickedIconModel pickedCategory;
-
-  const _ParentCategorySelector({required this.pickedCategory});
+  final PickedIconModel parentCategory;
+  final VoidCallback callback;
+  const _ParentCategorySelector({required this.parentCategory, required this.callback});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AppViewModel>(
-      builder: (context, value, child) {
-        switch (value.iconCategoriesData.status) {
-          case Status.LOADING:
-            return const Center(child: CircularProgressIndicator());
-
-          case Status.ERROR:
-            return const Center(child: Text('Error loading icons'));
-
-          case Status.COMPLETED:
-            final expenseIcons = value.iconCategoriesData.data?.categoriesIconListMap['expense'] ?? [];
-
-            final parent = _findParentCategory(expenseIcons);
-
-            return MyListTitle(
-              callback: () => context.push(FinalRoutes.selectParentCategories),
-              title: 'Pick parent category',
-              titleTextStyle: Theme.of(context).textTheme.labelSmall!,
-              subTitle: Text(
-                parent?.name ?? 'None',
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-              leading: Image.asset(
-                parent?.icon ?? 'assets/another_icon/wallet.png',
-                width: 40,
-              ),
-              leftContentPadding: 16,
-              horizontalTitleGap: 10,
-            );
-
-          default:
-            return const SizedBox.shrink();
-        }
-      },
-    );
-  }
-
-  PickedIconModel? _findParentCategory(List<CategoriesIconModel> icons) {
-    for (final parent in icons) {
-      for (final child in parent.children) {
-        if (child.id == pickedCategory.id) {
-          return PickedIconModel(id: parent.id, name: parent.name, icon: parent.icon);
-        }
-      }
+    String iconPath = 'assets/another_icon/wallet.png';
+    String iconName = 'None';
+    if(parentCategory.id.isNotEmpty){
+      iconPath = parentCategory.icon;
+      iconName = parentCategory.name;
     }
-    return null;
+    return MyListTitle(
+      callback: callback,
+      title: 'Pick parent category',
+      titleTextStyle: Theme.of(context).textTheme.labelSmall!,
+      subTitle: Text(iconName, style: Theme.of(context).textTheme.bodyLarge),
+      leading: Image.asset(iconPath, width: 40),
+      leftContentPadding: 16,
+      horizontalTitleGap: 10,
+    );
   }
 }
 
@@ -189,41 +216,31 @@ class _DescriptionField extends StatelessWidget {
 
 // ---------------- Save & Delete Buttons ----------------
 class _ActionButtons extends StatelessWidget {
-  const _ActionButtons();
-
+  const _ActionButtons({key, required this.saveAction, required this.deleteAction});
+  final VoidCallback saveAction;
+  final VoidCallback deleteAction;
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         Expanded(
-          child: SizedBox(
-            height: 40,
-            child: OutlinedButton(
-              onPressed: () {
-                // TODO: Handle delete
-              },
-              style: ButtonStyle(
-                side: WidgetStateProperty.all(
-                  const BorderSide(color: emergencyColor),
-                ),
+          child: OutlinedButton(
+            onPressed: deleteAction,
+            style: ButtonStyle(
+              side: WidgetStateProperty.all(
+                const BorderSide(color: emergencyColor),
               ),
-              child: const Text(
-                'DELETE',
-                style: TextStyle(color: emergencyColor),
-              ),
+            ),
+            child: const Text(
+              'DELETE', style: TextStyle(color: emergencyColor),
             ),
           ),
         ),
         const SizedBox(width: 12),
         Expanded(
-          child: SizedBox(
-            height: 40,
-            child: ElevatedButton(
-              onPressed: () {
-                // TODO: Handle save
-              },
-              child: const Text('SAVE'),
-            ),
+          child: ElevatedButton(
+            onPressed: saveAction,
+            child: const Text('SAVE'),
           ),
         ),
       ],

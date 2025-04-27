@@ -36,6 +36,11 @@ class CheckPickedListTile<T> extends StatefulWidget {
 class _CheckPickedListTileState extends State<CheckPickedListTile> {
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
@@ -69,6 +74,7 @@ class _CheckPickedListTileState extends State<CheckPickedListTile> {
             id: widget.iconData.id,
             icon: widget.iconData.icon,
             name: widget.iconData.name,
+            userId: widget.iconData.userId,
           );
           //return value
           await widget.onTap(pickedIcon);

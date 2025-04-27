@@ -46,9 +46,10 @@ class _CategoriesIconParentState extends State<CategoriesIconParent> {
             PickedIconModel pickedCategory = PickedIconModel(
               id : widget.parentIcon.id,
               icon: widget.parentIcon.icon,
-              name: widget.parentIcon.name
+              name: widget.parentIcon.name,
+              userId: widget.parentIcon.userId,
             );
-            widget.onTap!(pickedCategory);
+            widget.onTap(pickedCategory);
           },
           child: Text(widget.parentIcon.name)
         ),

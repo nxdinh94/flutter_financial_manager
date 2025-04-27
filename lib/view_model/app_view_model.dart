@@ -67,6 +67,32 @@ class AppViewModel extends ChangeNotifier{
       }
     });
   }
+  Future<void> updateTransactionCategoriesApi(Map<String, dynamic> data, BuildContext context) async {
+    setLoading(true);
+    await _appRepository.updateIconCategoriesApi(data).then((value) async{
+      Utils.toastMessage('Category updated successfully');
+      context.pop(true);
+      setLoading(false);
+    }).onError((error, stackTrace) {
+      setLoading(false);
+      if (kDebugMode) {
+        print(error.toString());
+      }
+    });
+  }
+  Future<void> deleteTransactionCategoriesApi(String id, BuildContext context) async {
+    setLoading(true);
+    await _appRepository.deleteIconCategoriesApi(id).then((value) async{
+      Utils.toastMessage('Category deleted successfully');
+      context.pop(true);
+      setLoading(false);
+    }).onError((error, stackTrace) {
+      setLoading(false);
+      if (kDebugMode) {
+        print(error.toString());
+      }
+    });
+  }
 
   Future<void> getIconCategoriesApi() async {
     setLoading(true);

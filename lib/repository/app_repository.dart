@@ -21,5 +21,20 @@ class AppRepository{
       rethrow;
     }
   }
+  Future<void> updateIconCategoriesApi(Map<String, dynamic> data) async {
+    try {
+      await _apiServices.getPatchApiResponse(AppUrl.createIconCategories, data);
+    } catch (e) {
+      rethrow;
+    }
+  }
+  Future<void> deleteIconCategoriesApi(String id) async {
+    try {
+      String api = "${AppUrl.createIconCategories}/$id";
+      await _apiServices.getDeleteApiResponse(api);
+    } catch (e) {
+      rethrow;
+    }
+  }
 
 }
