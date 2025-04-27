@@ -150,7 +150,6 @@ class TransactionViewModel  extends ChangeNotifier{
 
       // transform value
       Map<String, dynamic> transformedData = transformTransactionHistory(value);
-
       if(params.moneyAccountId != ''){
         setTransactionByWalletInRangeTime(ApiResponse.completed(transformedData));
       }else {
@@ -158,7 +157,11 @@ class TransactionViewModel  extends ChangeNotifier{
       }
       setLoading(false);
     }).onError((error, stackTrace){
-      print(error);
+      if (params.moneyAccountId != '') {
+        setTransactionByWalletInRangeTime(ApiResponse.error(error.toString()));
+      } else {
+        setTransactionHistoryData(ApiResponse.error(error.toString()));
+      }
     });
   }
   Future<void> getTransactionForChart(ParamsGetTransactionInRangeTime params, BuildContext context)async{

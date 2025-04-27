@@ -11,6 +11,7 @@ class FinalRoutes {
   static const String allCategoryPath = '${RoutesName.accountPath}/${RoutesName.allCategoryPath}';
   static const String homePath = RoutesName.homePath;
   static const String transactionHistoryDetailPath = '${RoutesName.homePath}/${RoutesName.transactionHistoryDetailPath}';
+  static const String transactionHistoryDetailByWalletPath = '${RoutesName.walletPath}/${RoutesName.transactionHistoryDetailPath}';
   static const String walletPath = RoutesName.walletPath;
   static const String chooseRangeTimeToShowTransactionPath = '${RoutesName.walletPath}/${RoutesName.chooseRangeTimeToShowTransactionPath}';
 

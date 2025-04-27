@@ -47,6 +47,10 @@ class TransactionRepository{
         }else {
           api = '${AppUrl.transaction}?from=${params.from}&to=${params.to}&money_account_id=${params.moneyAccountId}';
         }
+      }else {
+        if(params.moneyAccountId != ''){
+          api = '${AppUrl.transaction}?money_account_id=${params.moneyAccountId}';
+        }
       }
       final dynamic response = await _baseApiServices.getGetApiResponse(api, true);
       return response['data'];

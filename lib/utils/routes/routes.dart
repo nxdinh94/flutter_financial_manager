@@ -188,13 +188,23 @@ class CustomNavigationHelper {
                     GoRoute(
                       path: RoutesName.chooseRangeTimeToShowTransactionPath,
                       pageBuilder: (context, GoRouterState state) {
-                        String nameOfSelectedRangeTime = state.extra as String;
+                        String nameOfSelectedRangeTime = (state.extra ?? '') as String ;
                         return getPage(
                           child: ChooseRangeTime(nameOfSelectedRangeTime: nameOfSelectedRangeTime,),
                           state: state
                         );
                       }
-                    )
+                    ),
+                    GoRoute(
+                      path: RoutesName.transactionHistoryDetailPath,
+                      pageBuilder: (context, GoRouterState state) {
+                        String walletId = (state.extra ?? '') as String;
+                        return getPage(
+                          child: TransactionsHistory(walletId: walletId),
+                          state: state,
+                        );
+                      },
+                    ),
                   ]
                 )
               ]),

@@ -1,7 +1,9 @@
 import 'package:fe_financial_manager/constants/data_sample.dart';
 import 'package:fe_financial_manager/data/response/status.dart';
+import 'package:fe_financial_manager/generated/assets.dart';
 import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/view/budgets/widgets/no_running_budget.dart';
+import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:fe_financial_manager/view_model/budget_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -20,11 +22,17 @@ class _BudgetsState extends State<Budgets> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Running Budgets'),
+        title: const Text('Running Budgets'),
         actions: [
-          TextButton(onPressed: (){
-            context.push(FinalRoutes.createUpdateBudgetPath);
-          }, child: Text('Add'))
+          GestureDetector(
+            onTap: (){
+              context.push(FinalRoutes.createUpdateBudgetPath);
+            },
+            child: const Padding(
+              padding: EdgeInsets.only(right: 12.0),
+              child: Icon(Icons.add, size: 24,),
+            )
+          )
         ],
       ),
       body: Consumer<BudgetViewModel>(
