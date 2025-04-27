@@ -17,13 +17,16 @@ class _EventsState extends State<Events> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Events'),
-        leading: CustomBackNavbar(),
+        leading: const CustomBackNavbar(),
         actions: [
           GestureDetector(
-            onTap: (){
-              context.push(FinalRoutes.createEventPath);
-            },
-            child: Icon(Icons.add, size: 44,)
+              onTap: (){
+                context.push(FinalRoutes.createUpdateBudgetPath);
+              },
+              child: const Padding(
+                padding: EdgeInsets.only(right: 12.0),
+                child: Icon(Icons.add, size: 24,),
+              )
           )
         ],
       ),

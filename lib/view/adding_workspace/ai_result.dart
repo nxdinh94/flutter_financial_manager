@@ -45,9 +45,8 @@ class _AiResultState extends State<AiResult> {
         return LoadingOverlay(
           isLoading: value.loading,
           child: Scaffold(
-            backgroundColor: primaryColor,
             appBar: AppBar(
-              title: const Text('Result'),
+              title: const Text("AI prediction result"),
               leading: const CustomBackNavbar(),
               actions: [
                 SvgContainer(

@@ -24,6 +24,9 @@ class Assets{
   static const String svgUpdate = 'assets/svg/history.svg';
   static const String svgImage = 'assets/svg/image.svg';
   static const String svgRefresh = 'assets/svg/refresh.svg';
+  static const String svgSettingsWithUpArrow = 'assets/svg/settings-with-up-arrow.svg';
+  static const String svgMathematical = 'assets/svg/mathematical.svg';
+  static const String svgBoxWithUpArrow = 'assets/svg/open-box-with-up-arrow.svg';
 
 }
 

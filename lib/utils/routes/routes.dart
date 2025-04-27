@@ -8,6 +8,7 @@ import 'package:fe_financial_manager/view/account_tab/events_of_transactions/eve
 import 'package:fe_financial_manager/view/adding_workspace/add_note.dart';
 import 'package:fe_financial_manager/view/adding_workspace/ai_result.dart';
 import 'package:fe_financial_manager/view/categories_of_transaction/edit_categories.dart';
+import 'package:fe_financial_manager/view/categories_of_transaction/pick_icon_path_category.dart';
 import 'package:fe_financial_manager/view/categories_of_transaction/select_category.dart';
 import 'package:fe_financial_manager/view/adding_workspace/select_wallets.dart';
 import 'package:fe_financial_manager/view/auth/change_password.dart';
@@ -315,74 +316,94 @@ class CustomNavigationHelper {
                   ),
                 ])
             ]),
-          StatefulShellBranch(navigatorKey: accountTabNavigatorKey, routes: [
-            GoRoute(
-                path: RoutesName.accountPath,
-                pageBuilder: (context, GoRouterState state) {
-                  return getPage(child: Account(), state: state);
-                },
-                routes: [
-                  GoRoute(
-                      path: RoutesName.accountSettingsPath,
-                      pageBuilder: (context, GoRouterState state) {
-                        return getPage(child: AccountSetting(), state: state);
-                      }),
-                  GoRoute(
-                    path: RoutesName.allCategoryPath,
-                    pageBuilder: (context, GoRouterState state) {
-                      Map<String, dynamic> data =
-                          state.extra as Map<String, dynamic>;
-                      Future<void> Function(PickedIconModel) onTap =
-                          data['onTap'];
-                      return getPage(
-                        child: SelectCategory(
-                          onItemTap: onTap,
-                        ),
-                        state: state
-                      );
-                    },
-                  ),
-                  GoRoute(
-                    path: RoutesName.eventPath,
-                    pageBuilder: (context, GoRouterState state) {
-                      return getPage(child: const Events(), state: state);
-                    },
-                  ),
-                  GoRoute(
-                    path: RoutesName.createEventPath,
-                    pageBuilder: (context, GoRouterState state) {
-                      return getPage(child: const CreateEvents(), state: state);
-                    },
-                  ),
-                  GoRoute(
-                      path: RoutesName.editCategoryPath,
+          StatefulShellBranch(
+            navigatorKey: accountTabNavigatorKey,
+            routes: [
+              GoRoute(
+                  path: RoutesName.accountPath,
+                  pageBuilder: (context, GoRouterState state) {
+                    return getPage(child: Account(), state: state);
+                  },
+                  routes: [
+                    GoRoute(
+                        path: RoutesName.accountSettingsPath,
+                        pageBuilder: (context, GoRouterState state) {
+                          return getPage(child: AccountSetting(), state: state);
+                        }),
+                    GoRoute(
+                      path: RoutesName.allCategoryPath,
                       pageBuilder: (context, GoRouterState state) {
                         Map<String, dynamic> data =
                             state.extra as Map<String, dynamic>;
-                        PickedIconModel pickedCategory = data['pickedCategory'];
+                        Future<void> Function(PickedIconModel) onTap =
+                            data['onTap'];
                         return getPage(
-                            child: EditCategories(
-                              pickedCategory: pickedCategory,
-                            ),
-                            state: state);
+                          child: SelectCategory(
+                            onItemTap: onTap,
+                          ),
+                          state: state
+                        );
                       },
-                      routes: [
-                        GoRoute(
-                          path: RoutesName.selectParentCategoriesPath,
-                          pageBuilder: (context, GoRouterState state) {
-                            return getPage(
-                                child: const SelectParentCategories(),
-                                state: state);
-                          },
-                        ),
-                      ]),
-                ]),
-            GoRoute(
-              path: RoutesName.addNewCategoryPath,
-              pageBuilder: (context, GoRouterState state) {
-                return getPage(child: CreateCategory(), state: state);
-              },
-            ),
+                    ),
+                    GoRoute(
+                      path: RoutesName.eventPath,
+                      pageBuilder: (context, GoRouterState state) {
+                        return getPage(child: const Events(), state: state);
+                      },
+                    ),
+                    GoRoute(
+                      path: RoutesName.createEventPath,
+                      pageBuilder: (context, GoRouterState state) {
+                        return getPage(child: const CreateEvents(), state: state);
+                      },
+                    ),
+                    GoRoute(
+                        path: RoutesName.editCategoryPath,
+                        pageBuilder: (context, GoRouterState state) {
+                          Map<String, dynamic> data =
+                              state.extra as Map<String, dynamic>;
+                          PickedIconModel pickedCategory = data['pickedCategory'];
+                          return getPage(
+                              child: EditCategories(
+                                pickedCategory: pickedCategory,
+                              ),
+                              state: state);
+                        },
+                        routes: [
+                          GoRoute(
+                            path: RoutesName.selectParentCategoriesPath,
+                            pageBuilder: (context, GoRouterState state) {
+                              Map<String, dynamic> data =
+                                  state.extra as Map<String, dynamic>;
+                              return getPage(
+                                child: SelectParentCategories(
+                                  onTap: data['onTap'],
+                                  selectedTransactionTypeId: data['selectedTransactionTypeId'],
+                                ),
+                                state: state
+                              );
+                            },
+                          ),
+                          GoRoute(
+                            path: RoutesName.pickIconPathForCategoryPath,
+                            pageBuilder: (context, GoRouterState state) {
+
+                              return getPage(
+                                child: PickIconPathCategory(),
+                                state: state
+                              );
+                            },
+                          ),
+
+                        ]),
+                  ]
+              ),
+              GoRoute(
+                path: RoutesName.addNewCategoryPath,
+                pageBuilder: (context, GoRouterState state) {
+                  return getPage(child: CreateCategory(), state: state);
+                },
+              ),
           ])
         ],
         pageBuilder: (BuildContext context, GoRouterState state,

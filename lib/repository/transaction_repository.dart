@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:fe_financial_manager/constants/app_url.dart';
 import 'package:fe_financial_manager/data/network/BaseApiServices.dart';
 import 'package:fe_financial_manager/data/network/NetworkApiService.dart';
-import 'package:fe_financial_manager/model/ParamsGetTransactionInRangeTime.dart';
+import 'package:fe_financial_manager/model/params_get_transaction_in_range_time.dart';
 import 'package:http/http.dart' as http;
 class TransactionRepository{
   final BaseApiServices _baseApiServices = NetworkApiService();

@@ -50,7 +50,7 @@ class _SelectCategoryState extends State<SelectCategory> with TickerProviderStat
       key: const ValueKey('selectCategory'),
       appBar: AppBar(
         title: Text(isFromAccountScreen ? 'Edit Category' : 'Select Category'),
-        leading: CustomBackNavbar(),
+        leading: const CustomBackNavbar(),
       ),
       body: Column(
         mainAxisSize: MainAxisSize.min,

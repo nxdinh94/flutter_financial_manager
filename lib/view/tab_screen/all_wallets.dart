@@ -2,7 +2,7 @@ import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/data/response/api_response.dart';
 import 'package:fe_financial_manager/data/response/status.dart';
 import 'package:fe_financial_manager/generated/paths.dart';
-import 'package:fe_financial_manager/model/ParamsGetTransactionInRangeTime.dart';
+import 'package:fe_financial_manager/model/params_get_transaction_in_range_time.dart';
 import 'package:fe_financial_manager/model/transactions_history_model.dart';
 import 'package:fe_financial_manager/model/wallet_model.dart';
 import 'package:fe_financial_manager/view/common_widget/adding_circle.dart';

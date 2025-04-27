@@ -1,5 +1,7 @@
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
+import 'package:fe_financial_manager/generated/assets.dart';
+import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -25,6 +27,7 @@ class MyListTitle extends StatefulWidget {
     this.trailing,
     this.isShowAnimate = true,
     this.minConstraintSize = 35,
+    this.trailingCallback
   });
   final String title;
   final Widget ? subTitle;
@@ -41,6 +44,7 @@ class MyListTitle extends StatefulWidget {
   final Widget ? trailing;
   final bool isShowAnimate;
   final double minConstraintSize;
+  final VoidCallback ? trailingCallback;
   @override
   State<MyListTitle> createState() => _MyListTitleState();
 }
@@ -86,10 +90,10 @@ class _MyListTitleState extends State<MyListTitle> {
           child: Animate(
             effects: widget.isShowAnimate? const [MoveEffect(begin: Offset(20, 0)), FadeEffect()] : [],
             delay: const Duration(milliseconds: 100),
-            child: widget.trailing ?? const Icon(
+            child:  widget.trailing ?? (widget.trailingCallback == null ? const Icon(
               Icons.arrow_forward_ios,
               size: 15,
-            ),
+            ) : SvgContainer(iconWidth: 16, iconPath: Assets.svgDelete, callback: widget.trailingCallback,)),
           )
         ),
         visualDensity: VisualDensity(

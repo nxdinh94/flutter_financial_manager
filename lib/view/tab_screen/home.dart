@@ -1,5 +1,5 @@
 // ignore_for_file: library_private_types_in_public_api, prefer_const_constructor
-import 'package:fe_financial_manager/model/ParamsGetTransactionInRangeTime.dart';
+import 'package:fe_financial_manager/model/params_get_transaction_in_range_time.dart';
 import 'package:fe_financial_manager/utils/common_range_time.dart';
 import 'package:fe_financial_manager/view/home_tab/widgets/chart_section.dart';
 import 'package:fe_financial_manager/view/home_tab/widgets/header.dart';

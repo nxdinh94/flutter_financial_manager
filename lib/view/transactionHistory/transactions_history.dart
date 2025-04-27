@@ -2,7 +2,7 @@ import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/generated/paths.dart';
-import 'package:fe_financial_manager/model/ParamsGetTransactionInRangeTime.dart';
+import 'package:fe_financial_manager/model/params_get_transaction_in_range_time.dart';
 import 'package:fe_financial_manager/model/transactions_history_model.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
 import 'package:fe_financial_manager/view/common_widget/empty_value_screen.dart';
@@ -146,7 +146,7 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
                           child: CreditInformation(
                             currentAccountBalance: data['current_account_balance'] ?? '0',
                             moneyAccountCreditLimit: data['money_account_credit_limit'] ?? '0',
-                            availableAccountBalance:data['availableAccountBalance'] ?? '0',
+                            availableAccountBalance:data['available_account_balance'] ?? '0',
                           ),
                         )
                       ],

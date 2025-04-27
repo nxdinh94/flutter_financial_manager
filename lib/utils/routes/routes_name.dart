@@ -42,6 +42,7 @@ class RoutesName {
   static const String allCategoryPath = 'pickCategory';
   static const String eventPath = 'event';
   static const String createEventPath = 'createEvent';
+  static const String pickIconPathForCategoryPath = 'pickIconPathForCategory';
 
   //Budgets
   static const String createUpdateBudgetPath = 'createUpdateBudget';

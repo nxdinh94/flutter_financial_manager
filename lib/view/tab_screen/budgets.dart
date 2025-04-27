@@ -3,7 +3,6 @@ import 'package:fe_financial_manager/data/response/status.dart';
 import 'package:fe_financial_manager/generated/assets.dart';
 import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/view/budgets/widgets/no_running_budget.dart';
-import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:fe_financial_manager/view_model/budget_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:fe_financial_manager/data/response/api_response.dart';
 import 'package:fe_financial_manager/generated/paths.dart';
-import 'package:fe_financial_manager/model/ParamsGetTransactionInRangeTime.dart';
+import 'package:fe_financial_manager/model/params_get_transaction_in_range_time.dart';
 import 'package:fe_financial_manager/model/info_extracted_from_ai_model.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/model/transaction_categories_icon_model.dart';

@@ -15,7 +15,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../utils/common_range_time.dart';
-import '../../../model/ParamsGetTransactionInRangeTime.dart';
+import '../../../model/params_get_transaction_in_range_time.dart';
 class ChartSection extends StatefulWidget {
   const ChartSection({
     super.key,
