@@ -64,10 +64,10 @@ class AuthViewModel with ChangeNotifier {
     });
   }
   Future<void> logoutApi (dynamic refreshToken, BuildContext context)async{
-    setLoading(false);
+    setLoading(true);
     AuthManager.logout();
     _myRepo.logOutApi(refreshToken).then((value){
-      setLoading(true);
+      setLoading(false);
       context.pushReplacement(FinalRoutes.homeAuthPath);
 
       Utils.toastMessage('Logout Successfully');
@@ -77,10 +77,11 @@ class AuthViewModel with ChangeNotifier {
     });
   }
   Future<void> changePasswordApi (Map<String, String> data, BuildContext context)async{
-    setLoading(false);
+    setLoading(true);
     _myRepo.changePasswordApi(data).then((value){
-      setLoading(true);
       Utils.toastMessage(value.toString());
+      context.pop();
+      setLoading(false);
     }).onError((error, stackTrace){
       Utils.flushBarErrorMessage('Old password is not correct', context);
       print(error);
