@@ -71,7 +71,11 @@ class _CategoriesIconParentState extends State<CategoriesIconParent> {
         ),
         children: childrenIcon.isNotEmpty ? childrenIcon.map((v){
           CategoriesIconModel categoryIconChildren = v;
-          return CategoriesIconChildren(categoryChildren: categoryIconChildren, onItemTap: widget.onTap,);
+          return CategoriesIconChildren(
+            categoryChildren: categoryIconChildren,
+            onItemTap: widget.onTap,
+            pickedCategoryId: widget.pickedCategoryId,
+          );
         }).toList() : [],
       ),
     );
