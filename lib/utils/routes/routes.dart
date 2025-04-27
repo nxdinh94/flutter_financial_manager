@@ -277,24 +277,31 @@ class CustomNavigationHelper {
                 },
                 routes: [
                   GoRoute(
-                      path: RoutesName.createUpdateBudgetPath,
-                      pageBuilder: (context, GoRouterState state) {
+                    path: RoutesName.createUpdateBudgetPath,
+                    pageBuilder: (context, GoRouterState state) {
+                      if(state.extra == null){
                         return getPage(
-                          child: const CreateUpdateBudget(),
-                          state: state
+                            child: const CreateUpdateBudget(),
+                            state: state
                         );
-                      },
+                      }else {
+                        Map<String, dynamic> data = state.extra as Map<String, dynamic> ;
+                        return getPage(
+                            child: CreateUpdateBudget(budgets: data,),
+                            state: state
+                        );
+                      }
+                    },
                   ),
                   GoRoute(
-                      path: RoutesName.budgetDetailPath,
-                      pageBuilder: (context, GoRouterState state) {
-                        Map<String, dynamic> data =
-                            state.extra as Map<String, dynamic>;
-                        return getPage(
-                            child: BudgetDetails(
-                                dataToPassSpendingLimitItemWidget: data),
-                            state: state);
-                      },
+                    path: RoutesName.budgetDetailPath,
+                    pageBuilder: (context, GoRouterState state) {
+                      Map<String, dynamic> data = state.extra as Map<String, dynamic>;
+                      return getPage(
+                        child: BudgetDetails(data: data),
+                        state: state
+                      );
+                    },
                   ),
                 ])
             ]),

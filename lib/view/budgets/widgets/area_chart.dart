@@ -12,6 +12,11 @@ class MyAreaChart extends StatefulWidget {
 
 class _MyAreaChartState extends State<MyAreaChart> {
   @override
+  void initState() {
+
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
 
     final List<Color> color = <Color>[];

@@ -33,7 +33,7 @@ class TransactionHistoryModel {
 }
 class TransactionTypeCategory {
   final String id;
-  final String parentId;
+  final dynamic  parentId;
   final String icon;
   final String name;
   final String transactionType;

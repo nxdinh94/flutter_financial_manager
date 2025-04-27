@@ -2,7 +2,7 @@ import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/model/ParamsGetTransactionInRangeTime.dart';
 import 'package:fe_financial_manager/utils/date_time.dart';
-import 'package:fe_financial_manager/utils/range_time_chart_home_page.dart';
+import 'package:fe_financial_manager/utils/common_range_time.dart';
 import 'package:fe_financial_manager/view/common_widget/my_list_title.dart';
 import 'package:fe_financial_manager/view/common_widget/tab_bar_elements.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';

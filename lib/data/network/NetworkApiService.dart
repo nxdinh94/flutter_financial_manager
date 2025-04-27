@@ -108,7 +108,7 @@ class NetworkApiService extends BaseApiServices {
       if(response.statusCode == 403){
         error = decodedResponse['message'];
       }else {
-        error = decodedResponse['errorInfo'][0]['message'];
+        error = decodedResponse['errorInfo'].toString();
       }
     }
 

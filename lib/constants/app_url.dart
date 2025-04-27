@@ -2,7 +2,7 @@
 
 class AppUrl {
   // static const baseUrl = 'http://10.60.129.161:3222/api';
-  static const baseUrl = 'http://192.168.2.11:3222/api';
+  static const baseUrl = 'http://192.168.2.2:3222/api';
 
   static const loginEndPint = baseUrl + '/auth/login';
 
@@ -20,6 +20,7 @@ class AppUrl {
 
   static const externalBank = 'https://api.vietqr.io/v2/banks';
 
+  static const budget = baseUrl + '/budgets/budget';
 
 
 }

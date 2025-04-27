@@ -1,12 +1,11 @@
-import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/data_sample.dart';
-import 'package:fe_financial_manager/constants/padding.dart';
+import 'package:fe_financial_manager/data/response/status.dart';
 import 'package:fe_financial_manager/generated/paths.dart';
-import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/view/budgets/widgets/no_running_budget.dart';
-import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
+import 'package:fe_financial_manager/view_model/budget_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import '../budgets/widgets/budget_items.dart';
 class Budgets extends StatefulWidget {
@@ -16,7 +15,6 @@ class Budgets extends StatefulWidget {
 }
 
 class _BudgetsState extends State<Budgets> {
-  bool isHaveBudget = true;
 
   @override
   Widget build(BuildContext context) {
@@ -29,22 +27,40 @@ class _BudgetsState extends State<Budgets> {
           }, child: Text('Add'))
         ],
       ),
-      body: isHaveBudget?  SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 12,),
-            ...budgetList.map((value){
-            return BudgetItems(
-              itemSpendingLimit: value,
-              callback: ()async{
-                context.push(FinalRoutes.budgetDetailPath, extra: value);
-              },
-              paddingBottom: 6,
-            );
-          })
-          ]
-        ),
-      ) : NoRunningBudget()
+      body: Consumer<BudgetViewModel>(
+        builder: (context, value, child) {
+          List<dynamic> budgetList = value.allBudgetsData.data ?? [];
+          switch(value.allBudgetsData.status){
+            case Status.LOADING:
+              return const Center(child: CircularProgressIndicator());
+            case Status.ERROR:
+              return const Center(child: Text('Something went wrong'));
+            case Status.COMPLETED:
+              if(value.allBudgetsData.data!.isEmpty){
+                return const NoRunningBudget();
+              }else{
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 12,),
+                      ...budgetList.map((value){
+                        return BudgetItems(
+                          data: value,
+                          callback: ()async{
+                            context.push(FinalRoutes.budgetDetailPath, extra: value);
+                          },
+                          paddingBottom: 6,
+                        );
+                      })
+                    ]
+                  ),
+                );
+              }
+            default:
+              return const Center(child: Text('Something went wrong'));
+          }
+        },
+      )
     );
   }
 }

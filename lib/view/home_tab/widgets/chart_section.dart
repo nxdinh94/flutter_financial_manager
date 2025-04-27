@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../../utils/range_time_chart_home_page.dart';
+import '../../../utils/common_range_time.dart';
 import '../../../model/ParamsGetTransactionInRangeTime.dart';
 class ChartSection extends StatefulWidget {
   const ChartSection({

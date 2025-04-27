@@ -27,6 +27,10 @@ class WalletViewModel extends ChangeNotifier{
   ApiResponse _singleWalletData = ApiResponse.loading();
   ApiResponse get singleWalletData => _singleWalletData;
 
+  // List of id of wallet
+  List<String> _listOfIdOfWallet = [];
+  List<String> get listOfIdOfWallet => _listOfIdOfWallet;
+
   bool _loading = false;
   bool get loading => _loading;
 
@@ -51,6 +55,18 @@ class WalletViewModel extends ChangeNotifier{
   void setExternalBankData(ApiResponse<List<ExternalBankModel>> value) {
     _externalBankData = value;
     notifyListeners();
+  }
+  void setListOfIdOfExpenseCategory(List<String> value) {
+    _listOfIdOfWallet = value;
+    notifyListeners();
+  }
+  void getListOfIdOfWallet(List<WalletModel> data) {
+    List<String> listId = [];
+    for (WalletModel i in data) {
+      listId.add(i.id);
+    }
+    setListOfIdOfExpenseCategory(listId);
+
   }
   Future<void> getIconsWalletType() async {
     setLoading(true);
@@ -88,6 +104,7 @@ class WalletViewModel extends ChangeNotifier{
       List<dynamic> walletDataJson = value;
       List<WalletModel> transformedData = walletDataJson.map((e)=> WalletModel.fromJson(e)).toList();
       setWalletData(ApiResponse.completed(transformedData));
+      getListOfIdOfWallet(transformedData);
       setLoading(true);
     }).onError((error, stackTrace) {
       setLoading(false);

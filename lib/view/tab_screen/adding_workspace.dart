@@ -9,7 +9,7 @@ import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/model/transactions_history_model.dart';
 import 'package:fe_financial_manager/utils/date_time.dart';
 import 'package:fe_financial_manager/utils/format_number.dart';
-import 'package:fe_financial_manager/utils/get_initial_wallet.dart';
+import 'package:fe_financial_manager/utils/get_initial_data.dart';
 import 'package:fe_financial_manager/utils/utils.dart';
 import 'package:fe_financial_manager/view/adding_workspace/widgets/date_option_bottom_sheets.dart';
 import 'package:fe_financial_manager/view/adding_workspace/widgets/expanded_area.dart';

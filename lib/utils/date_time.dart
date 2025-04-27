@@ -24,6 +24,11 @@ class DateTimeHelper {
       return date; // Trả lại như cũ nếu lỗi
     }
   }
+  static String getTheFirstDayOfMonth() {
+    DateTime now = DateTime.now();
+    String date = '${now.year}-0${now.month}-01';
+    return date;
+  }
 
   static Future<String> showDatePicker(BuildContext context) async {
     DateTime ? newDateTime = await showRoundedDatePicker(

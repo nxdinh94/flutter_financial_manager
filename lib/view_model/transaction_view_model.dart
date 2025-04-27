@@ -17,7 +17,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../model/transactions_history_model.dart';
-import '../utils/get_initial_wallet.dart';
+import '../utils/get_initial_data.dart';
 class TransactionViewModel  extends ChangeNotifier{
 
   final TransactionRepository _transactionRepository = TransactionRepository();

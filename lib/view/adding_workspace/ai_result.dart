@@ -5,7 +5,7 @@ import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/generated/assets.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/utils/date_time.dart';
-import 'package:fe_financial_manager/utils/get_initial_wallet.dart';
+import 'package:fe_financial_manager/utils/get_initial_data.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
 import 'package:fe_financial_manager/view/common_widget/loading_animation.dart';
 import 'package:fe_financial_manager/view/common_widget/money_vnd.dart';
