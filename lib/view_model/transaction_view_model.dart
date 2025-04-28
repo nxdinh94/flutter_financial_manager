@@ -103,6 +103,8 @@ class TransactionViewModel  extends ChangeNotifier{
       setLoading(false);
       func();
       await context.read<WalletViewModel>().getAllWallet();
+      ParamsGetTransactionInRangeTime params = context.read<TransactionViewModel>().paramsGetTransactionChartInRangeTime;
+      await context.read<TransactionViewModel>().getTransactionInRangeTime(params);
       Utils.toastMessage('Your transaction has been recorded');
     }).onError((error, stackTrace){
       Utils.flushBarErrorMessage(error.toString(), context);

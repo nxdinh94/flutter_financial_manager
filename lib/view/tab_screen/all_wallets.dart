@@ -77,8 +77,12 @@ class _AllWalletsState extends State<AllWallets> {
 
             const SizedBox(height: 20),
             MyListTitle(
-              callback: (){
-                context.push(FinalRoutes.addWalletsPath);
+              callback: ()async{
+                dynamic result = await  context.push(FinalRoutes.addWalletsPath);
+                if (!context.mounted) return;
+                if(result){
+                  await context.read<WalletViewModel>().getAllWallet();
+                }
               },
               title: 'Add wallet',
               titleTextStyle:

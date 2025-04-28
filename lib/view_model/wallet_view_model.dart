@@ -88,7 +88,7 @@ class WalletViewModel extends ChangeNotifier{
     setLoading(false);
     await _walletRepository.createWalletApi(data).then((value){
       Utils.toastMessage(value['message']);
-      context.pop();
+      context.pop(true);
       setLoading(true);
     }).onError((error, stackTrace) {
       setLoading(false);

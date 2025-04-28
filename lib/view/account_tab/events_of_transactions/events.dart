@@ -20,7 +20,7 @@ class _EventsState extends State<Events> {
         actions: [
           GestureDetector(
               onTap: (){
-                context.push(FinalRoutes.createUpdateBudgetPath);
+                context.push(FinalRoutes.createEventPath);
               },
               child: const Padding(
                 padding: EdgeInsets.only(right: 12.0),

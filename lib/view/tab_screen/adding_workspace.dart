@@ -99,7 +99,6 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
       dataToSubmit['id'] = widget.transactionToUpdate!.id;
       await context.read<TransactionViewModel>().updateTransaction(dataToSubmit ,context);
     }else {
-      print('dataToSubmit: $dataToSubmit');
       await context.read<TransactionViewModel>().addTransaction(dataToSubmit, resetDataAfterSaveTransaction ,context);
     }
 
