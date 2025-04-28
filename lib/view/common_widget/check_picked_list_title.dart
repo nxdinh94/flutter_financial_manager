@@ -1,3 +1,4 @@
+import 'package:fe_financial_manager/model/wallet_model.dart';
 import 'package:flutter/material.dart';
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/generated/assets.dart';
@@ -5,6 +6,8 @@ import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/view/common_widget/check_icon.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+
+import '../../model/transaction_categories_icon_model.dart';
 
 class CheckPickedListTile<T> extends StatefulWidget {
   const CheckPickedListTile({
@@ -36,6 +39,11 @@ class CheckPickedListTile<T> extends StatefulWidget {
 class _CheckPickedListTileState extends State<CheckPickedListTile> {
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
@@ -59,17 +67,29 @@ class _CheckPickedListTileState extends State<CheckPickedListTile> {
         ),
         visualDensity: const VisualDensity(horizontal: -4),
         contentPadding: EdgeInsets.only(right: 28, left: widget.contentLeftPadding),
-        subtitle: Animate(
+        subtitle: widget.subtitle != null ? Animate(
           effects: widget.isShowAnimate? const [MoveEffect(begin: Offset(-20, 0)), FadeEffect()]:[],
           delay: const Duration(milliseconds: 100),
-          child: widget.subtitle ?? const SizedBox.shrink(),
-        ),
+          child: widget.subtitle!,
+        ) : null,
         onTap: ()async {
           PickedIconModel pickedIcon = PickedIconModel(
-            id: widget.iconData.id,
-            icon: widget.iconData.icon,
-            name: widget.iconData.name,
+            id: '', icon: '', name: '', userId: '',
           );
+          if(widget.iconData is WalletModel){
+            pickedIcon = PickedIconModel(
+              id: widget.iconData.id,
+              icon: widget.iconData.icon,
+              name: widget.iconData.name,
+            );
+          }else if(widget.iconData is CategoriesIconModel){
+            pickedIcon = PickedIconModel(
+              id: widget.iconData.id,
+              icon: widget.iconData.icon,
+              name: widget.iconData.name,
+              userId: widget.iconData.userId,
+            );
+          }
           //return value
           await widget.onTap(pickedIcon);
         },

@@ -4,16 +4,16 @@ import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:flutter/material.dart';
 
 class AddingCircle extends StatelessWidget {
-  AddingCircle({
+  const AddingCircle({
     super.key,
     this.iconWidth = 18,
     this.iconColor = white,
     this.containerSize = 24,
   });
 
-  double iconWidth;
-  Color iconColor;
-  double containerSize;
+  final double iconWidth;
+  final Color iconColor;
+  final double containerSize;
 
   @override
   Widget build(BuildContext context) {

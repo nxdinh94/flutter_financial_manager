@@ -2,6 +2,7 @@ import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/data/response/api_response.dart';
 import 'package:fe_financial_manager/data/response/status.dart';
 import 'package:fe_financial_manager/generated/paths.dart';
+import 'package:fe_financial_manager/model/params_get_transaction_in_range_time.dart';
 import 'package:fe_financial_manager/model/wallet_model.dart';
 import 'package:fe_financial_manager/view/common_widget/adding_circle.dart';
 import 'package:fe_financial_manager/view/common_widget/divider.dart';
@@ -9,6 +10,7 @@ import 'package:fe_financial_manager/view/common_widget/my_list_title.dart';
 import 'package:fe_financial_manager/view/wallets_tab/widgets/all_wallet_consumer.dart';
 import 'package:fe_financial_manager/view/wallets_tab/widgets/option_bottom_sheets.dart';
 import 'package:fe_financial_manager/view/wallets_tab/widgets/total_balance_wallets.dart';
+import 'package:fe_financial_manager/view_model/transaction_view_model.dart';
 import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -62,7 +64,11 @@ class _AllWalletsState extends State<AllWallets> {
             // List all wallet
             AllWalletConsumer(
               onItemTap: (PickedIconModel value )async {
-
+                ParamsGetTransactionInRangeTime params = ParamsGetTransactionInRangeTime(
+                  moneyAccountId: value.id, from: '', to: '',
+                );
+                await context.read<TransactionViewModel>().getTransactionInRangeTime(params);
+                context.push(FinalRoutes.transactionHistoryDetailByWalletPath, extra: value.id);
               },
               trailingCallbackForCheckPickedListTile: (PickedIconModel value){
                 showOptionBottomSheet(context, value);
@@ -71,8 +77,12 @@ class _AllWalletsState extends State<AllWallets> {
 
             const SizedBox(height: 20),
             MyListTitle(
-              callback: (){
-                context.push(FinalRoutes.addWalletsPath);
+              callback: ()async{
+                dynamic result = await  context.push(FinalRoutes.addWalletsPath);
+                if (!context.mounted) return;
+                if(result){
+                  await context.read<WalletViewModel>().getAllWallet();
+                }
               },
               title: 'Add wallet',
               titleTextStyle:

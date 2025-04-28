@@ -5,11 +5,13 @@ import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 class FinalRoutes {
   static const String allWalletsPath = '${RoutesName.homePath}/${RoutesName.allWalletsPath}';
   static const String addingWorkSpacePath = RoutesName.addingWorkSpacePath;
+  static const String aiResultPath = '${RoutesName.addingWorkSpacePath}/${RoutesName.aiResultPath}';
   static const String addWalletsPath = RoutesName.addWalletsPath;
   static const String accountSettingsPath = '${RoutesName.accountPath}/${RoutesName.accountSettingsPath}';
   static const String allCategoryPath = '${RoutesName.accountPath}/${RoutesName.allCategoryPath}';
   static const String homePath = RoutesName.homePath;
   static const String transactionHistoryDetailPath = '${RoutesName.homePath}/${RoutesName.transactionHistoryDetailPath}';
+  static const String transactionHistoryDetailByWalletPath = '${RoutesName.walletPath}/${RoutesName.transactionHistoryDetailPath}';
   static const String walletPath = RoutesName.walletPath;
   static const String chooseRangeTimeToShowTransactionPath = '${RoutesName.walletPath}/${RoutesName.chooseRangeTimeToShowTransactionPath}';
 
@@ -30,6 +32,7 @@ class FinalRoutes {
   static const String budgetDetailPath = '${RoutesName.budgetsPath}/${RoutesName.budgetDetailPath}';
   static const String homeAuthPath = RoutesName.homeAuthPath;
   static const String selectParentCategories = '$editCategoryPath/${RoutesName.selectParentCategoriesPath}';
+  static const String pickIconPathForCategoryPath = '$editCategoryPath/${RoutesName.pickIconPathForCategoryPath}';
   static const String summaryDetailPath = '${RoutesName.homePath}/${RoutesName.summaryDetailPath}';
   static const String groupTransactionDetailPath = '${RoutesName.homePath}/${RoutesName.summaryDetailPath}/${RoutesName.groupTransactionDetailPath}';
   static const String something = '';

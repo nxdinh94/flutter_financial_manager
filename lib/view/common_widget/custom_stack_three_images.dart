@@ -12,7 +12,7 @@ class StackThreeCircleImages extends StatelessWidget {
       border: Border.all(width: 3, color: primaryColor),
       borderRadius: const BorderRadius.all(Radius.circular(30)),
     );
-    return Container(
+    return SizedBox(
       width: 70,
       child: Stack(
         children: [
@@ -20,7 +20,7 @@ class StackThreeCircleImages extends StatelessWidget {
             left: 29,
             bottom: 3,
             child: CircleAvatar(
-              radius: 20,
+              radius: 15,
               child: ClipOval(
                 child: Image.asset(
                   imageOne,width: 100,height: 100,fit: BoxFit.cover
@@ -33,7 +33,7 @@ class StackThreeCircleImages extends StatelessWidget {
             child: Container(
               decoration: myBoxdecoration,
               child: CircleAvatar(
-                radius: 20,
+                radius: 15,
                 child: ClipOval(
                   child: Image.asset(imageTwo,width: 100, height: 100,fit: BoxFit.cover),
                 ),
@@ -43,7 +43,7 @@ class StackThreeCircleImages extends StatelessWidget {
           Container(
             decoration: myBoxdecoration,
             child: CircleAvatar(
-              radius: 20,
+              radius: 15,
               child: ClipOval(
                 child: Image.asset(
                   imageThree,

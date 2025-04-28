@@ -23,7 +23,7 @@ class AccountBanner extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(100.0),
-            child: Image.asset('assets/sampleImage/girl3.jpg', width: 80,),
+            child: Image.asset('assets/another_icon/avt-fb.jpg', width: 80,),
           ),
           const SizedBox(height: 12),
           Text(user.name, style: Theme.of(context).textTheme.titleMedium,),

@@ -2,9 +2,8 @@ import 'package:fe_financial_manager/generated/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 class PasswordTextFormField extends StatefulWidget {
-  PasswordTextFormField({
+  const PasswordTextFormField({
     super.key, required this.isSecurePass,
     required this.passwordController,
     this.callback,
@@ -18,8 +17,8 @@ class PasswordTextFormField extends StatefulWidget {
   final TextEditingController passwordController;
   final VoidCallback? callback;
   final String hintText;
-  bool hiddenIcon;
-  bool clearAll;
+  final bool hiddenIcon;
+  final bool clearAll;
 
   @override
   State<PasswordTextFormField> createState() => _PasswordTextFormFieldState();

@@ -1,10 +1,12 @@
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
+import 'package:fe_financial_manager/generated/assets.dart';
+import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 class MyListTitle extends StatefulWidget {
-  MyListTitle({
+  const MyListTitle({
     super.key,
     required this.title,
     this.subTitle,
@@ -25,22 +27,24 @@ class MyListTitle extends StatefulWidget {
     this.trailing,
     this.isShowAnimate = true,
     this.minConstraintSize = 35,
+    this.trailingCallback
   });
   final String title;
-  Widget ? subTitle;
-  Widget ? leading;
+  final Widget ? subTitle;
+  final Widget ? leading;
   final VoidCallback callback;
-  TextStyle titleTextStyle;
-  double verticalContentPadding;
-  double leftContentPadding;
-  double rightContentPadding;
-  double horizontalTitleGap;
-  bool hideTrailing;
-  bool hideTopBorder;
-  bool hideBottomBorder;
-  Widget ? trailing;
-  bool isShowAnimate;
-  double minConstraintSize;
+  final TextStyle titleTextStyle;
+  final double verticalContentPadding;
+  final double leftContentPadding;
+  final double rightContentPadding;
+  final double horizontalTitleGap;
+  final bool hideTrailing;
+  final bool hideTopBorder;
+  final bool hideBottomBorder;
+  final Widget ? trailing;
+  final bool isShowAnimate;
+  final double minConstraintSize;
+  final VoidCallback ? trailingCallback;
   @override
   State<MyListTitle> createState() => _MyListTitleState();
 }
@@ -86,10 +90,10 @@ class _MyListTitleState extends State<MyListTitle> {
           child: Animate(
             effects: widget.isShowAnimate? const [MoveEffect(begin: Offset(20, 0)), FadeEffect()] : [],
             delay: const Duration(milliseconds: 100),
-            child: widget.trailing ?? const Icon(
+            child:  widget.trailing ?? (widget.trailingCallback == null ? const Icon(
               Icons.arrow_forward_ios,
               size: 15,
-            ),
+            ) : SvgContainer(iconWidth: 16, iconPath: Assets.svgDelete, callback: widget.trailingCallback,)),
           )
         ),
         visualDensity: VisualDensity(

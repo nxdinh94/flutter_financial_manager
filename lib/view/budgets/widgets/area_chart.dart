@@ -1,5 +1,4 @@
 import 'package:fe_financial_manager/constants/colors.dart';
-import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -11,6 +10,11 @@ class MyAreaChart extends StatefulWidget {
 }
 
 class _MyAreaChartState extends State<MyAreaChart> {
+  @override
+  void initState() {
+
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
 

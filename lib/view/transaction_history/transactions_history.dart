@@ -2,9 +2,10 @@ import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/generated/paths.dart';
-import 'package:fe_financial_manager/model/ParamsGetTransactionInRangeTime.dart';
+import 'package:fe_financial_manager/model/params_get_transaction_in_range_time.dart';
 import 'package:fe_financial_manager/model/transactions_history_model.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
+import 'package:fe_financial_manager/view/common_widget/empty_value_screen.dart';
 import 'package:fe_financial_manager/view/common_widget/money_vnd.dart';
 import 'package:fe_financial_manager/view/common_widget/my_list_title.dart';
 import 'package:fe_financial_manager/view/common_widget/right_arrow_rich_text.dart';
@@ -21,18 +22,21 @@ import '../common_widget/loading_animation.dart';
 
 class TransactionsHistory extends StatefulWidget {
   const TransactionsHistory({
-    super.key, required this.nameOfSelectedRangeTime});
-  final String nameOfSelectedRangeTime;
+    super.key, this.nameOfSelectedRangeTime, this.walletId});
+  final String ? nameOfSelectedRangeTime;
+  final String ? walletId;
   @override
   State<TransactionsHistory> createState() => _TransactionsHistoryState();
 }
 
 class _TransactionsHistoryState extends State<TransactionsHistory> {
-  String selectedTimeToShow = '';
+  String selectedTimeToShow = 'All the time';
 
   @override
   void initState() {
-    selectedTimeToShow = widget.nameOfSelectedRangeTime;
+    if(widget.nameOfSelectedRangeTime != null){
+      selectedTimeToShow =  widget.nameOfSelectedRangeTime!;
+    }
     super.initState();
   }
   @override
@@ -43,7 +47,7 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Transactions History'),
-        leading: CustomBackNavbar(),
+        leading: const CustomBackNavbar(),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -61,7 +65,8 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
                   selectedTimeToShow = result['name'];
                 });
                 await Provider.of<TransactionViewModel>(context, listen: false).getTransactionInRangeTime(
-                  ParamsGetTransactionInRangeTime(from : rangeTime.from , to : rangeTime.to, moneyAccountId : ''));
+                  ParamsGetTransactionInRangeTime(from : rangeTime.from , to : rangeTime.to, moneyAccountId : widget.walletId ??  ''));
+
               },
               child: Container(
                 color: primaryColor,
@@ -77,7 +82,16 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
             const SizedBox(height: 12),
             Consumer<TransactionViewModel>(
               builder: (context, value, child) {
-                switch(value.transactionHistoryData.status){
+                Status? status = Status.LOADING;
+                Map<String, dynamic> data = {};
+                if(widget.nameOfSelectedRangeTime != null){
+                  status = value.transactionHistoryData.status;
+                  data = value.transactionHistoryData.data as Map<String, dynamic>;
+                }else {
+                  status = value.transactionByWalletInRangeTime.status;
+                  data = value.transactionByWalletInRangeTime.data as Map<String, dynamic>;
+                }
+                switch(status){
                   case Status.LOADING:
                     return const Center(
                       child: LoadingAnimation(
@@ -86,40 +100,56 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
                       ),
                     );
                   case Status.COMPLETED:
-                    Map<String, dynamic> data = value.transactionHistoryData.data!;
-
                     String totalIncomeMoney = data['total_all_income'];
                     String totalExpenseMoney = data['total_all_expense'];
-
-                    return Container(
-                      color: primaryColor,
-                      child: IntrinsicHeight(
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Padding(
-                                padding: defaultHalfPadding,
-                                child: TotalRevenueOrSpendingItem(
-                                  title: 'Total revenue',
-                                  amountOfMoney: totalIncomeMoney,
-                                  foreground: secondaryColor,
+                    Map<String, dynamic> records = data['transactions_by_date'] ??{};
+                    if(records.isEmpty){
+                      return const EmptyValueScreen(title: 'You have no transactions yet', isAccountPage: false, iconSize: 60,);
+                    }
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ColoredBox(
+                          color: primaryColor,
+                          child: IntrinsicHeight(
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Padding(
+                                    padding: defaultHalfPadding,
+                                    child: TotalRevenueOrSpendingItem(
+                                      title: 'Total revenue',
+                                      amountOfMoney: totalIncomeMoney,
+                                      foreground: secondaryColor,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            const VerticalDivider(thickness: 1, color: dividerColor),
-                            Expanded(
-                              child: Padding(
-                                padding: defaultHalfPadding,
-                                child: TotalRevenueOrSpendingItem(
-                                  title: 'Total expense',
-                                  amountOfMoney: totalExpenseMoney,
-                                  foreground: emergencyColor,
+                                const VerticalDivider(thickness: 1, color: dividerColor),
+                                Expanded(
+                                  child: Padding(
+                                    padding: defaultHalfPadding,
+                                    child: TotalRevenueOrSpendingItem(
+                                      title: 'Total expense',
+                                      amountOfMoney: totalExpenseMoney,
+                                      foreground: emergencyColor,
+                                    ),
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
+                        const SizedBox(height: 12),
+                        // credit widget
+                        Visibility(
+                          visible: data['money_account_credit_limit'] != null,
+                          child: CreditInformation(
+                            currentAccountBalance: data['current_account_balance'] ?? '0',
+                            moneyAccountCreditLimit: data['money_account_credit_limit'] ?? '0',
+                            availableAccountBalance:data['available_account_balance'] ?? '0',
+                          ),
+                        )
+                      ],
                     );
                   case Status.ERROR:
                     return const Center(
@@ -136,7 +166,16 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
             const SizedBox(height: 12),
             Consumer<TransactionViewModel>(
               builder: (context, value, child) {
-                switch(value.transactionHistoryData.status){
+                Status? status = Status.LOADING;
+                Map<String, dynamic> data = {};
+                if(widget.nameOfSelectedRangeTime != null){
+                  status = value.transactionHistoryData.status;
+                  data = value.transactionHistoryData.data as Map<String, dynamic>;
+                }else {
+                  status = value.transactionByWalletInRangeTime.status;
+                  data = value.transactionByWalletInRangeTime.data as Map<String, dynamic>;
+                }
+                switch(status){
                   case Status.LOADING:
                     return const Center(
                       child: LoadingAnimation(
@@ -145,8 +184,10 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
                       ),
                     );
                   case Status.COMPLETED:
-                    Map<String, dynamic> data = value.transactionHistoryData.data!;
                     Map<String, dynamic> records = data['transactions_by_date'] ??{};
+                    if(records.isEmpty){
+                      return const SizedBox.shrink();
+                    }
                     return BodyOfPage(records: records, dashBorder: dashBorder);
                   case Status.ERROR:
                     return const Center(
@@ -162,6 +203,50 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class CreditInformation extends StatelessWidget {
+  const CreditInformation({
+    super.key, required this.currentAccountBalance, required this.moneyAccountCreditLimit, required this.availableAccountBalance,
+  });
+
+  final String currentAccountBalance;
+  final String moneyAccountCreditLimit;
+  final String availableAccountBalance;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: defaultHalfPadding,
+      color: primaryColor,
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Credit limit', style: Theme.of(context).textTheme.labelLarge,),
+              MoneyVnd(fontSize: normal, amount: double.parse(moneyAccountCreditLimit))
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Available account balance',  style: Theme.of(context).textTheme.labelLarge,),
+              MoneyVnd(fontSize: normal, amount: double.parse(availableAccountBalance))
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Current account balance',  style: Theme.of(context).textTheme.labelLarge,),
+              MoneyVnd(fontSize: normal, amount: double.parse(currentAccountBalance))
+            ]
+          ),
+
+        ],
       ),
     );
   }
@@ -310,21 +395,21 @@ class BodyOfPage extends StatelessWidget {
                                       rightContentPadding: 0,
                                       trailing: Column(
                                         mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment: CrossAxisAlignment.end,
-                                      children: [
-                                        MoneyVnd(
-                                          amount: double.parse(e.amountOfMoney),
-                                          textColor: e.transactionTypeCategory.transactionType == 'Expense' ? emergencyColor : secondaryColor,
-                                          fontSize: normal,
-                                        ),
-                                        const SizedBox(height: 6),
-                                        MoneyVnd(
-                                          amount: double.parse(e.moneyAccount.accountBalance!),
-                                          textColor: colorTextLabel,
-                                          fontSize: normal,
-                                          isWrapTextWithParentheses: true,
-                                        ),
-                                      ],
+                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                        children: [
+                                          MoneyVnd(
+                                            amount: double.parse(e.amountOfMoney),
+                                            textColor: e.transactionTypeCategory.transactionType == 'Expense' ? emergencyColor : secondaryColor,
+                                            fontSize: normal,
+                                          ),
+                                          const SizedBox(height: 6),
+                                          MoneyVnd(
+                                            amount: double.parse(e.moneyAccount.accountBalance!),
+                                            textColor: colorTextLabel,
+                                            fontSize: normal,
+                                            isWrapTextWithParentheses: true,
+                                          ),
+                                        ],
                                     ),
                                   ),
                                 ),

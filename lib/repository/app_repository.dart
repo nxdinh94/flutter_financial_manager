@@ -11,7 +11,29 @@ class AppRepository{
       dynamic response = await _apiServices.getGetApiResponse(AppUrl.getIconCategories, true);
       return CategoriesIconListModel.fromJson(response['data']) ;
     } catch (e) {
-      throw e;
+      rethrow;
+    }
+  }
+  Future<void> createIconCategoriesApi(Map<String, dynamic> data) async {
+    try {
+      await _apiServices.getPostApiResponse(AppUrl.createIconCategories, data);
+    } catch (e) {
+      rethrow;
+    }
+  }
+  Future<void> updateIconCategoriesApi(Map<String, dynamic> data) async {
+    try {
+      await _apiServices.getPatchApiResponse(AppUrl.createIconCategories, data);
+    } catch (e) {
+      rethrow;
+    }
+  }
+  Future<void> deleteIconCategoriesApi(String id) async {
+    try {
+      String api = "${AppUrl.createIconCategories}/$id";
+      await _apiServices.getDeleteApiResponse(api);
+    } catch (e) {
+      rethrow;
     }
   }
 

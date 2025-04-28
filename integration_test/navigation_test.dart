@@ -6,7 +6,7 @@ import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/utils/theme_manager.dart';
 import 'package:fe_financial_manager/view_model/app_view_model.dart';
 import 'package:fe_financial_manager/view_model/auth_view_model.dart';
-import 'package:fe_financial_manager/view_model/home_view_model.dart';
+import 'package:fe_financial_manager/view_model/budget_view_model.dart';
 import 'package:fe_financial_manager/view_model/transaction_view_model.dart';
 import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
@@ -36,10 +36,11 @@ void main() {
           providers: [
             ChangeNotifierProvider(create: (_)=>AuthViewModel()),
             ChangeNotifierProvider(create: (_) => ThemeManager()),
-            ChangeNotifierProvider(create: (_)=> HomeViewViewModel()),
             ChangeNotifierProvider(create: (_)=> AppViewModel()),
             ChangeNotifierProvider(create: (_)=> WalletViewModel()),
             ChangeNotifierProvider(create: (_)=> TransactionViewModel()),
+            ChangeNotifierProvider(create: (_)=> BudgetViewModel()),
+
           ],
           child: MyApp(router: CustomNavigationHelper.router),
         ),
@@ -55,7 +56,7 @@ void main() {
         final loginButton = find.byKey(const ValueKey('loginButton'));
         // Nhập email và password
         await tester.enterText(find.byKey(const ValueKey('emailTextFormField')), 'nguyenxuandinh336@gmail.com');
-        await tester.enterText(find.byKey(const ValueKey('passwordTextFormField')), 'Dinh@123');
+        await tester.enterText(find.byKey(const ValueKey('passwordTextFormField')), 'Dinh@1234');
 
         await tester.tap(loginButton);
         await tester.pumpAndSettle();

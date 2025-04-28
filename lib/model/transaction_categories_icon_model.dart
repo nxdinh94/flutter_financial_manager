@@ -45,7 +45,7 @@ class CategoriesIconModel extends IconModel {
   final String transactionTypeId;
   final String parentId;
   final List<CategoriesIconModel> children;
-
+  final dynamic  userId;
   CategoriesIconModel({
     required super.id,
     required super.name,
@@ -53,6 +53,7 @@ class CategoriesIconModel extends IconModel {
     required this.transactionTypeId,
     required this.parentId,
     required this.children,
+    this.userId,
   });
 
   factory CategoriesIconModel.fromJson(Map<String, dynamic> json) {
@@ -62,6 +63,7 @@ class CategoriesIconModel extends IconModel {
       icon: json['icon']  ?? "",
       transactionTypeId: json['transaction_type_id'] ??  "",
       parentId: json['parent_id'] ?? "",
+      userId: json['user_id'],
       children: (json['children'] as List<dynamic>?)
           ?.map((e) => CategoriesIconModel.fromJson(e as Map<String, dynamic>))
           .toList() ?? [],

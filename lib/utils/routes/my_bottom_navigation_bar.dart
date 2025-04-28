@@ -48,16 +48,16 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
           }
         },
         currentIndex: widget.child.currentIndex,
-        unselectedLabelStyle: TextStyle(
+        unselectedLabelStyle: const TextStyle(
           fontSize: 10,
         ),
-        selectedLabelStyle: TextStyle(
+        selectedLabelStyle: const TextStyle(
           fontSize: 10
         ),
         items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            key: const ValueKey('homeTabButton'),
-            icon: const Icon(Icons.home),
+          const BottomNavigationBarItem(
+            key: ValueKey('homeTabButton'),
+            icon: Icon(Icons.home),
             label: 'Home',
           ),
           const BottomNavigationBarItem(
@@ -93,7 +93,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
                   padding: const EdgeInsets.only(top: 3.0),
                   child: Text(
                     count.toString(),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 10,
                       color: Colors.grey,
                     ),

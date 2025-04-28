@@ -22,6 +22,20 @@ class Assets{
   static const String svgTransfer = 'assets/svg/transfer.svg';
   static const String svgAdjustHorizontal = 'assets/svg/adjust-horizontal.svg';
   static const String svgUpdate = 'assets/svg/history.svg';
+  static const String svgImage = 'assets/svg/image.svg';
+  static const String svgRefresh = 'assets/svg/refresh.svg';
+  static const String svgSettingsWithUpArrow = 'assets/svg/settings-with-up-arrow.svg';
+  static const String svgMathematical = 'assets/svg/mathematical.svg';
+  static const String svgBoxWithUpArrow = 'assets/svg/open-box-with-up-arrow.svg';
+
+
+
+  static const String pngHamburger = 'assets/icon_category/spending_money_icon/anUong/burger_parent.png';
+  static const String pngSalary = 'assets/icon_category/revenue_money_icon/salary.png';
+  static const String pngSavingInterest = 'assets/icon_category/revenue_money_icon/savings-interest.png';
+
+
+
 
 }
 

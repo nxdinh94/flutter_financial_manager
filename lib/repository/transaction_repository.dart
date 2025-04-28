@@ -1,9 +1,10 @@
 
+import 'dart:convert';
 import 'package:fe_financial_manager/constants/app_url.dart';
 import 'package:fe_financial_manager/data/network/BaseApiServices.dart';
 import 'package:fe_financial_manager/data/network/NetworkApiService.dart';
-import 'package:fe_financial_manager/model/ParamsGetTransactionInRangeTime.dart';
-
+import 'package:fe_financial_manager/model/params_get_transaction_in_range_time.dart';
+import 'package:http/http.dart' as http;
 class TransactionRepository{
   final BaseApiServices _baseApiServices = NetworkApiService();
 
@@ -44,6 +45,10 @@ class TransactionRepository{
         }else {
           api = '${AppUrl.transaction}?from=${params.from}&to=${params.to}&money_account_id=${params.moneyAccountId}';
         }
+      }else {
+        if(params.moneyAccountId != ''){
+          api = '${AppUrl.transaction}?money_account_id=${params.moneyAccountId}';
+        }
       }
       final dynamic response = await _baseApiServices.getGetApiResponse(api, true);
       return response['data'];
@@ -51,6 +56,33 @@ class TransactionRepository{
       rethrow;
     }
   }
+  Future<dynamic> uploadImage(String imagePath) async {
+
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse('http://10.0.2.2:8002/api/v1/invoice/extract'),
+      );
+      // Gửi file với key là 'image'
+      request.files.add(
+        await http.MultipartFile.fromPath(
+          'image',   // key trùng với server yêu cầu
+          imagePath,
+        ),
+      );
+
+      var response = await request.send();
+      try {
+        if (response.statusCode == 200) {
+          final respStr = await response.stream.bytesToString();
+          return jsonDecode(respStr);
+        } else {
+          throw Exception('Failed to process: ${response.statusCode}');
+        }
+      } catch (e) {
+        rethrow;
+      }
+  }
+
 
 
 

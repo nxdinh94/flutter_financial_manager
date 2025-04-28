@@ -1,7 +1,7 @@
 import 'package:fe_financial_manager/data/response/status.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/model/transaction_categories_icon_model.dart';
-import 'package:fe_financial_manager/view/adding_workspace/widgets/create_category_section.dart';
+import 'package:fe_financial_manager/view/categories_of_transaction/widgets/create_category_section.dart';
 import 'package:fe_financial_manager/view/adding_workspace/widgets/categories_icon_parent.dart';
 import 'package:fe_financial_manager/view/common_widget/tab_bar_elements.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
@@ -50,7 +50,7 @@ class _SelectCategoryState extends State<SelectCategory> with TickerProviderStat
       key: const ValueKey('selectCategory'),
       appBar: AppBar(
         title: Text(isFromAccountScreen ? 'Edit Category' : 'Select Category'),
-        leading: CustomBackNavbar(),
+        leading: const CustomBackNavbar(),
       ),
       body: Column(
         mainAxisSize: MainAxisSize.min,

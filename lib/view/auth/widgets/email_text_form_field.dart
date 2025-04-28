@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 import '../../../constants/colors.dart';
 class EmailTextFormField extends StatelessWidget {
-  EmailTextFormField({super.key, required this.emailController, this.readOnly = false});
+  const EmailTextFormField({super.key, required this.emailController, this.readOnly = false});
   final TextEditingController emailController;
-  bool readOnly;
+  final bool readOnly;
   @override
   Widget build(BuildContext context) {
     return TextFormField(

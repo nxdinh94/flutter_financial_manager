@@ -1,4 +1,3 @@
-import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -17,13 +16,16 @@ class _EventsState extends State<Events> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Events'),
-        leading: CustomBackNavbar(),
+        leading: const CustomBackNavbar(),
         actions: [
           GestureDetector(
-            onTap: (){
-              context.push(FinalRoutes.createEventPath);
-            },
-            child: Icon(Icons.add, size: 44,)
+              onTap: (){
+                context.push(FinalRoutes.createEventPath);
+              },
+              child: const Padding(
+                padding: EdgeInsets.only(right: 12.0),
+                child: Icon(Icons.add, size: 24,),
+              )
           )
         ],
       ),

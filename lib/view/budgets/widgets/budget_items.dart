@@ -1,6 +1,5 @@
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
-import 'package:fe_financial_manager/utils/date_time.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_stack_three_images.dart';
 import 'package:fe_financial_manager/view/common_widget/money_vnd.dart';
 import 'package:fe_financial_manager/view/common_widget/progress_bar.dart';
@@ -8,14 +7,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 
 class BudgetItems extends StatefulWidget {
-  BudgetItems({super.key, required this.itemSpendingLimit, this.callback, this.paddingBottom = 0});
-  final Map<String, dynamic> itemSpendingLimit;
-  double paddingBottom;
-  VoidCallback ? callback;
+  const BudgetItems({super.key, required this.data, this.callback, this.paddingBottom = 0});
+  final Map<String, dynamic> data;
+  final double paddingBottom;
+  final VoidCallback ? callback;
   @override
   State<BudgetItems> createState() => _BudgetItemsState();
 }
@@ -32,27 +30,25 @@ class _BudgetItemsState extends State<BudgetItems> {
   double totalSpendingMoney = 0;
   double spendingPercentage = 0;
 
-
-
-  bool onSpendingLimitOutOfDate(DateTime endDate) {
-    DateTime now = DateTime.now();
-    int endDateToSecond = DateTimeHelper.dateTimeToSecondsSinceEpoch(endDate);
-    int nowToSecond = DateTimeHelper.dateTimeToSecondsSinceEpoch(now);
-    return nowToSecond > endDateToSecond;
+  int onRemainingDay(DateTime endDate) {
+    DateTime startDate = DateTime.now();
+    Duration difference = endDate.difference(startDate);
+    int daysLeft = difference.inDays;
+    return daysLeft;
   }
 
+
   void updateBudgetsState() {
-    DateTime startDate = DateTime.parse(widget.itemSpendingLimit['start_time']);
-    DateTime endDate = DateTime.parse(widget.itemSpendingLimit['end_time']);
+    DateTime startDate = DateTime.parse(widget.data['budget']['start_date']);
+    DateTime endDate = DateTime.parse(widget.data['budget']['end_date']);
 
     startTime = DateFormat('dd/MM').format(startDate);
     endTime = DateFormat('dd/MM').format(endDate);
-    isSpendingLimitOutOfDate = onSpendingLimitOutOfDate(endDate);
-    initialMoney = double.parse(widget.itemSpendingLimit['amount_of_money'][r'$numberDecimal']);
-    name = widget.itemSpendingLimit['name'];
-    id = widget.itemSpendingLimit['_id'];
-    totalSpendingMoney = double.parse(widget.itemSpendingLimit['total_spending'][r'$numberDecimal']);
-    remainMoney = initialMoney - totalSpendingMoney;
+    initialMoney = double.parse(widget.data['budget']['amount_of_money']);
+    name = widget.data['budget']['name'];
+    id = widget.data['budget']['id'];
+    totalSpendingMoney =  (widget.data['total_expenses']as int).toDouble();
+    remainMoney = (widget.data['remaining_budget_amount'] as int).toDouble();
 
     if (remainMoney < 0) {
       remainMoney = - remainMoney;
@@ -61,12 +57,12 @@ class _BudgetItemsState extends State<BudgetItems> {
       spendingPercentage = (totalSpendingMoney / initialMoney);
     }
 
-    // Calculate remain day
-    int endDay = endDate.day;
-    if (isSpendingLimitOutOfDate) {
-      remainDay = 0;
+    remainDay = onRemainingDay(endDate);
+
+    if (remainDay <= 0) {
+      isSpendingLimitOutOfDate = true;
     } else {
-      remainDay = endDay - DateTime.now().day;
+      isSpendingLimitOutOfDate = false;
     }
   }
 
@@ -79,7 +75,7 @@ class _BudgetItemsState extends State<BudgetItems> {
   @override
   void didUpdateWidget(covariant BudgetItems oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (!mapEquals(oldWidget.itemSpendingLimit, widget.itemSpendingLimit)) {
+    if (!mapEquals(oldWidget.data, widget.data)) {
       setState(() {
         updateBudgetsState();
       });
@@ -88,7 +84,8 @@ class _BudgetItemsState extends State<BudgetItems> {
   @override
   Widget build(BuildContext context) {
     var currentRoute = GoRouterState.of(context).uri.toString();
-    bool isDetailSpendingLimitItemPage = currentRoute == '/detailSpendingLimitItem';
+    print(currentRoute);
+    bool isDetailSpendingLimitItemPage = currentRoute == '/budgets/budgetDetail';
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -104,13 +101,15 @@ class _BudgetItemsState extends State<BudgetItems> {
                   children: [
                     Visibility(
                       visible: !isDetailSpendingLimitItemPage,
-                      child: const StackThreeCircleImages(
-                          imageOne: 'assets/icon_category/spending_money_icon/anUong/dinner.png',
-                          imageTwo: 'assets/icon_category/spending_money_icon/anUong/cutlery.png',
-                          imageThree: 'assets/icon_category/spending_money_icon/anUong/burger_parent.png'
+                      child: const Padding(
+                        padding: EdgeInsets.only(right: 12.0),
+                        child: StackThreeCircleImages(
+                            imageOne: 'assets/icon_category/spending_money_icon/anUong/dinner.png',
+                            imageTwo: 'assets/icon_category/spending_money_icon/anUong/cutlery.png',
+                            imageThree: 'assets/icon_category/spending_money_icon/anUong/burger_parent.png'
+                        ),
                       ),
                     ),
-                    const SizedBox(width: 12,),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,10 +145,8 @@ class _BudgetItemsState extends State<BudgetItems> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('$startTime - $endTime', style: const TextStyle(color: colorTextLabel, fontSize: tiny)),
-                              MoneyVnd(
-                                  fontSize: normal, amount: 20000,
-                              ),
+                              Text('$startTime - $endTime', style: Theme.of(context).textTheme.labelSmall),
+                              MoneyVnd(fontSize: normal, amount: initialMoney),
                             ],
                           ),
                         ],
@@ -160,7 +157,7 @@ class _BudgetItemsState extends State<BudgetItems> {
               const SizedBox(height: 12,),
               MyProgressBar(
                 percentage: spendingPercentage,
-                color: spendingPercentage >= 0.8 ? Colors.red : Colors.orangeAccent,
+                color: spendingPercentage >= 0.8 ? Colors.red : secondaryColor,
                 lineHeight: 12,
               ),
               const SizedBox(height: 12,),
@@ -178,7 +175,7 @@ class _BudgetItemsState extends State<BudgetItems> {
                         WidgetSpan(
                           child: MoneyVnd(
                             fontSize: small,
-                            amount: 999999999,
+                            amount: remainMoney,
                             textColor:  spendingPercentage == 1 ? emergencyColor : colorTextBlack,
                           ),
                         ),

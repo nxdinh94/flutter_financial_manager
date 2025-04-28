@@ -3,7 +3,6 @@ import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/view/adding_workspace/widgets/categories_icon_children.dart';
 import 'package:fe_financial_manager/view/common_widget/check_icon.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../model/transaction_categories_icon_model.dart';
 
@@ -46,9 +45,10 @@ class _CategoriesIconParentState extends State<CategoriesIconParent> {
             PickedIconModel pickedCategory = PickedIconModel(
               id : widget.parentIcon.id,
               icon: widget.parentIcon.icon,
-              name: widget.parentIcon.name
+              name: widget.parentIcon.name,
+              userId: widget.parentIcon.userId,
             );
-            widget.onTap!(pickedCategory);
+            widget.onTap(pickedCategory);
           },
           child: Text(widget.parentIcon.name)
         ),
@@ -70,7 +70,11 @@ class _CategoriesIconParentState extends State<CategoriesIconParent> {
         ),
         children: childrenIcon.isNotEmpty ? childrenIcon.map((v){
           CategoriesIconModel categoryIconChildren = v;
-          return CategoriesIconChildren(categoryChildren: categoryIconChildren, onItemTap: widget.onTap,);
+          return CategoriesIconChildren(
+            categoryChildren: categoryIconChildren,
+            onItemTap: widget.onTap,
+            pickedCategoryId: widget.pickedCategoryId,
+          );
         }).toList() : [],
       ),
     );

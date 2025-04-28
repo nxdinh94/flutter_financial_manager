@@ -13,9 +13,8 @@ import 'package:fe_financial_manager/view_model/transaction_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-
-import '../../../utils/range_time_chart_home_page.dart';
-import '../../../model/ParamsGetTransactionInRangeTime.dart';
+import '../../../utils/common_range_time.dart';
+import '../../../model/params_get_transaction_in_range_time.dart';
 class ChartSection extends StatefulWidget {
   const ChartSection({
     super.key,
@@ -78,14 +77,20 @@ class _ChartSectionState extends State<ChartSection> {
                   context.read<TransactionViewModel>().setParamsGetTransactionChartInRangeTime(
                       ParamsGetTransactionInRangeTime(from: from, to: to, moneyAccountId: '')
                   );
-
                   // Meaning of ~ is all the time
                   if(from == '~' && to == '~'){
                     await Provider.of<TransactionViewModel>(context, listen: false).getTransactionForChart(
                         ParamsGetTransactionInRangeTime(from : '', to : '', moneyAccountId : ''), context);
+                    await Provider.of<TransactionViewModel>(context, listen: false).getTransactionInRangeTime(
+                        ParamsGetTransactionInRangeTime(from : '', to : '', moneyAccountId : '')
+                    );
                   }else {
                     await Provider.of<TransactionViewModel>(context, listen: false).getTransactionForChart(
                         ParamsGetTransactionInRangeTime(from: from, to: to, moneyAccountId: ''), context);
+                    await Provider.of<TransactionViewModel>(context, listen: false).getTransactionInRangeTime(
+                        ParamsGetTransactionInRangeTime(from: from, to: to, moneyAccountId: '')
+                    );
+
                   }
                 },
                 style: const TextStyle(color: Colors.blue),

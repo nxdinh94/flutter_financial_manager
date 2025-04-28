@@ -6,7 +6,9 @@ import 'package:fe_financial_manager/view/account_tab/account_setting.dart';
 import 'package:fe_financial_manager/view/account_tab/events_of_transactions/create_events.dart';
 import 'package:fe_financial_manager/view/account_tab/events_of_transactions/events.dart';
 import 'package:fe_financial_manager/view/adding_workspace/add_note.dart';
+import 'package:fe_financial_manager/view/adding_workspace/ai_result.dart';
 import 'package:fe_financial_manager/view/categories_of_transaction/edit_categories.dart';
+import 'package:fe_financial_manager/view/categories_of_transaction/pick_icon_path_category.dart';
 import 'package:fe_financial_manager/view/categories_of_transaction/select_category.dart';
 import 'package:fe_financial_manager/view/adding_workspace/select_wallets.dart';
 import 'package:fe_financial_manager/view/auth/change_password.dart';
@@ -19,17 +21,16 @@ import 'package:fe_financial_manager/view/categories_of_transaction/create_categ
 import 'package:fe_financial_manager/view/categories_of_transaction/select_parent_categories.dart';
 import 'package:fe_financial_manager/view/home_tab/group_transaction_detail.dart';
 import 'package:fe_financial_manager/view/home_tab/summary_detail.dart';
-import 'package:fe_financial_manager/view/transactionHistory/choose_range_time.dart';
 import 'package:fe_financial_manager/view/tab_screen/all_wallets.dart';
 import 'package:fe_financial_manager/view/tab_screen/account.dart';
 import 'package:fe_financial_manager/view/tab_screen/adding_workspace.dart';
 import 'package:fe_financial_manager/view/tab_screen/budgets.dart';
 import 'package:fe_financial_manager/view/tab_screen/home.dart';
 import 'package:fe_financial_manager/view/auth/signin.dart';
-import 'package:fe_financial_manager/view/transactionHistory/transactions_history.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
+import '../../view/transaction_history/choose_range_time.dart';
+import '../../view/transaction_history/transactions_history.dart';
 import '../../view/wallets_tab/add_wallets.dart';
 import '../../view/wallets_tab/external_bank.dart';
 import '../../view/wallets_tab/pick_wallet_types.dart';
@@ -123,7 +124,6 @@ class CustomNavigationHelper {
                       )
                     ]
                   ),
-
                 ]
               ),
               GoRoute(
@@ -188,13 +188,23 @@ class CustomNavigationHelper {
                     GoRoute(
                       path: RoutesName.chooseRangeTimeToShowTransactionPath,
                       pageBuilder: (context, GoRouterState state) {
-                        String nameOfSelectedRangeTime = state.extra as String;
+                        String nameOfSelectedRangeTime = (state.extra ?? '') as String ;
                         return getPage(
                           child: ChooseRangeTime(nameOfSelectedRangeTime: nameOfSelectedRangeTime,),
                           state: state
                         );
                       }
-                    )
+                    ),
+                    GoRoute(
+                      path: RoutesName.transactionHistoryDetailPath,
+                      pageBuilder: (context, GoRouterState state) {
+                        String walletId = (state.extra ?? '') as String;
+                        return getPage(
+                          child: TransactionsHistory(walletId: walletId),
+                          state: state,
+                        );
+                      },
+                    ),
                   ]
                 )
               ]),
@@ -258,6 +268,15 @@ class CustomNavigationHelper {
                             state: state);
                       },
                     ),
+                    GoRoute(
+                      path: RoutesName.aiResultPath,
+                      pageBuilder: (context, GoRouterState state) {
+                        return getPage(
+                          child: const AiResult(),
+                          state: state,
+                        );
+                      },
+                    ),
                   ]),
               ]),
           StatefulShellBranch(navigatorKey: budgetsTabNavigatorKey, routes: [
@@ -268,95 +287,122 @@ class CustomNavigationHelper {
                 },
                 routes: [
                   GoRoute(
-                      path: RoutesName.createUpdateBudgetPath,
-                      pageBuilder: (context, GoRouterState state) {
-                        return getPage(
-                          child: const CreateUpdateBudget(),
-                          state: state
-                        );
-                      },
-                  ),
-                  GoRoute(
-                      path: RoutesName.budgetDetailPath,
-                      pageBuilder: (context, GoRouterState state) {
-                        Map<String, dynamic> data =
-                            state.extra as Map<String, dynamic>;
-                        return getPage(
-                            child: BudgetDetails(
-                                dataToPassSpendingLimitItemWidget: data),
-                            state: state);
-                      },
-                  ),
-                ])
-            ]),
-          StatefulShellBranch(navigatorKey: accountTabNavigatorKey, routes: [
-            GoRoute(
-                path: RoutesName.accountPath,
-                pageBuilder: (context, GoRouterState state) {
-                  return getPage(child: Account(), state: state);
-                },
-                routes: [
-                  GoRoute(
-                      path: RoutesName.accountSettingsPath,
-                      pageBuilder: (context, GoRouterState state) {
-                        return getPage(child: AccountSetting(), state: state);
-                      }),
-                  GoRoute(
-                    path: RoutesName.allCategoryPath,
+                    path: RoutesName.createUpdateBudgetPath,
                     pageBuilder: (context, GoRouterState state) {
-                      Map<String, dynamic> data =
-                          state.extra as Map<String, dynamic>;
-                      Future<void> Function(PickedIconModel) onTap =
-                          data['onTap'];
+                      if(state.extra == null){
+                        return getPage(
+                            child: const CreateUpdateBudget(),
+                            state: state
+                        );
+                      }else {
+                        Map<String, dynamic> data = state.extra as Map<String, dynamic> ;
+                        return getPage(
+                            child: CreateUpdateBudget(budgets: data,),
+                            state: state
+                        );
+                      }
+                    },
+                  ),
+                  GoRoute(
+                    path: RoutesName.budgetDetailPath,
+                    pageBuilder: (context, GoRouterState state) {
+                      Map<String, dynamic> data = state.extra as Map<String, dynamic>;
                       return getPage(
-                        child: SelectCategory(
-                          onItemTap: onTap,
-                        ),
+                        child: BudgetDetails(data: data),
                         state: state
                       );
                     },
                   ),
-                  GoRoute(
-                    path: RoutesName.eventPath,
-                    pageBuilder: (context, GoRouterState state) {
-                      return getPage(child: const Events(), state: state);
-                    },
-                  ),
-                  GoRoute(
-                    path: RoutesName.createEventPath,
-                    pageBuilder: (context, GoRouterState state) {
-                      return getPage(child: const CreateEvents(), state: state);
-                    },
-                  ),
-                  GoRoute(
-                      path: RoutesName.editCategoryPath,
+                ])
+            ]),
+          StatefulShellBranch(
+            navigatorKey: accountTabNavigatorKey,
+            routes: [
+              GoRoute(
+                  path: RoutesName.accountPath,
+                  pageBuilder: (context, GoRouterState state) {
+                    return getPage(child: Account(), state: state);
+                  },
+                  routes: [
+                    GoRoute(
+                        path: RoutesName.accountSettingsPath,
+                        pageBuilder: (context, GoRouterState state) {
+                          return getPage(child: AccountSetting(), state: state);
+                        }),
+                    GoRoute(
+                      path: RoutesName.allCategoryPath,
                       pageBuilder: (context, GoRouterState state) {
                         Map<String, dynamic> data =
                             state.extra as Map<String, dynamic>;
-                        PickedIconModel pickedCategory = data['pickedCategory'];
+                        Future<void> Function(PickedIconModel) onTap =
+                            data['onTap'];
                         return getPage(
-                            child: EditCategories(
-                              pickedCategory: pickedCategory,
-                            ),
-                            state: state);
+                          child: SelectCategory(
+                            onItemTap: onTap,
+                          ),
+                          state: state
+                        );
                       },
-                      routes: [
-                        GoRoute(
-                          path: RoutesName.selectParentCategoriesPath,
-                          pageBuilder: (context, GoRouterState state) {
-                            return getPage(
-                                child: const SelectParentCategories(),
-                                state: state);
-                          },
-                        ),
-                      ]),
-                ]),
-            GoRoute(
-              path: RoutesName.addNewCategoryPath,
-              pageBuilder: (context, GoRouterState state) {
-                return getPage(child: CreateCategory(), state: state);
-              },
-            ),
+                    ),
+                    GoRoute(
+                      path: RoutesName.eventPath,
+                      pageBuilder: (context, GoRouterState state) {
+                        return getPage(child: const Events(), state: state);
+                      },
+                    ),
+                    GoRoute(
+                      path: RoutesName.createEventPath,
+                      pageBuilder: (context, GoRouterState state) {
+                        return getPage(child: const CreateEvents(), state: state);
+                      },
+                    ),
+                    GoRoute(
+                        path: RoutesName.editCategoryPath,
+                        pageBuilder: (context, GoRouterState state) {
+                          Map<String, dynamic> data =
+                              state.extra as Map<String, dynamic>;
+                          PickedIconModel pickedCategory = data['pickedCategory'];
+                          return getPage(
+                              child: EditCategories(
+                                pickedCategory: pickedCategory,
+                              ),
+                              state: state);
+                        },
+                        routes: [
+                          GoRoute(
+                            path: RoutesName.selectParentCategoriesPath,
+                            pageBuilder: (context, GoRouterState state) {
+                              Map<String, dynamic> data =
+                                  state.extra as Map<String, dynamic>;
+                              return getPage(
+                                child: SelectParentCategories(
+                                  onTap: data['onTap'],
+                                  selectedTransactionTypeId: data['selectedTransactionTypeId'],
+                                ),
+                                state: state
+                              );
+                            },
+                          ),
+                          GoRoute(
+                            path: RoutesName.pickIconPathForCategoryPath,
+                            pageBuilder: (context, GoRouterState state) {
+
+                              return getPage(
+                                child: PickIconPathCategory(),
+                                state: state
+                              );
+                            },
+                          ),
+
+                        ]),
+                  ]
+              ),
+              GoRoute(
+                path: RoutesName.addNewCategoryPath,
+                pageBuilder: (context, GoRouterState state) {
+                  return getPage(child: CreateCategory(), state: state);
+                },
+              ),
           ])
         ],
         pageBuilder: (BuildContext context, GoRouterState state,

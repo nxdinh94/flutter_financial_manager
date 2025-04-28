@@ -1,5 +1,6 @@
 import 'package:fe_financial_manager/model/icon_model.dart';
 
+// Model for get all wallets
 class WalletModel extends IconModel {
   final String accountBalance;
 
@@ -25,6 +26,7 @@ class WalletModel extends IconModel {
     };
   }
 }
+// Model for get single wallets
 class SingleWalletModel {
   final String id;
   final String name;
@@ -62,10 +64,10 @@ class SingleWalletModel {
       walletTypeIconPath: json['money_account_type']['icon'] ?? '',
       walletTypeName: json['money_account_type']['name'] ?? '',
       walletTypeId: json['money_account_type']['id'] ?? '',
-      creditLimit: json['credit_limit'],
-      description: json['description'],
-      reminderWhenDue: json['reminder_when_due'],
-      bankType: json['bank_type'].toString(),
+      creditLimit: json['credit_limit'] ?? '0',
+      description: json['description'] ?? '',
+      reminderWhenDue: json['reminder_when_due'] ?? '',
+      bankType: (json['bank_type']?? 0).toString(),
       creditCardReminders: json['credit_card_reminders'] ?? [],
     );
   }

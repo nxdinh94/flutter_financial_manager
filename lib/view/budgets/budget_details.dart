@@ -8,27 +8,56 @@ import 'package:fe_financial_manager/view/budgets/widgets/suggestion_spending_mo
 import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
 import 'package:fe_financial_manager/view/common_widget/money_vnd.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
+import 'package:fe_financial_manager/view_model/budget_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../constants/dataForAreaChart.dart';
-import '../../utils/routes/routes_name.dart';
+import '../../constants/data_for_area_chart.dart';
 
 class BudgetDetails extends StatefulWidget {
-  const BudgetDetails({super.key, required this.dataToPassSpendingLimitItemWidget});
-  final Map<String, dynamic> dataToPassSpendingLimitItemWidget;
+  const BudgetDetails({
+    super.key, required this.data
+  });
+  final Map<String, dynamic> data;
   @override
   State<BudgetDetails> createState() => _BudgetDetailsState();
 }
 
 class _BudgetDetailsState extends State<BudgetDetails> {
   String name = '';
-  Map<String, dynamic> spendingLimitToUpdate = {};
-
+  List<ChartData> areaChartData = [];
+  double initialMoney = 0;
+  double actualSpending = 0;
+  double shouldSpending = 0;
+  double expectedSpending = 0;
+  List<dynamic> expenseRecord = [];
+  List<List<dynamic>> transformExpenseRecordByDay = [];
+  List<List<dynamic>> transformExpenseRecordByCateParent = [];
   @override
   void initState() {
-    name = widget.dataToPassSpendingLimitItemWidget['name'];
+    name = widget.data['budget']['name'];
+    initialMoney = double.parse(widget.data['budget']['amount_of_money'].toString());
+    actualSpending = double.parse(widget.data['actual_expenses'].toString());
+    shouldSpending = double.parse(widget.data['should_expenses'].toString());
+    expectedSpending = double.parse(widget.data['expected_expenses'].toString());
+    expenseRecord = widget.data['budget']['transactions'];
+    areaChartData = initialChartData.map((e) => ChartData(e.x, e.y)).toList();
+    transformExpenseRecordByDay = groupSameElementsByDay(expenseRecord);//[[a,a,a],[b,b,b]]
+    transformExpenseRecordByCateParent = groupSameElementsByCategoryParent(expenseRecord);//[[a,a,a],[b,b,b]]
+    // calculate data for areaChart
+    for(final item1 in transformExpenseRecordByDay){
+      double totalGroupMoney = 0;
+      int day = 0;
+      for(final item2 in item1){
+        DateTime occurDate = DateTime.parse(item2['occur_date']);
+        day = occurDate.day;
+        totalGroupMoney+=(double.parse(item2['amount_of_money'])/1000);//remove three latest number
+      }
+      areaChartData[day] = ChartData(day, totalGroupMoney);
+    }
+
+
     super.initState();
   }
   List<List<dynamic>> groupSameElementsByDay(List<dynamic> inputList) {
@@ -40,18 +69,17 @@ class _BudgetDetailsState extends State<BudgetDetails> {
       if (elementGroups.containsKey(element['occur_date'])) {
         elementGroups[element['occur_date']]!.add({
           'occur_date':'${element['occur_date']}',
-          'amount_of_money': '${element['amount_of_money'][r'$numberDecimal']}'
+          'amount_of_money': '${element['amount_of_money']}'
         });
       } else {
         elementGroups[element['occur_date']] = [
           {
             'occur_date':'${element['occur_date']}',
-            'amount_of_money': '${element['amount_of_money'][r'$numberDecimal']}'
+            'amount_of_money': '${element['amount_of_money']}'
           }
         ];
       }
     }
-
     // Extract the values from the map and return as a list of lists
     return elementGroups.values.toList();
   }
@@ -62,13 +90,13 @@ class _BudgetDetailsState extends State<BudgetDetails> {
     // Populate the map with elements from the input list
     for (var element in inputList){
       if (element['parent_id'] != null ) {
-        if(elementGroups.containsKey(element['transaction_type_id'])){
-          elementGroups[element['transaction_type_id']]!.add(element);
+        if(elementGroups.containsKey(element['id'])){
+          elementGroups[element['id']]!.add(element);
         }else {
-          elementGroups[element['transaction_type_id']] = [element];
+          elementGroups[element['id']] = [element];
         }
       } else {
-        elementGroups[element['transaction_type_id']] = [element];
+        elementGroups[element['id']] = [element];
       }
     }
 
@@ -83,134 +111,92 @@ class _BudgetDetailsState extends State<BudgetDetails> {
         backgroundColor: primaryColor,
         title: Text(name, overflow: TextOverflow.ellipsis),
         centerTitle: true,
-        leading: CustomBackNavbar(),
+        leading: const CustomBackNavbar(),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 12),
             child: SvgContainer(
-              iconPath: Assets.svgPenAppbar, iconWidth: 24, myIconColor: black,
+              iconPath: Assets.svgUpdate, iconWidth: 24, containerSize: 40, myIconColor: Colors.black,
               callback: ()async{
-                context.push(
-                    FinalRoutes.createUpdateBudgetPath, extra: spendingLimitToUpdate
-                );
+                dynamic result = await context.push(FinalRoutes.createUpdateBudgetPath, extra: widget.data);
+                if(!mounted) return;
+                if(result){
+                  await context.read<BudgetViewModel>().getAllBudgets(context);
+                }
               },
             ),
 
           )
         ],
       ),
-      body: Consumer(
-        builder: (context, value, child) {
-          spendingLimitToUpdate = widget.dataToPassSpendingLimitItemWidget;
-          List<ChartData> areaChartData = [];
-          areaChartData = initialChartData;
-          if(spendingLimitToUpdate.isEmpty){
-            return SizedBox(
-              height: 150,
-              child: Center(
-                child: Text('Không có bản ghi', style: Theme.of(context).textTheme.labelLarge),
+      body: Container(
+        color: Theme.of(context).colorScheme.surface,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                color: primaryColor,
+                padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Hạn mức', style: Theme.of(context).textTheme.bodySmall),
+                    MoneyVnd(fontSize: small, amount: initialMoney)
+                  ],
+                ),
               ),
-            );
-          }
-          double initialMoney = double.parse(spendingLimitToUpdate['amount_of_money'][r'$numberDecimal']) ;
-          double actualSpending = double.parse(spendingLimitToUpdate['actual_spending'][r'$numberDecimal']) ;
-          double shouldSpending = double.parse(spendingLimitToUpdate['should_spending'][r'$numberDecimal']) ;
-          double expectedSpending = double.parse(spendingLimitToUpdate['expected_spending'][r'$numberDecimal']) ;
+              const SizedBox(height: 12,),
+              BudgetItems(data: widget.data),
+              const SizedBox(height: 12,),
 
-          List<dynamic> expenseRecord = spendingLimitToUpdate['expense_records'];
-
-          List<List<dynamic>> transformExpenseRecordByDay = groupSameElementsByDay(expenseRecord);//[[a,a,a],[b,b,b]]
-          List<List<dynamic>> transformExpenseRecordByCateParent = groupSameElementsByCategoryParent(expenseRecord);//[[a,a,a],[b,b,b]]
-          print(transformExpenseRecordByCateParent);
-          for(final item1 in transformExpenseRecordByDay){
-            double totalGroupMoney = 0;
-            int day = 0;
-            for(final item2 in item1){
-              DateTime occurDate = DateTime.parse(item2['occur_date']);
-              day = occurDate.day;
-              totalGroupMoney+=(double.parse(item2['amount_of_money'])/1000);//remove three latest number
-            }
-            areaChartData[day] = ChartData(day, totalGroupMoney);
-          }
-
-          return Container(
-            color: Theme.of(context).colorScheme.surface,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    color: primaryColor,
-                    padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              // MyListTitle(
+              //   callback: (){},
+              //   title: 'Detail expenses',
+              //   titleTextStyle: Theme.of(context).textTheme.bodyLarge!,
+              //   leftContentPadding: 12,
+              // ),
+              const SizedBox(height: 12,),
+              Container(
+                color: primaryColor,
+                padding: const EdgeInsets.only(bottom: 12),
+                child: Column(
+                  children: [
+                    MyAreaChart(areaChartData: areaChartData),
+                    const Divider(indent: 30, endIndent: 30,),
+                    const SizedBox(height: 6,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Text('Hạn mức', style: Theme.of(context).textTheme.bodySmall),
-                        MoneyVnd(fontSize: small, amount: initialMoney)
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 12,),
-                  BudgetItems(itemSpendingLimit: widget.dataToPassSpendingLimitItemWidget),
-                  const SizedBox(height: 12,),
-
-                  Container(
-                    padding: const EdgeInsets.only(left: 12),
-                    color: primaryColor,
-                    child:  ListTile(
-                      onTap: (){
-                        // CustomNavigationHelper.router.push(
-                        //   '${CustomNavigationHelper.detailSpendingLimitItemPath}/${CustomNavigationHelper.detailSpendingInSpendingLimitPath}',
-                        //   extra: transformExpenseRecordByCateParent
-                        // );
-                      },
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 0),
-                      title: Text('Chi tiết khoản chi', style: Theme.of(context).textTheme.bodyLarge),
-                      trailing: const Icon(Icons.keyboard_arrow_right, color: iconColor, size: 33),),
-                  ),
-                  const SizedBox(height: 12,),
-                  Container(
-                    color: primaryColor,
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: Column(
-                      children: [
-                        MyAreaChart(areaChartData: areaChartData),
-                        const Divider(indent: 30, endIndent: 30,),
-                        const SizedBox(height: 6,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            SuggestionSpendingMoney(
-                              amount: actualSpending,
-                              title: "Thực tế chi tiêu",
-                              toolTipText: 'ST đã chi / Khoảng thời gian chi tiêu',
-                            ),
-                            SuggestionSpendingMoney(
-                              amount: shouldSpending,
-                              title: "Nên chi",
-                              toolTipText: 'ST còn lại / Số ngày còn lại',
-                            ),
-                          ],
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 6.0),
-                          child: Divider(indent: 30,endIndent: 30,),
+                        SuggestionSpendingMoney(
+                          amount: actualSpending,
+                          title: "Thực tế chi tiêu",
+                          toolTipText: 'ST đã chi / Khoảng thời gian chi tiêu',
                         ),
                         SuggestionSpendingMoney(
-                          amount: expectedSpending,
-                          title: "Dự kiến chi tiêu",
-                          toolTipText: 'Thực tế chi tiêu * Số ngày còn lại \n + ST đã chi',
-                          isShowPerDay: false,
-                          amountColor: secondaryColor,
+                          amount: shouldSpending,
+                          title: "Nên chi",
+                          toolTipText: 'ST còn lại / Số ngày còn lại',
                         ),
                       ],
                     ),
-                  ),
-                ],
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 6.0),
+                      child: Divider(indent: 30,endIndent: 30,),
+                    ),
+                    SuggestionSpendingMoney(
+                      amount: expectedSpending,
+                      title: "Dự kiến chi tiêu",
+                      toolTipText: 'Thực tế chi tiêu * Số ngày còn lại \n + ST đã chi',
+                      isShowPerDay: false,
+                      amountColor: secondaryColor,
+                    ),
+                  ],
+                ),
               ),
-            ),
-          );
-        },
-      )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
