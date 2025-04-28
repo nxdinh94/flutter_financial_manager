@@ -221,9 +221,7 @@ class CreditInformation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: defaultHalfPadding,
-      decoration: BoxDecoration(
-        color: primaryColor,
-      ),
+      color: primaryColor,
       child: Column(
         children: [
           Row(
@@ -406,7 +404,7 @@ class BodyOfPage extends StatelessWidget {
                                         ),
                                         const SizedBox(height: 6),
                                         MoneyVnd(
-                                          amount: double.parse(e.moneyAccount!.accountBalance!),
+                                          amount: double.parse(e.moneyAccount.accountBalance!),
                                           textColor: colorTextLabel,
                                           fontSize: normal,
                                           isWrapTextWithParentheses: true,

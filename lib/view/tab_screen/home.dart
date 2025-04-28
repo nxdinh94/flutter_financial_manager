@@ -3,13 +3,12 @@ import 'package:fe_financial_manager/model/params_get_transaction_in_range_time.
 import 'package:fe_financial_manager/utils/common_range_time.dart';
 import 'package:fe_financial_manager/view/home_tab/widgets/chart_section.dart';
 import 'package:fe_financial_manager/view/home_tab/widgets/header.dart';
+import 'package:fe_financial_manager/view/home_tab/widgets/recent_transactions.dart';
 import 'package:fe_financial_manager/view_model/app_view_model.dart';
 import 'package:fe_financial_manager/view_model/budget_view_model.dart';
 import 'package:fe_financial_manager/view_model/transaction_view_model.dart';
 import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
+import 'package:flutter/material.dart';import 'package:provider/provider.dart';
 class Home extends StatefulWidget {
   const Home({super.key});
   @override
@@ -17,6 +16,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  get dashBorder => null;
+
   @override
   void initState() {
 
@@ -58,12 +59,15 @@ class _HomeState extends State<Home> {
             //Row chart
             ChartSection(),
             SizedBox(height: 20,),
+            RecentTransactions(),
+            SizedBox(height: 20,),
           ],
         ),
       )
     );
   }
 }
+
 
 
 
