@@ -1,12 +1,10 @@
 
-import 'package:another_flushbar/flushbar.dart';
 import 'package:fe_financial_manager/injection_container.dart';
 import 'package:fe_financial_manager/main.dart';
 import 'package:fe_financial_manager/utils/auth_manager.dart';
 import 'package:fe_financial_manager/utils/routes/routes.dart';
 import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/utils/theme_manager.dart';
-import 'package:fe_financial_manager/view/auth/signin.dart';
 import 'package:fe_financial_manager/view_model/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -100,12 +98,12 @@ void main() {
 
       // Bấm nút login khi email và password rỗng
       await tester.tap(loginButton);
-      await tester.pumpAndSettle(Duration(seconds: 2));
+      await tester.pumpAndSettle(const Duration(seconds: 2));
 
 
       // Kiểm tra xem có thông báo lỗi không
       expect(find.text('Email and password cannot be empty'), findsOneWidget);
-      await tester.pump(Duration(seconds: 2));
+      await tester.pump(const Duration(seconds: 2));
 
     });
 

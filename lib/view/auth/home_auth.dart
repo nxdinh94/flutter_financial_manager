@@ -3,8 +3,6 @@ import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/constants/slide_home_auth.dart';
 import 'package:fe_financial_manager/generated/assets.dart';
 import 'package:fe_financial_manager/generated/paths.dart';
-import 'package:fe_financial_manager/utils/routes/routes_name.dart';
-import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:carousel_slider/carousel_slider.dart';

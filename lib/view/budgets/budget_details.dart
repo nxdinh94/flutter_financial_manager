@@ -7,7 +7,6 @@ import 'package:fe_financial_manager/view/budgets/widgets/budget_items.dart';
 import 'package:fe_financial_manager/view/budgets/widgets/suggestion_spending_money.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
 import 'package:fe_financial_manager/view/common_widget/money_vnd.dart';
-import 'package:fe_financial_manager/view/common_widget/my_list_title.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:fe_financial_manager/view_model/budget_view_model.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +14,6 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants/data_for_area_chart.dart';
-import '../../utils/routes/routes_name.dart';
 
 class BudgetDetails extends StatefulWidget {
   const BudgetDetails({

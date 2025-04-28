@@ -1,11 +1,10 @@
-import 'dart:ui';
-import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
+import 'package:fe_financial_manager/data/response/status.dart';
 import 'package:fe_financial_manager/generated/assets.dart';
-import 'package:fe_financial_manager/model/picked_icon_model.dart';
+import 'package:fe_financial_manager/generated/paths.dart';
+import 'package:fe_financial_manager/model/info_extracted_from_ai_model.dart';
 import 'package:fe_financial_manager/utils/date_time.dart';
-import 'package:fe_financial_manager/utils/get_initial_data.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
 import 'package:fe_financial_manager/view/common_widget/loading_animation.dart';
 import 'package:fe_financial_manager/view/common_widget/money_vnd.dart';
@@ -13,15 +12,10 @@ import 'package:fe_financial_manager/view/common_widget/my_box_shadow.dart';
 import 'package:fe_financial_manager/view/common_widget/my_list_title.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:fe_financial_manager/view_model/transaction_view_model.dart';
-import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:provider/provider.dart';
-
-import '../../data/response/status.dart';
-import '../../generated/paths.dart';
-import '../../model/info_extracted_from_ai_model.dart';
 
 class AiResult extends StatefulWidget {
   const AiResult({super.key});
@@ -31,13 +25,6 @@ class AiResult extends StatefulWidget {
 }
 
 class _AiResultState extends State<AiResult> {
-
-  @override
-  void initState() {
-
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Consumer<TransactionViewModel>(
@@ -84,9 +71,7 @@ class _AiResultState extends State<AiResult> {
                             MyBoxShadow(
                                 padding: const EdgeInsets.all(3),
                                 child: MyListTitle(
-                                  callback: (){
-
-                                  },
+                                  callback: (){},
                                   verticalContentPadding: 4,
                                   leading: Image.asset(data.transactionTypeCategory.icon, width: 30,),
                                   title: data.transactionTypeCategory.name,
@@ -116,10 +101,10 @@ class _AiResultState extends State<AiResult> {
                               children: [
                                 Expanded(
                                   child: OutlinedButton(
-                                      onPressed: ()async{
-                                        await context.push(FinalRoutes.addingWorkSpacePath, extra: data);
-                                      },
-                                      child: const Text('Update')
+                                    onPressed: ()async{
+                                      await context.push(
+                                        FinalRoutes.addingWorkSpacePath, extra: data);},
+                                    child: const Text('Update')
                                   ),
                                 ),
                                 const SizedBox(width: 12),
@@ -135,7 +120,6 @@ class _AiResultState extends State<AiResult> {
                                       };
                                       await context.read<TransactionViewModel>().addTransaction(
                                           dataToSubmit, (){context.pop();}, context);
-
                                     },
                                     child: const Text('Save')
                                   ),
@@ -149,7 +133,6 @@ class _AiResultState extends State<AiResult> {
                     return const Center(child: Text('No data available'));
                 }
               },
-
             ),
           ),
         );

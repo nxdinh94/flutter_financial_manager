@@ -1,10 +1,7 @@
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/view/common_widget/check_picked_list_title.dart';
-import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
-import '../../../constants/padding.dart';
 import '../../../model/transaction_categories_icon_model.dart';
 import '../../common_widget/divider.dart';
 class CategoriesIconChildren extends StatelessWidget {

@@ -7,7 +7,6 @@ import '../../constants/colors.dart';
 import '../../generated/assets.dart';
 import '../../generated/paths.dart';
 import '../../model/picked_icon_model.dart';
-import '../../data/response/status.dart';
 import '../../view_model/app_view_model.dart';
 import '../common_widget/custom_back_navbar.dart';
 import '../common_widget/custom_textfield.dart';
@@ -216,7 +215,7 @@ class _DescriptionField extends StatelessWidget {
 
 // ---------------- Save & Delete Buttons ----------------
 class _ActionButtons extends StatelessWidget {
-  const _ActionButtons({key, required this.saveAction, required this.deleteAction});
+  const _ActionButtons({required this.saveAction, required this.deleteAction});
   final VoidCallback saveAction;
   final VoidCallback deleteAction;
   @override

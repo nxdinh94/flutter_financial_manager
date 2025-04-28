@@ -367,9 +367,9 @@ ThemeData lightTheme = ThemeData(
                 states.contains(WidgetState.selected) ? secondaryColor : null),
     trackOutlineColor: WidgetStateProperty.all(Colors.transparent),
   ),
-  expansionTileTheme: ExpansionTileThemeData(
-    collapsedShape: const Border(),
-    shape: const Border(),
-    childrenPadding: const EdgeInsets.only(left: 18),
+  expansionTileTheme: const ExpansionTileThemeData(
+    collapsedShape: Border(),
+    shape: Border(),
+    childrenPadding: EdgeInsets.only(left: 18),
   ),
 );

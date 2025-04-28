@@ -3,7 +3,6 @@ import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/view/adding_workspace/widgets/categories_icon_children.dart';
 import 'package:fe_financial_manager/view/common_widget/check_icon.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../model/transaction_categories_icon_model.dart';
 

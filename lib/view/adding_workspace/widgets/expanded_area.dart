@@ -1,4 +1,3 @@
-import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/generated/assets.dart';
 import 'package:fe_financial_manager/view/common_widget/divider.dart';
@@ -6,7 +5,6 @@ import 'package:fe_financial_manager/view/common_widget/my_list_title.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:fe_financial_manager/view/common_widget/switch_row.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 class ExpandedArea extends StatefulWidget {
   const ExpandedArea({super.key});
   @override

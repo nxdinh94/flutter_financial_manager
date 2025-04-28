@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import '../repository/auth_repository.dart';
-import '../utils/routes/routes_name.dart';
 import '../utils/utils.dart';
 
 class AuthViewModel with ChangeNotifier {

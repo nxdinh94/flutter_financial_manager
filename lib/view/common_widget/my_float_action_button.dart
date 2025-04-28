@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 class MyFloatActionButton extends StatelessWidget {
-  MyFloatActionButton({
+  const MyFloatActionButton({
     super.key,
     this.label = 'Save',
     required this.callback
   });
-  String label;
+  final String label;
   final VoidCallback callback;
   @override
   Widget build(BuildContext context) {

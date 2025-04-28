@@ -4,7 +4,6 @@ import 'package:fe_financial_manager/utils/utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 import '../model/transaction_categories_icon_model.dart';
 class AppViewModel extends ChangeNotifier{

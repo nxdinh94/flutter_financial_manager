@@ -2,7 +2,6 @@ import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/utils/auth_manager.dart';
-import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:fe_financial_manager/view/account_tab/widgets/account_banner.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
 import 'package:fe_financial_manager/view_model/auth_view_model.dart';
@@ -16,15 +15,15 @@ class AccountSetting extends StatelessWidget {
     String refreshToken = AuthManager.getRefreshToken();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Account Setting'),
-        leading: CustomBackNavbar(),
+        title: const Text('Account Setting'),
+        leading: const CustomBackNavbar(),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 40,),
-            AccountBanner(),
-            SizedBox(height: 20,),
+            const SizedBox(height: 40,),
+            const AccountBanner(),
+            const SizedBox(height: 20,),
             AccountSettingOption(
               title: 'Change password',
               callback: (){
@@ -32,7 +31,7 @@ class AccountSetting extends StatelessWidget {
               },
               titleColor: Theme.of(context).colorScheme.secondary,
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             AccountSettingOption(
               title: 'Sign out',
               callback: (){
@@ -43,7 +42,7 @@ class AccountSetting extends StatelessWidget {
               },
               titleColor: emergencyColor,
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             AccountSettingOption(
               title: 'Delete account',
               callback: (){},

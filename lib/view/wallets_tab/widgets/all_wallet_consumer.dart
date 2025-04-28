@@ -30,7 +30,6 @@ class AllWalletConsumer extends StatelessWidget {
             List<WalletModel> listData = value.allWalletData.data;
             return listData.isEmpty ? Text('Empty'): Column(
               children: listData.asMap().entries.map((e){
-                int index = e.key;
                 WalletModel val = e.value;
                 double balance = double.parse(val.accountBalance);
                 return CheckPickedListTile(

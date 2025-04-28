@@ -52,7 +52,7 @@ List<Widget> slideHomeAuth(BuildContext context){
                 ],
               ),
             ),
-            MyDivider(),
+            const MyDivider(),
             MyListTitle(
               leading: Image.asset('assets/another_icon/wallet-2.png', width: 35, height: 35),
               title: 'Cash', callback: (){},

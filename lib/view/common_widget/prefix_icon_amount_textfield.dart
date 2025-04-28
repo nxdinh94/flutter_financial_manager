@@ -5,9 +5,9 @@ import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:flutter/material.dart';
 
 class PrefixIconAmountTextfield extends StatelessWidget {
-  PrefixIconAmountTextfield({super.key, this.width= 49, this.height = 30});
-  double height;
-  double width;
+  const PrefixIconAmountTextfield({super.key, this.width= 49, this.height = 30});
+  final double height;
+  final double width;
 
   @override
   Widget build(BuildContext context) {

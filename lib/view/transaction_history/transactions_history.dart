@@ -186,7 +186,7 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
                   case Status.COMPLETED:
                     Map<String, dynamic> records = data['transactions_by_date'] ??{};
                     if(records.isEmpty){
-                      return SizedBox.shrink();
+                      return const SizedBox.shrink();
                     }
                     return BodyOfPage(records: records, dashBorder: dashBorder);
                   case Status.ERROR:
@@ -395,21 +395,21 @@ class BodyOfPage extends StatelessWidget {
                                       rightContentPadding: 0,
                                       trailing: Column(
                                         mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment: CrossAxisAlignment.end,
-                                      children: [
-                                        MoneyVnd(
-                                          amount: double.parse(e.amountOfMoney),
-                                          textColor: e.transactionTypeCategory.transactionType == 'Expense' ? emergencyColor : secondaryColor,
-                                          fontSize: normal,
-                                        ),
-                                        const SizedBox(height: 6),
-                                        MoneyVnd(
-                                          amount: double.parse(e.moneyAccount.accountBalance!),
-                                          textColor: colorTextLabel,
-                                          fontSize: normal,
-                                          isWrapTextWithParentheses: true,
-                                        ),
-                                      ],
+                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                        children: [
+                                          MoneyVnd(
+                                            amount: double.parse(e.amountOfMoney),
+                                            textColor: e.transactionTypeCategory.transactionType == 'Expense' ? emergencyColor : secondaryColor,
+                                            fontSize: normal,
+                                          ),
+                                          const SizedBox(height: 6),
+                                          MoneyVnd(
+                                            amount: double.parse(e.moneyAccount.accountBalance!),
+                                            textColor: colorTextLabel,
+                                            fontSize: normal,
+                                            isWrapTextWithParentheses: true,
+                                          ),
+                                        ],
                                     ),
                                   ),
                                 ),

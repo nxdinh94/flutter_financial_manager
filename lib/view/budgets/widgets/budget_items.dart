@@ -1,6 +1,5 @@
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
-import 'package:fe_financial_manager/utils/date_time.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_stack_three_images.dart';
 import 'package:fe_financial_manager/view/common_widget/money_vnd.dart';
 import 'package:fe_financial_manager/view/common_widget/progress_bar.dart';
@@ -8,14 +7,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 
 class BudgetItems extends StatefulWidget {
-  BudgetItems({super.key, required this.data, this.callback, this.paddingBottom = 0});
+  const BudgetItems({super.key, required this.data, this.callback, this.paddingBottom = 0});
   final Map<String, dynamic> data;
-  double paddingBottom;
-  VoidCallback ? callback;
+  final double paddingBottom;
+  final VoidCallback ? callback;
   @override
   State<BudgetItems> createState() => _BudgetItemsState();
 }

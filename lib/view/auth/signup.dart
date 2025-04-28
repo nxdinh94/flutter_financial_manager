@@ -1,4 +1,3 @@
-import 'package:fe_financial_manager/utils/utils.dart';
 import 'package:fe_financial_manager/view/auth/widgets/password_text_form_field.dart';
 import 'package:fe_financial_manager/view_model/auth_view_model.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../generated/paths.dart';
-import '../../utils/routes/routes_name.dart';
 import 'widgets/email_text_form_field.dart';
 
 class Signup extends StatefulWidget {
@@ -17,11 +15,11 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
-  ValueNotifier<bool> _obsecurePassword = ValueNotifier<bool>(true);
+  final ValueNotifier<bool> _obsecurePassword = ValueNotifier<bool>(true);
 
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 

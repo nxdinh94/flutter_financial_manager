@@ -4,7 +4,7 @@ import 'package:fe_financial_manager/utils/to_vnd.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:flutter/material.dart';
 class MoneyVnd extends StatelessWidget {
-  MoneyVnd({
+  const MoneyVnd({
     super.key,
     required this.fontSize,
     this.fontWeight = FontWeight.w600,
@@ -13,10 +13,10 @@ class MoneyVnd extends StatelessWidget {
     this.isWrapTextWithParentheses = false,
   });
   final double fontSize;
-  FontWeight fontWeight;
+  final FontWeight fontWeight;
   final double amount;
-  Color textColor;
-  bool isWrapTextWithParentheses;
+  final Color textColor;
+  final bool isWrapTextWithParentheses;
   @override
   Widget build(BuildContext context) {
     return RichText(

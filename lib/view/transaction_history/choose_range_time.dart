@@ -9,7 +9,6 @@ import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart'
 import 'package:fe_financial_manager/view_model/transaction_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'package:provider/provider.dart';
 
@@ -388,7 +387,7 @@ class _ChooseRangeTimeState extends State<ChooseRangeTime> with TickerProviderSt
                   ),
                   ListTile(
                     onTap: (){},
-                    leading: Text('Start'),
+                    leading: const Text('Start'),
                     title: const Text('yyyy-mm-dd'),
                   ),
                   ListTile(
