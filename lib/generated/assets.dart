@@ -28,6 +28,15 @@ class Assets{
   static const String svgMathematical = 'assets/svg/mathematical.svg';
   static const String svgBoxWithUpArrow = 'assets/svg/open-box-with-up-arrow.svg';
 
+
+
+  static const String pngHamburger = 'assets/icon_category/spending_money_icon/anUong/burger_parent.png';
+  static const String pngSalary = 'assets/icon_category/revenue_money_icon/salary.png';
+  static const String pngSavingInterest = 'assets/icon_category/revenue_money_icon/savings-interest.png';
+
+
+
+
 }
 
 //svg width : 24, 30, 28, 18, 22

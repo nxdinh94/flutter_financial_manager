@@ -329,7 +329,8 @@ class TransactionViewModel  extends ChangeNotifier{
           }
         }
 
-
+        // get initial data for transaction type
+        print(data);
         final InfoExtractedFromAiModel result = InfoExtractedFromAiModel.fromJson(data);
         setInfoExtractedFromAi(ApiResponse.completed(result));
         if(isGotoPage){

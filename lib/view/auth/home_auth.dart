@@ -1,5 +1,6 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
+import 'package:fe_financial_manager/constants/slide_home_auth.dart';
 import 'package:fe_financial_manager/generated/assets.dart';
 import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/utils/routes/routes_name.dart';
@@ -24,17 +25,11 @@ class _HomeAuthState extends State<HomeAuth> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: const ValueKey('homeAuth'),
-      backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
         // toolbarHeight: 80,
         backgroundColor: Theme.of(context).colorScheme.primary,
-        leading: SizedBox(
-          width: 180,
-          height: 180,
-          child: SvgContainer(
-            iconPath: Assets.svgAppLogo,
-            iconWidth: 20,
-          ),
+        title: SvgPicture.asset(
+          Assets.svgAppLogo, width: 20, height: 20,
         ),
         actions: [
           Padding(
@@ -60,7 +55,7 @@ class _HomeAuthState extends State<HomeAuth> {
         ],
       ),
       body: Container(
-        padding: horizontalPadding,
+        padding: defaultPadding,
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Column(
@@ -81,16 +76,10 @@ class _HomeAuthState extends State<HomeAuth> {
                         });
                       },
                     ),
-                    items: [1,2,3,4,5].map((i) {
+                    items: slideHomeAuth(context).map((element) {
                       return Builder(
                         builder: (BuildContext context) {
-                          return Container(
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context).colorScheme.surface
-                              ),
-                              child: Text('text $i', style: TextStyle(fontSize: 16.0),)
-                          );
+                          return element;
                         },
                       );
                     }).toList(),
@@ -100,7 +89,7 @@ class _HomeAuthState extends State<HomeAuth> {
                     left: 0,
                     right: 0,
                     child: DotsIndicator(
-                      dotsCount: 5,
+                      dotsCount: slideHomeAuth(context).length,
                       position: indicatorIndex,
                       decorator: DotsDecorator(
                         activeColor: Theme.of(context).colorScheme.primary,
@@ -112,7 +101,7 @@ class _HomeAuthState extends State<HomeAuth> {
               ),
             ),
             Expanded(
-              flex: 4,
+              flex: 3,
               child: Container(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -132,7 +121,7 @@ class _HomeAuthState extends State<HomeAuth> {
                         )
                       ),
                     ),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 6),
                     SizedBox(
                       width: MediaQuery.of(context).size.width,
                       height: 42,
@@ -141,10 +130,6 @@ class _HomeAuthState extends State<HomeAuth> {
                         onPressed: (){
                           context.push(FinalRoutes.signInPath);
                         },
-                        style: Theme.of(context).elevatedButtonTheme.style?.copyWith(
-                          backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.secondary),
-                          // other properties
-                        ),
                         child: Text('Sign in', style: TextStyle(
                           color: Theme.of(context).colorScheme.onSecondary,
                           fontWeight: FontWeight.w600

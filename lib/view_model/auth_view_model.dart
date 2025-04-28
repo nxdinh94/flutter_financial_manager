@@ -66,6 +66,7 @@ class AuthViewModel with ChangeNotifier {
   Future<void> logoutApi (dynamic refreshToken, BuildContext context)async{
     setLoading(true);
     AuthManager.logout();
+
     _myRepo.logOutApi(refreshToken).then((value){
       setLoading(false);
       context.pushReplacement(FinalRoutes.homeAuthPath);

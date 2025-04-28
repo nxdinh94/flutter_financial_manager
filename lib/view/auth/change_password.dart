@@ -1,4 +1,3 @@
-import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/utils/auth_manager.dart';
 import 'package:fe_financial_manager/view/auth/widgets/email_text_form_field.dart';
 import 'package:fe_financial_manager/view/auth/widgets/password_text_form_field.dart';
