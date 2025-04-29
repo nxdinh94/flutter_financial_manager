@@ -73,24 +73,25 @@ class _CheckPickedListTileState extends State<CheckPickedListTile> {
           child: widget.subtitle!,
         ) : null,
         onTap: ()async {
+          print(widget.iconData.runtimeType);
           PickedIconModel pickedIcon = PickedIconModel(
             id: '', icon: '', name: '', userId: '',
           );
-          if(widget.iconData is WalletModel){
-            pickedIcon = PickedIconModel(
-              id: widget.iconData.id,
-              icon: widget.iconData.icon,
-              name: widget.iconData.name,
-            );
-          }else if(widget.iconData is CategoriesIconModel){
+          if(widget.iconData is CategoriesIconModel){
             pickedIcon = PickedIconModel(
               id: widget.iconData.id,
               icon: widget.iconData.icon,
               name: widget.iconData.name,
               userId: widget.iconData.userId,
             );
+          }else{
+            pickedIcon = PickedIconModel(
+              id: widget.iconData.id,
+              icon: widget.iconData.icon,
+              name: widget.iconData.name,
+            );
           }
-          //return value
+            //return value
           await widget.onTap(pickedIcon);
         },
         // if the trailingCallback is null, then show the check icon

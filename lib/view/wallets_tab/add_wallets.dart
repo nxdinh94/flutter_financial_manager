@@ -76,7 +76,11 @@ class _AddWalletsState extends State<AddWallets> {
     return true;
   }
   // Action when Wallet category listTile tapped
-  Future<void> onItemCategoryTap(PickedIconModel value)async {
+  Future<void> _onChosenWalletType(PickedIconModel value)async {
+    print(value.id);
+    print(value.icon);
+    print(value.name);
+    print(value.userId);
     setState(() {
       pickedWalletType = value;
       //reset submitData
@@ -177,7 +181,7 @@ class _AddWalletsState extends State<AddWallets> {
               hideLegend: false,
               legend: Text('Initials balance', style: Theme.of(context).textTheme.bodyLarge,),
               textInputType: TextInputType.number,
-              prefixIcon: PrefixIconAmountTextfield(width: 40,),
+              prefixIcon: const PrefixIconAmountTextfield(width: 40,),
               fontSize: 40,
               hintText: '0',
               prefixIconPadding: const EdgeInsets.only(right: 12, left: 10),
@@ -185,7 +189,7 @@ class _AddWalletsState extends State<AddWallets> {
 
             Visibility(
               visible: removeDiacritics(pickedWalletType.name) == 'Vi tin dung',
-              child: MyDivider()
+              child: const MyDivider()
             ),
             //Credit -limitation
             Visibility(
@@ -195,7 +199,7 @@ class _AddWalletsState extends State<AddWallets> {
                 hideLegend: false,
                 legend: Text('Credit limitation', style: Theme.of(context).textTheme.bodyLarge,),
                 textInputType: TextInputType.number,
-                prefixIcon: PrefixIconAmountTextfield(width: 40,),
+                prefixIcon: const PrefixIconAmountTextfield(width: 40,),
                 fontSize: 40,
                 hintText: '0',
                 prefixIconPadding: const EdgeInsets.only(right: 12, left: 10),
@@ -233,7 +237,7 @@ class _AddWalletsState extends State<AddWallets> {
                   FinalRoutes.pickWalletTypePath,
                   extra: {
                     'pickedWalletType': pickedWalletType,
-                    'onTap' : onItemCategoryTap
+                    'onTap' : _onChosenWalletType
                   }
                 );
               },

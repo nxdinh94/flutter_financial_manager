@@ -19,9 +19,9 @@ class Signin extends StatefulWidget {
 class _SigninState extends State<Signin> {
     ValueNotifier<bool> _obsecurePassword = ValueNotifier<bool>(true);
 
-    // TextEditingController _emailController = TextEditingController(text: 'nguyenxuandinh336@gmail.com');
+    TextEditingController _emailController = TextEditingController(text: 'nguyenxuandinh336@gmail.com');
     // TextEditingController _passwordController = TextEditingController(text: 'Dinh@123');
-    TextEditingController _emailController = TextEditingController();
+    // TextEditingController _emailController = TextEditingController();
     TextEditingController _passwordController = TextEditingController();
 
     final _formKey = GlobalKey<FormState>();
