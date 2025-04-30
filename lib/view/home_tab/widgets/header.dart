@@ -1,13 +1,17 @@
+import 'dart:convert';
+
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/data/response/status.dart';
 import 'package:fe_financial_manager/generated/assets.dart';
+import 'package:fe_financial_manager/injection_container.dart';
 import 'package:fe_financial_manager/model/wallet_model.dart';
 import 'package:fe_financial_manager/view/common_widget/money_vnd.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class Header extends StatelessWidget {
   const Header({
     super.key,
@@ -70,11 +74,22 @@ class Header extends StatelessWidget {
                   SvgContainer(
                     iconWidth: 22, myIconColor: black,
                     iconPath: Assets.svgMagnifyingGlass,
+                    callback: (){
+                      final sh = locator<SharedPreferences>();
+                      Set<String> key = sh.getKeys();
+                      print(key);
+                      String appData = sh.getString('appData') ?? '';
+                      print(jsonDecode(appData)['iconCategoriesData']);
+
+                    },
                   ),
                   const SizedBox(width: 24),
                   SvgContainer(
                       iconWidth: 22, myIconColor: Colors.black,
-                      iconPath: Assets.svgBell
+                      iconPath: Assets.svgBell,
+                    callback: ()async {
+                        final sh = await locator<SharedPreferences>().remove('iconCategoriesData');
+                    },
                   ),
                 ],
               )

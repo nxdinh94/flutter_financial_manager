@@ -288,58 +288,64 @@ class TransactionViewModel  extends ChangeNotifier{
       setLoading(true);
       File imageFile = File(pickedFile.path);
       String imagePath = imageFile.path;
-      _transactionRepository.uploadImage(imagePath).then((value){
-        Map<String, dynamic> data = value['important_info'];
-        // truncate amount_of_money to 2 decimal places, then convert to double
-        data['amount_of_money'] = data['amount_of_money'].truncate().toString();
+      try {
+        _transactionRepository.uploadImage(imagePath).then((value){
+          Map<String, dynamic> data = value['important_info'];
+          // truncate amount_of_money to 2 decimal places, then convert to double
+          data['amount_of_money'] = data['amount_of_money'].truncate().toString();
 
-        // get initial data for wallet
-        final List<WalletModel> listWalletData = context.read<WalletViewModel>().allWalletData.data ?? [];
-        getInitialData((v){
-          data['wallet_type'] = {
-            'money_account_type': {
-              'icon': v.icon,
-            },
-            'id': v.id,
-            'name': v.name,
-          };
-        }, listWalletData, context);
-
-        // get initial data for category
-        final List<CategoriesIconModel> listCategoriesData = context.read<AppViewModel>().iconCategoriesData.data?.categoriesIconListMap['expense'] ?? [];
-        for(CategoriesIconModel i in listCategoriesData){
-          if(i.name == data['category']){
-            data['category'] = {
-              'icon': i.icon,
-              'name': i.name,
-              'id': i.id,
-              'transaction_type': {
-                'type': '',
-              }
+          // get initial data for wallet
+          final List<WalletModel> listWalletData = context.read<WalletViewModel>().allWalletData.data ?? [];
+          getInitialData((v){
+            data['wallet_type'] = {
+              'money_account_type': {
+                'icon': v.icon,
+              },
+              'id': v.id,
+              'name': v.name,
             };
-            break;
-          }
-          for(CategoriesIconModel c in i.children){
-            if(c.name == data['category']){
+          }, listWalletData, context);
+
+          // get initial data for category
+          final List<CategoriesIconModel> listCategoriesData = context.read<AppViewModel>().iconCategoriesData.data?.categoriesIconListMap['expense'] ?? [];
+          for(CategoriesIconModel i in listCategoriesData){
+            if(i.name == data['category']){
               data['category'] = {
                 'icon': i.icon,
                 'name': i.name,
-                'id': i.id
+                'id': i.id,
+                'transaction_type': {
+                  'type': '',
+                }
               };
               break;
             }
+            for(CategoriesIconModel c in i.children){
+              if(c.name == data['category']){
+                data['category'] = {
+                  'icon': i.icon,
+                  'name': i.name,
+                  'id': i.id
+                };
+                break;
+              }
+            }
           }
-        }
-
-        // get initial data for transaction type
-        print(data);
-        final InfoExtractedFromAiModel result = InfoExtractedFromAiModel.fromJson(data);
-        setInfoExtractedFromAi(ApiResponse.completed(result));
-        if(isGotoPage){
-          context.push(FinalRoutes.aiResultPath);
-        }
+          // get initial data for transaction type
+          print(data);
+          final InfoExtractedFromAiModel result = InfoExtractedFromAiModel.fromJson(data);
+          setInfoExtractedFromAi(ApiResponse.completed(result));
+          if(isGotoPage){
+            context.push(FinalRoutes.aiResultPath);
+          }
+          setLoading(false);
+        });
+      }catch(e){
+        Utils.flushBarErrorMessage('Unable to load image', context);
         setLoading(false);
-      });
+      }finally{
+        setLoading(false);
+      }
     } else {
       setInfoExtractedFromAi(ApiResponse.error('Unable to process'));
       Utils.flushBarErrorMessage('Unable to load image', context);

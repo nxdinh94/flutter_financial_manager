@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:fe_financial_manager/injection_container.dart';
 import 'package:fe_financial_manager/utils/auth_manager.dart';
 import 'package:fe_financial_manager/utils/routes/routes.dart';
@@ -21,7 +23,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setupLocator();
   // setup light mode if no mode chosen
-  int ? mode =  locator<SharedPreferences>().getInt('mode');
+  int ? mode = locator<SharedPreferences>().getInt('mode');
   if(mode == null){
     locator<SharedPreferences>().setInt('mode', 0);
   }

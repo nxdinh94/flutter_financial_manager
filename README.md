@@ -71,6 +71,7 @@ For any questions or issues, feel free to reach out:
 ## Work with Dio
 ## Provider -> RiverPod
 ## Native module
+## Caching data
 
 
 // something need to refactor
@@ -80,3 +81,6 @@ For any questions or issues, feel free to reach out:
 
 
 --Warm: update category chir làm phần expense, ch có tg làm income
+
+# Shared_preferences keys
+-- {mode, user, accessToken, appData, refreshToken}

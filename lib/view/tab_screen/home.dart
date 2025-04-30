@@ -31,17 +31,17 @@ class _HomeState extends State<Home> {
       moneyAccountId: '',
     );
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       // Make sure that getIconCategoriesApi is invoked first
-      Provider.of<AppViewModel>(context, listen: false).getIconCategoriesApi();
+      await Provider.of<AppViewModel>(context, listen: false).getIconCategoriesApi();
       Provider.of<TransactionViewModel>(context, listen: false).setParamsGetTransactionChartInRangeTime(defaultRangeTime);
-      Provider.of<WalletViewModel>(context, listen: false).getIconsWalletType();
-      Provider.of<WalletViewModel>(context, listen: false).getAllWallet();
-      Provider.of<WalletViewModel>(context, listen: false).getExternalBank();
-      Provider.of<TransactionViewModel>(context, listen: false).getTransactionInRangeTime(defaultRangeTime);
+      await Provider.of<WalletViewModel>(context, listen: false).getIconsWalletType();
+      await Provider.of<WalletViewModel>(context, listen: false).getAllWallet();
+      await Provider.of<WalletViewModel>(context, listen: false).getExternalBank();
+      await Provider.of<TransactionViewModel>(context, listen: false).getTransactionInRangeTime(defaultRangeTime);
       // Default range time is current month
-      Provider.of<TransactionViewModel>(context, listen: false).getTransactionForChart(defaultRangeTime, context);
-      Provider.of<BudgetViewModel>(context, listen: false).getAllBudgets(context);
+      await Provider.of<TransactionViewModel>(context, listen: false).getTransactionForChart(defaultRangeTime, context);
+      await Provider.of<BudgetViewModel>(context, listen: false).getAllBudgets(context);
     });
     super.initState();
   }

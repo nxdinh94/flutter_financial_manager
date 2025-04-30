@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:fe_financial_manager/data/response/api_response.dart';
+import 'package:fe_financial_manager/injection_container.dart';
 import 'package:fe_financial_manager/repository/app_repository.dart';
 import 'package:fe_financial_manager/utils/utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/transaction_categories_icon_model.dart';
 class AppViewModel extends ChangeNotifier{
@@ -92,34 +96,53 @@ class AppViewModel extends ChangeNotifier{
       }
     });
   }
-
-  Future<void> getIconCategoriesApi() async {
-    setLoading(true);
-    await _appRepository.getIconCategoriesApi().then((value) {
-      CategoriesIconListModel data = value;
-      List<CategoriesIconModel> listParentCategory = [];
-      setIconsCategoriesData(ApiResponse.completed(data));
-
-      // Get list of parent categories
-      for(var i in data.categoriesIconExpenseList!){
-        CategoriesIconModel item = CategoriesIconModel(
+  void getListOfParentExpensesCategories(List<CategoriesIconModel> data) {
+    List<CategoriesIconModel> listParentCategory = [];
+    for(var i in data){
+      CategoriesIconModel item = CategoriesIconModel(
           id: i.id, name: i.name,
           icon: i.icon, transactionTypeId: i.transactionTypeId,
           parentId: i.parentId,
           children: []
-        );
+      );
 
-        listParentCategory.add(item);
-      }
-      setIconsParentCategoriesData(ApiResponse.completed(listParentCategory));
+      listParentCategory.add(item);
+    }
+    setIconsParentCategoriesData(ApiResponse.completed(listParentCategory));
+  }
 
-      getListOfIdOfExpenseCategory(data.categoriesIconExpenseList!);
-      setLoading(false);
-    }).onError((error, stackTrace) {
-      setLoading(false);
-      if (kDebugMode) {
-        print(error.toString());
-      }
-    });
+  Future<void> getIconCategoriesApi() async {
+    setLoading(true);
+
+    final sharedPref = locator<SharedPreferences>();
+
+    Map<String, dynamic> iconCategoriesCachedData = jsonDecode(sharedPref.getString('iconCategoriesData') ?? '{}');
+    if(iconCategoriesCachedData.isEmpty){
+      print('uncached');
+      await _appRepository.getIconCategoriesApi().then((value)async {
+        CategoriesIconListModel data = value;
+        // convert data to json and save to shared preferences
+        await sharedPref.setString('iconCategoriesData', jsonEncode(data));
+        setIconsCategoriesData(ApiResponse.completed(data));
+        // Get list of parent expenses categories
+        getListOfParentExpensesCategories(data.categoriesIconExpenseList!);
+        getListOfIdOfExpenseCategory(data.categoriesIconExpenseList!);
+        setLoading(false);
+      }).onError((error, stackTrace) {
+        setLoading(false);
+        if (kDebugMode) {
+          print(error.toString());
+        }
+      });
+    }else{
+      print('cached');
+      String  dataFromCached = sharedPref.getString('iconCategoriesData')!;
+      dynamic decodedData = jsonDecode(dataFromCached);
+      CategoriesIconListModel fromJsonData = CategoriesIconListModel.fromJson(decodedData);
+      setIconsCategoriesData(ApiResponse.completed(fromJsonData));
+      getListOfParentExpensesCategories(fromJsonData.categoriesIconExpenseList!);
+      getListOfIdOfExpenseCategory(fromJsonData.categoriesIconExpenseList!);
+    }
+
   }
 }
