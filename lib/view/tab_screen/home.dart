@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api, prefer_const_constructor
 import 'package:fe_financial_manager/model/params_get_transaction_in_range_time.dart';
 import 'package:fe_financial_manager/utils/common_range_time.dart';
+import 'package:fe_financial_manager/view/home_tab/widgets/battery.dart';
 import 'package:fe_financial_manager/view/home_tab/widgets/chart_section.dart';
 import 'package:fe_financial_manager/view/home_tab/widgets/header.dart';
 import 'package:fe_financial_manager/view/home_tab/widgets/recent_transactions.dart';
@@ -55,6 +56,8 @@ class _HomeState extends State<Home> {
             SizedBox(height: 6),
             //Header
             Header(),
+            SizedBox(height: 12,),
+            Battery(),
             SizedBox(height: 12,),
             //Row chart
             ChartSection(),
