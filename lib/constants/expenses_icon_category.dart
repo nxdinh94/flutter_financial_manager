@@ -47,4 +47,10 @@ List<String> expenseIconPathCategory = [
   'assets/icon_category/spending_money_icon/sucKhoe/cardiogram.png',
   'assets/icon_category/spending_money_icon/sucKhoe/drugs.png',
   'assets/icon_category/spending_money_icon/sucKhoe/football.png',
+  'assets/icon_category/revenue_money_icon/another.png',
+  'assets/icon_category/revenue_money_icon/award.png',
+  'assets/icon_category/revenue_money_icon/given.png',
+  'assets/icon_category/revenue_money_icon/interest.png',
+  'assets/icon_category/revenue_money_icon/savings-interest.png',
+  'assets/icon_category/revenue_money_icon/salary.png',
 ];

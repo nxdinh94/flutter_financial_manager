@@ -22,5 +22,6 @@ class AppUrl {
 
   static const budget = baseUrl + '/budgets/budget';
 
+  static const aiUrl = 'http://192.168.2.2:8002/api/v1/invoice/extract';
 
 }

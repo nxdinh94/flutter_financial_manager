@@ -15,7 +15,7 @@ class InfoExtractedFromAiModel extends TransactionHistoryModel{
 
   factory InfoExtractedFromAiModel.fromJson(Map<String, dynamic> json) {
     return InfoExtractedFromAiModel(
-      amountOfMoney: json['amount_of_money'] ?? 0,
+      amountOfMoney: json['amount_of_money'] ?? '0',
       occurDate: DateTime.parse(json['occur_date'] ?? DateTime.now().toString()),
       description: json['description'] ?? '',
       transactionTypeCategory: TransactionTypeCategory.fromJson(json['category']),

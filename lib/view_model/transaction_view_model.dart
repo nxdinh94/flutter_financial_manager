@@ -289,63 +289,61 @@ class TransactionViewModel  extends ChangeNotifier{
       File imageFile = File(pickedFile.path);
       String imagePath = imageFile.path;
       try {
-        _transactionRepository.uploadImage(imagePath).then((value){
-          Map<String, dynamic> data = value['important_info'];
-          // truncate amount_of_money to 2 decimal places, then convert to double
-          data['amount_of_money'] = data['amount_of_money'].truncate().toString();
+        final value = await _transactionRepository.uploadImage(imagePath);
 
-          // get initial data for wallet
-          final List<WalletModel> listWalletData = context.read<WalletViewModel>().allWalletData.data ?? [];
-          getInitialData((v){
-            data['wallet_type'] = {
-              'money_account_type': {
-                'icon': v.icon,
-              },
-              'id': v.id,
-              'name': v.name,
+        Map<String, dynamic> data = value['important_info'];
+        data['amount_of_money'] = data['amount_of_money'] == null
+            ? '0'
+            : (data['amount_of_money'] as num).truncate().toString();
+
+        final List<WalletModel> listWalletData = context.read<WalletViewModel>().allWalletData.data ?? [];
+        getInitialData((v) {
+          data['wallet_type'] = {
+            'money_account_type': {
+              'icon': v.icon,
+            },
+            'id': v.id,
+            'name': v.name,
+          };
+        }, listWalletData, context);
+
+        final List<CategoriesIconModel> listCategoriesData = context.read<AppViewModel>().iconCategoriesData.data?.categoriesIconListMap['expense'] ?? [];
+        for (CategoriesIconModel i in listCategoriesData) {
+          if (i.name == data['category']) {
+            data['category'] = {
+              'icon': i.icon,
+              'name': i.name,
+              'id': i.id,
+              'transaction_type': {
+                'type': '',
+              }
             };
-          }, listWalletData, context);
-
-          // get initial data for category
-          final List<CategoriesIconModel> listCategoriesData = context.read<AppViewModel>().iconCategoriesData.data?.categoriesIconListMap['expense'] ?? [];
-          for(CategoriesIconModel i in listCategoriesData){
-            if(i.name == data['category']){
+            break;
+          }
+          for (CategoriesIconModel c in i.children) {
+            if (c.name == data['category']) {
               data['category'] = {
                 'icon': i.icon,
                 'name': i.name,
-                'id': i.id,
-                'transaction_type': {
-                  'type': '',
-                }
+                'id': i.id
               };
               break;
             }
-            for(CategoriesIconModel c in i.children){
-              if(c.name == data['category']){
-                data['category'] = {
-                  'icon': i.icon,
-                  'name': i.name,
-                  'id': i.id
-                };
-                break;
-              }
-            }
           }
-          // get initial data for transaction type
-          print(data);
-          final InfoExtractedFromAiModel result = InfoExtractedFromAiModel.fromJson(data);
-          setInfoExtractedFromAi(ApiResponse.completed(result));
-          if(isGotoPage){
-            context.push(FinalRoutes.aiResultPath);
-          }
-          setLoading(false);
-        });
-      }catch(e){
+        }
+
+        final InfoExtractedFromAiModel result = InfoExtractedFromAiModel.fromJson(data);
+        setInfoExtractedFromAi(ApiResponse.completed(result));
+        if (isGotoPage) {
+          context.push(FinalRoutes.aiResultPath);
+        }
+      } catch (e) {
         Utils.flushBarErrorMessage('Unable to load image', context);
-        setLoading(false);
-      }finally{
+      } finally {
         setLoading(false);
       }
+
+
     } else {
       setInfoExtractedFromAi(ApiResponse.error('Unable to process'));
       Utils.flushBarErrorMessage('Unable to load image', context);
