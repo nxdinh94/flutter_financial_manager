@@ -114,35 +114,35 @@ class AppViewModel extends ChangeNotifier{
   Future<void> getIconCategoriesApi() async {
     setLoading(true);
 
-    final sharedPref = locator<SharedPreferences>();
-
-    Map<String, dynamic> iconCategoriesCachedData = jsonDecode(sharedPref.getString('iconCategoriesData') ?? '{}');
-    if(iconCategoriesCachedData.isEmpty){
-      print('uncached');
-      await _appRepository.getIconCategoriesApi().then((value)async {
-        CategoriesIconListModel data = value;
-        // convert data to json and save to shared preferences
-        await sharedPref.setString('iconCategoriesData', jsonEncode(data));
-        setIconsCategoriesData(ApiResponse.completed(data));
-        // Get list of parent expenses categories
-        getListOfParentExpensesCategories(data.categoriesIconExpenseList!);
-        getListOfIdOfExpenseCategory(data.categoriesIconExpenseList!);
-        setLoading(false);
-      }).onError((error, stackTrace) {
-        setLoading(false);
-        if (kDebugMode) {
-          print(error.toString());
-        }
-      });
-    }else{
-      print('cached');
-      String  dataFromCached = sharedPref.getString('iconCategoriesData')!;
-      dynamic decodedData = jsonDecode(dataFromCached);
-      CategoriesIconListModel fromJsonData = CategoriesIconListModel.fromJson(decodedData);
-      setIconsCategoriesData(ApiResponse.completed(fromJsonData));
-      getListOfParentExpensesCategories(fromJsonData.categoriesIconExpenseList!);
-      getListOfIdOfExpenseCategory(fromJsonData.categoriesIconExpenseList!);
-    }
+    // final sharedPref = locator<SharedPreferences>();
+    // Map<String, dynamic> iconCategoriesCachedData = jsonDecode(sharedPref.getString('iconCategoriesData') ?? '{}');
+    // if(iconCategoriesCachedData.isEmpty){
+    //   print('uncached');
+    await _appRepository.getIconCategoriesApi().then(( value)async {
+      CategoriesIconListModel data = value;
+      // convert data to json and save to shared preferences
+      // await sharedPref.setString('iconCategoriesData', jsonEncode(data));
+      setIconsCategoriesData(ApiResponse.completed(data));
+      // Get list of parent expenses categories
+      getListOfParentExpensesCategories(data.categoriesIconExpenseList!);
+      getListOfIdOfExpenseCategory(data.categoriesIconExpenseList!);
+      setLoading(false);
+    }).onError((error, stackTrace) {
+      setLoading(false);
+      if (kDebugMode) {
+        print(error.toString());
+      }
+    });
+    // }else{
+    //   print('cached');
+    //   String  dataFromCached = sharedPref.getString('iconCategoriesData')!;
+    //   dynamic decodedData = jsonDecode(dataFromCached);
+    //   print(decodedData['expense'][4]['children']);
+    //   CategoriesIconListModel fromJsonData = CategoriesIconListModel.fromJson(decodedData);
+    //   setIconsCategoriesData(ApiResponse.completed(fromJsonData));
+    //   getListOfParentExpensesCategories(fromJsonData.categoriesIconExpenseList!);
+    //   getListOfIdOfExpenseCategory(fromJsonData.categoriesIconExpenseList!);
+    // }
 
   }
 }

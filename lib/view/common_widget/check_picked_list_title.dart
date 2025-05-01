@@ -83,6 +83,7 @@ class _CheckPickedListTileState extends State<CheckPickedListTile> {
               icon: widget.iconData.icon,
               name: widget.iconData.name,
               userId: widget.iconData.userId,
+              transactionTypeId: widget.iconData.transactionTypeId
             );
           }else{
             pickedIcon = PickedIconModel(

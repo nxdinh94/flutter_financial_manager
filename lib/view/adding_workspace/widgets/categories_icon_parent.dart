@@ -47,6 +47,7 @@ class _CategoriesIconParentState extends State<CategoriesIconParent> {
               icon: widget.parentIcon.icon,
               name: widget.parentIcon.name,
               userId: widget.parentIcon.userId,
+              transactionTypeId: widget.parentIcon.transactionTypeId
             );
             widget.onTap(pickedCategory);
           },

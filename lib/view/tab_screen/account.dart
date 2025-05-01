@@ -28,7 +28,6 @@ class _AccountState extends State<Account> {
     dynamic result = await context.push(
         FinalRoutes.editCategoryPath, extra: {'pickedCategory' : value});
     if(result == true){
-      print('result is true');
       await context.read<AppViewModel>().getIconCategoriesApi();
     }
   }

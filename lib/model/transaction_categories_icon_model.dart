@@ -45,7 +45,7 @@ class CategoriesIconModel extends IconModel {
   final String transactionTypeId;
   final String parentId;
   final List<CategoriesIconModel> children;
-  final dynamic  userId;
+  final dynamic userId;
   CategoriesIconModel({
     required super.id,
     required super.name,
@@ -79,6 +79,7 @@ class CategoriesIconModel extends IconModel {
       'transaction_type_id': transactionTypeId,
       'icon': icon,
       'parent_id': parentId,
+      'user_id': userId,
       'children': children.map((child) => child.toJson()).toList(),
     };
   }

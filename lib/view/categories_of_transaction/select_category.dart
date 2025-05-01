@@ -116,6 +116,7 @@ class _SelectCategoryState extends State<SelectCategory> with TickerProviderStat
                             ],
                           ),
                         ),
+                        // Income tab
                         SingleChildScrollView(
                           child: Column(
                             children: [
@@ -125,7 +126,8 @@ class _SelectCategoryState extends State<SelectCategory> with TickerProviderStat
                               ...incomeIconsList.map<Widget>((e) {
                                 CategoriesIconModel categoriesIconParent = e as CategoriesIconModel; // Proper casting
                                 return CategoriesIconParent(
-                                  parentIcon: categoriesIconParent, onTap: widget.onItemTap,
+                                  parentIcon: categoriesIconParent,
+                                  onTap: widget.onItemTap,
                                   pickedCategoryId: widget.pickedCategory?.id,
                                 );
                               }).toList()

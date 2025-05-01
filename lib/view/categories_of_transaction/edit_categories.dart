@@ -33,7 +33,7 @@ class _EditCategoriesState extends State<EditCategories> {
       'name': _nameController.text,
       'icon': iconPath,
       'parent_id': parentCategory.id,
-      'transaction_type_id': transactionTypeId[1],
+      'transaction_type_id': widget.pickedCategory.transactionTypeId,
     };
     if(data['parent_id'].toString().isEmpty){
       data.remove('parent_id');
