@@ -15,18 +15,17 @@ const Color iosTextBlue = Color(0xff0091FE);
 const Color black = Color(0xff000000);
 const Color white = Color(0xffffffff);
 const Color bottomSheetBG = Color(0xffF2F2F2);
-
 final pieChartColorList = <Color>[
-  const Color(0xffFFDA78),
-  const Color(0xfffdbbe4),
-  const Color(0xff9BCF53),
-  const Color(0xffff7a51),
-  const Color(0xff5DEBD7),
-  const Color(0xff41B06E),
-  const Color(0xff4CCD99),
-  const Color(0xffFEB941),
-  const Color(0xffE1ACAC),
-  const Color(0xffA6F6FF),
-  const Color(0xffF6E9B2),
-  const Color(0xffA6F6FF),
+  const Color(0xFFEF476F), // Đỏ hồng nổi bật
+  const Color(0xFF06D6A0), // Xanh ngọc tươi
+  const Color(0xFFFFD166), // Vàng sáng
+  const Color(0xFF118AB2), // Xanh dương trung tính
+  const Color(0xFF8338EC), // Tím đậm
+  const Color(0xFFFF7F51), // Cam sáng
+  const Color(0xFF3A86FF), // Xanh dương rực
+  const Color(0xFF2EC4B6), // Xanh ngọc nhạt
+  const Color(0xFFFFC6FF), // Hồng pastel
+  const Color(0xFF8D99AE), // Xám xanh hiện đại
+  const Color(0xFF26547C), // Xanh navy cổ điển
 ];
+

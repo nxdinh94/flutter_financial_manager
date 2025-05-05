@@ -4,12 +4,14 @@ import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/data/response/status.dart';
 import 'package:fe_financial_manager/generated/assets.dart';
+import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/injection_container.dart';
 import 'package:fe_financial_manager/model/wallet_model.dart';
 import 'package:fe_financial_manager/view/common_widget/money_vnd.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
 import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 class Header extends StatelessWidget {
@@ -36,9 +38,7 @@ class Header extends StatelessWidget {
                     builder: (context, value, child) {
                       switch(value.allWalletData.status){
                         case Status.LOADING:
-                          return MoneyVnd(
-                              fontSize: 24, amount: 0
-                          );
+                          return const MoneyVnd(fontSize: 24, amount: 0);
                         case Status.COMPLETED:
                           List<WalletModel> listData = value.allWalletData.data;
                           double totalWalletBalance = 0;
@@ -50,11 +50,11 @@ class Header extends StatelessWidget {
                               fontSize: 24, amount: totalWalletBalance
                           );
                         case Status.ERROR:
-                          return MoneyVnd(
+                          return const MoneyVnd(
                               fontSize: 24, amount: 0
                           );
                         default :
-                          return MoneyVnd(
+                          return const MoneyVnd(
                               fontSize: 24, amount: 0
                           );
                       }
@@ -75,12 +75,7 @@ class Header extends StatelessWidget {
                     iconWidth: 22, myIconColor: black,
                     iconPath: Assets.svgMagnifyingGlass,
                     callback: (){
-                      final sh = locator<SharedPreferences>();
-                      Set<String> key = sh.getKeys();
-                      print(key);
-                      String appData = sh.getString('appData') ?? '';
-                      print(jsonDecode(appData)['iconCategoriesData']);
-
+                     context.push(FinalRoutes.chatWithAIPath);
                     },
                   ),
                   const SizedBox(width: 24),

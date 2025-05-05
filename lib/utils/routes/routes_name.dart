@@ -53,4 +53,7 @@ class RoutesName {
   static const String summaryDetailPath = 'summaryDetail';
   static const String transactionHistoryDetailPath = 'transactionHistoryDetail';
 
+  // chat
+  static const String chatWithAIPath = 'chatWithAI';
+
 }

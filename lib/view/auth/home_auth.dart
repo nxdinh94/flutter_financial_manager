@@ -113,9 +113,7 @@ class _HomeAuthState extends State<HomeAuth> {
                           context.push(FinalRoutes.signUpPath);
                         },
                         child: const Text(
-                          'Sign up for free', style: TextStyle(
-                            fontWeight: FontWeight.w600
-                          ),
+                          'Sign up for free', style: TextStyle(fontWeight: FontWeight.w600),
                         )
                       ),
                     ),

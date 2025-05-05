@@ -19,6 +19,7 @@ import 'package:fe_financial_manager/view/budgets/budget_details.dart';
 import 'package:fe_financial_manager/view/budgets/create_update_budget.dart';
 import 'package:fe_financial_manager/view/categories_of_transaction/create_category.dart';
 import 'package:fe_financial_manager/view/categories_of_transaction/select_parent_categories.dart';
+import 'package:fe_financial_manager/view/home_tab/chat_with_ai.dart';
 import 'package:fe_financial_manager/view/home_tab/group_transaction_detail.dart';
 import 'package:fe_financial_manager/view/home_tab/summary_detail.dart';
 import 'package:fe_financial_manager/view/tab_screen/all_wallets.dart';
@@ -124,6 +125,16 @@ class CustomNavigationHelper {
                       )
                     ]
                   ),
+                  GoRoute(
+                    path: RoutesName.chatWithAIPath,
+                    pageBuilder: (context, GoRouterState state) {
+                      return getPage(
+                        child: const ChatWithAi(),
+                        state: state,
+                      );
+                    },
+                  ),
+
                 ]
               ),
               GoRoute(
@@ -425,7 +436,7 @@ class CustomNavigationHelper {
                   path: RoutesName.homeAuthPath,
                   pageBuilder: (context, state) {
                     return getPage(
-                      child: HomeAuth(),
+                      child: const HomeAuth(),
                       state: state,
                     );
                   },

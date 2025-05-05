@@ -35,6 +35,7 @@ class FinalRoutes {
   static const String pickIconPathForCategoryPath = '$editCategoryPath/${RoutesName.pickIconPathForCategoryPath}';
   static const String summaryDetailPath = '${RoutesName.homePath}/${RoutesName.summaryDetailPath}';
   static const String groupTransactionDetailPath = '${RoutesName.homePath}/${RoutesName.summaryDetailPath}/${RoutesName.groupTransactionDetailPath}';
+  static const String chatWithAIPath = '${RoutesName.homePath}/${RoutesName.chatWithAIPath}';
   static const String something = '';
 
 }
