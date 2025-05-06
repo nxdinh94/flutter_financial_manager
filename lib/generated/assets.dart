@@ -39,6 +39,14 @@ class Assets{
   static const String pngOthers = 'assets/another_icon/others.png';
   static const String pngOwnership = 'assets/another_icon/ownership.png';
 
+  static const String pngIncomeLevelOne = 'assets/another_icon/level_1.png';
+  static const String pngIncomeLevelTwo = 'assets/another_icon/level_2.png';
+  static const String pngIncomeLevelThree = 'assets/another_icon/level_3.png';
+  static const String pngIncomeLevelFour = 'assets/another_icon/level_4.png';
+  static const String pngIncomeLevelFive = 'assets/another_icon/level_5.png';
+  static const String pngIncomeLevelMax = 'assets/another_icon/level_max.png';
+  static const String pngLoan = 'assets/cash_flow_icon/loan.png';
+
 
 
 
