@@ -8,8 +8,10 @@ import 'package:fe_financial_manager/injection_container.dart';
 import 'package:fe_financial_manager/model/wallet_model.dart';
 import 'package:fe_financial_manager/view/common_widget/money_vnd.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
+import 'package:fe_financial_manager/view/onboarding/onboarding.dart';
 import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 class Header extends StatelessWidget {
@@ -66,6 +68,17 @@ class Header extends StatelessWidget {
                     iconWidth: 24,
                     iconPath: Assets.svgEyes,
                     myIconColor: black,
+                    callback: () {
+                      showMaterialModalBottomSheet(
+                        context: context,
+                        expand: true,
+                        enableDrag: false,
+                        useRootNavigator: true,
+                        builder: (context) => Container(
+                          child: MyPageView(),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),

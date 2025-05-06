@@ -33,6 +33,11 @@ class Assets{
   static const String pngHamburger = 'assets/icon_category/spending_money_icon/anUong/burger_parent.png';
   static const String pngSalary = 'assets/icon_category/revenue_money_icon/salary.png';
   static const String pngSavingInterest = 'assets/icon_category/revenue_money_icon/savings-interest.png';
+  static const String pngFreelance = 'assets/another_icon/freelance-work.png';
+  static const String pngGraduated = 'assets/another_icon/graduated.png';
+  static const String pngOfficer = 'assets/another_icon/officer.png';
+  static const String pngOthers = 'assets/another_icon/others.png';
+  static const String pngOwnership = 'assets/another_icon/ownership.png';
 
 
 
