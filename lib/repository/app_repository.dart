@@ -36,5 +36,11 @@ class AppRepository{
       rethrow;
     }
   }
-
+  Future<void> collectUserPersonalizationApi(Map<String, dynamic> data) async {
+    try {
+      await _apiServices.getPostApiResponse(AppUrl.personalization, data);
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

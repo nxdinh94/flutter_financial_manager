@@ -1,54 +1,23 @@
-import 'package:fe_financial_manager/constants/colors.dart';
+import 'package:fe_financial_manager/constants/enum.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
-import 'package:fe_financial_manager/generated/assets.dart';
-import 'package:fe_financial_manager/view/common_widget/divider.dart';
 import 'package:fe_financial_manager/view/common_widget/my_list_title.dart';
 import 'package:flutter/material.dart';
 
 class OccupationPage extends StatefulWidget {
-  const OccupationPage({super.key, required this.callback});
-  final VoidCallback callback;
+  const OccupationPage({
+    super.key, required
+    this.callback,
+    required this.optionWidgetList,
+  });
+  final void Function(Occupation) callback;
+  final List<Map<String, dynamic>> optionWidgetList;
   @override
   State<OccupationPage> createState() => _OccupationPageState();
 }
-enum Occupation { universityStudent, officeStaff, freelancer, bussinessOwner, other }
 
 class _OccupationPageState extends State<OccupationPage> {
-  late List<Map<String, dynamic>> _optionWidgetList;
   Occupation ? _occupation;
-  @override
-  void initState() {
-    _optionWidgetList = [
-      {
-        'title': 'University Student',
-        'icon': Assets.pngGraduated,
-        'value': Occupation.universityStudent,
-      },
-      {
-        'title': 'Office Staff',
-        'icon': Assets.pngOfficer,
-        'value': Occupation.officeStaff,
-      },
-      {
-        'title': 'Freelancer',
-        'icon': Assets.pngFreelance,
-        'value': Occupation.freelancer,
-      },
-      {
-        'title': 'Business Owner',
-        'icon': Assets.pngOwnership,
-        'value': Occupation.bussinessOwner,
-      },
-      {
-        'title': 'Other',
-        'icon': Assets.pngOthers,
-        'value': Occupation.other,
-      },
-    ];
 
-
-    super.initState();
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +25,9 @@ class _OccupationPageState extends State<OccupationPage> {
       floatingActionButton: Visibility(
         visible: _occupation != null,
         child: ElevatedButton(
-          onPressed: widget.callback,
+          onPressed: (){
+            widget.callback(_occupation!);
+          },
           child: const Text('Next')
         ) 
       ),
@@ -71,7 +42,7 @@ class _OccupationPageState extends State<OccupationPage> {
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
               const SizedBox(height: 24),
-              ..._optionWidgetList.map((e){
+              ...widget.optionWidgetList.map((e){
                 return MyListTitle(
                   title: e['title'],
                   callback: (){},

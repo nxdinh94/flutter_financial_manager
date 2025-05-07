@@ -4,3 +4,7 @@ enum UserRole {
 enum IsVerify{
   verified, unVerified
 }
+enum Occupation {
+  universityStudent, officeStaff, freelancer, bussinessOwner, other
+}
+

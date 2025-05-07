@@ -1,14 +1,10 @@
-import 'dart:convert';
 
 import 'package:fe_financial_manager/data/response/api_response.dart';
-import 'package:fe_financial_manager/injection_container.dart';
 import 'package:fe_financial_manager/repository/app_repository.dart';
 import 'package:fe_financial_manager/utils/utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../model/transaction_categories_icon_model.dart';
 class AppViewModel extends ChangeNotifier{
 
@@ -143,6 +139,12 @@ class AppViewModel extends ChangeNotifier{
     //   getListOfParentExpensesCategories(fromJsonData.categoriesIconExpenseList!);
     //   getListOfIdOfExpenseCategory(fromJsonData.categoriesIconExpenseList!);
     // }
-
   }
+
+  Future<void> collectUserPersonalization(Map<String, dynamic> data, BuildContext context)async{
+    await _appRepository.collectUserPersonalizationApi(data).then((v){
+      context.pop();
+    });
+  }
+
 }
