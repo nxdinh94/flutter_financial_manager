@@ -1,3 +1,4 @@
+import 'package:fe_financial_manager/utils/utils.dart';
 import 'package:fe_financial_manager/view/common_widget/my_box_shadow.dart';
 import 'package:flutter/material.dart';
 import '../../constants/padding.dart';
@@ -14,7 +15,7 @@ class IncomeLevelPage extends StatefulWidget {
 
 class _IncomeLevelPageState extends State<IncomeLevelPage> {
   final TextEditingController _amountController = TextEditingController();
-
+  bool flag = false;
   @override
   void dispose() {
     _amountController.dispose();
@@ -23,14 +24,16 @@ class _IncomeLevelPageState extends State<IncomeLevelPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Visibility(
-          visible: _amountController.text.isNotEmpty,
-          child: ElevatedButton(
-              onPressed: (){
-                widget.callback(_amountController.text);
-              },
-              child: const Text('Next')
-          )
+      floatingActionButton: ElevatedButton(
+          onPressed: (){
+            String amount = _amountController.text;
+            if(amount.isEmpty || amount == '0'){
+              Utils.flushBarErrorMessage('Please, fulfill this field', context);
+              return;
+            }
+            widget.callback(_amountController.text);
+          },
+          child: const Text('Next')
       ),
       backgroundColor: Theme.of(context).colorScheme.primary,
       body: Container(
@@ -45,7 +48,6 @@ class _IncomeLevelPageState extends State<IncomeLevelPage> {
               ),
               const SizedBox(height: 24),
               MyBoxShadow(
-                
                 padding: defaultHalfPadding,
                 child: CustomTextfield(
                   controller: _amountController,

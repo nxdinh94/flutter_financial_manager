@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
 
 class AppUrl {
-  // static const baseUrl = 'http://10.10.23.113:3222/api';
-  static const baseUrl = 'http://192.168.2.2:3222/api';
+  static const baseUrl = 'http://10.10.23.113:3222/api';
+  // static const baseUrl = 'http://192.168.2.2:3222/api';
   static const aiUrl = 'http://192.168.2.2:8002/api/v1/invoice/extract';
 
   static const loginEndPint = baseUrl + '/auth/login';
@@ -23,5 +23,7 @@ class AppUrl {
 
   static const budget = baseUrl + '/budgets/budget';
   static const personalization = baseUrl + '/users/personalization';
+  static const personalizationDataChatbot = baseUrl + '/users/personalization/data-chatbot';
+  static const personalizationStatus = baseUrl + '/users/personalization/status';
 
 }

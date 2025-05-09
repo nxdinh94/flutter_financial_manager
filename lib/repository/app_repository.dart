@@ -43,4 +43,20 @@ class AppRepository{
       rethrow;
     }
   }
+  Future<dynamic> getUserPersonalizationStatusApi() async {
+    try {
+      dynamic result = await _apiServices.getGetApiResponse(AppUrl.personalizationStatus, true);
+      return result['data'];
+    } catch (e) {
+      rethrow;
+    }
+  }
+  Future<dynamic> getUserPersonalizationDataForChatBotApi() async {
+    try {
+      dynamic result = await _apiServices.getGetApiResponse(AppUrl.personalizationDataChatbot, true);
+      return result['data'];
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

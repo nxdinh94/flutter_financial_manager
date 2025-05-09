@@ -5,7 +5,10 @@ import 'package:fe_financial_manager/utils/utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../model/transaction_categories_icon_model.dart';
+import '../view/onboarding/onboarding.dart';
+
 class AppViewModel extends ChangeNotifier{
 
   final AppRepository _appRepository = AppRepository();
@@ -17,8 +20,13 @@ class AppViewModel extends ChangeNotifier{
   ApiResponse _iconParentCategoriesData = ApiResponse.loading();
   ApiResponse get iconParentCategoriesData => _iconParentCategoriesData;
 
+  ApiResponse _userPersonalizationDataForChatBot = ApiResponse.loading();
+  ApiResponse get userPersonalizationDataForChatBot => _userPersonalizationDataForChatBot;
+
   List<String> _listIdOfExpenseCategory = [];
   List<String> get listIdOfExpenseCategory => _listIdOfExpenseCategory;
+
+
 
   bool _loading = false;
   bool get loading => _loading;
@@ -30,6 +38,10 @@ class AppViewModel extends ChangeNotifier{
 
   void setIconsCategoriesData(ApiResponse value) {
     _iconCategoriesData = value;
+    notifyListeners();
+  }
+  void setUserPersonalizationDataForChatBot(ApiResponse value){
+    _userPersonalizationDataForChatBot = value;
     notifyListeners();
   }
   // List of parent categories
@@ -145,6 +157,44 @@ class AppViewModel extends ChangeNotifier{
     await _appRepository.collectUserPersonalizationApi(data).then((v){
       context.pop();
     });
+  }
+  Future<void> getUserPersonalizationStatus(BuildContext context)async{
+    await _appRepository.getUserPersonalizationStatusApi().then((value){
+      if(!value){
+        showMaterialModalBottomSheet(
+          context: context,
+          expand: true,
+          enableDrag: false,
+          useRootNavigator: true,
+          builder: (context) => Container(
+            child: const MyPageView(),
+          ),
+        );
+      }
+    });
+  }
+  Future<dynamic> getUserPersonalizationDataForChatBot(BuildContext context)async{
+    try{
+      dynamic result = await _appRepository.getUserPersonalizationDataForChatBotApi();
+      Map<String, dynamic> transformedData = {};
+      List<dynamic> expenseTransactionsOfMonth = result['expense_transactions_of_month'];
+      transformedData['monthlyIncome'] = result['monthly_income'];
+      transformedData['totalSpendingThisMonth'] = result['total_amount_expense_of_month'];
+      transformedData['spendingBreakdown'] = [
+        ...expenseTransactionsOfMonth.map((e){
+          return {
+            'type': e['name'],
+            'amount': e['amount_of_money'],
+          };
+        })
+      ];
+    }catch(e){
+      if (kDebugMode) {
+        print(e.toString());
+      }
+    }
+
+
   }
 
 }
