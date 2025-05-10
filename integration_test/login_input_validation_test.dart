@@ -58,6 +58,15 @@ class FakeAuthViewModel extends ChangeNotifier implements AuthViewModel {
     _loading = false;
     notifyListeners();
   }
+  @override
+  Future<void> loginWithGoogleApi(Map<String, dynamic> data, BuildContext context) {
+    // TODO: implement loginWithGoogleApi
+    throw UnimplementedError();
+  }
+  @override
+  void saveTokenAndUserInformation(value) {
+    // TODO: implement saveTokenAndUserInformation
+  }
 }
 
 void main() {

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "986549874924",
+    "project_id": "my-first-firebase-project-0904",
+    "storage_bucket": "my-first-firebase-project-0904.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:986549874924:android:52fc03f689dc8afe6535c9",
+        "android_client_info": {
+          "package_name": "com.example.fe_financial_manager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "986549874924-uv9rj9t8t6fj4gsp1jmjql5vr0kussfv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBB-fI9rw7EY6NLIgKmZKXYrRccF_Kngws"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "986549874924-uv9rj9t8t6fj4gsp1jmjql5vr0kussfv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

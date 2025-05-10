@@ -26,15 +26,35 @@ class AuthViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> loginApi(dynamic data, BuildContext context) async {
+  void saveTokenAndUserInformation(dynamic value){
+    String accessToken = value['data']['accessToken'];
+    String refreshToken = value['data']['refreshToken'];
+    final UserModel user = UserModel.fromJson(value['data']['user']);
+    AuthManager.persistTokens(accessToken, refreshToken, user);
+  }
+
+  Future<void> loginApi(Map<String, dynamic> data, BuildContext context) async {
     setLoading(true);
-    _myRepo.loginApi(data).then((value) {
-      String accessToken = value['data']['accessToken'];
-      String refreshToken = value['data']['refreshToken'];
-      final UserModel user = UserModel.fromJson(value['data']['user']);
-      AuthManager.persistTokens(accessToken, refreshToken, user);
+    await _myRepo.loginApi(data).then((value) {
+      saveTokenAndUserInformation(value);
       setLoading(false);
-      // Utils.flushBarErrorMessage(value['message'], context);
+      context.pushReplacement(FinalRoutes.homePath);
+
+    }).onError((error, stackTrace) {
+      setLoading(false);
+      print('======${error.toString()}');
+      if (kDebugMode) {
+        Utils.flushBarErrorMessage('Email or password is not correct', context);
+        print(error.toString());
+      }
+    });
+  }
+  Future<void> loginWithGoogleApi(Map<String, dynamic> data, BuildContext context) async {
+    setLoading(true);
+    await _myRepo.loginWithGoogleApi(data).then((value) {
+      print(value);
+      saveTokenAndUserInformation(value);
+      setLoading(false);
       context.pushReplacement(FinalRoutes.homePath);
 
     }).onError((error, stackTrace) {
@@ -63,7 +83,7 @@ class AuthViewModel with ChangeNotifier {
     });
   }
   Future<void> logoutApi (dynamic refreshToken, BuildContext context)async{
-      AuthManager.logout();
+    AuthManager.logout();
     setLoading(true);
     _myRepo.logOutApi(refreshToken).then((value){
       context.pushReplacement(FinalRoutes.homeAuthPath);
@@ -75,6 +95,7 @@ class AuthViewModel with ChangeNotifier {
       print(error);
     });
   }
+
   Future<void> changePasswordApi (Map<String, String> data, BuildContext context)async{
     setLoading(true);
     _myRepo.changePasswordApi(data).then((value){
