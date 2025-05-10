@@ -1,11 +1,12 @@
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
+import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:flutter/material.dart';
 class EmptyValueScreen extends StatelessWidget {
   const EmptyValueScreen({
     super.key,
     this.iconSize = 100,
-    this.isAccountPage = true,
+    this.isAccountPage = false,
     required this.title,
   });
 
@@ -16,7 +17,7 @@ class EmptyValueScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        margin: const EdgeInsets.only(top: 60),
+        padding: defaultPadding,
         child: Column(
           children: [
             Image.asset('assets/another_icon/grey-coin.png', width: iconSize),
