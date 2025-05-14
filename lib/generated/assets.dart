@@ -27,6 +27,7 @@ class Assets{
   static const String svgSettingsWithUpArrow = 'assets/svg/settings-with-up-arrow.svg';
   static const String svgMathematical = 'assets/svg/mathematical.svg';
   static const String svgBoxWithUpArrow = 'assets/svg/open-box-with-up-arrow.svg';
+  static const String svgCopilot = 'assets/svg/copilot.svg';
 
 
 
@@ -38,6 +39,7 @@ class Assets{
   static const String pngOfficer = 'assets/another_icon/officer.png';
   static const String pngOthers = 'assets/another_icon/others.png';
   static const String pngOwnership = 'assets/another_icon/ownership.png';
+  static const String pngCopilot = 'assets/another_icon/copilot.png';
 
   static const String pngIncomeLevelOne = 'assets/another_icon/level_1.png';
   static const String pngIncomeLevelTwo = 'assets/another_icon/level_2.png';

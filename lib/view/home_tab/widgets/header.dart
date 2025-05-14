@@ -86,15 +86,22 @@ class Header extends StatelessWidget {
                     iconWidth: 22, myIconColor: black,
                     iconPath: Assets.svgMagnifyingGlass,
                     callback: (){
-                      context.push(FinalRoutes.chatWithAIPath);
                     },
                   ),
                   const SizedBox(width: 24),
                   SvgContainer(
-                      iconWidth: 22, myIconColor: Colors.black,
-                      iconPath: Assets.svgBell,
+                    iconWidth: 22, myIconColor: Colors.black,
+                    iconPath: Assets.svgBell,
                     callback: ()async {
                         final sh = await locator<SharedPreferences>().remove('iconCategoriesData');
+                    },
+                  ),
+                  const SizedBox(width: 24),
+                  SvgContainer(
+                    iconWidth: 22, myIconColor: Colors.black,
+                    iconPath: Assets.svgCopilot,
+                    callback: ()async {
+                      context.push(FinalRoutes.chatWithAIPath);
                     },
                   ),
                 ],
