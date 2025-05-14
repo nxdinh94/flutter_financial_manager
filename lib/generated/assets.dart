@@ -33,6 +33,19 @@ class Assets{
   static const String pngHamburger = 'assets/icon_category/spending_money_icon/anUong/burger_parent.png';
   static const String pngSalary = 'assets/icon_category/revenue_money_icon/salary.png';
   static const String pngSavingInterest = 'assets/icon_category/revenue_money_icon/savings-interest.png';
+  static const String pngFreelance = 'assets/another_icon/freelance-work.png';
+  static const String pngGraduated = 'assets/another_icon/graduated.png';
+  static const String pngOfficer = 'assets/another_icon/officer.png';
+  static const String pngOthers = 'assets/another_icon/others.png';
+  static const String pngOwnership = 'assets/another_icon/ownership.png';
+
+  static const String pngIncomeLevelOne = 'assets/another_icon/level_1.png';
+  static const String pngIncomeLevelTwo = 'assets/another_icon/level_2.png';
+  static const String pngIncomeLevelThree = 'assets/another_icon/level_3.png';
+  static const String pngIncomeLevelFour = 'assets/another_icon/level_4.png';
+  static const String pngIncomeLevelFive = 'assets/another_icon/level_5.png';
+  static const String pngIncomeLevelMax = 'assets/another_icon/level_max.png';
+  static const String pngLoan = 'assets/cash_flow_icon/loan.png';
 
 
 

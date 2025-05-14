@@ -4,16 +4,20 @@ import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/data/response/status.dart';
 import 'package:fe_financial_manager/generated/assets.dart';
-import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/injection_container.dart';
 import 'package:fe_financial_manager/model/wallet_model.dart';
 import 'package:fe_financial_manager/view/common_widget/money_vnd.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
+import 'package:fe_financial_manager/view/onboarding/onboarding.dart';
+import 'package:fe_financial_manager/view_model/app_view_model.dart';
 import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../generated/paths.dart';
 class Header extends StatelessWidget {
   const Header({
     super.key,
@@ -38,7 +42,9 @@ class Header extends StatelessWidget {
                     builder: (context, value, child) {
                       switch(value.allWalletData.status){
                         case Status.LOADING:
-                          return const MoneyVnd(fontSize: 24, amount: 0);
+                          return MoneyVnd(
+                              fontSize: 24, amount: 0
+                          );
                         case Status.COMPLETED:
                           List<WalletModel> listData = value.allWalletData.data;
                           double totalWalletBalance = 0;
@@ -50,11 +56,11 @@ class Header extends StatelessWidget {
                               fontSize: 24, amount: totalWalletBalance
                           );
                         case Status.ERROR:
-                          return const MoneyVnd(
+                          return MoneyVnd(
                               fontSize: 24, amount: 0
                           );
                         default :
-                          return const MoneyVnd(
+                          return MoneyVnd(
                               fontSize: 24, amount: 0
                           );
                       }
@@ -66,6 +72,11 @@ class Header extends StatelessWidget {
                     iconWidth: 24,
                     iconPath: Assets.svgEyes,
                     myIconColor: black,
+                    callback: ()async {
+                      dynamic result = await context.read<AppViewModel>()
+                          .getUserPersonalizationDataForChatBot(context);
+                      print(result);
+                    },
                   ),
                 ],
               ),
@@ -75,7 +86,7 @@ class Header extends StatelessWidget {
                     iconWidth: 22, myIconColor: black,
                     iconPath: Assets.svgMagnifyingGlass,
                     callback: (){
-                     context.push(FinalRoutes.chatWithAIPath);
+                      context.push(FinalRoutes.chatWithAIPath);
                     },
                   ),
                   const SizedBox(width: 24),

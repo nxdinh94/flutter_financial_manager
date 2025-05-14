@@ -22,6 +22,15 @@ class AuthRepository {
       throw e;
     }
   }
+  Future<dynamic> loginWithGoogleApi(Map<String, dynamic> idToken) async {
+    try {
+      dynamic response =
+          await _apiServices.getPostApiResponse(AppUrl.loginWithGoogle, idToken);
+      return response;
+    } catch (e) {
+      throw e;
+    }
+  }
 
   Future<dynamic> signUpApi(dynamic data) async {
     try {

@@ -159,7 +159,7 @@ ThemeData lightTheme = ThemeData(
   textTheme: const TextTheme(
     headlineLarge: TextStyle(
       color: colorTextBlack,
-      fontSize: extraBigger,
+      fontSize: 30,
       fontWeight: FontWeight.w600,
       height: 1.2,
       fontFamily: 'Roboto',

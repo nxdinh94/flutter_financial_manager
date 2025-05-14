@@ -1,3 +1,4 @@
+import 'package:fe_financial_manager/view/common_widget/empty_value_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
@@ -28,7 +29,10 @@ class AllWalletConsumer extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           case Status.COMPLETED:
             List<WalletModel> listData = value.allWalletData.data;
-            return listData.isEmpty ? Text('Empty'): Column(
+            return listData.isEmpty ?
+              Container(
+                color: primaryColor,
+                child: const EmptyValueScreen(title: 'You have no wallet yet', iconSize: 60,)): Column(
               children: listData.asMap().entries.map((e){
                 WalletModel val = e.value;
                 double balance = double.parse(val.accountBalance);

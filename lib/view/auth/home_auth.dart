@@ -99,43 +99,43 @@ class _HomeAuthState extends State<HomeAuth> {
               ),
             ),
             Expanded(
-              flex: 4,
-              child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: 42,
-                      child: ElevatedButton(
-                        key: const ValueKey('toSignUpScreen'),
-                        onPressed: (){
-                          context.push(FinalRoutes.signUpPath);
-                        },
-                        child: const Text(
-                          'Sign up for free', style: TextStyle(fontWeight: FontWeight.w600),
-                        )
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: 42,
-                      child: ElevatedButton(
-                        key: const ValueKey('toSignInScreen'),
-                        onPressed: (){
-                          context.push(FinalRoutes.signInPath);
-                        },
-                        child: Text('Sign in', style: TextStyle(
-                          color: Theme.of(context).colorScheme.onSecondary,
+              flex: 3,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 42,
+                    child: ElevatedButton(
+                      key: const ValueKey('toSignUpScreen'),
+                      onPressed: (){
+                        context.push(FinalRoutes.signUpPath);
+                      },
+                      child: const Text(
+                        'Sign up for free', style: TextStyle(
                           fontWeight: FontWeight.w600
-                        ),)
-                      ),
+                        ),
+                      )
                     ),
-                    const SizedBox(height: 5),
-                    Text('Version 8.31.1', style: Theme.of(context).textTheme.labelSmall,)
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 6),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 42,
+                    child: ElevatedButton(
+                      key: const ValueKey('toSignInScreen'),
+                      onPressed: (){
+                        context.push(FinalRoutes.signInPath);
+                      },
+                      child: Text('Sign in', style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSecondary,
+                        fontWeight: FontWeight.w600
+                      ),)
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  Text('Version 8.31.1', style: Theme.of(context).textTheme.labelSmall,)
+                ],
               ),
             ),
           ],

@@ -33,6 +33,7 @@ class _HomeState extends State<Home> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       // Make sure that getIconCategoriesApi is invoked first
+      await Provider.of<AppViewModel>(context, listen: false).getUserPersonalizationStatus(context);
       await Provider.of<AppViewModel>(context, listen: false).getIconCategoriesApi();
       Provider.of<TransactionViewModel>(context, listen: false).setParamsGetTransactionChartInRangeTime(defaultRangeTime);
       await Provider.of<WalletViewModel>(context, listen: false).getIconsWalletType();

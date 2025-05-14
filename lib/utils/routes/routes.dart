@@ -332,7 +332,7 @@ class CustomNavigationHelper {
               GoRoute(
                   path: RoutesName.accountPath,
                   pageBuilder: (context, GoRouterState state) {
-                    return getPage(child: Account(), state: state);
+                    return getPage(child: const Account(), state: state);
                   },
                   routes: [
                     GoRoute(
@@ -461,7 +461,7 @@ class CustomNavigationHelper {
                   path: RoutesName.changePasswordPath,
                   pageBuilder: (context, state) {
                     return getPage(child: ChangePassword(), state: state);
-                  })
+              }),
             ],
           )
         ],

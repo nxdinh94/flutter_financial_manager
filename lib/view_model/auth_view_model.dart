@@ -1,14 +1,18 @@
 import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/model/user_model.dart';
 import 'package:fe_financial_manager/utils/auth_manager.dart';
+import 'package:fe_financial_manager/utils/sign_in_with_google.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import '../repository/auth_repository.dart';
 import '../utils/utils.dart';
 
 class AuthViewModel with ChangeNotifier {
-  final _myRepo = AuthRepository();
+  final AuthRepository _myRepo = AuthRepository();
+  final SignInWithGoogle _signInWithGoogle = SignInWithGoogle();
+
 
   bool _loading = false;
   bool get loading => _loading;
@@ -26,15 +30,18 @@ class AuthViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> loginApi(dynamic data, BuildContext context) async {
+  void saveTokenAndUserInformation(dynamic value){
+    String accessToken = value['data']['accessToken'];
+    String refreshToken = value['data']['refreshToken'];
+    final UserModel user = UserModel.fromJson(value['data']['user']);
+    AuthManager.persistTokens(accessToken, refreshToken, user);
+  }
+
+  Future<void> loginApi(Map<String, dynamic> data, BuildContext context) async {
     setLoading(true);
-    _myRepo.loginApi(data).then((value) {
-      String accessToken = value['data']['accessToken'];
-      String refreshToken = value['data']['refreshToken'];
-      final UserModel user = UserModel.fromJson(value['data']['user']);
-      AuthManager.persistTokens(accessToken, refreshToken, user);
+    await _myRepo.loginApi(data).then((value) {
+      saveTokenAndUserInformation(value);
       setLoading(false);
-      // Utils.flushBarErrorMessage(value['message'], context);
       context.pushReplacement(FinalRoutes.homePath);
 
     }).onError((error, stackTrace) {
@@ -45,6 +52,35 @@ class AuthViewModel with ChangeNotifier {
         print(error.toString());
       }
     });
+  }
+  Future<void> loginWithGoogleApi(BuildContext context) async {
+    final GoogleSignInAccount? user = await _signInWithGoogle.googleSignIn.signIn();
+    if (user == null) return;
+
+    final GoogleSignInAuthentication auth = await user.authentication;
+
+    final String? idToken = auth.idToken;
+
+    if(idToken == null){
+      throw Exception('idToken is null');
+    }
+    setLoading(true);
+    Map<String, dynamic> data = {
+      'idToken': idToken,
+    };
+    await _myRepo.loginWithGoogleApi(data).then((value) {
+      setLoading(false);
+      saveTokenAndUserInformation(value);
+      context.pushReplacement(FinalRoutes.homePath);
+    }).onError((error, stackTrace) {
+      setLoading(false);
+      print('======${error.toString()}');
+      if (kDebugMode) {
+        Utils.flushBarErrorMessage('Email or password is not correct', context);
+        print(error.toString());
+      }
+    });
+
   }
 
   Future<void> signUpApi(dynamic data, BuildContext context) async {
@@ -63,7 +99,9 @@ class AuthViewModel with ChangeNotifier {
     });
   }
   Future<void> logoutApi (dynamic refreshToken, BuildContext context)async{
-      AuthManager.logout();
+    AuthManager.logout();
+    _signInWithGoogle.googleSignIn.disconnect();
+
     setLoading(true);
     _myRepo.logOutApi(refreshToken).then((value){
       context.pushReplacement(FinalRoutes.homeAuthPath);
@@ -75,6 +113,7 @@ class AuthViewModel with ChangeNotifier {
       print(error);
     });
   }
+
   Future<void> changePasswordApi (Map<String, String> data, BuildContext context)async{
     setLoading(true);
     _myRepo.changePasswordApi(data).then((value){
