@@ -59,7 +59,7 @@ class FakeAuthViewModel extends ChangeNotifier implements AuthViewModel {
     notifyListeners();
   }
   @override
-  Future<void> loginWithGoogleApi(Map<String, dynamic> data, BuildContext context) {
+  Future<void> loginWithGoogleApi(BuildContext context) {
     // TODO: implement loginWithGoogleApi
     throw UnimplementedError();
   }
