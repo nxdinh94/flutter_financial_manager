@@ -2,6 +2,7 @@
 
 import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/generated/paths.dart';
+import 'package:fe_financial_manager/utils/sign_in_with_google.dart';
 import 'package:fe_financial_manager/view/auth/widgets/email_text_form_field.dart';
 import 'package:fe_financial_manager/view/auth/widgets/google_login.dart';
 import 'package:fe_financial_manager/view/auth/widgets/normal_login.dart';
@@ -46,7 +47,7 @@ class _SigninState extends State<Signin> {
                       constraints: BoxConstraints(
                         maxWidth: 300
                       ),
-                      child: GoogleLogin()
+                      child: LoginWithGoogle()
                     ),
                     Padding(
                       padding: verticalPadding,
