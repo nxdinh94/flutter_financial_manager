@@ -37,7 +37,7 @@ class DateTimeHelper {
       firstDate: DateTime(DateTime.now().year - 1),
       lastDate: DateTime(DateTime.now().year + 1),
       borderRadius: 16,
-      height: 260,
+      height: 290,
       styleDatePicker: MaterialRoundedDatePickerStyle(
           backgroundHeader: Theme.of(context).colorScheme.secondary,
           decorationDateSelected: BoxDecoration(
@@ -46,7 +46,7 @@ class DateTimeHelper {
           ),
           textStyleDayOnCalendarSelected: TextStyle(
               color: Theme.of(context).colorScheme.primary
-          )
+          ),
       ),
     );
     // Convert to isoString format

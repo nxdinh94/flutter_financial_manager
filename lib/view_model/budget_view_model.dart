@@ -6,17 +6,17 @@ import 'package:go_router/go_router.dart';
 
 class BudgetViewModel extends ChangeNotifier {
 
-  BudgetRepository _budgetRepository = BudgetRepository();
+  final BudgetRepository _budgetRepository = BudgetRepository();
 
 
   ApiResponse<List<dynamic>> _allBudgetsData = ApiResponse.loading();
   ApiResponse<List<dynamic>> get allBudgetsData => _allBudgetsData;
 
-  bool _isLooading = false;
-  bool get isLoading => _isLooading;
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
 
   set setLoading(bool value) {
-    _isLooading = value;
+    _isLoading = value;
     notifyListeners();
   }
   void setAllBudgetsData(ApiResponse<List<dynamic>> value) {
@@ -42,12 +42,14 @@ class BudgetViewModel extends ChangeNotifier {
   Future <void> updateBudget(Map<String, dynamic> data, BuildContext context) async {
     setLoading = true;
     try {
-      _budgetRepository.updateBudget(data).then((v){
+      await _budgetRepository.updateBudget(data).then((v){
         Utils.toastMessage('Update budget successfully');
         context..pop(true)..pop();
         setLoading = false;
       });
+
     } catch (e) {
+      print('object');
       Utils.flushBarErrorMessage('Something went wrong!!!', context);
     } finally {
       setLoading = false;
@@ -57,7 +59,7 @@ class BudgetViewModel extends ChangeNotifier {
   Future<void> deleteBudget(String id, BuildContext context) async {
     setLoading = true;
     try {
-      _budgetRepository.deleteBudget(id).then((v){
+      await _budgetRepository.deleteBudget(id).then((v){
         Utils.toastMessage('Delete budget successfully');
         context..pop(true)..pop();
         setLoading = false;
@@ -73,7 +75,7 @@ class BudgetViewModel extends ChangeNotifier {
   Future<void> createBudget(Map<String, dynamic> data, BuildContext context) async {
     setLoading = true;
     try {
-      _budgetRepository.createBudget(data).then((v){
+      await _budgetRepository.createBudget(data).then((v){
         Utils.toastMessage('Create budget successfully');
         context.pop();
         setLoading = false;

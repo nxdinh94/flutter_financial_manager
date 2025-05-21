@@ -19,10 +19,44 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../generated/paths.dart';
 class Header extends StatelessWidget {
+
+
+
   const Header({
     super.key,
   });
 
+  Future<void> _onSearchAction()async{}
+  Future<void> _onBellAction()async{}
+  Future<void> _onChatWithAIAction()async{}
+  // final List<Map<String, dynamic>> rightActionHeaderWidgets = [
+  //   SvgContainer(
+  //     iconWidth: 22,
+  //     myIconColor: black,
+  //     iconPath: Assets.svgMagnifyingGlass,
+  //     callback: ()async{
+  //       await _onSearchAction();
+  //     },
+  //   ),
+  //   const SizedBox(width: 24),
+  //   SvgContainer(
+  //     iconWidth: 22,
+  //     myIconColor: black,
+  //     iconPath: Assets.svgBell,
+  //     callback: ()async{
+  //       await _onBellAction();
+  //     },
+  //   ),
+  //   const SizedBox(width: 24),
+  //   SvgContainer(
+  //     iconWidth: 22,
+  //     myIconColor: black,
+  //     iconPath: Assets.svgCopilot,
+  //     callback: ()async{
+  //       await _onChatWithAIAction();
+  //     },
+  //   ),
+  // ];
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -83,7 +117,8 @@ class Header extends StatelessWidget {
               Row(
                 children: [
                   SvgContainer(
-                    iconWidth: 22, myIconColor: black,
+                    iconWidth: 22,
+                    myIconColor: black,
                     iconPath: Assets.svgMagnifyingGlass,
                     callback: (){
                     },

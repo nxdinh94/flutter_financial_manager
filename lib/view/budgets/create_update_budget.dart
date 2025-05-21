@@ -134,7 +134,7 @@ class _CreateUpdateBudgetState extends State<CreateUpdateBudget> {
             CustomTextfield(
               controller: _amountController,
               textInputType: TextInputType.number,
-              prefixIcon: PrefixIconAmountTextfield(),
+              prefixIcon: const PrefixIconAmountTextfield(),
               fontSize: extraBigger,
               hintText: '0',
               prefixIconPadding: const EdgeInsets.only(right: 11, left: 10),
@@ -182,7 +182,6 @@ class _CreateUpdateBudgetState extends State<CreateUpdateBudget> {
                 setState(() {
                   endDate = DateTimeHelper.convertDateTimeToString(DateTime.parse(result));
                 });
-
               },
               title: 'End date',
               titleTextStyle: Theme.of(context).textTheme.labelSmall!,

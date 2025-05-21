@@ -129,16 +129,7 @@ class _BudgetItemsState extends State<BudgetItems> {
                               ),
                               Visibility(
                                 visible: isSpendingLimitOutOfDate,
-                                child: Container(
-                                  padding: const EdgeInsets.all(3),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: emergencyColor, width: 2),
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                  child: const Text('Hết hạn', style: TextStyle(
-                                      color: emergencyColor, fontSize: small
-                                  )),
-                                ),
+                                child: const ExpiredBanner(),
                               )
                             ],
                           ),
@@ -188,6 +179,26 @@ class _BudgetItemsState extends State<BudgetItems> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class ExpiredBanner extends StatelessWidget {
+  const ExpiredBanner({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(3),
+      decoration: BoxDecoration(
+        border: Border.all(color: emergencyColor, width: 2),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: const Text('Hết hạn', style: TextStyle(
+          color: emergencyColor, fontSize: small
+      )),
     );
   }
 }
