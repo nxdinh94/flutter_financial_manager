@@ -290,11 +290,11 @@ class TransactionViewModel  extends ChangeNotifier{
       String imagePath = imageFile.path;
       try {
         final value = await _transactionRepository.uploadImage(imagePath);
-
+        print(value);
         Map<String, dynamic> data = value['important_info'];
         data['amount_of_money'] = data['amount_of_money'] == null
             ? '0'
-            : (data['amount_of_money'] as num).truncate().toString();
+            : ( double.parse(data['amount_of_money'])).truncate().toString();
 
         final List<WalletModel> listWalletData = context.read<WalletViewModel>().allWalletData.data ?? [];
         getInitialData((v) {
@@ -338,6 +338,7 @@ class TransactionViewModel  extends ChangeNotifier{
           context.push(FinalRoutes.aiResultPath);
         }
       } catch (e) {
+        print(e);
         Utils.flushBarErrorMessage('Unable to load image', context);
       } finally {
         setLoading(false);

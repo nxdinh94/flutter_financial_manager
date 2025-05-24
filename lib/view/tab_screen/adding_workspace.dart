@@ -101,7 +101,7 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
     }else {
       await context.read<TransactionViewModel>().addTransaction(dataToSubmit, resetDataAfterSaveTransaction ,context);
     }
-
+    await context.read<AppViewModel>().getUserPersonalizationDataForChatBot(context);
   }
 
 

@@ -194,8 +194,16 @@ class AppViewModel extends ChangeNotifier{
         print(e.toString());
       }
     }
-
-
+  }
+  Future<dynamic> chatWithAi(Map<String, dynamic> data,BuildContext context)async{
+    try{
+      dynamic result = await _appRepository.chatWithAiApi(data);
+      return result['conversation'];
+    }catch(e){
+      if (kDebugMode) {
+        print(e.toString());
+      }
+    }
   }
 
 }

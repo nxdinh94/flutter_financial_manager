@@ -1,26 +1,30 @@
 
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/data/response/status.dart';
 import 'package:fe_financial_manager/generated/assets.dart';
+import 'package:fe_financial_manager/injection_container.dart';
 import 'package:fe_financial_manager/model/wallet_model.dart';
 import 'package:fe_financial_manager/view/common_widget/money_vnd.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
-import 'package:fe_financial_manager/view_model/app_view_model.dart';
 import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:http/http.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../generated/paths.dart';
 class Header extends StatelessWidget {
   const Header({
     super.key,
   });
-
-
   @override
   Widget build(BuildContext context) {
+    SharedPreferences sharedPreferences = locator<SharedPreferences>();
     final List<Map<String, dynamic>> rightActionHeaderWidgets = [
       {
         'iconPath': Assets.svgMagnifyingGlass,
@@ -37,7 +41,6 @@ class Header extends StatelessWidget {
         'iconPath': Assets.svgCopilot,
         'callback': ()async{
           context.push(FinalRoutes.chatWithAIPath);
-          await context.read<AppViewModel>().getUserPersonalizationDataForChatBot(context);
         }
       },
     ];
@@ -83,6 +86,12 @@ class Header extends StatelessWidget {
                     iconPath: Assets.svgEyes,
                     myIconColor: black,
                     callback: ()async {
+                      String result = sharedPreferences.getString('historyChatWithAi') ?? '';
+                      List<dynamic> conversationHistoryList = List<dynamic>.from(jsonDecode(result));
+                      print(conversationHistoryList.length);
+                      // print(_sharedPreferences.getKeys());
+                      await sharedPreferences.remove('historyChatWithAi');
+                      await sharedPreferences.remove('conversationHistoryWithAI');
 
                     },
                   ),

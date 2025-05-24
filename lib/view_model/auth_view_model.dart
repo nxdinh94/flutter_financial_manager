@@ -6,13 +6,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../injection_container.dart';
 import '../repository/auth_repository.dart';
 import '../utils/utils.dart';
 
 class AuthViewModel with ChangeNotifier {
   final AuthRepository _myRepo = AuthRepository();
   final SignInWithGoogle _signInWithGoogle = SignInWithGoogle();
-
+  final SharedPreferences sharedPreferences = locator<SharedPreferences>();
 
   bool _loading = false;
   bool get loading => _loading;
@@ -101,12 +103,12 @@ class AuthViewModel with ChangeNotifier {
   Future<void> logoutApi (dynamic refreshToken, BuildContext context)async{
     AuthManager.logout();
     _signInWithGoogle.googleSignIn.disconnect();
-
+    await sharedPreferences.remove('historyChatWithAi');
+    await sharedPreferences.remove('conversationHistoryWithAI');
     setLoading(true);
     _myRepo.logOutApi(refreshToken).then((value){
       context.pushReplacement(FinalRoutes.homeAuthPath);
       setLoading(false);
-
       Utils.toastMessage('Logout Successfully');
     }).onError((error, stackTrace){
       Utils.flushBarErrorMessage(error.toString(), context);

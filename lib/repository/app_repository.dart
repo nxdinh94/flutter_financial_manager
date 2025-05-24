@@ -59,4 +59,12 @@ class AppRepository{
       rethrow;
     }
   }
+  Future<dynamic> chatWithAiApi(Map<String, dynamic> data) async {
+    try {
+      dynamic response = await _apiServices.getPostApiResponse(AppUrl.chatWithAIUrl, data, true);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

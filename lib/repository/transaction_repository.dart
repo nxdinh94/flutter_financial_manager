@@ -62,7 +62,7 @@ class TransactionRepository{
       // Gửi file với key là 'image'
       request.files.add(
         await http.MultipartFile.fromPath(
-          'image',   // key trùng với server yêu cầu
+          'file',   // key trùng với server yêu cầu
           imagePath,
         ),
       );

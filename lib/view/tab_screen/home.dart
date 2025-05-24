@@ -43,6 +43,7 @@ class _HomeState extends State<Home> {
       // Default range time is current month
       await Provider.of<TransactionViewModel>(context, listen: false).getTransactionForChart(defaultRangeTime, context);
       await Provider.of<BudgetViewModel>(context, listen: false).getAllBudgets(context);
+      await Provider.of<AppViewModel>(context, listen: false).getUserPersonalizationDataForChatBot(context);
     });
     super.initState();
   }
