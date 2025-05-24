@@ -159,7 +159,7 @@ class AppViewModel extends ChangeNotifier{
     });
   }
   Future<void> getUserPersonalizationStatus(BuildContext context)async{
-    await _appRepository.getUserPersonalizationStatusApi().then((value){
+    await _appRepository.getUserPersonalizationStatusApi().then((value)async{
       if(!value){
         showMaterialModalBottomSheet(
           context: context,
@@ -188,6 +188,7 @@ class AppViewModel extends ChangeNotifier{
           };
         })
       ];
+      setUserPersonalizationDataForChatBot(ApiResponse.completed(transformedData));
     }catch(e){
       if (kDebugMode) {
         print(e.toString());

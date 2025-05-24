@@ -13,8 +13,12 @@ import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'package:provider/provider.dart';
 
 class ChooseRangeTime extends StatefulWidget {
-  const ChooseRangeTime({super.key, required this.nameOfSelectedRangeTime});
+  const ChooseRangeTime({
+    super.key, required this.nameOfSelectedRangeTime,
+    this.walletId
+  });
   final String nameOfSelectedRangeTime;
+  final String ? walletId;
 
   @override
   State<ChooseRangeTime> createState() => _ChooseRangeTimeState();
@@ -53,11 +57,9 @@ class _ChooseRangeTimeState extends State<ChooseRangeTime> with TickerProviderSt
     return Scaffold(
       appBar: AppBar(
         title: const Text('Choose Range Time'),
-        leading: CustomBackNavbar(
-          value: {
-            'name' : widget.nameOfSelectedRangeTime,
-            'value' : currentChosenRangeTime
-          },
+        // if no option has chosen, do not thing
+        leading: const CustomBackNavbar(
+          value: false,
         )
       ),
       body: Column(

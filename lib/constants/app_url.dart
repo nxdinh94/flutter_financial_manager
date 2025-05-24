@@ -2,8 +2,12 @@
 
 class AppUrl {
   // static const baseUrl = 'http://10.10.23.113:3222/api';
-  static const baseUrl = 'http://192.168.2.2:3222/api';
-  static const aiUrl = 'http://192.168.2.2:8002/api/v1/invoice/extract';
+  static const ipv4 = 'http://192.168.2.2:';
+  static const baseUrl = '${ipv4}3222/api';
+  static const invoiceAIUrl = '';
+  static const chatWithAIUrl = '';
+
+  // static const aiUrl = 'http://192.168.2.2:8002/api/v1/invoice/extract';
 
   static const loginEndPint = baseUrl + '/auth/login';
   static const loginWithGoogle = baseUrl + '/auth/google';

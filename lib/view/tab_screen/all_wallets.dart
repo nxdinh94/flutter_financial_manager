@@ -60,7 +60,7 @@ class _AllWalletsState extends State<AllWallets> {
               child: Text('INCLUDED IN TOTAL', style: Theme.of(context).textTheme.labelSmall,),
             ),
             const SizedBox(height: 6),
-            MyDivider(),
+            const MyDivider(),
             // List all wallet
             AllWalletConsumer(
               onItemTap: (PickedIconModel value )async {

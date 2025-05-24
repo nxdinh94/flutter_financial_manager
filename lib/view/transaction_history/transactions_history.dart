@@ -9,6 +9,7 @@ import 'package:fe_financial_manager/view/common_widget/empty_value_screen.dart'
 import 'package:fe_financial_manager/view/common_widget/money_vnd.dart';
 import 'package:fe_financial_manager/view/common_widget/my_list_title.dart';
 import 'package:fe_financial_manager/view/common_widget/right_arrow_rich_text.dart';
+import 'package:fe_financial_manager/view/transaction_history/widgets/choose_range_time_section.dart';
 import 'package:fe_financial_manager/view_model/transaction_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -32,6 +33,27 @@ class TransactionsHistory extends StatefulWidget {
 class _TransactionsHistoryState extends State<TransactionsHistory> {
   String selectedTimeToShow = 'All the time';
 
+  Future<void> _onSelectRangeTime()async{
+    dynamic result =
+    await context.push(
+        FinalRoutes.chooseRangeTimeToShowTransactionPath, extra: widget.nameOfSelectedRangeTime
+    );
+    if(!context.mounted) return;
+    if(result == false){
+      return;
+    }
+    ParamsGetTransactionInRangeTime rangeTime = result['value']!;
+    setState(() {
+      selectedTimeToShow = result['name'];
+    });
+    await Provider.of<TransactionViewModel>(context, listen: false).getTransactionInRangeTime(
+        ParamsGetTransactionInRangeTime(
+          from : rangeTime.from ,
+          to : rangeTime.to,
+          moneyAccountId : widget.walletId ??  '')
+    );
+  }
+
   @override
   void initState() {
     if(widget.nameOfSelectedRangeTime != null){
@@ -52,32 +74,9 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: ()async{
-                Map<String, dynamic> result =
-                  await context.push(
-                    FinalRoutes.chooseRangeTimeToShowTransactionPath, extra: widget.nameOfSelectedRangeTime
-                  ) as Map<String, dynamic>;
-                if(!context.mounted) return;
-                ParamsGetTransactionInRangeTime rangeTime = result['value']!;
-                setState(() {
-                  selectedTimeToShow = result['name'];
-                });
-                await Provider.of<TransactionViewModel>(context, listen: false).getTransactionInRangeTime(
-                  ParamsGetTransactionInRangeTime(from : rangeTime.from , to : rangeTime.to, moneyAccountId : widget.walletId ??  ''));
-
-              },
-              child: Container(
-                color: primaryColor,
-                padding: defaultHalfPadding,
-                child: Center(
-                  child: RightArrowRichText(
-                    text: selectedTimeToShow,
-                    color: secondaryColor, fontWeight: FontWeight.w500
-                  )
-                ),
-              ),
+            ChooseRangeTimeSection(
+              selectedTimeToShow: selectedTimeToShow,
+              onSelectRangeTime: _onSelectRangeTime,
             ),
             const SizedBox(height: 12),
             Consumer<TransactionViewModel>(
@@ -117,22 +116,50 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
                                 Expanded(
                                   child: Padding(
                                     padding: defaultHalfPadding,
-                                    child: TotalRevenueOrSpendingItem(
-                                      title: 'Total revenue',
-                                      amountOfMoney: totalIncomeMoney,
-                                      foreground: secondaryColor,
-                                    ),
+                                    child: Column(
+                                      children: [
+                                        const Text('Total revenue', style: TextStyle(color: colorTextBlack, fontSize: normal, fontWeight: FontWeight.w500)),
+                                        AnimatedSwitcher(
+                                            duration: const Duration(milliseconds: 200),
+                                            transitionBuilder: (Widget child, Animation<double> animation) {
+                                              return ScaleTransition(
+                                                scale: animation, child: child,
+                                              );
+                                            },
+                                            child: MoneyVnd(
+                                              fontSize: big,
+                                              amount: double.parse(totalIncomeMoney),
+                                              key: ValueKey(totalIncomeMoney),
+                                              textColor: secondaryColor,
+                                            )
+                                        )
+                                      ],
+                                    )
                                   ),
                                 ),
-                                const VerticalDivider(thickness: 1, color: dividerColor),
+                                const VerticalDivider(thickness: .5, color: dividerColor),
                                 Expanded(
                                   child: Padding(
                                     padding: defaultHalfPadding,
-                                    child: TotalRevenueOrSpendingItem(
-                                      title: 'Total expense',
-                                      amountOfMoney: totalExpenseMoney,
-                                      foreground: emergencyColor,
-                                    ),
+                                    child: Column(
+                                      children: [
+                                        const Text('Total expense', style: TextStyle(color: colorTextBlack, fontSize: normal, fontWeight: FontWeight.w500)),
+                                        AnimatedSwitcher(
+                                            duration: const Duration(milliseconds: 200),
+                                            transitionBuilder: (Widget child, Animation<double> animation) {
+                                              return ScaleTransition(
+                                                scale: animation, child: child,
+                                              );
+                                            },
+                                            child: MoneyVnd(
+                                              fontSize: big,
+                                              amount: double.parse(totalExpenseMoney),
+                                              key: ValueKey(totalExpenseMoney),
+                                              textColor: emergencyColor,
+                                            )
+                                        )
+                                      ],
+                                    )
                                   ),
                                 ),
                               ],
@@ -198,7 +225,6 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
                   default:
                     throw Exception('Unknown status');
                 }
-
               },
             )
           ],
@@ -248,39 +274,6 @@ class CreditInformation extends StatelessWidget {
 
         ],
       ),
-    );
-  }
-}
-class TotalRevenueOrSpendingItem extends StatelessWidget {
-  const TotalRevenueOrSpendingItem({
-    super.key,
-    required this.title,
-    required this.amountOfMoney,
-    required this.foreground,
-  });
-  final String title;
-  final String amountOfMoney;
-  final Color foreground;
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(title, style: const  TextStyle(color: colorTextBlack, fontSize: normal, fontWeight: FontWeight.w500)),
-        AnimatedSwitcher(
-            duration: const Duration(milliseconds: 200),
-            transitionBuilder: (Widget child, Animation<double> animation) {
-              return ScaleTransition(
-                scale: animation, child: child,
-              );
-            },
-            child: MoneyVnd(
-              fontSize: big,
-              amount: double.parse(amountOfMoney),
-              key: ValueKey(amountOfMoney),
-              textColor: foreground,
-            )
-        )
-      ],
     );
   }
 }

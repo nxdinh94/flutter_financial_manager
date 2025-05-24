@@ -2,9 +2,11 @@ import 'dart:math';
 
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
+import 'package:fe_financial_manager/view_model/app_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_core/flutter_chat_core.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:provider/provider.dart';
 
 class ChatWithAi extends StatefulWidget {
   const ChatWithAi({super.key});
@@ -15,6 +17,7 @@ class ChatWithAi extends StatefulWidget {
 
 class ChatWithAiState extends State<ChatWithAi> {
   final _chatController = InMemoryChatController();
+  String userPersonalizationData = '';
   List<Map<String, dynamic>> messagesHistory = [
     {
       'id': '1',
@@ -84,6 +87,8 @@ class ChatWithAiState extends State<ChatWithAi> {
         )
       );
     }
+    // Get user personalization data
+    userPersonalizationData = context.read<AppViewModel>().userPersonalizationDataForChatBot.data.toString();
     super.initState();
   }
   @override
@@ -120,7 +125,7 @@ class ChatWithAiState extends State<ChatWithAi> {
                 id: '${Random().nextInt(1000) + 1}',
                 authorId: 'user2',
                 createdAt: DateTime.now().toUtc(),
-                text: 'This is a response from the AI.',
+                text: userPersonalizationData,
               ),
             );
           });

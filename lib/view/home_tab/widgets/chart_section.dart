@@ -177,7 +177,7 @@ class _ChartSectionState extends State<ChartSection> {
                                         label: 'Expense',
                                         amount: expense,
                                       ),
-                                      MyDivider(),
+                                      const MyDivider(),
                                       const SizedBox(height: 12,),
                                       MoneyVnd(fontSize: big, amount: balance)
                                     ],
