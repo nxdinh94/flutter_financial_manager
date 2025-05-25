@@ -290,7 +290,6 @@ class TransactionViewModel  extends ChangeNotifier{
       String imagePath = imageFile.path;
       try {
         final value = await _transactionRepository.uploadImage(imagePath);
-        print(value);
         Map<String, dynamic> data = value['important_info'];
         data['amount_of_money'] = data['amount_of_money'] == null
             ? '0'
@@ -338,7 +337,7 @@ class TransactionViewModel  extends ChangeNotifier{
           context.push(FinalRoutes.aiResultPath);
         }
       } catch (e) {
-        print(e);
+        print('Error uploading image: $e');
         Utils.flushBarErrorMessage('Unable to load image', context);
       } finally {
         setLoading(false);

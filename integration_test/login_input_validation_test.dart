@@ -67,6 +67,10 @@ class FakeAuthViewModel extends ChangeNotifier implements AuthViewModel {
   void saveTokenAndUserInformation(value) {
     // TODO: implement saveTokenAndUserInformation
   }
+
+  @override
+  // TODO: implement sharedPreferences
+  SharedPreferences get sharedPreferences => throw UnimplementedError();
 }
 
 void main() {

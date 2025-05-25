@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
-
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/injection_container.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
@@ -28,12 +26,7 @@ class ChatWithAiState extends State<ChatWithAi> {
   String chatbotId = 'chatbot';
 
   List<Map<String, dynamic>> messagesHistory = [];
-  Future<void> saveChatHistory({
-    required String userMessage,
-    required String chatbotMessage,
-    required String userMessageId,
-    required String chatbotMessageId
-  }) async{
+  Future<void> saveChatHistory({required String userMessage, required String chatbotMessage, required String userMessageId, required String chatbotMessageId}) async{
     Map<String, dynamic> newUserMessage = {
       'id': userMessageId,
       'authorId': userId,
@@ -65,6 +58,15 @@ class ChatWithAiState extends State<ChatWithAi> {
     if(conversationHistory != null) {
       List<dynamic> result = jsonDecode(conversationHistory);
       messagesHistory = List<Map<String, dynamic>>.from(result);
+    }else{
+      _chatController.insertMessage(
+        TextMessage(
+          id: uuid.v4(),
+          authorId: chatbotId,
+          text: 'Hello! How can I assist you today?',
+          createdAt: DateTime.now().toUtc(),
+        )
+      );
     }
 
     // Initialize the chat controller with the messages history
@@ -112,8 +114,7 @@ class ChatWithAiState extends State<ChatWithAi> {
           dataToSubmit['chatContent'] = text;
           _chatController.insertMessage(
             TextMessage(
-              // Better to use UUID or similar for the ID - IDs must be unique
-              id: '${Random().nextInt(1000) + 1}',
+              id: userMessageId,
               authorId: userId,
               createdAt: DateTime.now().toUtc(),
               text: text,
@@ -132,7 +133,7 @@ class ChatWithAiState extends State<ChatWithAi> {
           Future.delayed(const Duration(seconds: 1), () {
             _chatController.insertMessage(
               TextMessage(
-                id: '${Random().nextInt(1000) + 1}',
+                id: chatbotMessageId,
                 authorId: chatbotId,
                 createdAt: DateTime.now().toUtc(),
                 text: responseText,
@@ -143,12 +144,8 @@ class ChatWithAiState extends State<ChatWithAi> {
         resolveUser: (UserID id) async {
           return User(id: id, name: 'John Doe');
         },
-        decoration: BoxDecoration(
-
-        ),
-        builders: Builders(
-
-        ),
+        decoration: BoxDecoration(),
+        builders: Builders(),
 
 
       ),
