@@ -24,11 +24,11 @@ class BillPredictionResult extends StatefulWidget {
   @override
   State<BillPredictionResult> createState() => _BillPredictionResultState();
 }
-
+// câu hỏi trước đó của tao là gì
 class _BillPredictionResultState extends State<BillPredictionResult> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<TransactionViewModel>(
+    return Consumer<AppViewModel>(
       builder: (context, value, child) {
         return LoadingOverlay(
           isLoading: value.loading,

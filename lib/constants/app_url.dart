@@ -4,8 +4,8 @@ class AppUrl {
   static const ipv4 = 'http://10.10.23.113:';
   // static const ipv4 = 'http://192.168.2.2:';
   static const baseUrl = '${ipv4}3222/api';
-  static const invoiceAIUrl = 'https://3ddb-35-194-223-44.ngrok-free.app/upload';
-  static const chatWithAIUrl = 'https://3ddb-35-194-223-44.ngrok-free.app/aichat';
+  static const invoiceAIUrl = 'https://3031-34-56-39-49.ngrok-free.app/upload';
+  static const chatWithAIUrl = 'https://3031-34-56-39-49.ngrok-free.app/aichat';
 
   // static const aiUrl = 'http://192.168.2.2:8002/api/v1/invoice/extract';
 
