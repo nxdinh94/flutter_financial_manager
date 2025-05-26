@@ -337,13 +337,10 @@ class TransactionViewModel  extends ChangeNotifier{
           context.push(FinalRoutes.aiResultPath);
         }
       } catch (e) {
-        print('Error uploading image: $e');
-        Utils.flushBarErrorMessage('Unable to load image', context);
+        Utils.flushBarErrorMessage('Invalid image, please try a proper image', context);
       } finally {
         setLoading(false);
       }
-
-
     } else {
       setInfoExtractedFromAi(ApiResponse.error('Unable to process'));
       Utils.flushBarErrorMessage('Unable to load image', context);

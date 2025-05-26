@@ -57,24 +57,9 @@ class TransactionRepository{
     }
   }
   Future<dynamic> uploadImage(String imagePath) async {
-
-      var request = http.MultipartRequest('POST',Uri.parse(AppUrl.invoiceAIUrl));
-      // Gửi file với key là 'image'
-      request.files.add(
-        await http.MultipartFile.fromPath(
-          'file',   // key trùng với server yêu cầu
-          imagePath,
-        ),
-      );
-
-      var response = await request.send();
       try {
-        if (response.statusCode == 200) {
-          final respStr = await response.stream.bytesToString();
-          return jsonDecode(respStr);
-        } else {
-          throw Exception('Failed to process: ${response.statusCode}');
-        }
+        final dynamic response = await _baseApiServices.getPostImageApiResponse(AppUrl.invoiceAIUrl, imagePath, true);
+        return response;
       } catch (e) {
         rethrow;
       }
