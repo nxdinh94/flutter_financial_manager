@@ -40,13 +40,9 @@ class _ChartSectionState extends State<ChartSection> {
   }
   @override
   Widget build(BuildContext context) {
-
     return Container(
       padding: defaultHalfPadding,
-      decoration: BoxDecoration(
-          color: primaryColor,
-          borderRadius: BorderRadius.circular(12)
-      ),
+      decoration: BoxDecoration(color: primaryColor, borderRadius: BorderRadius.circular(12)),
       child: Column(
         // crossAxisAlignment: CrossAxisAlignment.end,
         children: [
@@ -64,7 +60,6 @@ class _ChartSectionState extends State<ChartSection> {
                 icon: const Icon(Icons.keyboard_arrow_down,),
                 iconSize: 26,
                 dropdownColor: primaryColor,
-                elevation: 0,
                 isDense: true,
                 value: defaultRangeTimeChartHomePage,
                 onChanged: (String? time) async {
