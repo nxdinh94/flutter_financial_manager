@@ -6,7 +6,7 @@ import 'package:fe_financial_manager/view/account_tab/account_setting.dart';
 import 'package:fe_financial_manager/view/account_tab/events_of_transactions/create_events.dart';
 import 'package:fe_financial_manager/view/account_tab/events_of_transactions/events.dart';
 import 'package:fe_financial_manager/view/adding_workspace/add_note.dart';
-import 'package:fe_financial_manager/view/adding_workspace/ai_result.dart';
+import 'package:fe_financial_manager/view/adding_workspace/bill_prediction_result.dart';
 import 'package:fe_financial_manager/view/categories_of_transaction/edit_categories.dart';
 import 'package:fe_financial_manager/view/categories_of_transaction/pick_icon_path_category.dart';
 import 'package:fe_financial_manager/view/categories_of_transaction/select_category.dart';
@@ -283,7 +283,7 @@ class CustomNavigationHelper {
                       path: RoutesName.aiResultPath,
                       pageBuilder: (context, GoRouterState state) {
                         return getPage(
-                          child: const AiResult(),
+                          child: const BillPredictionResult(),
                           state: state,
                         );
                       },

@@ -56,14 +56,7 @@ class TransactionRepository{
       rethrow;
     }
   }
-  Future<dynamic> uploadImage(String imagePath) async {
-      try {
-        final dynamic response = await _baseApiServices.getPostImageApiResponse(AppUrl.invoiceAIUrl, imagePath, true);
-        return response;
-      } catch (e) {
-        rethrow;
-      }
-  }
+
 
 
 

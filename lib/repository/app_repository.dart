@@ -67,4 +67,12 @@ class AppRepository{
       rethrow;
     }
   }
+  Future<dynamic> billPredictionApi(String imagePath) async {
+    try {
+      final dynamic response = await _apiServices.getPostImageApiResponse(AppUrl.invoiceAIUrl, imagePath, true);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

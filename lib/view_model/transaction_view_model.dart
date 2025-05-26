@@ -33,9 +33,6 @@ class TransactionViewModel  extends ChangeNotifier{
   ApiResponse<Map<String, dynamic>> _transactionForChart = ApiResponse.loading();
   ApiResponse<Map<String, dynamic>> get transactionForChart => _transactionForChart;
 
-  ApiResponse<InfoExtractedFromAiModel> _infoExtractedFromAi = ApiResponse.loading();
-  ApiResponse<InfoExtractedFromAiModel> get infoExtractedFromAi => _infoExtractedFromAi;
-
 
   Map<PickedIconModel, dynamic> _expenseTransactionForDetailSummary = {};
   Map<PickedIconModel, dynamic> get expenseTransactionForDetailSummary => _expenseTransactionForDetailSummary;
@@ -59,10 +56,7 @@ class TransactionViewModel  extends ChangeNotifier{
     _paramsGetTransactionChartInRangeTime = params;
     notifyListeners();
   }
-  void setInfoExtractedFromAi(ApiResponse<InfoExtractedFromAiModel> data){
-    _infoExtractedFromAi = data;
-    notifyListeners();
-  }
+
 
   void setDataForPieChart(Map<String, double> expense, Map<String, double> income){
     _expenseDataForPieChart = expense;
@@ -279,73 +273,4 @@ class TransactionViewModel  extends ChangeNotifier{
       print(error);
     });
   }
-
-  Future<void> uploadImage(BuildContext context, [bool isGotoPage = true]) async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
-    if (pickedFile != null) {
-      setLoading(true);
-      File imageFile = File(pickedFile.path);
-      String imagePath = imageFile.path;
-      try {
-        final value = await _transactionRepository.uploadImage(imagePath);
-        Map<String, dynamic> data = value['important_info'];
-        data['amount_of_money'] = data['amount_of_money'] == null
-            ? '0'
-            : ( double.parse(data['amount_of_money'])).truncate().toString();
-
-        final List<WalletModel> listWalletData = context.read<WalletViewModel>().allWalletData.data ?? [];
-        getInitialData((v) {
-          data['wallet_type'] = {
-            'money_account_type': {
-              'icon': v.icon,
-            },
-            'id': v.id,
-            'name': v.name,
-          };
-        }, listWalletData, context);
-
-        final List<CategoriesIconModel> listCategoriesData = context.read<AppViewModel>().iconCategoriesData.data?.categoriesIconListMap['expense'] ?? [];
-        for (CategoriesIconModel i in listCategoriesData) {
-          if (i.name == data['category']) {
-            data['category'] = {
-              'icon': i.icon,
-              'name': i.name,
-              'id': i.id,
-              'transaction_type': {
-                'type': '',
-              }
-            };
-            break;
-          }
-          for (CategoriesIconModel c in i.children) {
-            if (c.name == data['category']) {
-              data['category'] = {
-                'icon': i.icon,
-                'name': i.name,
-                'id': i.id
-              };
-              break;
-            }
-          }
-        }
-
-        final InfoExtractedFromAiModel result = InfoExtractedFromAiModel.fromJson(data);
-        setInfoExtractedFromAi(ApiResponse.completed(result));
-        if (isGotoPage) {
-          context.push(FinalRoutes.aiResultPath);
-        }
-      } catch (e) {
-        Utils.flushBarErrorMessage('Invalid image, please try a proper image', context);
-      } finally {
-        setLoading(false);
-      }
-    } else {
-      setInfoExtractedFromAi(ApiResponse.error('Unable to process'));
-      Utils.flushBarErrorMessage('Unable to load image', context);
-    }
-  }
-
-
 }

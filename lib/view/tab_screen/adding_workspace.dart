@@ -149,7 +149,7 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
     final double dividerIndent = screenHeight * 0.094;
-    return Consumer<TransactionViewModel>(
+    return Consumer<AppViewModel>(
       builder: (BuildContext context,  value, Widget? child) {
         return LoadingOverlay(
           isLoading: value.loading,
@@ -179,7 +179,7 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
                     padding: const EdgeInsets.only(right: 10.0),
                     child: SvgContainer(
                       callback: ()async{
-                        await context.read<TransactionViewModel>().uploadImage(context);
+                        await context.read<AppViewModel>().billPrediction(context);
                       },
                       iconWidth: 28,
                       iconPath: Assets.svgImage,

@@ -11,20 +11,21 @@ import 'package:fe_financial_manager/view/common_widget/money_vnd.dart';
 import 'package:fe_financial_manager/view/common_widget/my_box_shadow.dart';
 import 'package:fe_financial_manager/view/common_widget/my_list_title.dart';
 import 'package:fe_financial_manager/view/common_widget/svg_container.dart';
+import 'package:fe_financial_manager/view_model/app_view_model.dart';
 import 'package:fe_financial_manager/view_model/transaction_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:provider/provider.dart';
 
-class AiResult extends StatefulWidget {
-  const AiResult({super.key});
+class BillPredictionResult extends StatefulWidget {
+  const BillPredictionResult({super.key});
 
   @override
-  State<AiResult> createState() => _AiResultState();
+  State<BillPredictionResult> createState() => _BillPredictionResultState();
 }
 
-class _AiResultState extends State<AiResult> {
+class _BillPredictionResultState extends State<BillPredictionResult> {
   @override
   Widget build(BuildContext context) {
     return Consumer<TransactionViewModel>(
@@ -41,7 +42,7 @@ class _AiResultState extends State<AiResult> {
                   containerSize: 30,
                   myIconColor: Theme.of(context).colorScheme.secondary,
                   callback: ()async {
-                    await context.read<TransactionViewModel>().uploadImage(context, false);
+                    await context.read<AppViewModel>().billPrediction(context, false);
                   },
                   iconPath: Assets.svgRefresh,
                 ),
@@ -49,7 +50,7 @@ class _AiResultState extends State<AiResult> {
               ],
             ),
 
-            body: Consumer<TransactionViewModel>(
+            body: Consumer<AppViewModel>(
               builder: (BuildContext context, value, Widget? child) {
                 switch(value.infoExtractedFromAi.status){
                   case Status.LOADING:
