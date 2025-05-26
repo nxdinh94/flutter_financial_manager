@@ -121,6 +121,7 @@ class ChatWithAiState extends State<ChatWithAi> {
             ),
           );
           dynamic result = await _appViewModel.chatWithAi(dataToSubmit, context);
+          dataToSubmit['chatHistory'] = result;
           await _sharedPreferences.setString('historyChatWithAi', jsonEncode(result));
           String responseText = result[result.length - 1];
           await saveChatHistory(
