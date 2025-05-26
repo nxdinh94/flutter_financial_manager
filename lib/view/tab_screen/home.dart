@@ -1,4 +1,3 @@
-// ignore_for_file: library_private_types_in_public_api, prefer_const_constructor
 import 'package:fe_financial_manager/model/params_get_transaction_in_range_time.dart';
 import 'package:fe_financial_manager/utils/common_range_time.dart';
 import 'package:fe_financial_manager/view/home_tab/widgets/chart_section.dart';
@@ -8,7 +7,8 @@ import 'package:fe_financial_manager/view_model/app_view_model.dart';
 import 'package:fe_financial_manager/view_model/budget_view_model.dart';
 import 'package:fe_financial_manager/view_model/transaction_view_model.dart';
 import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
-import 'package:flutter/material.dart';import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 class Home extends StatefulWidget {
   const Home({super.key});
   @override

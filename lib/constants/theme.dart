@@ -195,7 +195,7 @@ ThemeData lightTheme = ThemeData(
       height: 1.2,
       fontFamily: 'Roboto',
       letterSpacing: 0,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w500,
     ),
     titleSmall: TextStyle(
       fontSize: tiny,
@@ -203,7 +203,7 @@ ThemeData lightTheme = ThemeData(
       height: 1.2,
       fontFamily: 'Roboto',
       letterSpacing: 0,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w500,
     ),
     bodyLarge: TextStyle(
       fontSize: normal,

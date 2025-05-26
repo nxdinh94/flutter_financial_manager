@@ -1,6 +1,4 @@
 
-import 'dart:io';
-import 'package:http/http.dart' as http;
 import 'package:fe_financial_manager/constants/colors.dart';
 import 'package:fe_financial_manager/constants/font_size.dart';
 import 'package:fe_financial_manager/generated/assets.dart';
@@ -24,7 +22,6 @@ import 'package:fe_financial_manager/view_model/transaction_view_model.dart';
 import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:provider/provider.dart';
 
@@ -152,7 +149,7 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
     final double dividerIndent = screenHeight * 0.094;
-    return Consumer<TransactionViewModel>(
+    return Consumer<AppViewModel>(
       builder: (BuildContext context,  value, Widget? child) {
         return LoadingOverlay(
           isLoading: value.loading,
@@ -182,7 +179,7 @@ class _AddingWorkspaceState extends State<AddingWorkspace> {
                     padding: const EdgeInsets.only(right: 10.0),
                     child: SvgContainer(
                       callback: ()async{
-                        await context.read<TransactionViewModel>().uploadImage(context);
+                        await context.read<AppViewModel>().billPrediction(context);
                       },
                       iconWidth: 28,
                       iconPath: Assets.svgImage,

@@ -1,12 +1,20 @@
 
+import 'dart:io';
+import 'package:provider/provider.dart';
 import 'package:fe_financial_manager/data/response/api_response.dart';
+import 'package:fe_financial_manager/model/wallet_model.dart';
 import 'package:fe_financial_manager/repository/app_repository.dart';
 import 'package:fe_financial_manager/utils/utils.dart';
+import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import '../generated/paths.dart';
+import '../model/info_extracted_from_ai_model.dart';
 import '../model/transaction_categories_icon_model.dart';
+import '../utils/get_initial_data.dart';
 import '../view/onboarding/onboarding.dart';
 
 class AppViewModel extends ChangeNotifier{
@@ -25,6 +33,9 @@ class AppViewModel extends ChangeNotifier{
 
   List<String> _listIdOfExpenseCategory = [];
   List<String> get listIdOfExpenseCategory => _listIdOfExpenseCategory;
+
+  ApiResponse<InfoExtractedFromAiModel> _infoExtractedFromAi = ApiResponse.loading();
+  ApiResponse<InfoExtractedFromAiModel> get infoExtractedFromAi => _infoExtractedFromAi;
 
 
 
@@ -53,7 +64,10 @@ class AppViewModel extends ChangeNotifier{
     _listIdOfExpenseCategory = value;
     notifyListeners();
   }
-
+  void setInfoExtractedFromAi(ApiResponse<InfoExtractedFromAiModel> data){
+    _infoExtractedFromAi = data;
+    notifyListeners();
+  }
   void getListOfIdOfExpenseCategory(List<CategoriesIconModel> data) {
     List<String> listId = [];
     for (CategoriesIconModel i in data) {
@@ -205,5 +219,72 @@ class AppViewModel extends ChangeNotifier{
       }
     }
   }
+  Future<void> billPrediction(BuildContext context, [bool isGotoPage = true]) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setLoading(true);
+      File imageFile = File(pickedFile.path);
+      String imagePath = imageFile.path;
+      try {
+        final value = await _appRepository.billPredictionApi(imagePath);
+        Map<String, dynamic> data = value['important_info'];
+        data['amount_of_money'] = data['amount_of_money'] == null
+            ? '0'
+            : ( double.parse(data['amount_of_money'])).truncate().toString();
+
+        final List<WalletModel> listWalletData = context.read<WalletViewModel>().allWalletData.data ?? [];
+        getInitialData((v) {
+          data['wallet_type'] = {
+            'money_account_type': {
+              'icon': v.icon,
+            },
+            'id': v.id,
+            'name': v.name,
+          };
+        }, listWalletData, context);
+
+        final List<CategoriesIconModel> listCategoriesData = context.read<AppViewModel>().iconCategoriesData.data?.categoriesIconListMap['expense'] ?? [];
+        for (CategoriesIconModel i in listCategoriesData) {
+          if (i.name == data['category']) {
+            data['category'] = {
+              'icon': i.icon,
+              'name': i.name,
+              'id': i.id,
+              'transaction_type': {
+                'type': '',
+              }
+            };
+            break;
+          }
+          for (CategoriesIconModel c in i.children) {
+            if (c.name == data['category']) {
+              data['category'] = {
+                'icon': i.icon,
+                'name': i.name,
+                'id': i.id
+              };
+              break;
+            }
+          }
+        }
+
+        final InfoExtractedFromAiModel result = InfoExtractedFromAiModel.fromJson(data);
+        setInfoExtractedFromAi(ApiResponse.completed(result));
+        if (isGotoPage) {
+          context.push(FinalRoutes.aiResultPath);
+        }
+      } catch (e) {
+        Utils.flushBarErrorMessage('Invalid image, please try a proper image', context);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      setInfoExtractedFromAi(ApiResponse.error('Unable to process'));
+      Utils.flushBarErrorMessage('Unable to load image', context);
+    }
+  }
+
 
 }
