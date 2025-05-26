@@ -209,7 +209,7 @@ class _ChartSectionState extends State<ChartSection> {
                   String title = getSelectedTitle(defaultRangeTimeChartHomePage);
                   context.push(
                     FinalRoutes.transactionHistoryDetailPath,
-                    extra: title,  // truyền title qua extra
+                    extra: title,
                   );
                 },
                 child: RichText(
