@@ -214,9 +214,7 @@ class AppViewModel extends ChangeNotifier{
       dynamic result = await _appRepository.chatWithAiApi(data);
       return result['conversation'];
     }catch(e){
-      if (kDebugMode) {
-        print(e.toString());
-      }
+      rethrow;
     }
   }
   Future<void> billPrediction(BuildContext context, [bool isGotoPage = true]) async {

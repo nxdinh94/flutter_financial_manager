@@ -90,7 +90,7 @@ class ChatWithAiState extends State<ChatWithAi> {
       dataToSubmit['userData'] = userPersonalizationData.data;
       Set<String> keys = _sharedPreferences.getKeys();
       if(keys.contains('historyChatWithAi')) {
-        String conversationHistory = _sharedPreferences.getString('historyChatWithAi') ?? '';
+        String conversationHistory = _sharedPreferences.getString('historyChatWithAi') ?? '[]';
         List<dynamic> conversationHistoryList = List<dynamic>.from(jsonDecode(conversationHistory));
         dataToSubmit['chatHistory'] = conversationHistoryList;
       }
@@ -118,6 +118,7 @@ class ChatWithAiState extends State<ChatWithAi> {
         onMessageSend: (text) async{
           String userMessageId = uuid.v4();
           String chatbotMessageId = uuid.v4();
+          String responseText;
           dataToSubmit['chatContent'] = text;
           _chatController.insertMessage(
             TextMessage(
@@ -127,10 +128,15 @@ class ChatWithAiState extends State<ChatWithAi> {
               text: text,
             ),
           );
-          dynamic result = await _appViewModel.chatWithAi(dataToSubmit, context);
-          dataToSubmit['chatHistory'] = result;
-          await _sharedPreferences.setString('historyChatWithAi', jsonEncode(result));
-          String responseText = result[result.length - 1];
+          try{
+            dynamic result = await _appViewModel.chatWithAi(dataToSubmit, context);
+            dataToSubmit['chatHistory'] = result;
+            await _sharedPreferences.setString('historyChatWithAi', jsonEncode(result));
+            responseText = result[result.length - 1];
+          }catch(e){
+            responseText = 'An error occurred while response your message.';
+          }
+
           await saveChatHistory(
             userMessage: text,
             chatbotMessage: responseText,
