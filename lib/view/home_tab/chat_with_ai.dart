@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:fe_financial_manager/constants/colors.dart';
+import 'package:fe_financial_manager/data/response/api_response.dart';
+import 'package:fe_financial_manager/data/response/status.dart';
 import 'package:fe_financial_manager/injection_container.dart';
 import 'package:fe_financial_manager/view/common_widget/custom_back_navbar.dart';
 import 'package:fe_financial_manager/view_model/app_view_model.dart';
@@ -53,6 +55,8 @@ class ChatWithAiState extends State<ChatWithAi> {
 
   @override
   void initState() {
+    super.initState();
+
     // Load messages history from shared preferences if available
     String? conversationHistory = _sharedPreferences.getString('conversationHistoryWithAI');
     if(conversationHistory != null) {
@@ -81,16 +85,19 @@ class ChatWithAiState extends State<ChatWithAi> {
       );
     }
     // Get user personalization data
-    Map<String, dynamic> result = context.read<AppViewModel>().userPersonalizationDataForChatBot.data;
-    dataToSubmit['userData'] = result;
-    Set<String> keys = _sharedPreferences.getKeys();
-    if(keys.contains('historyChatWithAi')) {
-      String conversationHistory = _sharedPreferences.getString('historyChatWithAi') ?? '';
-      List<dynamic> conversationHistoryList = List<dynamic>.from(jsonDecode(conversationHistory));
-      dataToSubmit['chatHistory'] = conversationHistoryList;
+    ApiResponse userPersonalizationData = context.read<AppViewModel>().userPersonalizationDataForChatBot;
+    if(userPersonalizationData.status == Status.COMPLETED){
+      dataToSubmit['userData'] = userPersonalizationData.data;
+      Set<String> keys = _sharedPreferences.getKeys();
+      if(keys.contains('historyChatWithAi')) {
+        String conversationHistory = _sharedPreferences.getString('historyChatWithAi') ?? '';
+        List<dynamic> conversationHistoryList = List<dynamic>.from(jsonDecode(conversationHistory));
+        dataToSubmit['chatHistory'] = conversationHistoryList;
+      }
     }
-    super.initState();
   }
+
+
   @override
   void dispose() {
     _chatController.dispose();
