@@ -1,5 +1,4 @@
 import 'package:fe_financial_manager/constants/colors.dart';
-import 'package:fe_financial_manager/constants/padding.dart';
 import 'package:fe_financial_manager/model/params_get_transaction_in_range_time.dart';
 import 'package:fe_financial_manager/utils/date_time.dart';
 import 'package:fe_financial_manager/utils/common_range_time.dart';
@@ -27,6 +26,8 @@ class ChooseRangeTime extends StatefulWidget {
 class _ChooseRangeTimeState extends State<ChooseRangeTime> with TickerProviderStateMixin {
   late final TabController _tabController;
   late int _selectedTab;
+  late String endCustomDate;
+  late String startCustomDate;
   List<String> tabTitles = ['Day', 'Week', 'Month', 'Quarter', 'Custom'];
   late ParamsGetTransactionInRangeTime currentChosenRangeTime;
   @override
@@ -42,7 +43,8 @@ class _ChooseRangeTimeState extends State<ChooseRangeTime> with TickerProviderSt
         _selectedTab = _tabController.index;
       });
     });
-
+    startCustomDate = DateTimeHelper.getTheFirstDayOfMonth();
+    endCustomDate = DateTimeHelper.convertDateTimeToString(DateTime.now());
     currentChosenRangeTime = context.read<TransactionViewModel>().paramsGetTransactionChartInRangeTime;
     super.initState();
   }
@@ -248,8 +250,8 @@ class _ChooseRangeTimeState extends State<ChooseRangeTime> with TickerProviderSt
                             headerSelectedIntervalTextStyle:
                               Theme.of(context).textTheme.headlineLarge!.copyWith(color: colorTextWhite),
                           ),
-                          dialogSettings: PickerDialogSettings(
-                            locale: const Locale('en'),
+                          dialogSettings: const PickerDialogSettings(
+                            locale: Locale('en'),
                             dialogRoundedCornersRadius: 20,
                             dialogBackgroundColor: primaryColor,
                           ),
@@ -258,8 +260,6 @@ class _ChooseRangeTimeState extends State<ChooseRangeTime> with TickerProviderSt
                             monthTextStyle: Theme.of(context).textTheme.titleMedium!.copyWith(color: colorTextWhite),
                             unselectedMonthsTextColor: colorTextBlack,
                           )
-
-
                         )
                       ).then((date) {
                         if (date != null) {
@@ -284,7 +284,6 @@ class _ChooseRangeTimeState extends State<ChooseRangeTime> with TickerProviderSt
                     hideTrailing: false,
                     hideBottomBorder: false,
                     isShowAnimate: false,
-
                   ),
                 ],
               ),
@@ -366,6 +365,7 @@ class _ChooseRangeTimeState extends State<ChooseRangeTime> with TickerProviderSt
               ),
               // Custom
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   MyListTitle(
                     callback: (){
@@ -382,25 +382,56 @@ class _ChooseRangeTimeState extends State<ChooseRangeTime> with TickerProviderSt
                     hideTrailing: false,
                     hideBottomBorder: false,
                   ),
+                  const SizedBox(height: 8,),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 20.0),
+                    child: Text('Custom'),
+                  ),
                   MyListTitle(
-                    callback: (){},
-                    title: 'Custom',
+                    callback: ()async{
+                      String result = await DateTimeHelper.showDatePicker(context);
+                      if(result.isNotEmpty){
+                        setState(() {
+                          startCustomDate = DateTimeHelper.convertDateTimeToString(DateTime.parse(result));
+                        });
+                      }
+                    },
+                    leading: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Start: ', style: Theme.of(context).textTheme.titleLarge,),
+                      ],
+                    ),
+                    title: startCustomDate,
+                    titleTextStyle: Theme.of(context).textTheme.bodyLarge!,
                     hideTrailing: false,
                   ),
-                  ListTile(
-                    onTap: (){},
-                    leading: const Text('Start'),
-                    title: const Text('yyyy-mm-dd'),
-                  ),
-                  ListTile(
-                    onTap: (){},
-                    leading: Text('End'),
-                    title: const Text('yyyy-mm-dd'),
-                    contentPadding: nonePadding,
-                    visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-                    dense: true,
-
-
+                  MyListTitle(
+                    callback: ()async{
+                      String result = await DateTimeHelper.showDatePicker(context);
+                      if(result.isNotEmpty){
+                        setState(() {
+                          endCustomDate = DateTimeHelper.convertDateTimeToString(DateTime.parse(result));
+                        });
+                        context.pop({
+                          'name': '$startCustomDate/$endCustomDate',
+                          'value': ParamsGetTransactionInRangeTime(
+                              from: startCustomDate,
+                              to: endCustomDate,
+                              moneyAccountId: ''
+                          ),
+                        });
+                      }
+                    },
+                    leading: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('End: ', style: Theme.of(context).textTheme.titleLarge,),
+                      ],
+                    ),
+                    title: endCustomDate,
+                    titleTextStyle: Theme.of(context).textTheme.bodyLarge!,
+                    hideTrailing: false,
                   ),
                 ],
               )
