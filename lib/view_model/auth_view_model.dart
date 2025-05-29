@@ -41,11 +41,10 @@ class AuthViewModel with ChangeNotifier {
 
   Future<void> loginApi(Map<String, dynamic> data, BuildContext context) async {
     setLoading(true);
-    await _myRepo.loginApi(data).then((value) {
+    await _myRepo.loginApi(data).then((value)async {
       saveTokenAndUserInformation(value);
       setLoading(false);
-      context.pushReplacement(FinalRoutes.homePath);
-
+      context.go(FinalRoutes.homePath);
     }).onError((error, stackTrace) {
       setLoading(false);
       print('======${error.toString()}');
@@ -73,7 +72,7 @@ class AuthViewModel with ChangeNotifier {
     await _myRepo.loginWithGoogleApi(data).then((value) {
       setLoading(false);
       saveTokenAndUserInformation(value);
-      context.pushReplacement(FinalRoutes.homePath);
+      context.go(FinalRoutes.homePath);
     }).onError((error, stackTrace) {
       setLoading(false);
       print('======${error.toString()}');
@@ -101,13 +100,15 @@ class AuthViewModel with ChangeNotifier {
     });
   }
   Future<void> logoutApi (dynamic refreshToken, BuildContext context)async{
-    AuthManager.logout();
-    _signInWithGoogle.googleSignIn.disconnect();
-    await sharedPreferences.remove('historyChatWithAi');
-    await sharedPreferences.remove('conversationHistoryWithAI');
     setLoading(true);
-    _myRepo.logOutApi(refreshToken).then((value){
-      context.pushReplacement(FinalRoutes.homeAuthPath);
+    _myRepo.logOutApi(refreshToken).then((value)async{
+
+      AuthManager.logout();
+      _signInWithGoogle.googleSignIn.disconnect();
+      await sharedPreferences.remove('historyChatWithAi');
+      await sharedPreferences.remove('conversationHistoryWithAI');
+
+      context.go(FinalRoutes.homeAuthPath);
       setLoading(false);
       Utils.toastMessage('Logout Successfully');
     }).onError((error, stackTrace){
