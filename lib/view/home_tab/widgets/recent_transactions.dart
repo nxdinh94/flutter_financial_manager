@@ -34,7 +34,6 @@ class RecentTransactions extends StatelessWidget {
         const SizedBox(height: 6),
         Consumer<TransactionViewModel>(
           builder: (context, value, child) {
-
             switch(value.transactionHistoryData.status){
               case Status.LOADING:
                 return const Center(
@@ -46,12 +45,14 @@ class RecentTransactions extends StatelessWidget {
               case Status.COMPLETED:
                 Map<String, dynamic>  data = value.transactionHistoryData.data as Map<String, dynamic>;
                 Map<String, dynamic> records = data['transactions_by_date'] ??{};
-                if(records.entries.length >3){
-                  records = Map<String, dynamic>.fromEntries(records.entries.take(3));
-                }
+
                 if(records.isEmpty){
                   return const EmptyValueScreen(title: 'You have no transactions yet',);
                 }
+                if(records.entries.length >3){
+                  records = Map<String, dynamic>.fromEntries(records.entries.take(3));
+                }
+
                 return Container(
                   padding: horizontalHalfPadding,
                   decoration: BoxDecoration(

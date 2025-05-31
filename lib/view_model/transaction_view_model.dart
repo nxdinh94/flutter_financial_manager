@@ -1,23 +1,16 @@
-import 'dart:io';
-
 import 'package:fe_financial_manager/data/response/api_response.dart';
-import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/model/params_get_transaction_in_range_time.dart';
-import 'package:fe_financial_manager/model/info_extracted_from_ai_model.dart';
 import 'package:fe_financial_manager/model/picked_icon_model.dart';
 import 'package:fe_financial_manager/model/transaction_categories_icon_model.dart';
-import 'package:fe_financial_manager/model/wallet_model.dart';
 import 'package:fe_financial_manager/repository/transaction_repository.dart';
 import 'package:fe_financial_manager/utils/utils.dart';
 import 'package:fe_financial_manager/view_model/app_view_model.dart';
 import 'package:fe_financial_manager/view_model/wallet_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-
 import '../model/transactions_history_model.dart';
-import '../utils/get_initial_data.dart';
+
 class TransactionViewModel  extends ChangeNotifier{
 
   final TransactionRepository _transactionRepository = TransactionRepository();
@@ -169,7 +162,6 @@ class TransactionViewModel  extends ChangeNotifier{
       Map<String, dynamic> transformedData = transformTransactionHistory(value);
       List<TransactionHistoryModel> toListOfExpenseTransaction = [];
       List<TransactionHistoryModel> toListOfIncomeTransaction = [];
-
 
       Map<String, dynamic> groupExpenseTransactionByParent = {};
       Map<String, dynamic> groupIncomeTransactionByParent = {};

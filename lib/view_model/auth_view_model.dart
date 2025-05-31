@@ -105,6 +105,7 @@ class AuthViewModel with ChangeNotifier {
 
       AuthManager.logout();
       _signInWithGoogle.googleSignIn.disconnect();
+      await _signInWithGoogle.googleSignIn.signOut();
       await sharedPreferences.remove('historyChatWithAi');
       await sharedPreferences.remove('conversationHistoryWithAI');
 

@@ -101,6 +101,7 @@ class WalletViewModel extends ChangeNotifier{
   Future<void> getAllWallet()async{
     setLoading(false);
     await _walletRepository.getAllWalletApi().then((value){
+      print(value);
       List<dynamic> walletDataJson = value;
       List<WalletModel> transformedData = walletDataJson.map((e)=> WalletModel.fromJson(e)).toList();
       setWalletData(ApiResponse.completed(transformedData));

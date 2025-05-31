@@ -37,8 +37,8 @@ class _HomeState extends State<Home> {
       await Provider.of<AppViewModel>(context, listen: false).getIconCategoriesApi();
       Provider.of<TransactionViewModel>(context, listen: false).setParamsGetTransactionChartInRangeTime(defaultRangeTime);
       await Provider.of<WalletViewModel>(context, listen: false).getIconsWalletType();
-      await Provider.of<WalletViewModel>(context, listen: false).getAllWallet();
       await Provider.of<WalletViewModel>(context, listen: false).getExternalBank();
+      await Provider.of<WalletViewModel>(context, listen: false).getAllWallet();
       await Provider.of<TransactionViewModel>(context, listen: false).getTransactionInRangeTime(defaultRangeTime);
       // Default range time is current month
       await Provider.of<TransactionViewModel>(context, listen: false).getTransactionForChart(defaultRangeTime, context);

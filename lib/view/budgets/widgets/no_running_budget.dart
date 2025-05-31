@@ -1,4 +1,5 @@
 import 'package:fe_financial_manager/constants/padding.dart';
+import 'package:fe_financial_manager/generated/paths.dart';
 import 'package:fe_financial_manager/utils/routes/routes_name.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -32,7 +33,7 @@ class NoRunningBudget extends StatelessWidget {
             width: screenWidth,
             child: ElevatedButton(
             onPressed: (){
-              context.push(RoutesName.createUpdateBudgetPath);
+              context.push(FinalRoutes.createUpdateBudgetPath);
             },
             child: const Text('Create a budget'))
           ),

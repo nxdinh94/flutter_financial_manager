@@ -75,7 +75,8 @@ class BudgetViewModel extends ChangeNotifier {
   Future<void> createBudget(Map<String, dynamic> data, BuildContext context) async {
     setLoading = true;
     try {
-      await _budgetRepository.createBudget(data).then((v){
+      await _budgetRepository.createBudget(data).then((v)async{
+        await getAllBudgets(context);
         Utils.toastMessage('Create budget successfully');
         context.pop();
         setLoading = false;

@@ -94,18 +94,18 @@ class _AccountState extends State<Account> {
               hideTopBorder: false,
               hideBottomBorder: false,
             ),
-            MyListTitle(
-              title: 'Events',
-              callback: (){
-                context.push(FinalRoutes.eventPath);
-              },
-              leading: SvgContainer(
-                iconWidth: 30,
-                iconPath: Assets.svgWallet
-              ),
-              leftContentPadding: 12,
-              hideBottomBorder: false,
-            )
+            // MyListTitle(
+            //   title: 'Events',
+            //   callback: (){
+            //     context.push(FinalRoutes.eventPath);
+            //   },
+            //   leading: SvgContainer(
+            //     iconWidth: 30,
+            //     iconPath: Assets.svgWallet
+            //   ),
+            //   leftContentPadding: 12,
+            //   hideBottomBorder: false,
+            // )
           ],
         ),
       )

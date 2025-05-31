@@ -44,12 +44,7 @@ class _ExpandedAreaState extends State<ExpandedArea> {
                 iconPath: Assets.svgCalendar
               ),
             ),
-            MyDivider(),
-            MyListTitle(
-              title: 'No remind',
-              callback: (){},
-              leading: const Icon(Icons.watch_later_outlined, size: 33,)
-            ),
+
             MyDivider(),
             const SizedBox(height: 40,),
             SwitchRow(

@@ -85,7 +85,6 @@ class _ChartSectionState extends State<ChartSection> {
                     await Provider.of<TransactionViewModel>(context, listen: false).getTransactionInRangeTime(
                         ParamsGetTransactionInRangeTime(from: from, to: to, moneyAccountId: '')
                     );
-
                   }
                 },
                 style: const TextStyle(color: Colors.blue),

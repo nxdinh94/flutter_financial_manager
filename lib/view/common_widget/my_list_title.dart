@@ -54,11 +54,11 @@ class _MyListTitleState extends State<MyListTitle> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary,
-        border: Border(
-          top: widget.hideTopBorder ? const BorderSide(color: Colors.transparent):
+            color: Theme.of(context).colorScheme.primary,
+          border: Border(
+            top: widget.hideTopBorder ? const BorderSide(color: Colors.transparent):
             const BorderSide(color: dividerColor, width: 0.5),
-          bottom: widget.hideBottomBorder ? const BorderSide(color: Colors.transparent):
+            bottom: widget.hideBottomBorder ? const BorderSide(color: Colors.transparent):
             const BorderSide(color: dividerColor, width: 0.5),
         )
       ),

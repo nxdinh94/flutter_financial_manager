@@ -46,18 +46,32 @@ class _BudgetDetailsState extends State<BudgetDetails> {
     transformExpenseRecordByDay = groupSameElementsByDay(expenseRecord);//[[a,a,a],[b,b,b]]
     transformExpenseRecordByCateParent = groupSameElementsByCategoryParent(expenseRecord);//[[a,a,a],[b,b,b]]
     // calculate data for areaChart
-    for(final item1 in transformExpenseRecordByDay){
+    // for(final item1 in transformExpenseRecordByDay){
+    //   double totalGroupMoney = 0;
+    //   int day = 0;
+    //   for(final item2 in item1){
+    //     DateTime occurDate = DateTime.parse(item2['occur_date']);
+    //     day = occurDate.day;
+    //     print(day);
+    //     totalGroupMoney+=(double.parse(item2['amount_of_money'])/1000);//remove three latest number
+    //   }
+    //   areaChartData[day] = ChartData(day, totalGroupMoney);
+    // }
+    for (final item1 in transformExpenseRecordByDay) {
       double totalGroupMoney = 0;
       int day = 0;
-      for(final item2 in item1){
+      for (final item2 in item1) {
         DateTime occurDate = DateTime.parse(item2['occur_date']);
         day = occurDate.day;
-        totalGroupMoney+=(double.parse(item2['amount_of_money'])/1000);//remove three latest number
+        totalGroupMoney += (double.parse(item2['amount_of_money']) / 1000);
       }
-      areaChartData[day] = ChartData(day, totalGroupMoney);
+
+      // Tìm và cập nhật phần tử có x == day
+      final index = areaChartData.indexWhere((e) => e.x == day);
+      if (index != -1) {
+        areaChartData[index] = ChartData(day, totalGroupMoney);
+      }
     }
-
-
     super.initState();
   }
   List<List<dynamic>> groupSameElementsByDay(List<dynamic> inputList) {
