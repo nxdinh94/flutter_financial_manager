@@ -1,11 +1,11 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
 
 class AppUrl {
-  // static const ipv4 = 'http://10.10.23.113:';
-  static const ipv4 = 'http://192.168.223.198:';
+  // static const ipv4 = 'http://10.10.23.113:';9-
+  static const ipv4 = 'http://192.168.2.5:';
   static const baseUrl = '${ipv4}3222/api';
   static const invoiceAIUrl = 'https://f835-104-199-194-46.ngrok-free.app/upload';
-  static const chatWithAIUrl = 'https://f835-104-199-194-46.ngrok-free.app/aichat';
+  static const chatWithAIUrl = 'https://f835-104-19194-46.ngrok-free.app/aichat';
 
   // static const aiUrl = 'http://192.168.2.2:8002/api/v1/invoice/extract';
 

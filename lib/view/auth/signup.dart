@@ -23,20 +23,21 @@ class _SignupState extends State<Signup> {
   final ValueNotifier<bool> _obsecurePassword = ValueNotifier<bool>(true);
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController(text: 'nguyenxuandinh336@gmail.com');
+  final TextEditingController _passwordController = TextEditingController(text: 'Dinh@1234');
+  final TextEditingController _confirmPasswordController = TextEditingController(text: 'Dinh@1234');
 
   late String email;
   late String password;
   late String confirmPassword;
 
   bool validate (){
+    print(email);
     if(email.isEmpty || password.isEmpty || confirmPassword.isEmpty){
       Utils.flushBarErrorMessage("These fields cannot be null", context);
       return false;
     }
-    if(Utils.checkValidEmail(email)){
+    if(!Utils.checkValidEmail(email)){
       Utils.flushBarErrorMessage("Email is not valid", context);
       return false;
     }

@@ -20,8 +20,8 @@ Ensure you have Flutter SDK installed before proceeding.
 ### Steps to Run the App:
 ```sh
 # Clone the repository
-git clone <https://github.com/nxdinh94/UI_DACS3.git>
-cd <UI_DACS3>
+git clone <https://github.com/nxdinh94/flutter_financial_manager>
+cd <flutter_financial_manager>
 
 # Install dependencies
 flutter pub get
@@ -34,22 +34,23 @@ flutter run
 ```
 lib/
 |-- constant/      
-|-- models/    
-|-- pages
-|-- providers/   
-|-- utils
-|-- widgets  
+|-- data/      
+|-- generated/      
+|-- model/  
+|-- repository/
+|-- utils/   
+|-- view/
+|-- view_model/
 ```
 
-## Một số giao diện của ứng dụng
-### Home Screen
-![Image](assets/screen_app/home.jpg)
-### Transaction History
-![Image](assets/screen_app/transaction_history.jpg)
-### Add Expense
-![Image](assets/screen_app/adding_workspace.jpg)
-### Expense Limit Details
-![Image](assets/screen_app/budgets.jpg)
+## Some screens
+<p float="left">
+  <img src="assets/screen/home.jpg" width="200" alt="home_screen" />
+  <img src="assets/screen/adding_workspace.jpg" width="200" />
+  <img src="assets/screen/all_wallet.jpg" width="200" />
+  <img src="assets/screen/transaction_history.jpg" width="200" />
+</p>
+
 
 ## Contribution & Development
 We welcome contributions! To contribute:
@@ -65,22 +66,17 @@ For any questions or issues, feel free to reach out:
 
 
 
-## Push notifications
-## isolate
-## Testing
-## Work with Dio
-## Provider -> RiverPod
-## Native module
-## Caching data
+## Work on in the future
+- Push notifications
+- isolate
+- Testing
+- Work with Dio
+- Provider -> RiverPod
+- Native module
+- Caching data
 
 
-// something need to refactor
+## Something need to refactor
 1. Transform data of get budget into model
 2. fix bug check picked category in addingworkspace
 3. fix api url createIconCategories
-
-
---Warm: update category chir làm phần expense, ch có tg làm income
-
-# Shared_preferences keys
--- {mode, user, accessToken, appData, refreshToken}
